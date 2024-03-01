@@ -1,0 +1,84 @@
+{
+    "tiles": [
+        {
+            "name": "grass",
+            "prefab": "grass",
+            "rotation": 0,
+            "posX": "0",
+            "negX": "0",
+            "posZ": "0",
+            "negZ": "0",
+            "weight": 5
+        },
+        {
+            "name": "grass_tree",
+            "prefab": "grass_tree",
+            "rotation": 0,
+            "posX": "0",
+            "negX": "0",
+            "posZ": "0",
+            "negZ": "0",
+            "weight": 3
+        },
+        {
+            "name": "road_h",
+            "prefab": "road_straight",
+            "rotation": 0,
+            "posX": "1",
+            "negX": "1",
+            "posZ": "0",
+            "negZ": "0",
+            "weight": 1
+        },
+        {
+            "name": "road_v",
+            "prefab": "road_straight",
+            "rotation": 0,
+            "posX": "0",
+            "negX": "0",
+            "posZ": "1",
+            "negZ": "1",
+            "weight": 1
+        },
+        {
+            "name": "road_curve_0",
+            "prefab": "road_curve",
+            "rotation": 0,
+            "posX": "0",
+            "negX": "1",
+            "posZ": "1",
+            "negZ": "0",
+            "weight": 0.5
+        },
+        {
+            "name": "road_curve_1",
+            "prefab": "road_curve",
+            "rotation": 1,
+            "posX": "1",
+            "negX": "0",
+            "posZ": "1",
+            "negZ": "0",
+            "weight": 0.5
+        },
+        {
+            "name": "road_curve_2",
+            "prefab": "road_curve",
+            "rotation": 2,
+            "posX": "1",
+            "negX": "0",
+            "posZ": "0",
+            "negZ": "1",
+            "weight": 0.5
+        },
+        {
+            "name": "road_curve_3",
+            "prefab": "road_curve",
+            "rotation": 3,
+            "posX": "0",
+            "negX": "1",
+            "posZ": "0",
+            "negZ": "1",
+            "weight": 0.5
+        }
+    ]
+}
