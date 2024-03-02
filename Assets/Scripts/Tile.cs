@@ -1,25 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Tile : MonoBehaviour
 {
+    public string pX, nX, pY, nY;
+    public int rotation;
 
-    public Tile[] upNeighbours;
-    public Tile[] downNeighbours;
-    public Tile[] leftNeighbours;
-    public Tile[] rightNeighbours;
+    public float weight;
 
-    string pX, pY, nX, nY;
+    public List<Tile> upNeighbours;
+    public List<Tile> downNeighbours;
+    public List<Tile> leftNeighbours;
+    public List<Tile> rightNeighbours;
 
-    public Tile()
-    { }
+    public GameObject prefab;
 
-    Tile(Tile[] upNeighbours, Tile[] downNeighbours, Tile[] leftNeighbours, Tile[] rightNeighbours)
+    public Tile Initialize (GameObject prefab, string name, string pX, string nX, string pY, string nY, float weight,int rotation)
     {
-        this.upNeighbours = upNeighbours;
-        this.downNeighbours = downNeighbours;
-        this.leftNeighbours = leftNeighbours;
-        this.rightNeighbours = rightNeighbours;
+        this.name = name;
+        this.pX = pX;
+        this.pY = pY;
+        this.nX = nX;
+        this.nY = nY;
+        this.rotation = rotation;
+        this.weight = weight;
+        this.prefab = prefab;
+        
+
+        upNeighbours = new List<Tile>();
+        downNeighbours = new List<Tile>();
+        leftNeighbours = new List<Tile>();
+        rightNeighbours = new List<Tile>();
+
+        /*Instantiate(prefab, Vector3.zero, Quaternion.Euler(0, prefab.transform.rotation.y + 90 * rotation, 0));*/
+        return this;
+    }
+
+    public void Instantiate(Vector3 position)
+    {
+        Instantiate(prefab, position, Quaternion.Euler(0, prefab.transform.rotation.y + 90 * rotation, 0));
+    }
+
+    public string Info() {
+
+
+
+        return "Tile: " + this.name + "";
     }
 }

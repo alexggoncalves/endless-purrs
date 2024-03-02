@@ -3,33 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class WaveFunctionCollapse : MonoBehaviour
 {
-    [SerializeField]
-    public int cellScale = 2;
-    [SerializeField, Range(2,20)]
-    public int width, height;
-
     // List of all the possible tiles
-    public Tile[] tiles;
-    // Cell prefab
-    public Cell cellObj;
+    Tile[] tiles;
+    Tile backupTile;
 
-    public Tile backupTile;
+    // Dimensions
+    float cellScale;
+    int width, height;
+
+    // Cell prefab
+    private Cell cellObj;
 
     public List<Cell> grid;
-
     private int iteration = 0;
 
-    private void Awake()
+    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj)
     {
+        tiles = possibleTiles.ToArray();
+
+        this.cellScale = cellScale;
+        this.width = width;
+        this.height = height;
+        this.cellObj = cellObj;
+        this.backupTile = tiles[0];
+
         grid = new List<Cell>();
+
         InitializeGrid();
     }
 
-    void InitializeGrid()
-    {
+    public void InitializeGrid() 
+    { 
+       
         // Add the Cell component for every cell of the grid
         for (int y = 0; y < height; y++) { 
             for(int x = 0; x < width; x++) {
@@ -62,27 +71,51 @@ public class WaveFunctionCollapse : MonoBehaviour
     void CollapseCell(List<Cell> tempGrid)
     {
         int randomIndex = UnityEngine.Random.Range(0, tempGrid.Count);
-        
+
         Cell cellToCollapse = tempGrid[randomIndex];
         cellToCollapse.collapsed = true;
 
-        try
-        {
-            Tile selectedTile = cellToCollapse.tileOptions[UnityEngine.Random.Range(0, cellToCollapse.tileOptions.Length)];
-            cellToCollapse.tileOptions = new Tile[] { selectedTile };
-        }
-        catch
-        {
-            Tile selectedTile = backupTile;
-            cellToCollapse.tileOptions = new Tile[] { selectedTile };
-        }
+        Tile selectedTile = SelectRandomTile(cellToCollapse);
 
-            Tile foundTile = cellToCollapse.tileOptions[0];
+        cellToCollapse.tileOptions = new Tile[] { selectedTile };
 
-        Instantiate(foundTile, cellToCollapse.transform.position, foundTile.transform.rotation);
+        Tile foundTile = cellToCollapse.tileOptions[0];
+        if (foundTile == null) { cellToCollapse.tileOptions[0] = backupTile; }
+
+        foundTile.Instantiate(cellToCollapse.transform.position);
 
         UpdateGeneration();
     }
+
+    // Selects a random Tile from the possible options based on their weights
+    Tile SelectRandomTile (Cell cellToColapse)
+    {
+        Tile[] options = new Tile[cellToColapse.tileOptions.Length] ;
+        for (int i = 0;i< cellToColapse.tileOptions.Length; i++)
+        {
+            options[i] = cellToColapse.tileOptions[i]; 
+        }
+
+        options.OrderBy(tile => tile.weight);
+
+        float totalWeight = 0f;
+        foreach(Tile t in options) totalWeight += t.weight;
+        
+        float diceRoll = UnityEngine.Random.Range(0, totalWeight);
+        
+       
+        float cumulative = 0f;
+        for(int i = 0; i< options.Length; i++)
+        {
+            cumulative += options[i].weight;
+            if(diceRoll < cumulative)
+            {
+                return options[i]; ;
+            }
+        }
+        return null;
+    }
+    
 
     //  Iterate through every cell and update it's entropy.
     //  Looks at the 4 surrounding cells and updates the list of possible tiles.
@@ -90,7 +123,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     {
         List<Cell> newGenerationGrid = new List<Cell>(grid);
 
-        for(int y = 0; y < height; y++)
+        for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
@@ -174,7 +207,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
                     Tile[] newTileList = new Tile[options.Count];
 
-                    for(int i=0; i < options.Count; i++)
+                    for (int i = 0; i < options.Count; i++)
                     {
                         newTileList[i] = options[i];
                     }
@@ -188,16 +221,16 @@ public class WaveFunctionCollapse : MonoBehaviour
         grid = newGenerationGrid;
         iteration++;
 
-        if(iteration < width * height) 
-        { 
-            StartCoroutine(CheckEntropy()); 
+        if (iteration < width * height)
+        {
+            StartCoroutine(CheckEntropy());
         }
-        
+
     }
 
     void CheckValidity(List<Tile> options, List<Tile> validOption)
     {
-        for(int i=options.Count - 1; i >= 0; i--)
+        for (int i = options.Count - 1; i >= 0; i--)
         {
             var element = options[i];
             if (!validOption.Contains(element))
