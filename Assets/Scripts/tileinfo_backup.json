@@ -8,7 +8,7 @@
             "nX": "0",
             "pY": "0",
             "nY": "0",
-            "weight": 5
+            "weight": 50.0
         },
         {
             "name": "grass_tree",
@@ -18,68 +18,196 @@
             "nX": "0",
             "pY": "0",
             "nY": "0",
-            "weight": 3
-        },
-        {
-            "name": "road_v",
-            "prefab": "road_straight",
-            "rotation": 0,
-            "pX": "0",
-            "nX": "0",
-            "pY": "1",
-            "nY": "1",
-            "weight": 1
+            "weight": 40
         },
         {
             "name": "road_h",
             "prefab": "road_straight",
-            "rotation": 1,
+            "rotation": 0,
             "pX": "1",
             "nX": "1",
             "pY": "0",
             "nY": "0",
-            "weight": 1
+            "weight": 20
         },
+       
+        
         {
             "name": "road_turn_0",
             "prefab": "road_turn",
             "rotation": 0,
-            "pX": "1",
-            "nX": "0",
+            "pX": "0",
+            "nX": "1",
             "pY": "0",
             "nY": "1",
-            "weight": 0.5
+            "weight": 1
         },
-
         {
             "name": "road_turn_1",
             "prefab": "road_turn",
             "rotation": 1,
-            "pX": "1",
-            "nX": "0",
-            "pY": "0",
-            "nY": "1",
-            "weight": 0.5
+            "pX": "0",
+            "nX": "1",
+            "pY": "1",
+            "nY": "0",
+            "weight": 1
         },
         {
             "name": "road_turn_2",
             "prefab": "road_turn",
             "rotation": 2,
-            "pX": "0",
-            "nX": "1",
-            "pY": "0",
-            "nY": "1",
-            "weight": 0.5
-        },
+            "pX": "1",
+            "nX": "0",
+            "pY": "1",
+            "nY": "0",
+            "weight": 1
+        }
+        ,
         {
             "name": "road_turn_3",
             "prefab": "road_turn",
             "rotation": 3,
+            "pX": "1",
+            "nX": "0",
+            "pY": "0",
+            "nY": "1",
+            "weight": 1
+        },
+        {
+            "name": "high_grass",
+            "prefab": "high_grass",
+            "rotation": 0,
+            "pX": "2",
+            "nX": "2",
+            "pY": "2",
+            "nY": "2",
+            "weight": 10
+        },
+        {
+            "name": "cliff_0",
+            "prefab": "cliff",
+            "rotation": 0,
             "pX": "0",
-            "nX": "1",
-            "pY": "1",
+            "nX": "0",
+            "pY": "0",
+            "nY": "2",
+            "weight": 2
+        }
+        ,
+        {
+            "name": "cliff_1",
+            "prefab": "cliff",
+            "rotation": 1,
+            "pX": "0",
+            "nX": "2",
+            "pY": "0",
             "nY": "0",
-            "weight": 0.5
+            "weight": 2
+        }
+        ,
+        {
+            "name": "cliff_2",
+            "prefab": "cliff",
+            "rotation": 2,
+            "pX": "2",
+            "nX": "0",
+            "pY": "0",
+            "nY": "0",
+            "weight": 2
+        },
+        {
+            "name": "cliff_3",
+            "prefab": "cliff",
+            "rotation": 3,
+            "pX": "2",
+            "nX": "0",
+            "pY": "0",
+            "nY": "0",
+            "weight": 2
+        },
+        {
+            "name": "cliff_inner_corner_0",
+            "prefab": "cliff_inner_corner",
+            "rotation": 0,
+            "pX": "0",
+            "nX": "0",
+            "pY": "0",
+            "nY": "2",
+            "weight": 2
+        }
+        ,
+        {
+            "name": "cliff_inner_corner_1",
+            "prefab": "cliff_inner_corner",
+            "rotation": 1,
+            "pX": "0",
+            "nX": "2",
+            "pY": "0",
+            "nY": "0",
+            "weight": 2
+        }
+        ,
+        {
+            "name": "cliff_inner_corner_2",
+            "prefab": "cliff_inner_corner",
+            "rotation": 2,
+            "pX": "2",
+            "nX": "0",
+            "pY": "0",
+            "nY": "0",
+            "weight": 2
+        },
+        {
+            "name": "cliff_inner_corner_3",
+            "prefab": "cliff_inner_corner",
+            "rotation": 3,
+            "pX": "2",
+            "nX": "0",
+            "pY": "0",
+            "nY": "0",
+            "weight": 2
+        },
+        {
+            "name": "cliff_outer_corner_0",
+            "prefab": "cliff_outer_corner",
+            "rotation": 0,
+            "pX": "0",
+            "nX": "0",
+            "pY": "0",
+            "nY": "2",
+            "weight": 2
+        }
+        ,
+        {
+            "name": "cliff_outer_corner_1",
+            "prefab": "cliff_outer_corner",
+            "rotation": 1,
+            "pX": "0",
+            "nX": "2",
+            "pY": "0",
+            "nY": "0",
+            "weight": 2
+        }
+        ,
+        {
+            "name": "cliff_outer_corner_2",
+            "prefab": "cliff_outer_corner",
+            "rotation": 2,
+            "pX": "2",
+            "nX": "0",
+            "pY": "0",
+            "nY": "0",
+            "weight": 2
+        },
+        {
+            "name": "cliff_outer_corner_3",
+            "prefab": "cliff_outer_corner",
+            "rotation": 3,
+            "pX": "2",
+            "nX": "0",
+            "pY": "0",
+            "nY": "0",
+            "weight": 2
         }
     ]
 }

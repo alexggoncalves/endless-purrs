@@ -41,21 +41,22 @@ public class TileLoader : MonoBehaviour
         {
             foreach(Tile tile2 in tiles)
             {
-                if (tile1.pY == tile2.nY) {
-                    if (!tile2.downNeighbours.Contains(tile1)) tile2.downNeighbours.Add(tile1);
-                }
                 if (tile1.pX == tile2.nX)
-                {
-                    if (!tile2.leftNeighbours.Contains(tile1)) tile2.leftNeighbours.Add(tile1);
-                }
-                if (tile1.nY == tile2.pY)
-                {
-                    if (!tile2.upNeighbours.Contains(tile1)) tile2.upNeighbours.Add(tile1);
-                }
-                if (tile1.nX == tile2.pX)
                 {
                     if (!tile2.rightNeighbours.Contains(tile1)) tile2.rightNeighbours.Add(tile1);
                 }
+                if (tile1.nX == tile2.pX)
+                {
+                    if (!tile2.leftNeighbours.Contains(tile1)) tile2.leftNeighbours.Add(tile1);
+                }
+                if (tile1.pY == tile2.nY) {
+                    if (!tile2.upNeighbours.Contains(tile1)) tile2.upNeighbours.Add(tile1);
+                }
+                if (tile1.nY == tile2.pY)
+                {
+                    if (!tile2.downNeighbours.Contains(tile1)) tile2.downNeighbours.Add(tile1);
+                }
+               
             }
         }
         

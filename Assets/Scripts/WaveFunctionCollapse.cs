@@ -21,7 +21,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     public List<Cell> grid;
     private int iteration = 0;
 
-    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj)
+    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, GameObject backupTile)
     {
         tiles = possibleTiles.ToArray();
 
@@ -29,7 +29,11 @@ public class WaveFunctionCollapse : MonoBehaviour
         this.width = width;
         this.height = height;
         this.cellObj = cellObj;
-        this.backupTile = tiles[0];
+
+        GameObject errorTile = new GameObject("error");
+
+        this.backupTile = errorTile.AddComponent<Tile>();
+        this.backupTile.Initialize(backupTile, "error", "-1", "-1", "-1", "-1", 0, 0);
 
         grid = new List<Cell>();
 
@@ -76,11 +80,15 @@ public class WaveFunctionCollapse : MonoBehaviour
         cellToCollapse.collapsed = true;
 
         Tile selectedTile = SelectRandomTile(cellToCollapse);
-
-        cellToCollapse.tileOptions = new Tile[] { selectedTile };
+        if (selectedTile != null)
+        {
+            cellToCollapse.tileOptions = new Tile[] { selectedTile };
+        } else
+        {
+            cellToCollapse.tileOptions = new Tile[] { backupTile };
+        }
 
         Tile foundTile = cellToCollapse.tileOptions[0];
-        if (foundTile == null) { cellToCollapse.tileOptions[0] = backupTile; }
 
         foundTile.Instantiate(cellToCollapse.transform.position);
 
