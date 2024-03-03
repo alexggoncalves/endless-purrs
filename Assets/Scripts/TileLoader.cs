@@ -18,7 +18,7 @@ public class TileLoader : MonoBehaviour
         this.jsonFile = jsonFile;
         this.tiles = new List<Tile>(); 
     }
-
+  
     public List<Tile> Load()
     {
         TileData tileData = JsonUtility.FromJson<TileData>(jsonFile.text);
@@ -37,24 +37,26 @@ public class TileLoader : MonoBehaviour
         }
 
         // Compare every profile (on the X and Y [Z in unity] axis) of the pieces of the tileset to each other and set up neighbours.
-        foreach (Tile tile1 in tiles)
+        foreach (Tile tileA in tiles)
         {
-            foreach(Tile tile2 in tiles)
+            foreach(Tile tileB in tiles)
             {
-                if (tile1.pX == tile2.nX)
+                
+                if (isSymmetrical(tileA.pX, tileB.nX) ^ isAsymmetrical(tileA.pX, tileB.nX))
                 {
-                    if (!tile2.rightNeighbours.Contains(tile1)) tile2.rightNeighbours.Add(tile1);
+                    if (!tileB.rightNeighbours.Contains(tileA)) tileB.rightNeighbours.Add(tileA);
                 }
-                if (tile1.nX == tile2.pX)
+                if (isSymmetrical(tileA.nX, tileB.pX) ^ isAsymmetrical(tileA.nX, tileB.pX))
                 {
-                    if (!tile2.leftNeighbours.Contains(tile1)) tile2.leftNeighbours.Add(tile1);
+                    if (!tileB.leftNeighbours.Contains(tileA)) tileB.leftNeighbours.Add(tileA);
                 }
-                if (tile1.pY == tile2.nY) {
-                    if (!tile2.upNeighbours.Contains(tile1)) tile2.upNeighbours.Add(tile1);
-                }
-                if (tile1.nY == tile2.pY)
+                if (isSymmetrical(tileA.pY, tileB.nY) ^ isAsymmetrical(tileA.pY, tileB.nY))
                 {
-                    if (!tile2.downNeighbours.Contains(tile1)) tile2.downNeighbours.Add(tile1);
+                    if (!tileB.upNeighbours.Contains(tileA)) tileB.upNeighbours.Add(tileA);
+                }
+                if (isSymmetrical(tileA.nY, tileB.pY) ^ isAsymmetrical(tileA.nY, tileB.pY))
+                {
+                    if (!tileB.downNeighbours.Contains(tileA)) tileB.downNeighbours.Add(tileA);
                 }
                
             }
@@ -62,7 +64,21 @@ public class TileLoader : MonoBehaviour
         
         return tiles;
     }
+
+    bool isSymmetrical(string socketA, string socketB)
+    {
+        if (socketA.Contains("s") && socketA == socketB)
+            return true;
+        else 
+            return false ;
+    }
+
+    bool isAsymmetrical(string socketA, string socketB)
+    {
+        return socketA == (socketB + "f") || socketB == (socketA + "f");    
+    }
 }
+
 
 [System.Serializable]
 public class TileData

@@ -39,9 +39,9 @@ public class Tile : MonoBehaviour
         return this;
     }
 
-    public void Instantiate(Vector3 position)
+    public GameObject Instantiate(Vector3 position)
     {
-        Instantiate(prefab, position, Quaternion.Euler(0, prefab.transform.rotation.y + 90 * rotation, 0));
+        return Instantiate(prefab, position, Quaternion.Euler(0, prefab.transform.rotation.y + 90 * rotation, 0));
     }
 
     public string Info() {

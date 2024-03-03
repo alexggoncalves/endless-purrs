@@ -21,6 +21,9 @@ public class WaveFunctionCollapse : MonoBehaviour
     public List<Cell> grid;
     private int iteration = 0;
 
+    GameObject cellContainer;
+    GameObject tileInstanceContainer;
+
     public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, GameObject backupTile)
     {
         tiles = possibleTiles.ToArray();
@@ -31,22 +34,26 @@ public class WaveFunctionCollapse : MonoBehaviour
         this.cellObj = cellObj;
 
         GameObject errorTile = new GameObject("error");
-
         this.backupTile = errorTile.AddComponent<Tile>();
         this.backupTile.Initialize(backupTile, "error", "-1", "-1", "-1", "-1", 0, 0);
 
-        grid = new List<Cell>();
+        cellContainer = new GameObject("Grid Container");
+        tileInstanceContainer = new GameObject("Tile Instance Container");
+
+        
 
         InitializeGrid();
     }
 
     public void InitializeGrid() 
-    { 
-       
+    {
+        
+        grid = new List<Cell>();
         // Add the Cell component for every cell of the grid
         for (int y = 0; y < height; y++) { 
             for(int x = 0; x < width; x++) {
-                Cell newCell = Instantiate(cellObj, new Vector3(x*cellScale, 0, y*cellScale), Quaternion.identity);
+                Cell newCell = Instantiate(cellObj, new Vector3(-(cellScale*width)/2 + x*cellScale, 0, -(cellScale * height) / 2 + y *cellScale), Quaternion.identity);
+                newCell.transform.SetParent(cellContainer.transform);
                 // Every cell is given all the possible tiles and it's collapsed state is set to false 
                 newCell.CreateCell(false, tiles);
                 grid.Add(newCell);
@@ -65,7 +72,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         tempGrid.Sort((a,b) => a.tileOptions.Length - b.tileOptions.Length);
         tempGrid.RemoveAll(a => a.tileOptions.Length != tempGrid[0].tileOptions.Length);
 
-        yield return new WaitForSeconds(0);
+        yield return new WaitForSeconds(0.0125f);
 
         CollapseCell(tempGrid);
     }
@@ -74,7 +81,9 @@ public class WaveFunctionCollapse : MonoBehaviour
     //  Collapses one of the cells with the least number of tile possibilities(superpositions)
     void CollapseCell(List<Cell> tempGrid)
     {
+        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
         int randomIndex = UnityEngine.Random.Range(0, tempGrid.Count);
+        Debug.Log(randomIndex);
 
         Cell cellToCollapse = tempGrid[randomIndex];
         cellToCollapse.collapsed = true;
@@ -86,13 +95,16 @@ public class WaveFunctionCollapse : MonoBehaviour
         } else
         {
             cellToCollapse.tileOptions = new Tile[] { backupTile };
+            
         }
 
         Tile foundTile = cellToCollapse.tileOptions[0];
 
-        foundTile.Instantiate(cellToCollapse.transform.position);
+        GameObject tileInstance = foundTile.Instantiate(cellToCollapse.transform.position);
+        tileInstance.transform.SetParent(tileInstanceContainer.transform);
 
-        UpdateGeneration();
+        if (selectedTile == null) { ResetGrid(); }
+         else UpdateGeneration();
     }
 
     // Selects a random Tile from the possible options based on their weights
@@ -111,7 +123,6 @@ public class WaveFunctionCollapse : MonoBehaviour
         
         float diceRoll = UnityEngine.Random.Range(0, totalWeight);
         
-       
         float cumulative = 0f;
         for(int i = 0; i< options.Length; i++)
         {
@@ -123,7 +134,24 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
         return null;
     }
-    
+
+    private void ResetGrid()
+    {
+        foreach (Transform child in tileInstanceContainer.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        foreach (Cell cell in grid)
+        {
+            cell.collapsed = false;
+            cell.tileOptions = tiles;
+        }
+
+        iteration = 0;
+        
+        StartCoroutine(CheckEntropy());
+    }
+
 
     //  Iterate through every cell and update it's entropy.
     //  Looks at the 4 surrounding cells and updates the list of possible tiles.
@@ -246,5 +274,10 @@ public class WaveFunctionCollapse : MonoBehaviour
                 options.RemoveAt(i);
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(gameObject);
     }
 }

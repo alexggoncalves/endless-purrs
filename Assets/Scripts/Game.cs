@@ -13,7 +13,7 @@ public class Game : MonoBehaviour
 
     [SerializeField, Min(0.1f)]
     public float cellScale = 2;
-    [SerializeField, Range(2, 20)]
+    [SerializeField, Range(2, 50)]
     public int width, height;
 
 
