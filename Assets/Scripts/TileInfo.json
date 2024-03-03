@@ -8,7 +8,7 @@
             "nX": "0s",
             "pY": "0s",
             "nY": "0s",
-            "weight": 50.0
+            "weight": 100
         },
         { 
             "name": "grass_tree",
@@ -57,16 +57,6 @@
             "rotation": 1,
             "pX": "1s",
             "nX": "0s",
-            "pY": "0s",
-            "nY": "1s",
-            "weight": 1
-        },
-        {
-            "name": "road_turn_2",
-            "prefab": "road_turn",
-            "rotation": 2,
-            "pX": "0s",
-            "nX": "1s",
             "pY": "0s",
             "nY": "1s",
             "weight": 1
@@ -121,7 +111,7 @@
             "nX": "0s",
             "pY": "3f",
             "nY": "3",
-            "weight": 20
+            "weight": 10
         },
         {
             "name": "cliff_3",
@@ -131,7 +121,7 @@
             "nX": "3f",
             "pY": "0s",
             "nY": "2s",
-            "weight": 20
+            "weight": 10
         },
         {
             "name": "cliff_outer_corner_0",

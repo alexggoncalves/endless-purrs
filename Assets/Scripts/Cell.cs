@@ -7,12 +7,15 @@ using System.Linq;
 public class Cell : MonoBehaviour
 {
     public bool collapsed;
+    private int x, y;
     public Tile[] tileOptions;
 
-    public void CreateCell(bool collapseState, Tile[] tiles)
+    public void CreateCell(bool collapseState, Tile[] tiles, int x, int y)
     {
         collapsed = collapseState;
         tileOptions = tiles;
+        this.x = x;
+        this.y = y; 
     }
 
     public void RecreateCell(Tile[] tiles)
@@ -20,4 +23,15 @@ public class Cell : MonoBehaviour
         tileOptions = tiles;
     }
 
+    public int GetX()
+    {
+        return x;
+    }
+
+    public int GetY()
+    {
+        return y;
+    }
 }
+
+

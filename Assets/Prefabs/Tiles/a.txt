@@ -1,0 +1,78 @@
+
+        // Loop through all the cells 
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                // Get the index on the list
+                int index = y * width + x;
+
+                // If the cell is already collapsed keep it the same and skip the possibility check
+                if (grid[index].collapsed)
+                {
+                    newGenerationGrid[index] = grid[index];
+                }
+                else // If the cell is not collapsed check the 4 neighbours and update it's tile possibilities 
+                {
+                    List<Tile> options = new List<Tile>(tiles);
+
+                    if (y > 0) // UP
+                    {
+                        Cell up = grid[x + (y - 1) * width];
+                        List<Tile> validOptions = new List<Tile>();
+
+                        // Loop through the up cell tileOptions and get all their compatible down neighbours
+                        foreach (Tile possibleTile in up.tileOptions)
+                        {
+                            validOptions = validOptions.Concat(possibleTile.downNeighbours).ToList();
+                        }
+
+                        CheckValidity(options, validOptions);
+                    }
+
+                    if (x < width - 1) // LEFT
+                    {
+                        Cell left = grid[x + 1 + y * width];
+                        List<Tile> validOptions = new List<Tile>();
+
+                        foreach (Tile possibleTile in left.tileOptions)
+                        {
+                            validOptions = validOptions.Concat(possibleTile.rightNeighbours).ToList();
+                        }
+
+                        CheckValidity(options, validOptions);
+                    }
+
+                    if (y < height - 1) // DOWN
+                    {
+                        Cell down = grid[x + (y + 1) * width];
+                        List<Tile> validOptions = new List<Tile>();
+
+                        foreach (Tile possibleTile in down.tileOptions)
+                        {
+                            validOptions = validOptions.Concat(possibleTile.upNeighbours).ToList();
+                        }
+
+                        CheckValidity(options, validOptions);
+                    }
+
+                    if (x > 0) // RIGHT
+                    {
+                        Cell right = grid[x - 1 + y * width];
+                        List<Tile> validOptions = new List<Tile>();
+
+                        foreach (Tile possibleTile in right.tileOptions)
+                        {
+                            validOptions = validOptions.Concat(possibleTile.leftNeighbours).ToList();
+                        }
+
+                        CheckValidity(options, validOptions);
+                    }
+                    
+                    // Update cell's tile options (entropy)
+                    newGenerationGrid[index].RecreateCell(options.ToArray());
+                }
+            }
+        }
+
+        grid = newGenerationGrid;
