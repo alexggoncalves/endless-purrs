@@ -44,10 +44,10 @@ public class Tile : MonoBehaviour
         return Instantiate(prefab, position, Quaternion.Euler(0, prefab.transform.rotation.y + 90 * rotation, 0));
     }
 
-    public string Info() {
-
-
-
-        return "Tile: " + this.name + "";
+    public void SetAllNeighbours(Tile tile) {
+        upNeighbours.Add(tile);
+        downNeighbours.Add(tile);
+        leftNeighbours.Add(tile);
+        rightNeighbours.Add(tile);
     }
 }

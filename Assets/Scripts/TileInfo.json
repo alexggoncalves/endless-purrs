@@ -8,7 +8,7 @@
             "nX": "0s",
             "pY": "0s",
             "nY": "0s",
-            "weight": 100
+            "weight": 200
         },
         { 
             "name": "grass_tree",
@@ -18,27 +18,27 @@
             "nX": "0s",
             "pY": "0s",
             "nY": "0s",
-            "weight": 40
+            "weight": 100
         },
         {
             "name": "road_v",
-            "prefab": "road_straight",
+            "prefab": "road",
             "rotation": 0,
             "pX": "0s",
             "nX": "0s",
             "pY": "1s",
             "nY": "1s",
-            "weight": 10
+            "weight": 50
         },
         {
             "name": "road_h",
-            "prefab": "road_straight",
+            "prefab": "road",
             "rotation": 1,
             "pX": "1s",
             "nX": "1s",
             "pY": "0s",
             "nY": "0s",
-            "weight": 10
+            "weight": 50
         },
         {
             "name": "road_turn_0",
@@ -48,7 +48,7 @@
             "nX": "0s",
             "pY": "1s",
             "nY": "0s",
-            "weight": 1
+            "weight": 5
         }
         ,
         {
@@ -59,7 +59,18 @@
             "nX": "0s",
             "pY": "0s",
             "nY": "1s",
-            "weight": 1
+            "weight": 0.5
+        }
+        ,
+        {
+            "name": "road_turn_2",
+            "prefab": "road_turn",
+            "rotation": 2,
+            "pX": "0s",
+            "nX": "1s",
+            "pY": "0s",
+            "nY": "1s",
+            "weight": 2
         }
         ,
         {
@@ -73,6 +84,46 @@
             "weight": 1
         },
         {
+            "name": "road_dead_end_0",
+            "prefab": "road_dead_end",
+            "rotation": 0,
+            "pX": "1s",
+            "nX": "0s",
+            "pY": "0s",
+            "nY": "0s",
+            "weight": 0.01
+        },
+        {
+            "name": "road_dead_end_1",
+            "prefab": "road_dead_end",
+            "rotation": 1,
+            "pX": "0s",
+            "nX": "0s",
+            "pY": "0s",
+            "nY": "1s",
+            "weight": 0.01
+        },
+        {
+            "name": "road_dead_end_2",
+            "prefab": "road_dead_end",
+            "rotation": 2,
+            "pX": "0s",
+            "nX": "1s",
+            "pY": "0s",
+            "nY": "0s",
+            "weight": 0.01
+        },
+        {
+            "name": "road_dead_end_3",
+            "prefab": "road_dead_end",
+            "rotation": 3,
+            "pX": "0s",
+            "nX": "0s",
+            "pY": "1s",
+            "nY": "0s",
+            "weight": 0.01
+        },
+        {
             "name": "high_grass",
             "prefab": "high_grass",
             "rotation": 0,
@@ -80,8 +131,9 @@
             "nX": "2s",
             "pY": "2s",
             "nY": "2s",
-            "weight": 10
+            "weight": 20
         },
+        
         {
             "name": "cliff_0",
             "prefab": "cliff",
@@ -90,7 +142,7 @@
             "nX": "2s",
             "pY": "3",
             "nY": "3f",
-            "weight": 5
+            "weight": 40
         },
         {
             "name": "cliff_1",
@@ -100,7 +152,7 @@
             "nX": "3",
             "pY": "2s",
             "nY": "0s",
-            "weight": 5
+            "weight": 40
         }
         ,
         {
@@ -111,7 +163,7 @@
             "nX": "0s",
             "pY": "3f",
             "nY": "3",
-            "weight": 10
+            "weight": 40
         },
         {
             "name": "cliff_3",
@@ -121,7 +173,7 @@
             "nX": "3f",
             "pY": "0s",
             "nY": "2s",
-            "weight": 10
+            "weight": 40
         },
         {
             "name": "cliff_outer_corner_0",
@@ -131,7 +183,7 @@
             "nX": "3",
             "pY": "3",
             "nY": "0s",
-            "weight": 2
+            "weight": 5
         }
         ,
         {
@@ -142,7 +194,7 @@
             "nX": "0s",
             "pY": "3f",
             "nY": "0s",
-            "weight": 2
+            "weight": 5
         }
         ,
         {
@@ -153,7 +205,7 @@
             "nX": "0s",
             "pY": "0s",
             "nY": "3",
-            "weight": 2
+            "weight": 5
         },
         {
             "name": "cliff_outer_corner_3",
@@ -163,7 +215,7 @@
             "nX": "3f",
             "pY": "0s",
             "nY": "3f",
-            "weight": 2
+            "weight": 5
         },
         {
             "name": "cliff_inner_corner_0",
@@ -184,7 +236,7 @@
             "nX": "3",
             "pY": "2s",
             "nY": "3",
-            "weight": 2
+            "weight": 1
         }
         ,
         {
@@ -195,7 +247,7 @@
             "nX": "3f",
             "pY": "3f",
             "nY": "2s",
-            "weight": 2
+            "weight": 1
         },
         {
             "name": "cliff_inner_corner_3",
@@ -205,7 +257,7 @@
             "nX": "2s",
             "pY": "3",
             "nY": "2s",
-            "weight": 2
+            "weight": 1
         }
     ]
 }

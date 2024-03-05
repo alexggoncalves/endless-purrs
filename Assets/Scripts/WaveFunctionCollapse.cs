@@ -9,7 +9,6 @@ public class WaveFunctionCollapse : MonoBehaviour
 {
     // List of all the possible tiles
     Tile[] tiles;
-    Tile backupTile;
 
     // Dimensions
     float cellScale;
@@ -26,7 +25,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     private Stack<Cell> updatedCells;
 
-    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, GameObject backupTile)
+    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj)
     {
         tiles = possibleTiles.ToArray();
 
@@ -34,10 +33,6 @@ public class WaveFunctionCollapse : MonoBehaviour
         this.width = width;
         this.height = height;
         this.cellObj = cellObj;
-
-        GameObject errorTile = new GameObject("error");
-        this.backupTile = errorTile.AddComponent<Tile>();
-        this.backupTile.Initialize(backupTile, "error", "-1", "-1", "-1", "-1", 0, 0);
 
         cellContainer = new GameObject("Grid Container");
         tileInstanceContainer = new GameObject("Tile Instance Container");
@@ -85,28 +80,29 @@ public class WaveFunctionCollapse : MonoBehaviour
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
         int randomIndex = UnityEngine.Random.Range(0, tempGrid.Count);
         Cell cellToCollapse = tempGrid[randomIndex];
+
         updatedCells.Push(cellToCollapse);
+
         cellToCollapse.collapsed = true;
 
         Tile selectedTile = SelectRandomTile(cellToCollapse);
+
         if (selectedTile != null)
         {
             cellToCollapse.tileOptions = new Tile[] { selectedTile };
         } else
         {
-            cellToCollapse.tileOptions = new Tile[] { backupTile };
+            cellToCollapse.tileOptions = new Tile[] { tiles[0] };
             
-        }
+        }       
 
         Tile foundTile = cellToCollapse.tileOptions[0];
-
+        Debug.Log(foundTile);
         GameObject tileInstance = foundTile.Instantiate(cellToCollapse.transform.position);
         tileInstance.transform.SetParent(tileInstanceContainer.transform);
 
-        
-
-        if (selectedTile == null) { ResetGrid(); }
-         else UpdateGeneration();
+        /*if (selectedTile == null) { ResetGrid(); } else*/
+        UpdateGeneration();
     }
 
     // Selects a random Tile from the possible options based on their weights
@@ -232,7 +228,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     {
         while(updatedCells.Count > 0)
         {
-            Debug.Log(grid.Count);
+            
             Cell cell = updatedCells.Pop();
             int x = cell.GetX();
             int y = cell.GetY();
