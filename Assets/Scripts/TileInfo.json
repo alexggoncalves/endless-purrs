@@ -28,7 +28,7 @@
             "nX": "0s",
             "pY": "1s",
             "nY": "1s",
-            "weight": 50
+            "weight": 20
         },
         {
             "name": "road_h",
@@ -38,7 +38,7 @@
             "nX": "1s",
             "pY": "0s",
             "nY": "0s",
-            "weight": 50
+            "weight": 20
         },
         {
             "name": "road_turn_0",
@@ -48,7 +48,7 @@
             "nX": "0s",
             "pY": "1s",
             "nY": "0s",
-            "weight": 5
+            "weight": 0
         }
         ,
         {
@@ -59,7 +59,7 @@
             "nX": "0s",
             "pY": "0s",
             "nY": "1s",
-            "weight": 0.5
+            "weight": 0
         }
         ,
         {
@@ -70,7 +70,7 @@
             "nX": "1s",
             "pY": "0s",
             "nY": "1s",
-            "weight": 2
+            "weight": 1
         }
         ,
         {
@@ -81,7 +81,7 @@
             "nX": "1s",
             "pY": "1s",
             "nY": "0s",
-            "weight": 1
+            "weight": 0
         },
         {
             "name": "road_dead_end_0",
@@ -91,7 +91,7 @@
             "nX": "0s",
             "pY": "0s",
             "nY": "0s",
-            "weight": 0.01
+            "weight": 0.001
         },
         {
             "name": "road_dead_end_1",
@@ -101,7 +101,7 @@
             "nX": "0s",
             "pY": "0s",
             "nY": "1s",
-            "weight": 0.01
+            "weight": 0.001
         },
         {
             "name": "road_dead_end_2",
@@ -111,7 +111,7 @@
             "nX": "1s",
             "pY": "0s",
             "nY": "0s",
-            "weight": 0.01
+            "weight": 0.001
         },
         {
             "name": "road_dead_end_3",
@@ -121,7 +121,7 @@
             "nX": "0s",
             "pY": "1s",
             "nY": "0s",
-            "weight": 0.01
+            "weight": 1
         },
         {
             "name": "high_grass",
@@ -258,6 +258,147 @@
             "pY": "3",
             "nY": "2s",
             "weight": 1
+        },
+        {
+            "name": "water",
+            "prefab": "water",
+            "rotation": 0,
+            "pX": "4s",
+            "nX": "4s",
+            "pY": "4s",
+            "nY": "4s",
+            "weight": 20
+        },
+        {
+            "name": "water_grass_0",
+            "prefab": "water_grass",
+            "rotation": 0,
+            "pX": "4s",
+            "nX": "0s",
+            "pY": "5",
+            "nY": "5f",
+            "weight": 5
+        },
+        
+        {
+            "name": "water_grass_1",
+            "prefab": "water_grass",
+            "rotation": 1,
+            "pX": "5f",
+            "nX": "5",
+            "pY": "0s",
+            "nY": "4s",
+            "weight": 5
+        },
+        
+        {
+            "name": "water_grass_2",
+            "prefab": "water_grass",
+            "rotation": 2,
+            "pX": "0s",
+            "nX": "4s",
+            "pY": "5f",
+            "nY": "5",
+            "weight": 5
+        },
+        
+        {
+            "name": "water_grass_3",
+            "prefab": "water_grass",
+            "rotation": 3,
+            "pX": "5",
+            "nX": "5f",
+            "pY": "4s",
+            "nY": "0s",
+            "weight": 5
+        },
+        {
+            "name": "water_grass_outer_corner_0",
+            "prefab": "water_grass_outer_corner",
+            "rotation": 0,
+            "pX": "4s",
+            "nX": "5",
+            "pY": "5",
+            "nY": "4s",
+            "weight": 1
         }
+        ,
+        {
+            "name": "water_grass_outer_corner_1",
+            "prefab": "water_grass_outer_corner",
+            "rotation": 1,
+            "pX": "5f",
+            "nX": "4s",
+            "pY": "5f",
+            "nY": "4s",
+            "weight": 1
+        }
+        ,
+        {
+            "name": "water_grass_outer_corner_2",
+            "prefab": "water_grass_outer_corner",
+            "rotation": 2,
+            "pX": "5",
+            "nX": "4s",
+            "pY": "4s",
+            "nY": "5",
+            "weight": 1
+        }
+        ,
+        {
+            "name": "water_grass_outer_corner_3",
+            "prefab": "water_grass_outer_corner",
+            "rotation": 3,
+            "pX": "4s",
+            "nX": "5f",
+            "pY": "4s",
+            "nY": "5f",
+            "weight": 1
+        }
+        ,
+        {
+            "name": "water_grass_inner_corner_0",
+            "prefab": "water_grass_inner_corner",
+            "rotation": 0,
+            "pX": "5f",
+            "nX": "0s",
+            "pY": "0s",
+            "nY": "5f",
+            "weight": 1
+        }
+        ,
+        {
+            "name": "water_grass_inner_corner_1",
+            "prefab": "water_grass_inner_corner",
+            "rotation": 1,
+            "pX": "0s",
+            "nX": "5",
+            "pY": "0s",
+            "nY": "5",
+            "weight": 1
+        }
+        ,
+        {
+            "name": "water_grass_inner_corner_2",
+            "prefab": "water_grass_inner_corner",
+            "rotation": 2,
+            "pX": "0s",
+            "nX": "5f",
+            "pY": "0s",
+            "nY": "5f",
+            "weight": 1
+        }
+        ,
+        {
+            "name": "water_grass_inner_corner_3",
+            "prefab": "water_grass_inner_corner",
+            "rotation": 3,
+            "pX": "5",
+            "nX": "0s",
+            "pY": "5",
+            "nY": "0s",
+            "weight": 1
+        }
+        
     ]
 }
