@@ -278,6 +278,19 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
+    void CleanSection(int x, int y, int w, int h)
+    {
+        
+        for(int i=0; i<width; i++)
+        {
+            for(int j=0; j<height; j++)
+            {
+
+                grid[i, j].ResetCell(tiles);
+            }
+        }
+    }
+
     private void OnDestroy()
     {
         Destroy(gameObject);

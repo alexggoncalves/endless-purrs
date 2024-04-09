@@ -23,6 +23,12 @@ public class Cell : MonoBehaviour
         tileOptions = tiles;
     }
 
+    public void ResetCell(Tile[] tiles)
+    {
+        collapsed = false;
+        tileOptions = tiles;
+    }
+
     public int GetX()
     {
         return x;
