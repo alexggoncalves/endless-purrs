@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TileLoader : MonoBehaviour
 {
-    
+
     private GameObject[] tilePrefabs;
 
     public List<Tile> tiles;
@@ -16,17 +16,19 @@ public class TileLoader : MonoBehaviour
     {
         this.tilePrefabs = tilePrefabs;
         this.jsonFile = jsonFile;
-        this.tiles = new List<Tile>(); 
+        this.tiles = new List<Tile>();
     }
-  
+
     public List<Tile> Load()
     {
         TileData tileData = JsonUtility.FromJson<TileData>(jsonFile.text);
 
         // Create tiles based in the imported data.
-        foreach (TileInfo tileInfo in tileData.tiles) { 
-            foreach(GameObject tile in tilePrefabs) {
-                if(tile.name == tileInfo.prefab)
+        foreach (TileInfo tileInfo in tileData.tiles)
+        {
+            foreach (GameObject tile in tilePrefabs)
+            {
+                if (tile.name == tileInfo.prefab)
                 {
                     GameObject newTile = new GameObject(tileInfo.name);
                     Tile tileComponent = newTile.AddComponent<Tile>();
@@ -39,9 +41,9 @@ public class TileLoader : MonoBehaviour
         // Compare every profile (on the X and Y [Z in unity] axis) of the pieces of the tileset to each other and set up neighbours.
         foreach (Tile tileA in tiles)
         {
-            foreach(Tile tileB in tiles)
+            foreach (Tile tileB in tiles)
             {
-                
+
                 if (isSymmetrical(tileA.pX, tileB.nX) ^ isAsymmetrical(tileA.pX, tileB.nX))
                 {
                     if (!tileB.rightNeighbours.Contains(tileA)) tileB.rightNeighbours.Add(tileA);
@@ -58,10 +60,10 @@ public class TileLoader : MonoBehaviour
                 {
                     if (!tileB.downNeighbours.Contains(tileA)) tileB.downNeighbours.Add(tileA);
                 }
-               
+
             }
         }
-        
+
         return tiles;
     }
 
@@ -69,13 +71,13 @@ public class TileLoader : MonoBehaviour
     {
         if (socketA.Contains("s") && socketA == socketB)
             return true;
-        else 
-            return false ;
+        else
+            return false;
     }
 
     bool isAsymmetrical(string socketA, string socketB)
     {
-        return socketA == (socketB + "f") || socketB == (socketA + "f");    
+        return socketA == (socketB + "f") || socketB == (socketA + "f");
     }
 }
 
@@ -92,6 +94,6 @@ public class TileInfo
     public string name;
     public string prefab;
     public int rotation;
-    public string pX, nX,pY,nY;
+    public string pX, nX, pY, nY;
     public float weight;
 }

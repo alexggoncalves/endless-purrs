@@ -29,6 +29,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     {
         tiles = possibleTiles.ToArray();
 
+
         this.cellScale = cellScale;
         this.width = width;
         this.height = height;
@@ -42,16 +43,18 @@ public class WaveFunctionCollapse : MonoBehaviour
         InitializeGrid();
     }
 
-    public void InitializeGrid() 
+    public void InitializeGrid()
     {
         grid = new List<Cell>();
         // Add the Cell component for every cell of the grid
-        for (int y = 0; y < height; y++) { 
-            for(int x = 0; x < width; x++) {
-                Cell newCell = Instantiate(cellObj, new Vector3(-(cellScale*width)/2 + x*cellScale, 0, -(cellScale * height) / 2 + y *cellScale), Quaternion.identity);
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                Cell newCell = Instantiate(cellObj, new Vector3(-(cellScale * width) / 2 + x * cellScale, 0, -(cellScale * height) / 2 + y * cellScale), Quaternion.identity);
                 newCell.transform.SetParent(cellContainer.transform);
                 // Every cell is given all the possible tiles and it's collapsed state is set to false 
-                newCell.CreateCell(false, tiles,x,y);
+                newCell.CreateCell(false, tiles, x, y);
                 grid.Add(newCell);
             }
         }
@@ -65,7 +68,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     {
         List<Cell> tempGrid = new List<Cell>(grid);
         tempGrid.RemoveAll((c) => c.collapsed);
-        tempGrid.Sort((a,b) => a.tileOptions.Length - b.tileOptions.Length);
+        tempGrid.Sort((a, b) => a.tileOptions.Length - b.tileOptions.Length);
         tempGrid.RemoveAll(a => a.tileOptions.Length != tempGrid[0].tileOptions.Length);
 
         yield return new WaitForSeconds(0);
@@ -90,11 +93,12 @@ public class WaveFunctionCollapse : MonoBehaviour
         if (selectedTile != null)
         {
             cellToCollapse.tileOptions = new Tile[] { selectedTile };
-        } else
+        }
+        else
         {
             cellToCollapse.tileOptions = new Tile[] { tiles[0] };
-            
-        }       
+
+        }
 
         Tile foundTile = cellToCollapse.tileOptions[0];
         Debug.Log(foundTile);
@@ -106,26 +110,26 @@ public class WaveFunctionCollapse : MonoBehaviour
     }
 
     // Selects a random Tile from the possible options based on their weights
-    Tile SelectRandomTile (Cell cellToColapse)
+    Tile SelectRandomTile(Cell cellToColapse)
     {
-        Tile[] options = new Tile[cellToColapse.tileOptions.Length] ;
-        for (int i = 0;i< cellToColapse.tileOptions.Length; i++)
+        Tile[] options = new Tile[cellToColapse.tileOptions.Length];
+        for (int i = 0; i < cellToColapse.tileOptions.Length; i++)
         {
-            options[i] = cellToColapse.tileOptions[i]; 
+            options[i] = cellToColapse.tileOptions[i];
         }
 
         options.OrderBy(tile => tile.weight);
 
         float totalWeight = 0f;
-        foreach(Tile t in options) totalWeight += t.weight;
-        
+        foreach (Tile t in options) totalWeight += t.weight;
+
         float diceRoll = UnityEngine.Random.Range(0, totalWeight);
-        
+
         float cumulative = 0f;
-        for(int i = 0; i< options.Length; i++)
+        for (int i = 0; i < options.Length; i++)
         {
             cumulative += options[i].weight;
-            if(diceRoll < cumulative)
+            if (diceRoll < cumulative)
             {
                 return options[i]; ;
             }
@@ -147,7 +151,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
 
         iteration = 0;
-        
+
         StartCoroutine(CheckEntropy());
     }
 
@@ -226,9 +230,9 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     void UpdateGeneration()
     {
-        while(updatedCells.Count > 0)
+        while (updatedCells.Count > 0)
         {
-            
+
             Cell cell = updatedCells.Pop();
             int x = cell.GetX();
             int y = cell.GetY();
@@ -263,7 +267,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             StartCoroutine(CheckEntropy());
         }
     }
-    
+
     // Go through the options array for the cell being updated and remove any tile that isn't present in the valid options array
     // The valid options array will bring the tiles that each of the directions allow the focused tile to be.
     void CheckValidity(List<Tile> options, List<Tile> validOption)
@@ -280,13 +284,13 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     void CleanSection(int x, int y, int w, int h)
     {
-        
-        for(int i=0; i<width; i++)
+
+        for (int i = 0; i < width; i++)
         {
-            for(int j=0; j<height; j++)
+            for (int j = 0; j < height; j++)
             {
 
-                grid[i, j].ResetCell(tiles);
+                /*grid[i, j].ResetCell(tiles);*/
             }
         }
     }

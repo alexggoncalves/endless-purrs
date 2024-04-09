@@ -1,0 +1,149 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Sockets;
+using UnityEngine;
+
+public class TileLoader : MonoBehaviour
+{
+    
+    private GameObject[] tilePrefabs;
+
+    public List<Tile> tiles;
+
+    private TextAsset jsonFile;
+
+    public void Initialize(TextAsset jsonFile, GameObject[] tilePrefabs)
+    {
+        this.tilePrefabs = tilePrefabs;
+        this.jsonFile = jsonFile;
+        this.tiles = new List<Tile>(); 
+    }
+  
+    public List<Tile> Load()
+    {
+        TileData tileData = JsonUtility.FromJson<TileData>(jsonFile.text);
+
+        // Create tiles based in the imported data.
+        foreach (TileInfo tileInfo in tileData.tiles) { 
+            foreach(GameObject tile in tilePrefabs) {
+                if(tile.name == tileInfo.prefab)
+                {
+                    GameObject newTile = new GameObject(tileInfo.name);
+                    Tile tileComponent = newTile.AddComponent<Tile>();
+                    tileComponent.Initialize(tile, tileInfo.name, tileInfo.pX, tileInfo.nX, tileInfo.pY, tileInfo.nY, tileInfo.pZ, tileInfo.nZ, tileInfo.weight, tileInfo.rotation);
+                    tiles.Add(tileComponent);
+                }
+            }
+        }
+
+        // Compare every profile (on the X and Y [Z in unity] axis) of the pieces of the tileset to each other and set up neighbours.
+        foreach (Tile tileA in tiles)
+        {
+            foreach (Tile tileB in tiles)
+            {
+                // LEFT AND RIGHT
+                if (isSymmetrical(tileA.pX, tileB.nX) || isAsymmetrical(tileA.pX, tileB.nX))
+                {
+                    if (!tileA.rightNeighbours.Contains(tileB)) tileA.rightNeighbours.Add(tileB);
+                }
+                if (isSymmetrical(tileA.nX, tileB.pX) || isAsymmetrical(tileA.nX, tileB.pX))
+                {
+                    if (!tileA.leftNeighbours.Contains(tileB)) tileA.leftNeighbours.Add(tileB);
+                }
+
+                // UP AND DOWN
+                if (isVertical(tileA.pY, tileB.nY))
+                {
+                    if (!tileA.upNeighbours.Contains(tileB)) tileA.upNeighbours.Add(tileB);
+                }
+                if (isVertical(tileA.nY, tileB.pY))
+                {
+                    if (!tileA.downNeighbours.Contains(tileB)) tileA.downNeighbours.Add(tileB);
+                }
+
+                // EMPTY
+
+                if (tileA.name == "empty" && tileB.pX == "-1")
+                {
+                    if (!tileA.leftNeighbours.Contains(tileB)) tileA.leftNeighbours.Add(tileB);
+                    if (!tileB.leftNeighbours.Contains(tileA)) tileB.rightNeighbours.Add(tileA);
+                }
+                if (tileA.name == "empty" && tileB.nX == "-1")
+                {
+                    if (!tileA.rightNeighbours.Contains(tileB)) tileA.rightNeighbours.Add(tileB);
+                    if (!tileB.leftNeighbours.Contains(tileA)) tileB.leftNeighbours.Add(tileA);
+                }
+                if (tileA.name == "empty" && tileB.pY == "-1")
+                {
+                    if (!tileA.downNeighbours.Contains(tileB)) tileA.downNeighbours.Add(tileB);
+                    if (!tileB.upNeighbours.Contains(tileA)) tileB.upNeighbours.Add(tileA);
+                }
+                if (tileA.name == "empty" && tileB.nY == "-1")
+                {
+                    if (!tileA.upNeighbours.Contains(tileB)) tileA.upNeighbours.Add(tileB);
+                    if (!tileB.downNeighbours.Contains(tileA)) tileB.downNeighbours.Add(tileA);
+                }
+                if (tileA.name == "empty" && tileB.nZ == "-1")
+                {
+                    if (!tileA.backNeighbours.Contains(tileB)) tileA.backNeighbours.Add(tileB);
+                    if (!tileB.frontNeighbours.Contains(tileA)) tileB.frontNeighbours.Add(tileA);
+                }
+                if (tileA.name == "empty" && tileB.nZ == "-1")
+                {
+                    if (!tileA.frontNeighbours.Contains(tileB)) tileA.frontNeighbours.Add(tileB);
+                    if (!tileB.backNeighbours.Contains(tileA)) tileB.backNeighbours.Add(tileA);
+                }
+
+
+                // FRONT AND BACK
+                if (isSymmetrical(tileA.pZ, tileB.nZ) || isAsymmetrical(tileA.pZ, tileB.nZ))
+                {
+                    if (!tileA.frontNeighbours.Contains(tileB)) tileA.frontNeighbours.Add(tileB);
+                }
+                if (isSymmetrical(tileA.nZ, tileB.pZ) || isAsymmetrical(tileA.nZ, tileB.pZ))
+                {
+                    if (!tileA.backNeighbours.Contains(tileB)) tileA.backNeighbours.Add(tileB);
+                }
+            }
+        }
+        
+        return tiles;
+    }
+
+    // Symmetrical sockets[ex. "0s" == "0s"]
+    bool isSymmetrical(string socketA, string socketB)
+    {
+        
+        return socketA.Contains("s") && socketA == socketB;
+    }
+
+    //Asymmetrical sockets[ex. "3" == "3f"]
+    bool isAsymmetrical(string socketA, string socketB)
+    {
+        return socketA == (socketB + "f") || socketB == (socketA + "f");    
+    }
+
+    //Vertical sockets[ex. "v_3_0"]
+    bool isVertical(string socketA, string socketB)
+    {
+        return (socketA.Contains("v") && socketA == socketB) ;
+    }
+}
+
+
+[System.Serializable]
+public class TileData
+{
+    public TileInfo[] tiles;
+}
+
+[System.Serializable]
+public class TileInfo
+{
+    public string name;
+    public string prefab;
+    public int rotation;
+    public string pX, nX, pY, nY, pZ, nZ;
+    public float weight;
+}

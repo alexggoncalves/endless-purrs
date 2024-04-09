@@ -10,9 +10,13 @@ public class Game : MonoBehaviour
     public GameObject[] tiles;
     public Cell cellObj;
 
-    [SerializeField, Min(0.1f)]
+    /*[SerializeField, Min(0.1f)]     //for 3d
+    public Vector3 cellScale = new Vector3(2, 1, 2);*/
+
+    [SerializeField, Range(0,4)]
     public float cellScale = 2;
-    [SerializeField, Range(2, 100)]
+
+    [SerializeField, Range(1, 100)]
     public int width, height;
 
 
