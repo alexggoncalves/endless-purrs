@@ -155,9 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045643e1b53f6c74bada479de4af057b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1727484610}
+  target: {fileID: 353352228}
   offset: {x: 0, y: 10, z: -10}
-  smoothTime: 0.45
+  smoothTime: 0.5
 --- !u!114 &37305471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,6 +382,53 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13.24, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &353352226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 353352228}
+  - component: {fileID: 353352227}
+  m_Layer: 0
+  m_Name: CameraTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &353352227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353352226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 280901621e0290f4f80bad160eaec116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 37305473}
+  player: {fileID: 1727484610}
+  threshold: 5
+--- !u!4 &353352228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353352226}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -784,5 +831,6 @@ SceneRoots:
   - {fileID: 232252135}
   - {fileID: 180333016}
   - {fileID: 780245796}
-  - {fileID: 2059953599}
   - {fileID: 37305474}
+  - {fileID: 353352228}
+  - {fileID: 2059953599}
