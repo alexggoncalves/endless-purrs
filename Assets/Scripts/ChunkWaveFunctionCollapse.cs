@@ -5,84 +5,57 @@ using System;
 using System.Linq;
 using Unity.VisualScripting;
 
-public class WaveFunctionCollapse : MonoBehaviour
+public class ChunkWaveFunctionCollapse : MonoBehaviour
 {
     // List of all the possible tiles
     List<Tile> tiles;
-    
-    
 
     // Dimensions
     float cellScale;
     int gridWidth, gridHeight;
 
-    // Cell prefab
-    private Cell cellObj;
-
     public List<Cell> grid;
+
     private int iteration = 0;
 
     GameObject cellContainer;
-    GameObject tileInstanceContainer;
 
     private Stack<Cell> updatedCells;
 
-    public bool update;
-    private bool updating;
 
-    public void Update()
+    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, List<Cell> grid)
     {
-        if (update)
-        {
-            if(!updating)
-            {
-                updating = true;
-                /*ResetGridSection(0, 0, gridWidth / 4, gridHeight/4);*/
-                ShiftGrid();
-            }
-            update = false;
-        }
-    }
-
-    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj)
-    {
-        this.updating = true;
         tiles = new List<Tile>(possibleTiles);
 
         this.cellScale = cellScale;
-
-        // ! The grid width and heigh must be divisible by 4(for now)
         this.gridWidth = width;
         this.gridHeight = height;
-        this.cellObj = cellObj;
 
-        cellContainer = new GameObject("Grid Container");
-        tileInstanceContainer = new GameObject("Tile Instance Container");
+        this.grid = grid;
 
         updatedCells = new Stack<Cell>();
 
-        InitializeGrid();
-    }
 
-    public void InitializeGrid()
-    {
-        grid = new List<Cell>();
-        // Add the Cell component for every cell of the grid
-        for (int y = 0; y < gridHeight; y++)
-        {
-            for (int x = 0; x < gridWidth; x++)
+
+        foreach (Cell cell in grid) {
+            if (cell.preset)
             {
-                Cell newCell = Instantiate(cellObj, new Vector3(-(cellScale * gridWidth) / 2 + x * cellScale, 0, -(cellScale * gridHeight) / 2 + y * cellScale), Quaternion.identity);
-                newCell.transform.SetParent(cellContainer.transform);
-                // Every cell is given all the possible tiles and it's collapsed state is set to false 
-                newCell.CreateCell(false, tiles, x, y);
-                grid.Add(newCell);
+                /*UpdateCellsEntropy(cell);*/
+                /*iteration++;*/
+                updatedCells.Push(cell);
+                CheckUpdatedCells();
+            } else
+            {
+                
+
             }
+            
+            
         }
+        /*StartCoroutine(CheckEntropy());*/
 
-        StartCoroutine(CheckEntropy());
+        /*;*/
     }
-
 
     // Find the cell(s) with the least tile possibilies and collapse it into one of the superpositions(tiles)
     IEnumerator CheckEntropy()
@@ -96,16 +69,13 @@ public class WaveFunctionCollapse : MonoBehaviour
         /*yield return null;*/
 
         CollapseCell(tempGrid);
-        
-        
     }
 
 
     //  Collapses one of the cells with the least number of tile possibilities(superpositions)
     void CollapseCell(List<Cell> tempGrid)
     {
-         if(tempGrid.Count > 0)
-        {
+
             UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
             int randomIndex = UnityEngine.Random.Range(0, tempGrid.Count);
             Cell cellToCollapse = tempGrid[randomIndex];
@@ -119,6 +89,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             if (selectedTile != null)
             {
                 cellToCollapse.RecreateCell(new List<Tile> { selectedTile });
+            
             }
             else
             {
@@ -126,10 +97,10 @@ public class WaveFunctionCollapse : MonoBehaviour
 
             }
 
-            cellToCollapse.InstantiateTile().transform.SetParent(tileInstanceContainer.transform);
-        }
-            
+            cellToCollapse.InstantiateTile().transform.SetParent(transform);
         
+
+
         UpdateGeneration();
     }
 
@@ -161,23 +132,6 @@ public class WaveFunctionCollapse : MonoBehaviour
         return null;
     }
 
-    // Destroy all placed tile instances, reset all cell states and restart algorithm
-   /* private void ResetGrid()
-    {
-        foreach (Transform child in tileInstanceContainer.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-        foreach (Cell cell in grid)
-        {
-            cell.collapsed = false;
-            cell.tileOptions = new List<Tile>(tiles);
-        }
-
-        iteration = 0;
-
-        StartCoroutine(CheckEntropy());
-    }*/
 
     //  Looks at the 4 surrounding cells and updates the list of possible tiles.
     void UpdateCellsEntropy(Cell cell)
@@ -188,72 +142,89 @@ public class WaveFunctionCollapse : MonoBehaviour
         // Start with considering all possibilities and then remove the tiles that are not valid by checking the 4 surrounding neighbours
         List<Tile> options = new List<Tile>(tiles);
 
-        if (y > 0) // UP
+        if (!cell.preset)
         {
-            Cell up = grid[x + (y - 1) * gridWidth];
-            List<Tile> validOptions = new List<Tile>();
-
-            // Loop through the up cell tileOptions and get all their compatible down neighbours
-            foreach (Tile possibleTile in up.GetTileOptions())
+            if (y > 0) // UP
             {
-                validOptions = validOptions.Concat(possibleTile.downNeighbours).ToList();
+                Cell up = grid[x + (y - 1) * gridWidth];
+                List<Tile> validOptions = new List<Tile>();
+
+                // Loop through the up cell tileOptions and get all their compatible down neighbours
+                foreach (Tile possibleTile in up.GetTileOptions())
+                {
+                    validOptions = validOptions.Concat(possibleTile.downNeighbours).ToList();
+                }
+
+                CheckValidity(options, validOptions);
             }
 
-            CheckValidity(options, validOptions);
-        }
-
-        if (x < gridWidth - 1) // LEFT
-        {
-            Cell left = grid[x + 1 + y * gridWidth];
-            List<Tile> validOptions = new List<Tile>();
-
-            foreach (Tile possibleTile in left.GetTileOptions())
+            if (x < gridWidth - 1) // LEFT
             {
-                validOptions = validOptions.Concat(possibleTile.rightNeighbours).ToList();
+                Cell left = grid[x + 1 + y * gridWidth];
+                List<Tile> validOptions = new List<Tile>();
+
+                foreach (Tile possibleTile in left.GetTileOptions())
+                {
+                    validOptions = validOptions.Concat(possibleTile.rightNeighbours).ToList();
+                }
+
+                CheckValidity(options, validOptions);
             }
 
-            CheckValidity(options, validOptions);
-        }
-
-        if (y < gridWidth - 1) // DOWN
-        {
-            Cell down = grid[x + (y + 1) * gridWidth];
-            List<Tile> validOptions = new List<Tile>();
-
-            foreach (Tile possibleTile in down.GetTileOptions())
+            if (y < gridWidth - 1) // DOWN
             {
-                validOptions = validOptions.Concat(possibleTile.upNeighbours).ToList();
+                Cell down = grid[x + (y + 1) * gridWidth];
+                List<Tile> validOptions = new List<Tile>();
+
+                foreach (Tile possibleTile in down.GetTileOptions())
+                {
+                    validOptions = validOptions.Concat(possibleTile.upNeighbours).ToList();
+                }
+
+                CheckValidity(options, validOptions);
             }
 
-            CheckValidity(options, validOptions);
-        }
-
-        if (x > 0) // RIGHT
-        {
-            Cell right = grid[x - 1 + y * gridWidth];
-            List<Tile> validOptions = new List<Tile>();
-
-            foreach (Tile possibleTile in right.GetTileOptions())
+            if (x > 0) // RIGHT
             {
-                validOptions = validOptions.Concat(possibleTile.leftNeighbours).ToList();
+                Cell right = grid[x - 1 + y * gridWidth];
+                List<Tile> validOptions = new List<Tile>();
+
+                foreach (Tile possibleTile in right.GetTileOptions())
+                {
+                    validOptions = validOptions.Concat(possibleTile.leftNeighbours).ToList();
+                }
+
+                CheckValidity(options, validOptions);
             }
 
-            CheckValidity(options, validOptions);
-        }
+            if (cell.GetTileOptions().Count != options.Count)
+            {
+                updatedCells.Push(cell);
+            }
 
-        if (cell.GetTileOptions().Count != options.Count)
-        {
-            updatedCells.Push(cell);
+            // Update cell's tile options
+                cell.RecreateCell(options);
         }
-
-        // Update cell's tile options
-        cell.RecreateCell(options);
+        
     }
 
 
     void UpdateGeneration()
-    {
-       
+    { 
+        CheckUpdatedCells();
+
+        // After collapsing one cell and updating the tiles that need to be updated:
+        // start another iteration of the algorithm if there are still cells remaining to be collapsed
+        //  else the algorithm enters a rest state until there's a cell that needs to be collapsed
+
+        iteration++;
+        if (iteration < gridWidth * gridHeight)
+        {
+            StartCoroutine(CheckEntropy());
+        }
+    }
+
+    void CheckUpdatedCells(){
         while (updatedCells.Count > 0)
         {
             Cell cell = updatedCells.Pop();
@@ -262,6 +233,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
             if (y > 0)
             {
+                Debug.Log("aa");
                 Cell up = grid[x + (y - 1) * gridWidth];
                 UpdateCellsEntropy(up);
             }
@@ -281,18 +253,6 @@ public class WaveFunctionCollapse : MonoBehaviour
                 UpdateCellsEntropy(right);
             }
         }
-
-        // After collapsing one cell and updating the tiles that need to be updated:
-        // start another iteration of the algorithm if there are still cells remaining to be collapsed
-        //  else the algorithm enters a rest state until there's a cell that needs to be collapsed
-
-        iteration++;
-        /*Debug.Log(iteration);*/
-        if (iteration < gridWidth * gridHeight)
-        {
-            StartCoroutine(CheckEntropy());
-        }
-        else updating = false;
     }
 
     // Go through the options array for the cell being updated and remove any tile that isn't present in the valid options array.

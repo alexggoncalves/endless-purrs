@@ -1,18 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public TextAsset tileInfoJSON;
+
+    public GameObject[] tiles;
+
+    public Cell cellObj;
+
+    [SerializeField, Range(0, 4)]
+    public float cellScale = 2;
+
+    [SerializeField, Range(1, 100)]
+    public int width, height;
+
     void Start()
     {
-        
-    }
+        TileLoader tileLoader = this.AddComponent<TileLoader>();
+        tileLoader.Initialize(tileInfoJSON, tiles);
+        List<Tile> possibleTiles = tileLoader.Load();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        WaveFunctionCollapse wfc = this.AddComponent<WaveFunctionCollapse>();
+        wfc.Initialize(possibleTiles, width, height, cellScale, cellObj);
     }
 }

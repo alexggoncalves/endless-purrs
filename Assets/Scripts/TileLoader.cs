@@ -23,6 +23,7 @@ public class TileLoader : MonoBehaviour
     public List<Tile> Load()
     {
         TileData tileData = JsonUtility.FromJson<TileData>(jsonFile.text);
+        GameObject tilesContainer = new GameObject("Imported Tiles");
         // Create tiles based in the imported data.
         foreach (TileInfo tileInfo in tileData.tiles)
         {
@@ -34,6 +35,7 @@ public class TileLoader : MonoBehaviour
                     Tile tileComponent = newTile.AddComponent<Tile>();
                     tileComponent.Initialize(tile, tileInfo.name, tileInfo.pX, tileInfo.nX, tileInfo.pY, tileInfo.nY, tileInfo.weight, tileInfo.rotation);
                     tiles.Add(tileComponent);
+                    newTile.transform.SetParent(tilesContainer.transform);
                 }
             }
         }

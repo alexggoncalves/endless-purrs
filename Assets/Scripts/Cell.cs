@@ -10,7 +10,8 @@ public class Cell : MonoBehaviour
     public bool collapsed;
     public int x, y;
     public List<Tile> tileOptions;
-    GameObject tileInstance;
+    public GameObject tileInstance;
+    public bool preset = false;
 
     public void CreateCell(bool collapseState, List<Tile> tiles, int x, int y)
     {
@@ -19,6 +20,15 @@ public class Cell : MonoBehaviour
         this.x = x;
         this.y = y;
         tileInstance = null;
+    }
+
+    public void CollapseCell(Tile tile)
+    {
+        /*collapsed = true;*/
+        tileOptions = new List<Tile> { tile };
+        preset = true;
+        /*tileInstance = Instantiate(tile.prefab, transform.position, Quaternion.Euler(0, tile.prefab.transform.rotation.y + 90 * tile.rotation, 0));*/ 
+
     }
 
     public void RecreateCell(List<Tile> tiles)
@@ -36,8 +46,14 @@ public class Cell : MonoBehaviour
     {
         collapsed = false;
         tileOptions = tiles;
+        /*Destroy(tileInstance);*/
+        tileInstance = null;
+    }
+
+    public void UpdateCell()
+    {
         Destroy(tileInstance);
-        /*tileInstance = null;*/
+        tileInstance = Instantiate(tileOptions[0].prefab, transform.position, Quaternion.Euler(0, tileOptions[0].prefab.transform.rotation.y + 90 * tileOptions[0].rotation, 0));
     }
 
     public int GetX()
