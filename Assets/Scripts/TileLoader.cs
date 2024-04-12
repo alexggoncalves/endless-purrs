@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TileLoader : MonoBehaviour
@@ -22,7 +23,6 @@ public class TileLoader : MonoBehaviour
     public List<Tile> Load()
     {
         TileData tileData = JsonUtility.FromJson<TileData>(jsonFile.text);
-
         // Create tiles based in the imported data.
         foreach (TileInfo tileInfo in tileData.tiles)
         {
@@ -79,8 +79,7 @@ public class TileLoader : MonoBehaviour
     {
         return socketA == (socketB + "f") || socketB == (socketA + "f");
     }
-}
-
+} 
 
 [System.Serializable]
 public class TileData

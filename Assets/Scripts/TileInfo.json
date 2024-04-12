@@ -10,16 +10,7 @@
             "nY": "0s",
             "weight": 200
         },
-        { 
-            "name": "grass_tree",
-            "prefab": "grass_tree",
-            "rotation": 0,
-            "pX": "0s",
-            "nX": "0s",
-            "pY": "0s",
-            "nY": "0s",
-            "weight": 100
-        },
+        
         {
             "name": "road_v",
             "prefab": "road",
@@ -207,6 +198,7 @@
             "nY": "3",
             "weight": 5
         },
+        
         {
             "name": "cliff_outer_corner_3",
             "prefab": "cliff_outer_corner",
@@ -312,50 +304,7 @@
             "nY": "0s",
             "weight": 5
         },
-        {
-            "name": "water_grass_outer_corner_0",
-            "prefab": "water_grass_outer_corner",
-            "rotation": 0,
-            "pX": "4s",
-            "nX": "5",
-            "pY": "5",
-            "nY": "4s",
-            "weight": 1
-        }
-        ,
-        {
-            "name": "water_grass_outer_corner_1",
-            "prefab": "water_grass_outer_corner",
-            "rotation": 1,
-            "pX": "5f",
-            "nX": "4s",
-            "pY": "5f",
-            "nY": "4s",
-            "weight": 1
-        }
-        ,
-        {
-            "name": "water_grass_outer_corner_2",
-            "prefab": "water_grass_outer_corner",
-            "rotation": 2,
-            "pX": "5",
-            "nX": "4s",
-            "pY": "4s",
-            "nY": "5",
-            "weight": 1
-        }
-        ,
-        {
-            "name": "water_grass_outer_corner_3",
-            "prefab": "water_grass_outer_corner",
-            "rotation": 3,
-            "pX": "4s",
-            "nX": "5f",
-            "pY": "4s",
-            "nY": "5f",
-            "weight": 1
-        }
-        ,
+        
         {
             "name": "water_grass_inner_corner_0",
             "prefab": "water_grass_inner_corner",
@@ -397,6 +346,49 @@
             "nX": "0s",
             "pY": "5",
             "nY": "0s",
+            "weight": 1
+        },
+        {
+            "name": "water_grass_outer_corner_0",
+            "prefab": "water_grass_outer_corner",
+            "rotation": 0,
+            "pX": "4s",
+            "nX": "5",
+            "pY": "5",
+            "nY": "4s",
+            "weight": 1
+        }
+        ,
+        {
+            "name": "water_grass_outer_corner_1",
+            "prefab": "water_grass_outer_corner",
+            "rotation": 1,
+            "pX": "5f",
+            "nX": "4s",
+            "pY": "5f",
+            "nY": "4s",
+            "weight": 1
+        }
+        ,
+        {
+            "name": "water_grass_outer_corner_2",
+            "prefab": "water_grass_outer_corner",
+            "rotation": 2,
+            "pX": "5",
+            "nX": "4s",
+            "pY": "4s",
+            "nY": "5",
+            "weight": 1
+        }
+        ,
+        {
+            "name": "water_grass_outer_corner_3",
+            "prefab": "water_grass_outer_corner",
+            "rotation": 3,
+            "pX": "4s",
+            "nX": "5f",
+            "pY": "4s",
+            "nY": "5f",
             "weight": 1
         }
         

@@ -7,7 +7,10 @@ using UnityEngine;
 public class Game : MonoBehaviour
 {
     public TextAsset tileInfoJSON;
+
+    
     public GameObject[] tiles;
+
     public Cell cellObj;
 
     /*[SerializeField, Min(0.1f)]     //for 3d
@@ -24,7 +27,6 @@ public class Game : MonoBehaviour
     {
         TileLoader tileLoader = this.AddComponent<TileLoader>();
         tileLoader.Initialize(tileInfoJSON, tiles);
-
         List<Tile> possibleTiles = tileLoader.Load();
 
         WaveFunctionCollapse wfc = this.AddComponent<WaveFunctionCollapse>();
