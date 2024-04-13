@@ -48,19 +48,19 @@ public class TileLoader : MonoBehaviour
 
                 if (isSymmetrical(tileA.pX, tileB.nX) ^ isAsymmetrical(tileA.pX, tileB.nX))
                 {
-                    if (!tileB.rightNeighbours.Contains(tileA)) tileB.rightNeighbours.Add(tileA);
+                    if (!tileB.leftNeighbours.Contains(tileA)) tileB.leftNeighbours.Add(tileA);
                 }
                 if (isSymmetrical(tileA.nX, tileB.pX) ^ isAsymmetrical(tileA.nX, tileB.pX))
                 {
-                    if (!tileB.leftNeighbours.Contains(tileA)) tileB.leftNeighbours.Add(tileA);
+                    if (!tileB.rightNeighbours.Contains(tileA)) tileB.rightNeighbours.Add(tileA);
                 }
                 if (isSymmetrical(tileA.pY, tileB.nY) ^ isAsymmetrical(tileA.pY, tileB.nY))
                 {
-                    if (!tileB.upNeighbours.Contains(tileA)) tileB.upNeighbours.Add(tileA);
+                    if (!tileB.downNeighbours.Contains(tileA)) tileB.downNeighbours.Add(tileA);
                 }
                 if (isSymmetrical(tileA.nY, tileB.pY) ^ isAsymmetrical(tileA.nY, tileB.pY))
                 {
-                    if (!tileB.downNeighbours.Contains(tileA)) tileB.downNeighbours.Add(tileA);
+                    if (!tileB.upNeighbours.Contains(tileA)) tileB.upNeighbours.Add(tileA);
                 }
 
             }

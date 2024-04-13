@@ -20,6 +20,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField, Range(0.5f, 10)]
     public float mapScale;
 
+
     void Start()
     {
         TileLoader tileLoader = this.AddComponent<TileLoader>();

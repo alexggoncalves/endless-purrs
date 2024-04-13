@@ -24,7 +24,7 @@ public class Cell : MonoBehaviour
 
     public void CollapseCell(Tile tile)
     {
-        /*collapsed = true;*/
+        collapsed = true;
         tileOptions = new List<Tile> { tile };
         preset = true;
         /*tileInstance = Instantiate(tile.prefab, transform.position, Quaternion.Euler(0, tile.prefab.transform.rotation.y + 90 * tile.rotation, 0));*/ 
