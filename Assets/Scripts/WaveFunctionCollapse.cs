@@ -144,7 +144,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         tempGrid.RemoveAll(a => a.GetTileOptions().Count != tempGrid[0].GetTileOptions().Count);
         
 
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.005f);
         /*yield return null;*/
 
         CollapseCell(tempGrid);
@@ -240,13 +240,15 @@ public class WaveFunctionCollapse : MonoBehaviour
         int x = cell.GetX();
         int y = cell.GetY();
 
+        Cell down = null, up = null, left = null, right = null;
+
         // Start with considering all possibilities and then remove the tiles that are not valid by checking the 4 surrounding neighbours
         List<Tile> options = new List<Tile>(tiles);
 
         if (y > 0) // DOWN
         {
             /*Cell down = grid[x + (y - 1) * gridWidth];*/
-            Cell down = grid[x,y-1];
+            down = grid[x,y-1];
             List<Tile> validOptions = new List<Tile>();
 
             // Loop through the up cell tileOptions and get all their compatible down neighbours
@@ -261,7 +263,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         if (x < gridWidth - 1) // RIGHT
         {
             /*Cell right = grid[x + 1 + y * gridWidth];*/
-            Cell right = grid[x + 1,y];
+            right = grid[x + 1,y];
             List<Tile> validOptions = new List<Tile>();
 
             foreach (Tile possibleTile in right.GetTileOptions())
@@ -275,7 +277,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         if (y < gridHeight - 1) // UP
         {
             /*Cell up = grid[x + (y + 1) * gridWidth];*/
-            Cell up = grid[x, y + 1];
+            up = grid[x, y + 1];
             List<Tile> validOptions = new List<Tile>();
 
             foreach (Tile possibleTile in up.GetTileOptions())
@@ -289,7 +291,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         if (x > 0) // LEFT
         {
             /*Cell left = grid[x - 1 + y * gridWidth];*/
-            Cell left = grid[x - 1, y];
+            left = grid[x - 1, y];
             List<Tile> validOptions = new List<Tile>();
 
             foreach (Tile possibleTile in left.GetTileOptions())
@@ -303,7 +305,6 @@ public class WaveFunctionCollapse : MonoBehaviour
         if (cell.GetTileOptions().Count != options.Count)
         {
             updatedCells.Push(cell);
-            Debug.Log('a');
         }
 
         // Update cell's tile options
@@ -354,7 +355,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         /*StartCoroutine(CheckEntropy());*/
         /*//**Debug.Log(iteration);*/
-        if (iteration < innerPlayerArea.GetArea())
+        if (iteration < innerPlayerArea.GetArea() / 2 - gridWidth - gridHeight)
         {
             StartCoroutine(CheckEntropy());
         } else updating = false;
@@ -442,7 +443,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             iteration -= gridHeight + 1;
 
         }
-        if(direction.x == -1 )
+        else if(direction.x == -1 )
         {
             for (int x = gridWidth-1; x >= 0; x--)
             {
@@ -467,7 +468,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             gridOffset.x += 1;
             iteration -= gridHeight + 1;
         }
-        if (direction.y == 1)
+        else if (direction.y == 1)
         {
             for (int x = 0; x < gridWidth; x++)
             {
@@ -483,6 +484,7 @@ public class WaveFunctionCollapse : MonoBehaviour
                     else
                     {
                         grid[x, y].ResetCell(tiles);
+
                         updatedCells.Push(grid[x, y]);
                     }
                     
@@ -492,7 +494,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             gridOffset.y -= 1;
             iteration -= gridWidth + 1;
         }
-        if (direction.y == -1)
+        else if (direction.y == -1)
         {
             for (int x = 0; x < gridWidth; x++)
             {
