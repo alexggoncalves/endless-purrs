@@ -17,6 +17,9 @@ public class MapGenerator : MonoBehaviour
     [SerializeField, Range(1, 100)]
     public int width, height;
 
+    [SerializeField, Range(0.5f, 10)]
+    public float mapScale;
+
     void Start()
     {
         TileLoader tileLoader = this.AddComponent<TileLoader>();
@@ -24,6 +27,6 @@ public class MapGenerator : MonoBehaviour
         List<Tile> possibleTiles = tileLoader.Load();
 
         WaveFunctionCollapse wfc = this.AddComponent<WaveFunctionCollapse>();
-        wfc.Initialize(possibleTiles, width, height, cellScale, cellObj);
+        wfc.Initialize(possibleTiles, width, height, cellScale, cellObj, mapScale);
     }
 }

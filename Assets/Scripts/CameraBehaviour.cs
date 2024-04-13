@@ -11,6 +11,9 @@ public class CameraBehaviour : MonoBehaviour
 
     Vector3 currentVelocity;
 
+    [SerializeField]
+    public float height;
+
     private void LateUpdate()
     {
         if (target)
