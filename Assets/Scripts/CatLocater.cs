@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CatInteractions : MonoBehaviour
+public class CatLocater : MonoBehaviour
 {
     //https://www.youtube.com/watch?v=dHzeHh-3bp4
 
@@ -12,7 +12,7 @@ public class CatInteractions : MonoBehaviour
     private bool isPointerActive = false;
     public float distance = 20f;
     private bool isCooldown = false;
-    private float cooldownDuration = 3f;
+    private float cooldownDuration = 1f;
     private float lastDeactivationTime = 0f;
 
     private void Start()
@@ -27,7 +27,8 @@ public class CatInteractions : MonoBehaviour
             float maxDistance = distance;
             float distanceToTarget = Vector3.Distance(cam.transform.position, targetPosition);
 
-            if (distanceToTarget <= maxDistance)
+
+            if (distanceToTarget <= maxDistance && distanceToTarget >= 5f)
             {
                 isPointerActive = true;
                 pointer.gameObject.SetActive(true);
@@ -38,9 +39,10 @@ public class CatInteractions : MonoBehaviour
 
         if (isPointerActive)
         {
-            float fixPos = 9f; //camera dependent magic number
+            float fixXPos = 5f; //camera dependent magic number
+            float fixZPos = 5f; //camera dependent magic number
             Vector3 toPosition = targetPosition;
-            Vector3 fromPosition = new Vector3(cam.transform.position.x, 0f, cam.transform.position.z + fixPos);
+            Vector3 fromPosition = new Vector3(cam.transform.position.x - fixXPos, 0f, cam.transform.position.z + fixZPos);
             Vector3 dir = (toPosition - fromPosition).normalized;
 
             float angle = ((Mathf.Atan2(dir.z, dir.x) * Mathf.Rad2Deg) % 360) - 90;
