@@ -37,7 +37,8 @@ public class WaveFunctionCollapse : MonoBehaviour
     RectangularArea outterPlayerArea;
     Vector2 lastPlayerCoordinates; // According to the grid
     Vector2 playerCoordinates;
-    Vector2 gridOffset = new Vector2(0,0);
+    Vector2 moveOffset = new Vector2(0,0);
+    Vector2 worldOffset = new Vector2(0,0);
 
     
 
@@ -60,10 +61,10 @@ public class WaveFunctionCollapse : MonoBehaviour
                                         Mathf.RoundToInt((player.transform.position.z/2 + (gridHeight / 2))));
 
         if (playerCoordinates != lastPlayerCoordinates) {
-            gridOffset += (playerCoordinates - lastPlayerCoordinates);
+            moveOffset += (playerCoordinates - lastPlayerCoordinates);
 
         }
-        if((gridOffset.x != 0 || gridOffset.y !=0 ) && !updating)
+        if((moveOffset.x != 0 || moveOffset.y !=0 ) && !updating)
         {
             updating = true;
             ShiftGrid();
@@ -95,6 +96,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         outterPlayerArea.Initialize(width*cellScale, height * cellScale,innerPlayerArea.GetOffset());
         lastPlayerCoordinates = new Vector2(Mathf.RoundToInt((player.transform.position.x / 2 + (gridWidth / 2))),
                                         Mathf.RoundToInt((player.transform.position.z / 2 + (gridHeight / 2))));
+        worldOffset = innerPlayerArea.GetOffset();
 
         cellContainer = new GameObject("Grid Container");
         tileInstanceContainer = new GameObject("Tile Instance Container");
@@ -114,9 +116,9 @@ public class WaveFunctionCollapse : MonoBehaviour
             {
                 Cell newCell = 
                     Instantiate(cellObj, 
-                    new Vector3(x * cellScale - ((gridWidth - 1) * cellScale) / 2f,
+                    new Vector3(worldOffset.x + x * cellScale - ((gridWidth - 1) * cellScale) / 2f,
                     0,
-                    y * cellScale - ((gridHeight - 1) * cellScale) / 2f),
+                    worldOffset.y + y * cellScale - ((gridHeight - 1) * cellScale) / 2f),
                     Quaternion.identity);
 
                 newCell.transform.SetParent(cellContainer.transform);
@@ -355,7 +357,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         /*StartCoroutine(CheckEntropy());*/
         /*//**Debug.Log(iteration);*/
-        if (iteration < innerPlayerArea.GetArea() / 2 - gridWidth - gridHeight)
+        if (iteration < innerPlayerArea.GetArea() / 2 - gridWidth - gridHeight - 1)
         {
             StartCoroutine(CheckEntropy());
         } else updating = false;
@@ -410,11 +412,11 @@ public class WaveFunctionCollapse : MonoBehaviour
     void ShiftGrid()
     {
         Vector2 direction = new Vector2();
-        if(gridOffset.x == 0) direction.x = 0;
-            else direction.x = gridOffset.x/ Mathf.Abs(gridOffset.x);
+        if(moveOffset.x == 0) direction.x = 0;
+            else direction.x = moveOffset.x/ Mathf.Abs(moveOffset.x);
 
-        if(gridOffset.y == 0) direction.y = 0;
-        else direction.y = gridOffset.y / Mathf.Abs(gridOffset.y);
+        if(moveOffset.y == 0) direction.y = 0;
+        else direction.y = moveOffset.y / Mathf.Abs(moveOffset.y);
         Debug.Log(direction);
         
         if(direction.x == 1 )
@@ -439,7 +441,7 @@ public class WaveFunctionCollapse : MonoBehaviour
                 }
             }
             cellContainer.transform.position += new Vector3(direction.x * cellScale, 0, 0);
-            gridOffset.x -= 1;
+            moveOffset.x -= 1;
             iteration -= gridHeight + 1;
 
         }
@@ -465,7 +467,7 @@ public class WaveFunctionCollapse : MonoBehaviour
                 }
             }
             cellContainer.transform.position += new Vector3(direction.x * cellScale, 0, 0);
-            gridOffset.x += 1;
+            moveOffset.x += 1;
             iteration -= gridHeight + 1;
         }
         else if (direction.y == 1)
@@ -491,7 +493,7 @@ public class WaveFunctionCollapse : MonoBehaviour
                 }
             }
             cellContainer.transform.position += new Vector3(0, 0, direction.y * cellScale);
-            gridOffset.y -= 1;
+            moveOffset.y -= 1;
             iteration -= gridWidth + 1;
         }
         else if (direction.y == -1)
@@ -516,7 +518,7 @@ public class WaveFunctionCollapse : MonoBehaviour
                 }
             }
             cellContainer.transform.position += new Vector3(0, 0, direction.y * cellScale);
-            gridOffset.y += 1;
+            moveOffset.y += 1;
             iteration -= gridWidth + 1;
         }
         UpdateGeneration();

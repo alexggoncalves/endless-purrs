@@ -7,14 +7,20 @@ public class Walking : MonoBehaviour
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
-    private float playerSpeed = 4.0f;
+
+    [SerializeField]
     private float jumpHeight = 1.0f;
+    [SerializeField]
     private float gravityValue = -9.81f;
+    [SerializeField]
+    float playerSpeed = 3.5f;
+    [SerializeField]
+    Animator animator;
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-
+        /*animator = GetComponent<Animator>();*/
     }
 
     void Update()
@@ -24,10 +30,13 @@ public class Walking : MonoBehaviour
         {
             playerVelocity.y = 0f;
         }
+        
 
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
         controller.Move(move.normalized * Time.deltaTime * playerSpeed);
+
+        animator.SetFloat("Velocity", move.magnitude);
 
         if (move != Vector3.zero)
         {
