@@ -247,70 +247,73 @@ public class WaveFunctionCollapse : MonoBehaviour
         // Start with considering all possibilities and then remove the tiles that are not valid by checking the 4 surrounding neighbours
         List<Tile> options = new List<Tile>(tiles);
 
-        if (y > 0) // DOWN
+        if(!cell.collapsed)
         {
-            /*Cell down = grid[x + (y - 1) * gridWidth];*/
-            down = grid[x,y-1];
-            List<Tile> validOptions = new List<Tile>();
-
-            // Loop through the up cell tileOptions and get all their compatible down neighbours
-            foreach (Tile possibleTile in down.GetTileOptions())
+            if (y > 0) // DOWN
             {
-                validOptions = validOptions.Concat(possibleTile.upNeighbours).ToList();
+                /*Cell down = grid[x + (y - 1) * gridWidth];*/
+                down = grid[x, y - 1];
+                List<Tile> validOptions = new List<Tile>();
+
+                // Loop through the up cell tileOptions and get all their compatible down neighbours
+                foreach (Tile possibleTile in down.GetTileOptions())
+                {
+                    validOptions = validOptions.Concat(possibleTile.upNeighbours).ToList();
+                }
+
+                CheckValidity(options, validOptions);
             }
 
-            CheckValidity(options, validOptions);
-        }
-
-        if (x < gridWidth - 1) // RIGHT
-        {
-            /*Cell right = grid[x + 1 + y * gridWidth];*/
-            right = grid[x + 1,y];
-            List<Tile> validOptions = new List<Tile>();
-
-            foreach (Tile possibleTile in right.GetTileOptions())
+            if (x < gridWidth - 1) // RIGHT
             {
-                validOptions = validOptions.Concat(possibleTile.leftNeighbours).ToList();
+                /*Cell right = grid[x + 1 + y * gridWidth];*/
+                right = grid[x + 1, y];
+                List<Tile> validOptions = new List<Tile>();
+
+                foreach (Tile possibleTile in right.GetTileOptions())
+                {
+                    validOptions = validOptions.Concat(possibleTile.leftNeighbours).ToList();
+                }
+
+                CheckValidity(options, validOptions);
             }
 
-            CheckValidity(options, validOptions);
-        }
-
-        if (y < gridHeight - 1) // UP
-        {
-            /*Cell up = grid[x + (y + 1) * gridWidth];*/
-            up = grid[x, y + 1];
-            List<Tile> validOptions = new List<Tile>();
-
-            foreach (Tile possibleTile in up.GetTileOptions())
+            if (y < gridHeight - 1) // UP
             {
-                validOptions = validOptions.Concat(possibleTile.downNeighbours).ToList();
+                /*Cell up = grid[x + (y + 1) * gridWidth];*/
+                up = grid[x, y + 1];
+                List<Tile> validOptions = new List<Tile>();
+
+                foreach (Tile possibleTile in up.GetTileOptions())
+                {
+                    validOptions = validOptions.Concat(possibleTile.downNeighbours).ToList();
+                }
+
+                CheckValidity(options, validOptions);
             }
 
-            CheckValidity(options, validOptions);
-        }
-
-        if (x > 0) // LEFT
-        {
-            /*Cell left = grid[x - 1 + y * gridWidth];*/
-            left = grid[x - 1, y];
-            List<Tile> validOptions = new List<Tile>();
-
-            foreach (Tile possibleTile in left.GetTileOptions())
+            if (x > 0) // LEFT
             {
-                validOptions = validOptions.Concat(possibleTile.rightNeighbours).ToList();
+                /*Cell left = grid[x - 1 + y * gridWidth];*/
+                left = grid[x - 1, y];
+                List<Tile> validOptions = new List<Tile>();
+
+                foreach (Tile possibleTile in left.GetTileOptions())
+                {
+                    validOptions = validOptions.Concat(possibleTile.rightNeighbours).ToList();
+                }
+
+                CheckValidity(options, validOptions);
             }
 
-            CheckValidity(options, validOptions);
+            if (cell.GetTileOptions().Count != options.Count)
+            {
+                updatedCells.Push(cell);
+            }
+            // Update cell's tile options
+            cell.RecreateCell(options);
         }
 
-        if (cell.GetTileOptions().Count != options.Count)
-        {
-            updatedCells.Push(cell);
-        }
-
-        // Update cell's tile options
-        cell.RecreateCell(options);
     }
 
 
@@ -321,8 +324,9 @@ public class WaveFunctionCollapse : MonoBehaviour
         {
             Cell cell = updatedCells.Pop();
             int x = cell.GetX();
-            int y = cell.GetY();
+            int y = cell.GetY(); 
 
+            
             if (y > 0)
             {
                 /*Cell up = grid[x + (y - 1) * gridWidth];*/
@@ -357,7 +361,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         /*StartCoroutine(CheckEntropy());*/
         /*//**Debug.Log(iteration);*/
-        if (iteration < innerPlayerArea.GetArea() / 2 - gridWidth - gridHeight - 1)
+        if (iteration < innerPlayerArea.GetArea() / 2 - gridWidth - gridHeight + 1 )
         {
             StartCoroutine(CheckEntropy());
         } else updating = false;
@@ -470,7 +474,8 @@ public class WaveFunctionCollapse : MonoBehaviour
             moveOffset.x += 1;
             iteration -= gridHeight + 1;
         }
-        else if (direction.y == 1)
+       
+        if (direction.y == 1)
         {
             for (int x = 0; x < gridWidth; x++)
             {

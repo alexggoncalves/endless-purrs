@@ -34,29 +34,29 @@
         {
             "name": "road_turn_0",
             "prefab": "road_turn",
-            "rotation": 0,
+            "rotation": 3,
             "pX": "1s",
             "nX": "0s",
             "pY": "1s",
             "nY": "0s",
-            "weight": 0
+            "weight": 1
         }
         ,
         {
             "name": "road_turn_1",
             "prefab": "road_turn",
-            "rotation": 1,
+            "rotation": 0,
             "pX": "1s",
             "nX": "0s",
             "pY": "0s",
             "nY": "1s",
-            "weight": 0
+            "weight": 1
         }
         ,
         {
             "name": "road_turn_2",
             "prefab": "road_turn",
-            "rotation": 2,
+            "rotation": 1,
             "pX": "0s",
             "nX": "1s",
             "pY": "0s",
@@ -67,12 +67,12 @@
         {
             "name": "road_turn_3",
             "prefab": "road_turn",
-            "rotation": 3,
+            "rotation": 2,
             "pX": "0s",
             "nX": "1s",
             "pY": "1s",
             "nY": "0s",
-            "weight": 0
+            "weight": 1
         },
         {
             "name": "road_dead_end_0",
