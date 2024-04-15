@@ -6,7 +6,7 @@ public class Walking : MonoBehaviour
 {
     private CharacterController controller;
     private Vector3 playerVelocity;
-    private bool groundedPlayer;
+    private bool groundedPlayer = true;
 
     [SerializeField]
     private float jumpHeight = 1.0f;
@@ -30,8 +30,10 @@ public class Walking : MonoBehaviour
         {
             playerVelocity.y = 0f;
         }
-        
-
+        if (controller.isGrounded)
+        {
+            print("CharacterController is grounded");
+        }
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
         controller.Move(move.normalized * Time.deltaTime * playerSpeed);
