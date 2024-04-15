@@ -130,9 +130,9 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
         tempGrid.Sort((a, b) => a.GetTileOptions().Count - b.GetTileOptions().Count);
         tempGrid.RemoveAll(a => a.GetTileOptions().Count != tempGrid[0].GetTileOptions().Count);
-        
 
-        yield return new WaitForSeconds(0.005f);
+
+        yield return new WaitForSeconds(0.008f);
         /*yield return null;*/
 
         CollapseCell(tempGrid);
@@ -323,7 +323,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         iteration++;
 
-        if (iteration < innerPlayerArea.GetArea() / 2 - gridWidth - gridHeight + 1)
+        if (iteration < innerPlayerArea.GetArea() / 2)
         {
             StartCoroutine(CheckEntropy());
         }
