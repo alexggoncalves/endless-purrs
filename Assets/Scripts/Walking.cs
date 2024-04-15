@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Walking : MonoBehaviour
@@ -17,10 +18,13 @@ public class Walking : MonoBehaviour
     [SerializeField]
     Animator animator;
 
+    Vector2 gridDimensions = new Vector2(2,2);
+    RectangularArea innerPlayerArea;
+    RectangularArea outterPlayerArea;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-        /*animator = GetComponent<Animator>();*/
     }
 
     void Update()
@@ -50,5 +54,29 @@ public class Walking : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+    }
+
+    public void SetMapDetails(int gridWidth, int gridHeight, float cellScale)
+    {
+        this.gridDimensions = new Vector2(gridWidth, gridHeight);
+
+        innerPlayerArea = GetComponent<RectangularArea>();
+        outterPlayerArea = this.AddComponent<RectangularArea>();
+        outterPlayerArea.Initialize(gridDimensions.x * cellScale, gridDimensions.y * cellScale, innerPlayerArea.GetOffset(), UnityEngine.Color.magenta);
+    }
+
+    public Vector2 GetPlayerGridCoordinates()
+    {
+        return new Vector2(Mathf.RoundToInt((transform.position.x / 2 + (gridDimensions.x / 2))), Mathf.RoundToInt((transform.position.z / 2 + (gridDimensions.y / 2))));
+    }
+
+    public RectangularArea GetInnerPlayerArea()
+    {
+        return innerPlayerArea;
+    }
+
+    public RectangularArea GetOutterPlayerArea()
+    {
+        return outterPlayerArea;
     }
 }

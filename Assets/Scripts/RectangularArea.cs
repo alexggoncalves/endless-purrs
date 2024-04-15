@@ -9,26 +9,22 @@ public class RectangularArea : MonoBehaviour
 {
     [SerializeField]
     Vector2 size;
-
     [SerializeField]
     Vector2 offset;
+    [SerializeField]
+    UnityEngine.Color wireColor;
 
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
-        Gizmos.color = UnityEngine.Color.yellow;
+        Gizmos.color = wireColor;
         Gizmos.DrawWireCube(transform.position + new Vector3(offset.x,0,offset.y), new Vector3(size.x,4,size.y));
     }
 
-    public void Initialize(float width, float height)
-    {
-        this.size = new Vector2(width,height);
-        this.offset = new Vector2(0,0);
-    }
-
-    public void Initialize(float width, float height, Vector2 offset)
+    public void Initialize(float width, float height, Vector2 offset, UnityEngine.Color wireColor)
     {
         this.size = new Vector2(width, height);
         this.offset = offset;
+        this.wireColor = wireColor;
     }
 
     public bool Contains(Vector2 point)

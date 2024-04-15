@@ -14,75 +14,40 @@ public class WaveFunctionCollapse : MonoBehaviour
     // Dimensions
     float cellScale;
     int gridWidth, gridHeight;
+    Vector2 worldOffset = new Vector2(0, 0);
 
-    // Cell prefab
+    // Cells
+    GameObject cellContainer;
     private Cell cellObj;
 
-    /*public List<Cell> grid;*/
+    // Grid
     public Cell[,] grid;
-    private int iteration = 0;
-
-    GameObject cellContainer;
     GameObject tileInstanceContainer;
 
-    private Stack<Cell> updatedCells;
-
+    public Stack<Cell> updatedCells;
     private bool updating;
+    private int iteration = 0;
 
-    //Player 
-    GameObject player;
-    RectangularArea innerPlayerArea;
-    RectangularArea outterPlayerArea;
-    Vector2 lastPlayerCoordinates; // According to the grid
-    Vector2 playerCoordinates;
-    Vector2 moveOffset = new Vector2(0,0);
-    Vector2 worldOffset = new Vector2(0,0);
-
-    public void Update()
+    // Player
+    Walking player;
+    Vector2 moveOffset = new Vector2(0, 0);
+    
+    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, Walking player)
     {
-        playerCoordinates = new Vector2(Mathf.RoundToInt((player.transform.position.x/2 + (gridWidth / 2))),
-                                        Mathf.RoundToInt((player.transform.position.z/2 + (gridHeight / 2))));
-
-        if (playerCoordinates != lastPlayerCoordinates) {
-            moveOffset += (playerCoordinates - lastPlayerCoordinates);
-
-        }
-        if((moveOffset.x != 0 || moveOffset.y !=0 ) && !updating)
-        {
-            updating = true;
-            ShiftGrid();
-        }
-        lastPlayerCoordinates = playerCoordinates;
-    }
-
-    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, float mapScale)
-    {
-        this.updating = true;
         tiles = new List<Tile>(possibleTiles);
-
-        this.cellScale = cellScale;
         
-        lastPlayerCoordinates.x = 0;
-        lastPlayerCoordinates.y = 0;
-
+        this.cellScale = cellScale;
         this.gridWidth = width;
         this.gridHeight = height;
+        this.worldOffset = worldOffset;
         this.cellObj = cellObj;
         updatedCells = new Stack<Cell>();
 
-        player = GameObject.Find("Player");
-        innerPlayerArea = player.GetComponent<RectangularArea>();
-        outterPlayerArea = player.AddComponent<RectangularArea>();
-        outterPlayerArea.Initialize(width*cellScale, height * cellScale,innerPlayerArea.GetOffset());
-        lastPlayerCoordinates = new Vector2(Mathf.RoundToInt((player.transform.position.x / 2 + (gridWidth / 2))),
-                                        Mathf.RoundToInt((player.transform.position.z / 2 + (gridHeight / 2))));
-        worldOffset = innerPlayerArea.GetOffset();
-
         cellContainer = new GameObject("Grid Container");
         tileInstanceContainer = new GameObject("Tile Instance Container");
-        tileInstanceContainer.transform.localScale = transform.localScale * mapScale;
 
-
+        this.player = player;
+        
         InitializeGrid();
     }
 
@@ -114,6 +79,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         int width = 10;
         int height = 12;
         SetGridSection(grass, gridWidth/2 - width/2,gridHeight/2 - height/2, width, height);
+        this.updating = true;
 
         StartCoroutine(CheckEntropy());
     }
@@ -125,7 +91,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         List<Cell> tempGrid = new List<Cell>();
         foreach (Cell c in grid)
         {
-            if(!c.collapsed && innerPlayerArea.Contains(new Vector2(c.transform.position.x, c.transform.position.z))) 
+            if(!c.collapsed && player.GetInnerPlayerArea().Contains(new Vector2(c.transform.position.x, c.transform.position.z))) 
             tempGrid.Add(c);
         }
         tempGrid.Sort((a, b) => a.GetTileOptions().Count - b.GetTileOptions().Count);
@@ -136,8 +102,6 @@ public class WaveFunctionCollapse : MonoBehaviour
         /*yield return null;*/
 
         CollapseCell(tempGrid);
-        
-        
     }
 
 
@@ -284,17 +248,14 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     }
 
-
     void UpdateGeneration()
     {
-       
         while (updatedCells.Count > 0)
         {
             Cell cell = updatedCells.Pop();
             int x = cell.GetX();
             int y = cell.GetY(); 
 
-            
             if (y > 0)
             {
                 Cell down = grid[x, y - 1];
@@ -323,7 +284,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         iteration++;
 
-        if (iteration < innerPlayerArea.GetArea() / 2)
+        if (iteration < player.GetInnerPlayerArea().GetArea() / 2)
         {
             StartCoroutine(CheckEntropy());
         }
@@ -347,8 +308,9 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-    void ShiftGrid()
+    public void ShiftGrid()
     {
+        updating = true;
         Vector2 direction = new Vector2();
         if(moveOffset.x == 0) direction.x = 0;
             else direction.x = moveOffset.x/ Mathf.Abs(moveOffset.x);
@@ -459,8 +421,8 @@ public class WaveFunctionCollapse : MonoBehaviour
             moveOffset.y += 1;
             iteration -= gridWidth + 1;
         }
+
         UpdateGeneration();
-        
     }
 
     void SetGridSection(Tile tile,int x, int y, int width, int height)
@@ -473,8 +435,6 @@ public class WaveFunctionCollapse : MonoBehaviour
                 Cell cellToCollapse = grid[i,j];
                 cellToCollapse.RecreateCell(new List<Tile> { tile });
 
-               ;
-
             }
         }
 
@@ -483,53 +443,14 @@ public class WaveFunctionCollapse : MonoBehaviour
         /*UpdateGeneration();*/
     }
 
-    /*void ResetGridSection(int x, int y, int width, int height)
+    public bool IsUpdating() { return updating; }
+
+    public void AddToMoveOffset(Vector2 offset)
     {
-        List<Cell> cellsToReset = new List<Cell>();
-        for (int i = x; i < x + width; i++)
-        {
-            
-            for (int j = y; j < y + height; j++)
-            {
-                Cell cellToReset = grid[j * gridWidth + i];
-                cellsToReset.Add(cellToReset);
-                *//*cellToReset.ResetCell(tiles);*//*
+        moveOffset += offset;
+    }
 
-                if (j == height - 1) updatedCells.Push(cellToReset);
-
-            }
-        }
-
-        foreach (Cell cellToReset in cellsToReset)
-        {
-            cellToReset.ResetCell(tiles);
-            *//*updatedCells.Push(cellToReset);*//*
-        }
-
-        iteration -= (width * height + 1);
-        
-        *//*yield return null;*//*
-
-        UpdateGeneration();
-    }*/
-
-    // Destroy all placed tile instances, reset all cell states and restart algorithm
-    /* private void ResetGrid()
-     {
-         foreach (Transform child in tileInstanceContainer.transform)
-         {
-             GameObject.Destroy(child.gameObject);
-         }
-         foreach (Cell cell in grid)
-         {
-             cell.collapsed = false;
-             cell.tileOptions = new List<Tile>(tiles);
-         }
-
-         iteration = 0;
-
-         StartCoroutine(CheckEntropy());
-     }*/
+    public Vector2 GetMoveOffset() { return moveOffset; }
 
     private void OnDestroy()
     {
