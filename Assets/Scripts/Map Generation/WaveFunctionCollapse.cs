@@ -110,7 +110,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         tempGrid.RemoveAll(a => a.GetTileOptions().Count != tempGrid[0].GetTileOptions().Count);
 
 
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.015f);
 
         CollapseCell(tempGrid);
     }
@@ -249,13 +249,13 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-    void UpdateGeneration()
+    IEnumerator uG()
     {
         while (updatedCells.Count > 0)
         {
             Cell cell = updatedCells.Pop();
             int x = cell.GetX();
-            int y = cell.GetY(); 
+            int y = cell.GetY();
 
             if (y > 0)
             {
@@ -269,7 +269,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             }
             if (y < gridHeight - 1)
             {
-                Cell up = grid[x, y+1];
+                Cell up = grid[x, y + 1];
                 UpdateCellsEntropy(up, true);
             }
             if (x > 0)
@@ -277,7 +277,14 @@ public class WaveFunctionCollapse : MonoBehaviour
                 Cell left = grid[x - 1, y];
                 UpdateCellsEntropy(left, true);
             }
+            yield return new WaitForSeconds(0.015f);
         }
+        
+    }
+
+    void UpdateGeneration()
+    {
+        StartCoroutine(uG());
 
         // After collapsing one cell and updating the tiles that need to be updated:
         // start another iteration of the algorithm if there are still cells remaining to be collapsed
@@ -320,10 +327,11 @@ public class WaveFunctionCollapse : MonoBehaviour
         else direction.y = moveOffset.y / Mathf.Abs(moveOffset.y);
 
         PlacePlacesOnWait();
-        MoveAndOffsetGeneration(direction);
+        
         /*Shift(direction);*/
 
 
+        StartCoroutine(MoveAndOffsetGeneration(direction));
         UpdateGeneration();
         /*StartCoroutine(CheckEntropy());*/
     }
@@ -352,28 +360,21 @@ public class WaveFunctionCollapse : MonoBehaviour
                         {
                             Cell cellToUpdate = grid[gridX, gridY];
                             cellToUpdate.RecreateCell(new List<Tile>() { place.GetGrid()[i, j] });
-                            place.SetCellPlacement(i, j, true);
+                            /*place.SetCellPlacement(i, j, true);*/
                             updatedCells.Push(cellToUpdate);
                         }
                     }
                 }
             }
-
-            if (place.isPlaced)
-            {
-                finishedPlaces.Add(place);
-            }
         }
+       
 
-        foreach (Place place in finishedPlaces)
-        {
-            placesOnWait.Remove(place);
-        }
 
     }
 
     void Shift(Vector2 direction)
     {
+
         if (direction.x != 0) {
             int startX = (direction.x > 0) ? 0 : gridWidth - 1;
             int endX = (direction.x > 0) ? gridWidth - 1 : 0;
@@ -407,7 +408,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         moveOffset.y = 0;
     }
 
-    void MoveAndOffsetGeneration(Vector2 direction)
+    IEnumerator MoveAndOffsetGeneration(Vector2 direction)
     {
         if (direction.x == 1)
         {
@@ -434,6 +435,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             moveOffset.x -= 1;
             iteration -= gridHeight + 1;
             totalMoveOffset.x += 1;
+            yield return null;
         }
         else if (direction.x == -1)
         {
@@ -460,6 +462,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             moveOffset.x += 1;
             iteration -= gridHeight + 1;
             totalMoveOffset.x -= 1;
+            yield return null;
         }
 
         else if (direction.y == 1)
@@ -488,6 +491,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             moveOffset.y -= 1;
             iteration -= gridWidth + 1;
             totalMoveOffset.y += 1;
+            yield return null;
         }
         else if (direction.y == -1)
         {
@@ -514,7 +518,9 @@ public class WaveFunctionCollapse : MonoBehaviour
             moveOffset.y += 1;
             iteration -= gridWidth + 1;
             totalMoveOffset.y -= 1;
+            yield return null;
         }
+        
     }
 
     void SetGridSection(Tile[,] newTiles,float x, float y, float width, float height)

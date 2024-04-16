@@ -86,7 +86,7 @@ public class Place : MonoBehaviour
         return Instantiate(this, position, Quaternion.identity);
     }
     
-    public void SetCellPlacement(int x, int y, bool placed)
+    /*public void SetCellPlacement(int x, int y, bool placed)
     {
         cellPlacements[x, y] = placed;
 
@@ -100,5 +100,5 @@ public class Place : MonoBehaviour
             }
         }
         if(placedAmount >= width * height) isPlaced = true;
-    }
+    }*/
 }
