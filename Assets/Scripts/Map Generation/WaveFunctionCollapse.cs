@@ -31,24 +31,33 @@ public class WaveFunctionCollapse : MonoBehaviour
     // Player
     Walking player;
     Vector2 moveOffset = new Vector2(0, 0);
+    Vector2 totalMoveOffset = new Vector2(0, 0);
+
+    // Places
+    List<Place> placesOnWait;
     
-    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, Walking player)
+    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, Walking player, GameObject startingPlace)
     {
         tiles = new List<Tile>(possibleTiles);
-        
+        this.player = player;
+
         this.cellScale = cellScale;
         this.gridWidth = width;
         this.gridHeight = height;
         this.worldOffset = worldOffset;
+
         this.cellObj = cellObj;
         updatedCells = new Stack<Cell>();
-
         cellContainer = new GameObject("Grid Container");
         tileInstanceContainer = new GameObject("Tile Instance Container");
 
-        this.player = player;
+        this.placesOnWait = new List<Place>();
         
         InitializeGrid();
+        SetStartingArea(startingPlace);
+
+        this.updating = true;
+        StartCoroutine(CheckEntropy());
     }
 
     public void InitializeGrid()
@@ -59,12 +68,10 @@ public class WaveFunctionCollapse : MonoBehaviour
         {
             for (int x = 0; x < gridWidth; x++)
             {
-                Cell newCell = 
-                    Instantiate(cellObj, 
-                    new Vector3(worldOffset.x + x * cellScale - ((gridWidth - 1) * cellScale) / 2f,
-                    0,
-                    worldOffset.y + y * cellScale - ((gridHeight - 1) * cellScale) / 2f),
-                    Quaternion.identity);
+                float cellX = worldOffset.x + (x * cellScale) - (gridWidth*cellScale)/2 + cellScale/2;
+                float cellY = worldOffset.y + (y * cellScale) - (gridHeight*cellScale)/2 + cellScale/2;
+
+                Cell newCell = Instantiate(cellObj, new Vector3(cellX,0,cellY), Quaternion.identity);
 
                 newCell.transform.SetParent(cellContainer.transform);
 
@@ -73,18 +80,23 @@ public class WaveFunctionCollapse : MonoBehaviour
                 grid[x,y] = newCell;
             }
         }
-
-        // Create initial grass area
-        Tile grass = tiles[0];
-        int width = 10;
-        int height = 12;
-        SetGridSection(grass, gridWidth/2 - width/2,gridHeight/2 - height/2, width, height);
-        this.updating = true;
-
-        StartCoroutine(CheckEntropy());
     }
 
-    
+    void SetStartingArea(GameObject startingPlace)
+    {
+        // Create initial grass area
+        GameObject startingAreaInstance = GameObject.Instantiate(startingPlace, new Vector3(0, 0, 0), Quaternion.identity);
+        Place place = startingAreaInstance.GetComponent<Place>();
+
+        place.FillWith(tiles[0]);
+
+        Vector2 dimensions = place.GetDimensions();
+        Vector2 position = CalculateGridCoordinates(place.GetPosition().x, place.GetPosition().y);
+
+        SetGridSection(place.GetGrid(),position.x - dimensions.x / 2 , position.y - dimensions.y / 2 + cellScale, dimensions.x, dimensions.y);
+    }
+
+
     // Find the cell(s) with the least tile possibilies and collapse it into one of the superpositions(tiles)
     IEnumerator CheckEntropy()
     {
@@ -245,7 +257,6 @@ public class WaveFunctionCollapse : MonoBehaviour
             // Update cell's tile options
             cell.RecreateCell(options);
         }
-
     }
 
     void UpdateGeneration()
@@ -284,7 +295,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         iteration++;
 
-        if (iteration < player.GetInnerPlayerArea().GetArea() / 2)
+        if (iteration < player.GetInnerPlayerArea().GetCellArea(cellScale))
         {
             StartCoroutine(CheckEntropy());
         }
@@ -317,14 +328,56 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         if(moveOffset.y == 0) direction.y = 0;
         else direction.y = moveOffset.y / Mathf.Abs(moveOffset.y);
-        
-        if(direction.x == 1 )
+
+        MoveAndOffsetGeneration(direction);
+        CheckPlacesOnWait();
+
+        UpdateGeneration();
+    }
+
+    void CheckPlacesOnWait()
+    {
+        foreach(Place place in placesOnWait)
         {
-            for(int x = 0; x < gridWidth; x++)
+            if (place.isPlaced) { }
+
+            for (int i = 0; i < place.GetDimensions().x; i++)
             {
-                for(int y = 0; y < gridHeight; y++)
+                for (int j = 0; j < place.GetDimensions().y; j++)
                 {
-                    if(x < gridWidth - 1)
+                    float cellX = (place.transform.position.x + cellScale * i) - place.GetDimensions().x;
+                    float cellY = (place.transform.position.y + cellScale * j) - place.GetDimensions().y;
+
+                    Vector2 gridCoordinates = CalculateGridCoordinates(cellX, cellY);
+
+                    if(i == place.GetDimensions().x - 1 ) Debug.Log(gridCoordinates);
+
+
+
+
+                    if (gridCoordinates.x >= 0 && gridCoordinates.x < gridWidth && gridCoordinates.y >= 0 || gridCoordinates.y < gridHeight)
+                    {
+                        /*Cell cellToUpdate = grid[(int)gridCoordinates.x, (int)gridCoordinates.y];
+                        cellToUpdate.RecreateCell(new List<Tile>() { place.GetGrid()[i, j] });*/
+                        
+                        /*updatedCells.Push(cellToUpdate);*/
+                    } 
+                }
+
+            }
+        }
+        
+    }
+
+    void MoveAndOffsetGeneration(Vector2 direction)
+    {
+        if (direction.x == 1)
+        {
+            for (int x = 0; x < gridWidth; x++)
+            {
+                for (int y = 0; y < gridHeight; y++)
+                {
+                    if (x < gridWidth - 1)
                     {
                         if (x == 0) Destroy(grid[x, y].tileInstance);
                         grid[x, y].tileInstance = grid[x + 1, y].tileInstance;
@@ -336,17 +389,17 @@ public class WaveFunctionCollapse : MonoBehaviour
                         grid[x, y].ResetCell(tiles);
                         updatedCells.Push(grid[x, y]);
                     }
-                    
+
                 }
             }
             cellContainer.transform.position += new Vector3(direction.x * cellScale, 0, 0);
             moveOffset.x -= 1;
             iteration -= gridHeight + 1;
-
+            totalMoveOffset.x += 1;
         }
-        else if(direction.x == -1 )
+        else if (direction.x == -1)
         {
-            for (int x = gridWidth-1; x >= 0; x--)
+            for (int x = gridWidth - 1; x >= 0; x--)
             {
                 for (int y = 0; y < gridHeight; y++)
                 {
@@ -362,21 +415,22 @@ public class WaveFunctionCollapse : MonoBehaviour
                         grid[x, y].ResetCell(tiles);
                         updatedCells.Push(grid[x, y]);
                     }
-                    
+
                 }
             }
             cellContainer.transform.position += new Vector3(direction.x * cellScale, 0, 0);
             moveOffset.x += 1;
             iteration -= gridHeight + 1;
+            totalMoveOffset.x -= 1;
         }
-       
+
         if (direction.y == 1)
         {
             for (int x = 0; x < gridWidth; x++)
             {
                 for (int y = 0; y < gridHeight; y++)
                 {
-                    if (y <gridHeight - 1)
+                    if (y < gridHeight - 1)
                     {
                         if (y == 0) Destroy(grid[x, y].tileInstance);
                         grid[x, y].tileInstance = grid[x, y + 1].tileInstance;
@@ -389,12 +443,13 @@ public class WaveFunctionCollapse : MonoBehaviour
 
                         updatedCells.Push(grid[x, y]);
                     }
-                    
+
                 }
             }
             cellContainer.transform.position += new Vector3(0, 0, direction.y * cellScale);
             moveOffset.y -= 1;
             iteration -= gridWidth + 1;
+            totalMoveOffset.y += 1;
         }
         else if (direction.y == -1)
         {
@@ -414,33 +469,80 @@ public class WaveFunctionCollapse : MonoBehaviour
                         grid[x, y].ResetCell(tiles);
                         updatedCells.Push(grid[x, y]);
                     }
-                    
+
                 }
             }
             cellContainer.transform.position += new Vector3(0, 0, direction.y * cellScale);
             moveOffset.y += 1;
             iteration -= gridWidth + 1;
+            totalMoveOffset.y -= 1;
         }
-
-        UpdateGeneration();
     }
 
-    void SetGridSection(Tile tile,int x, int y, int width, int height)
+    void SetGridSection(Tile[,] newTiles,float x, float y, float width, float height)
     {
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                Cell cellToCollapse = grid[(int)x + i,(int)y + j];
+                cellToCollapse.RecreateCell(new List<Tile> { newTiles[i,j] });
+            }
+        }
         
-        for (int i = x; i < x + width; i++)
+        /*for (int i = x; i < x + width; i++)
         {
             for (int j = y; j < y + height; j++)
             {
                 Cell cellToCollapse = grid[i,j];
-                cellToCollapse.RecreateCell(new List<Tile> { tile });
+                cellToCollapse.RecreateCell(new List<Tile> { newTiles[0,0] });
 
             }
-        }
+        }*/
 
         /*iteration -= (width * height + 1);*/
 
         /*UpdateGeneration();*/
+    }
+
+    public void AddPlaceForPlacement(Place place)
+    {
+        placesOnWait.Add(place);
+    }
+
+    // ainda falta adicionar o offset do movimento
+    public Vector2 CalculateGridCoordinates(float x, float y)
+    {
+        x -= cellScale / 2;
+        y -= cellScale / 2;
+
+        // Calculating grid coordinates
+        int gridX = Mathf.RoundToInt((x + (gridWidth * cellScale) / 2) / cellScale);
+        int gridY = Mathf.RoundToInt((y + (gridHeight * cellScale) / 2) / cellScale);
+
+        // Adjusting for world offset
+        gridX -= Mathf.RoundToInt(worldOffset.x / cellScale);
+        gridY -= Mathf.RoundToInt(worldOffset.y / cellScale);
+
+        gridX -= Mathf.RoundToInt(totalMoveOffset.x);
+        gridY -= Mathf.RoundToInt(totalMoveOffset.y);
+
+        // Adding world offset
+        return new Vector2(gridX, gridY);
+    }
+
+    public Vector2 CalculateWorldCoordinates(float x, float y)
+    {
+        if (gridWidth % 2 == 0) { x -= cellScale / 2; }
+
+        if (gridHeight % 2 == 0) { y -= cellScale / 2; }
+
+        // Calculating grid coordinates
+        int gridX = Mathf.RoundToInt((x) / cellScale);
+        int gridY = Mathf.RoundToInt((y) / cellScale);
+
+        // Adding world offset
+        return new Vector2(gridX, gridY);
     }
 
     public bool IsUpdating() { return updating; }

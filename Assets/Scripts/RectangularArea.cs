@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Reflection;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -12,7 +10,7 @@ public class RectangularArea : MonoBehaviour
     [SerializeField]
     Vector2 offset;
     [SerializeField]
-    UnityEngine.Color wireColor;
+    Color wireColor;
 
     void OnDrawGizmos()
     {
@@ -20,7 +18,7 @@ public class RectangularArea : MonoBehaviour
         Gizmos.DrawWireCube(transform.position + new Vector3(offset.x,0,offset.y), new Vector3(size.x,4,size.y));
     }
 
-    public void Initialize(float width, float height, Vector2 offset, UnityEngine.Color wireColor)
+    public void Initialize(float width, float height, Vector2 offset, Color wireColor)
     {
         this.size = new Vector2(width, height);
         this.offset = offset;
@@ -37,13 +35,21 @@ public class RectangularArea : MonoBehaviour
         return (point.x >= minX && point.x <= maxX && point.y >= minZ && point.y <= maxZ);
     }
 
+    public bool CollidesWith(RectangularArea other)
+    {
+        bool overlapX = Mathf.Abs(transform.position.x - other.transform.position.x) * 2 < (size.x + other.size.x);
+        bool overlapY = Mathf.Abs(transform.position.y - other.transform.position.y) * 2 < (size.y + other.size.y);
+
+        return overlapX && overlapY;
+    }
+
     public Vector2 GetOffset()
     {
         return this.offset;
     }
 
-    public float GetArea()
+    public float GetCellArea(float scale)
     {
-        return size.x * size.y;
+        return size.x/scale * size.y/scale;
     }
 }

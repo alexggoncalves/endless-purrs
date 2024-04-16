@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -22,9 +23,12 @@ public class Walking : MonoBehaviour
     RectangularArea innerPlayerArea;
     RectangularArea outterPlayerArea;
 
+    float walkedDistance;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+        walkedDistance = 0;
     }
 
     void Update()
@@ -54,20 +58,25 @@ public class Walking : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+
+        walkedDistance += (move.normalized * Time.deltaTime * playerSpeed).magnitude;
     }
 
-    public void SetMapDetails(int gridWidth, int gridHeight, float cellScale)
+    public void SetMapDetails(int gridWidth, int gridHeight, float cellScale, Vector2 mapOffset, Vector2 edgeSize)
     {
         this.gridDimensions = new Vector2(gridWidth, gridHeight);
 
-        innerPlayerArea = GetComponent<RectangularArea>();
+        innerPlayerArea = this.AddComponent<RectangularArea>();
+        innerPlayerArea.Initialize((gridDimensions.x - edgeSize.x * cellScale) * cellScale, (gridDimensions.y - edgeSize.y * cellScale) * cellScale, mapOffset, UnityEngine.Color.green);
         outterPlayerArea = this.AddComponent<RectangularArea>();
-        outterPlayerArea.Initialize(gridDimensions.x * cellScale, gridDimensions.y * cellScale, innerPlayerArea.GetOffset(), UnityEngine.Color.magenta);
+        outterPlayerArea.Initialize(gridDimensions.x * cellScale, gridDimensions.y * cellScale, mapOffset, UnityEngine.Color.magenta);
     }
 
-    public Vector2 GetPlayerGridCoordinates()
+    public Vector2 GetPlayerWorldCoordinates()
     {
-        return new Vector2(Mathf.RoundToInt((transform.position.x / 2 + (gridDimensions.x / 2))), Mathf.RoundToInt((transform.position.z / 2 + (gridDimensions.y / 2))));
+        int x = Mathf.RoundToInt((transform.position.x / 2 + (gridDimensions.x / 2)) + innerPlayerArea.GetOffset().x); 
+        int y = Mathf.RoundToInt((transform.position.z / 2 + (gridDimensions.y / 2)) + innerPlayerArea.GetOffset().y);
+        return new Vector2( x,y);
     }
 
     public RectangularArea GetInnerPlayerArea()
@@ -78,5 +87,10 @@ public class Walking : MonoBehaviour
     public RectangularArea GetOutterPlayerArea()
     {
         return outterPlayerArea;
+    }
+
+    public float GetWalkedDistance()
+    {
+        return walkedDistance;
     }
 }

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8223857331675054219}
   - component: {fileID: 8777581121382016604}
   - component: {fileID: 2806696272757698312}
-  - component: {fileID: 722610774688890799}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -77,21 +76,6 @@ MonoBehaviour:
   gravityValue: -9.81
   playerSpeed: 3.5
   animator: {fileID: 0}
---- !u!114 &722610774688890799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1996664381415714018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c09abe1c3a35bb45884efa7543876ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: {x: 60, y: 40}
-  offset: {x: 0, y: 10}
-  wireColor: {r: 0.9339623, g: 0.37732404, b: 0, a: 0}
 --- !u!1 &6173410767942081331
 GameObject:
   m_ObjectHideFlags: 0
