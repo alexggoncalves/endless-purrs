@@ -9,31 +9,45 @@ public class CatLocater : MonoBehaviour
     [SerializeField] Camera cam;
     private Vector3 targetPosition;
     public RectTransform pointer;
+    public RectTransform button;
+
     private bool isPointerActive = false;
     public float distance = 20f;
     private bool isCooldown = false;
-    private float cooldownDuration = 1f;
+    private float cooldownDuration = 2f;
     private float lastDeactivationTime = 0f;
+
+    private AudioSource call;
+    private AudioSource Miau;
 
     private void Start()
     {
         pointer.gameObject.SetActive(false);
+        button.gameObject.SetActive(true);
+        call = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.C) && !isPointerActive && !isCooldown)
         {
+            button.gameObject.SetActive(false);
             float maxDistance = distance;
             float distanceToTarget = Vector3.Distance(cam.transform.position, targetPosition);
 
-
             if (distanceToTarget <= maxDistance && distanceToTarget >= 5f)
+            //if (distanceToTarget <= maxDistance)
             {
                 isPointerActive = true;
                 pointer.gameObject.SetActive(true);
                 targetPosition = GameObject.FindWithTag("ArrowTarget").transform.position;
+
                 StartCoroutine(StopPointerAfterDelay());
+            } else
+            {
+                call.Play();
+                isCooldown = true;
+                lastDeactivationTime = Time.time;
             }
         }
 
@@ -86,11 +100,16 @@ public class CatLocater : MonoBehaviour
         if (isCooldown && Time.time - lastDeactivationTime >= cooldownDuration)
         {
             isCooldown = false;
+            button.gameObject.SetActive(true);
         }
     }
 
     private IEnumerator StopPointerAfterDelay()
     {
+        call.Play();
+        yield return new WaitForSeconds((call.clip.length)+0.2f);
+        Miau = GameObject.FindWithTag("ArrowTarget").GetComponent<AudioSource>();
+        Miau.Play();
         yield return new WaitForSeconds(5f);
         isPointerActive = false;
         pointer.gameObject.SetActive(false);
