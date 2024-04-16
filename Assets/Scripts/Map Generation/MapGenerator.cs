@@ -38,6 +38,7 @@ public class MapGenerator : MonoBehaviour
 
     void Start()
     {
+        
         TileLoader tileLoader = this.AddComponent<TileLoader>();
         tileLoader.Initialize(tileInfoJSON, tiles);
         possibleTiles = tileLoader.Load();
@@ -95,8 +96,21 @@ public class MapGenerator : MonoBehaviour
     private void InstantiatePlace(Place place)
     {
         Place newPlace = Instantiate(place,Vector3.zero, Quaternion.identity);
-        newPlace.Initialize(new Vector3(-56,40), possibleTiles[0]);
+        newPlace.Initialize(new Vector3(56,40), possibleTiles[0]);
+
+        Place newPlace2 = Instantiate(place, Vector3.zero, Quaternion.identity);
+        newPlace2.Initialize(new Vector3(-56, 40), possibleTiles[0]);
+
+        Place newPlace3 = Instantiate(place, Vector3.zero, Quaternion.identity);
+        newPlace3.Initialize(new Vector3(-56, -40), possibleTiles[00]);
+
+        Place newPlace4 = Instantiate(place, Vector3.zero, Quaternion.identity);
+        newPlace4.Initialize(new Vector3(56, -40), possibleTiles[0]);
+
 
         placeInstances.Add(newPlace);
+        placeInstances.Add(newPlace2);
+        placeInstances.Add(newPlace3);
+        placeInstances.Add(newPlace4);
     }
 }

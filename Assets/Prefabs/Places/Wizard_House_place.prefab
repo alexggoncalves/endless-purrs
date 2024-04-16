@@ -46,10 +46,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeName: Wizard House
-  width: 8
-  height: 8
+  width: 10
+  height: 10
   cellScale: 2
-  worldPosition: {x: 0, y: 0}
+  position: {x: 0, y: 0}
+  instance: {fileID: 0}
+  isPlaced: 0
+  onWait: 0
 --- !u!1 &5123951523171778826
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,8 +81,8 @@ Transform:
   m_GameObject: {fileID: 5123951523171778826}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 6, z: 1}
-  m_LocalScale: {x: 4, y: 2, z: 4}
+  m_LocalPosition: {x: 0, y: 2.5, z: 6}
+  m_LocalScale: {x: 12, y: 6, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7608276657007212618}

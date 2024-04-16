@@ -67,7 +67,7 @@ public class CatLocater : MonoBehaviour
             bool isOffScreen = targetScreenPos.x <= borderSize || targetScreenPos.x >= Screen.width - borderSize || targetScreenPos.y <= borderSize || targetScreenPos.y >= Screen.height - borderSize;
 
             if (isOffScreen)
-            {
+s            {
                 Vector3 cappedTargetScreenPos = targetScreenPos;
                 if (cappedTargetScreenPos.x <= borderSize) cappedTargetScreenPos.x = borderSize;
                 if (cappedTargetScreenPos.x >= Screen.width - borderSize) cappedTargetScreenPos.x = Screen.width - borderSize;

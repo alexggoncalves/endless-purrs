@@ -10,6 +10,9 @@ public class Place : MonoBehaviour
 
     [SerializeField]
     public Tile[,] grid;
+
+    public bool[,] cellPlacements;
+
     [SerializeField, Range(2,10)]
     int width = 2, height = 2;
     [SerializeField, Range(2, 10)]
@@ -30,6 +33,15 @@ public class Place : MonoBehaviour
         extents = this.AddComponent<RectangularArea>();
         extents.Initialize(width * cellScale, height * cellScale, Vector2.zero, UnityEngine.Color.yellow);
         FillWith(tile);
+
+        cellPlacements = new bool[width, height];
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                cellPlacements[i, j] = false;
+            }
+        }
     }
 
     public void FillWith(Tile tile)
@@ -74,4 +86,19 @@ public class Place : MonoBehaviour
         return Instantiate(this, position, Quaternion.identity);
     }
     
+    public void SetCellPlacement(int x, int y, bool placed)
+    {
+        cellPlacements[x, y] = placed;
+
+        int placedAmount = 0;
+
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+               if(cellPlacements[i, j]) { placedAmount++; }
+            }
+        }
+        if(placedAmount >= width * height) isPlaced = true;
+    }
 }
