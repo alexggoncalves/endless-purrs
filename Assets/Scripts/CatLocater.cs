@@ -20,6 +20,26 @@ public class CatLocater : MonoBehaviour
     private AudioSource call;
     private AudioSource Miau;
 
+    public GameObject FindClosestCat()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("ArrowTarget");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
+
     private void Start()
     {
         pointer.gameObject.SetActive(false);
@@ -40,7 +60,7 @@ public class CatLocater : MonoBehaviour
             {
                 isPointerActive = true;
                 pointer.gameObject.SetActive(true);
-                targetPosition = GameObject.FindWithTag("ArrowTarget").transform.position;
+                targetPosition = FindClosestCat().transform.position;
 
                 StartCoroutine(StopPointerAfterDelay());
             } else
