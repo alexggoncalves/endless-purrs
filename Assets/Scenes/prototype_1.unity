@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RenderShadows: 1
+  m_RenderShadows: 0
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
@@ -490,8 +490,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellScale: 2
-  gridWidth: 30
-  gridHeight: 24
+  gridWidth: 28
+  gridHeight: 22
   worldOffset: {x: 0, y: 8}
   edgeSize: {x: 4, y: 4}
   tileInfoJSON: {fileID: 4900000, guid: 5b8b2f6c0baeeed478cfd04372576636, type: 3}
@@ -503,10 +503,11 @@ MonoBehaviour:
   - {fileID: 470633932573890769, guid: 83de66867f6e0e9419c968397e7e3dda, type: 3}
   - {fileID: 2985030651423686905, guid: cc118eddcdb0d4040b330724662fcf25, type: 3}
   - {fileID: 193369842070751977, guid: 0c6a953a41a6d754795bb2782c6e6fad, type: 3}
-  - {fileID: 4716273329449011785, guid: 190dc87ec4dc0444aa6d4d660ec60e14, type: 3}
   - {fileID: 7293241743806454097, guid: 77f259ed9b96ab34ea3489cd48b7df78, type: 3}
   - {fileID: 7685814292287401634, guid: 8fdf2b258493e634f8b3f7a30af532f2, type: 3}
   - {fileID: 8104981715050670993, guid: 1c5a8869917a1574695e194454e0f919, type: 3}
+  - {fileID: 9039987561062872921, guid: 11e32c914a7f5204495d45061897a099, type: 3}
+  - {fileID: 4716273329449011785, guid: 190dc87ec4dc0444aa6d4d660ec60e14, type: 3}
   cellObj: {fileID: 3549023687805126509, guid: 0bdda6710b7f00f4bbd9a8e90bb71322, type: 3}
   places:
   - {fileID: -248551918939790877, guid: 7e08e9ac2387f284181e47066d8a1f19, type: 3}
