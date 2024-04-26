@@ -24,20 +24,27 @@ public class CatLocater : MonoBehaviour
     {
         GameObject[] gos;
         gos = GameObject.FindGameObjectsWithTag("ArrowTarget");
-        GameObject closest = null;
-        float distance = Mathf.Infinity;
-        Vector3 position = transform.position;
-        foreach (GameObject go in gos)
+        if (gos != null)
         {
-            Vector3 diff = go.transform.position - position;
-            float curDistance = diff.sqrMagnitude;
-            if (curDistance < distance)
+            GameObject closest = null;
+            float distance = Mathf.Infinity;
+            Vector3 position = transform.position;
+            foreach (GameObject go in gos)
             {
-                closest = go;
-                distance = curDistance;
+                Vector3 diff = go.transform.position - position;
+                float curDistance = diff.sqrMagnitude;
+                if (curDistance < distance)
+                {
+                    closest = go;
+                    distance = curDistance;
+                }
             }
+            return closest;
+        } else
+        {
+            GameObject noCats = null;
+            return noCats;
         }
-        return closest;
     }
 
     private void Start()
@@ -49,13 +56,13 @@ public class CatLocater : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C) && !isPointerActive && !isCooldown)
+        if (Input.GetKeyDown(KeyCode.Q) && !isPointerActive && !isCooldown)
         {
             button.gameObject.SetActive(false);
             float maxDistance = distance;
             float distanceToTarget = Vector3.Distance(cam.transform.position, targetPosition);
 
-            if (distanceToTarget <= maxDistance && distanceToTarget >= 5f)
+            if (distanceToTarget <= maxDistance && distanceToTarget >= 5f && FindClosestCat() != null)
             //if (distanceToTarget <= maxDistance)
             {
                 isPointerActive = true;
