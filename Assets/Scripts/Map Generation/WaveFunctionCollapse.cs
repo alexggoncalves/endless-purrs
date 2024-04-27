@@ -59,7 +59,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         this.placesOnWait = new List<Place>();
 
         InitializeGrid();
-        SetStartingArea(startingPlace);
+        PlaceStartingArea(startingPlace,0,6);
 
         this.updating = true;
         StartCoroutine(CheckEntropy());
@@ -87,13 +87,14 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-    void SetStartingArea(GameObject startingPlace)
+    void PlaceStartingArea(GameObject startingPlace, int x, int y)
     {
         // Create initial grass area
-        GameObject startingAreaInstance = GameObject.Instantiate(startingPlace, new Vector3(0, 0, 0), Quaternion.identity);
+        GameObject startingAreaInstance = GameObject.Instantiate(startingPlace, new Vector3(x, 0, y), Quaternion.identity);
         Place place = startingAreaInstance.GetComponent<Place>();
-
+        place.SetExtents();
         place.FillWith(tiles[0]);
+        placesOnWait.Add(place);
 
         Vector2 dimensions = place.GetDimensions();
         Vector2 position = CalculateGridCoordinates(place.GetPosition().x, place.GetPosition().y);
@@ -118,19 +119,19 @@ public class WaveFunctionCollapse : MonoBehaviour
         yield return new WaitForSeconds(0.005f);
 
         CollapseCell(tempGrid);
-        PlacePlacesOnWait();
+        /*PlacePlacesOnWait();*/
     }
 
-     IEnumerator clearStackedInstances()
+     IEnumerator ClearStackedInstances()
     {
-        while(instancesToDelete.Count > 0)
+        while (instancesToDelete.Count > 0)
         {
             GameObject instance = instancesToDelete.Pop();
             Destroy(instance);
 
-            yield return null;
+            yield return new WaitForSeconds(200);
         }
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(60);
     }
 
 
@@ -270,13 +271,21 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-    async Task updateCells()
+    async Task UpdateCells()
     {
         while (updatedCells.Count > 0)
         {
             Cell cell = updatedCells.Pop();
             int x = cell.GetX();
             int y = cell.GetY();
+
+            foreach (Place place in placesOnWait)
+            {
+                if (place.extents.Contains(new Vector2(cell.transform.position.x, cell.transform.position.z))){
+                    cell.RecreateCell(new List<Tile> { tiles[0] });
+                }
+            }
+
 
             if (y > 0)
             {
@@ -305,15 +314,13 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         }
         await Task.CompletedTask;
-
     }
 
      async void UpdateGeneration()
     {
+        StartCoroutine(ClearStackedInstances());
 
-        await updateCells();
-
-        StartCoroutine(clearStackedInstances());
+        await UpdateCells();
 
         // After collapsing one cell and updating the tiles that need to be updated:
         // start another iteration of the algorithm if there are still cells remaining to be collapsed
@@ -345,7 +352,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-    public  void ShiftGrid()
+    public  async void ShiftGrid()
     {
         updating = true;
         Vector2 direction = new Vector2();
@@ -355,95 +362,13 @@ public class WaveFunctionCollapse : MonoBehaviour
         if (moveOffset.y == 0) direction.y = 0;
         else direction.y = moveOffset.y / Mathf.Abs(moveOffset.y);
 
-
-
-        /*Shift(direction);*/
-
-        
-        MoveAndOffsetGeneration(direction);
+        await MoveAndOffsetGeneration(direction);
         
         UpdateGeneration();
-        /*StartCoroutine(CheckEntropy());*/
     }
 
-    void PlacePlacesOnWait()
-    {
-        List<Place> finishedPlaces = new();
-        float halfCellScale = cellScale / 2;
-        foreach (Place place in placesOnWait)
-        {
-            Vector2 dimensions = place.GetDimensions();
-            Vector3 placePosition = place.position;
-            for (int i = 0; i < dimensions.x; i++)
-            {
-                for (int j = 0; j < dimensions.y; j++)
-                {
-                    if (!place.cellPlacements[i, j])
-                    {
-                        float cellX = placePosition.x - (dimensions.x * cellScale) / 2 + (cellScale * i) + halfCellScale;
-                        float cellY = placePosition.y - (dimensions.y * cellScale) / 2 + (cellScale * j) + halfCellScale;
-                        Vector2 gridCoordinates = CalculateGridCoordinates(cellX, cellY);
-                        int gridX = (int)gridCoordinates.x;
-                        int gridY = (int)gridCoordinates.y;
 
-                        if (gridX >= 0 && gridX < gridWidth && gridY >= 0 && gridY < gridHeight)
-                        {
-                            Cell cellToUpdate = grid[gridX, gridY];
-                            cellToUpdate.RecreateCell(new List<Tile>() { place.GetGrid()[i, j] });
-                            /*place.SetCellPlacement(i, j, true);*/
-                            if (i == 0 || i == dimensions.x || j == 0 || j == dimensions.y)
-                            {
-                                updatedCells.Push(cellToUpdate);
-                            }
-                            
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-
-    void Shift(Vector2 direction)
-    {
-
-        if (direction.x != 0)
-        {
-            int startX = (direction.x > 0) ? 0 : gridWidth - 1;
-            int endX = (direction.x > 0) ? gridWidth - 1 : 0;
-            int increment = (direction.x > 0) ? 1 : -1;
-
-            for (int x = startX; x < endX; x += increment)
-            {
-                for (int y = 0; y < gridHeight - 1; y++)
-                {
-                    if ((direction.x > 0 && x < endX) || (direction.x < 0 && x > endX))
-                    {
-                        if (x == startX)
-                        {
-                            Destroy(grid[x, y].tileInstance);
-
-                        }
-                        grid[x, y].tileInstance = grid[x + increment, y].tileInstance;
-                        grid[x, y].tileOptions = grid[x + increment, y].tileOptions;
-                        grid[x, y].collapsed = grid[x + increment, y].collapsed;
-                    }
-                    else
-                    {
-                        grid[x, y].ResetCell(tiles);
-                        updatedCells.Push(grid[x, y]);
-                    }
-                }
-            }
-            cellContainer.transform.position += new Vector3(direction.x * cellScale, 0, 0);
-            moveOffset.x -= increment;
-            iteration -= gridHeight;
-            totalMoveOffset.x += increment;
-        }
-        moveOffset.y = 0;
-    }
-
-   void MoveAndOffsetGeneration(Vector2 direction)
+   async Task MoveAndOffsetGeneration(Vector2 direction)
     {
         if (direction.x == 1)
         {
@@ -556,9 +481,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             totalMoveOffset.y -= 1;
         }
 
-        /*yield return new WaitForSeconds(0.001f);*/
-        
-
+        await Task.CompletedTask;
     }
 
     void SetGridSection(Tile[,] newTiles, float x, float y, float width, float height)

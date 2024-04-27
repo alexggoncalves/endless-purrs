@@ -52,7 +52,7 @@ public class MapGenerator : MonoBehaviour
 
         /*lastPlayerCoordinates = player.GetPlayerGridCoordinates();*/
         lastPlayerCoordinates = wfc.CalculateWorldCoordinates(player.transform.position.x, player.transform.position.z);
-        InstantiatePlace(places[0]);
+        InstantiatePlace(places[0],50,50);
     }
 
     public void Update()
@@ -93,24 +93,11 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private void InstantiatePlace(Place place)
+    private void InstantiatePlace(Place place, int x, int y)
     {
         Place newPlace = Instantiate(place,Vector3.zero, Quaternion.identity);
-        newPlace.Initialize(new Vector3(56,40), possibleTiles[0]);
-
-        Place newPlace2 = Instantiate(place, Vector3.zero, Quaternion.identity);
-        newPlace2.Initialize(new Vector3(-56, 40), possibleTiles[0]);
-
-        Place newPlace3 = Instantiate(place, Vector3.zero, Quaternion.identity);
-        newPlace3.Initialize(new Vector3(-56, -40), possibleTiles[00]);
-
-        Place newPlace4 = Instantiate(place, Vector3.zero, Quaternion.identity);
-        newPlace4.Initialize(new Vector3(56, -40), possibleTiles[0]);
-
+        newPlace.Initialize(new Vector3(x,y), possibleTiles[0]);
 
         placeInstances.Add(newPlace);
-        placeInstances.Add(newPlace2);
-        placeInstances.Add(newPlace3);
-        placeInstances.Add(newPlace4);
     }
 }

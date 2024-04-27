@@ -13,13 +13,13 @@ public class Place : MonoBehaviour
 
     public bool[,] cellPlacements;
 
-    [SerializeField, Range(2,10)]
+    [SerializeField, Range(2,40)]
     int width = 2, height = 2;
-    [SerializeField, Range(2, 10)]
+    [SerializeField, Range(2, 40)]
     int cellScale = 2;
     public Vector2 position;
 
-    private RectangularArea extents;
+    public RectangularArea extents;
 
     public GameObject instance;
 
@@ -30,18 +30,16 @@ public class Place : MonoBehaviour
     {
         this.position = position;
         transform.position = new Vector3(position.x, 0, position.y);
-        extents = this.AddComponent<RectangularArea>();
-        extents.Initialize(width * cellScale, height * cellScale, Vector2.zero, UnityEngine.Color.yellow);
+
         FillWith(tile);
 
-        cellPlacements = new bool[width, height];
-        for(int i = 0; i < width; i++)
-        {
-            for(int j = 0; j < height; j++)
-            {
-                cellPlacements[i, j] = false;
-            }
-        }
+        SetExtents();
+    }
+
+    public void SetExtents()
+    {
+        extents = this.AddComponent<RectangularArea>();
+        extents.Initialize(width * cellScale, height * cellScale, Vector2.zero, UnityEngine.Color.yellow);
     }
 
     public void FillWith(Tile tile)
