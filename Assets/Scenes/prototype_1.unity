@@ -494,8 +494,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellScale: 2
-  gridWidth: 28
-  gridHeight: 22
+  gridWidth: 30
+  gridHeight: 24
   worldOffset: {x: 0, y: 8}
   edgeSize: {x: 4, y: 4}
   tileInfoJSON: {fileID: 4900000, guid: 5b8b2f6c0baeeed478cfd04372576636, type: 3}
@@ -508,9 +508,6 @@ MonoBehaviour:
   - {fileID: 2985030651423686905, guid: cc118eddcdb0d4040b330724662fcf25, type: 3}
   - {fileID: 193369842070751977, guid: 0c6a953a41a6d754795bb2782c6e6fad, type: 3}
   - {fileID: 7293241743806454097, guid: 77f259ed9b96ab34ea3489cd48b7df78, type: 3}
-  - {fileID: 7685814292287401634, guid: 8fdf2b258493e634f8b3f7a30af532f2, type: 3}
-  - {fileID: 8104981715050670993, guid: 1c5a8869917a1574695e194454e0f919, type: 3}
-  - {fileID: 9039987561062872921, guid: 11e32c914a7f5204495d45061897a099, type: 3}
   - {fileID: 4716273329449011785, guid: 190dc87ec4dc0444aa6d4d660ec60e14, type: 3}
   cellObj: {fileID: 3549023687805126509, guid: 0bdda6710b7f00f4bbd9a8e90bb71322, type: 3}
   places:
@@ -628,7 +625,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 7.7e-44, z: 2.2913e-41, w: 1.8295e-41}
+  m_BoundingSphereOverride: {x: 0, y: 6e-44, z: 7e-45, w: 2.3301e-41}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -671,6 +668,37 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &984567276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 984567277}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &984567277
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984567276}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -18.358337, y: 9.518883, z: -14.189388}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1121156114
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,3 +893,4 @@ SceneRoots:
   - {fileID: 1121156118}
   - {fileID: 180333016}
   - {fileID: 1988654953}
+  - {fileID: 984567277}

@@ -115,7 +115,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         tempGrid.RemoveAll(a => a.GetTileOptions().Count != tempGrid[0].GetTileOptions().Count);
 
 
-        yield return new WaitForSeconds(0.003f);
+        yield return new WaitForSeconds(0.005f);
 
         CollapseCell(tempGrid);
         PlacePlacesOnWait();
@@ -128,8 +128,9 @@ public class WaveFunctionCollapse : MonoBehaviour
             GameObject instance = instancesToDelete.Pop();
             Destroy(instance);
 
-            yield return new WaitForSeconds(1);
+            yield return null;
         }
+        yield return new WaitForSeconds(1);
     }
 
 
@@ -269,7 +270,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-     void UpdateGeneration()
+    async Task updateCells()
     {
         while (updatedCells.Count > 0)
         {
@@ -303,6 +304,14 @@ public class WaveFunctionCollapse : MonoBehaviour
             }
 
         }
+        await Task.CompletedTask;
+
+    }
+
+     async void UpdateGeneration()
+    {
+
+        await updateCells();
 
         StartCoroutine(clearStackedInstances());
 
@@ -382,14 +391,16 @@ public class WaveFunctionCollapse : MonoBehaviour
                             Cell cellToUpdate = grid[gridX, gridY];
                             cellToUpdate.RecreateCell(new List<Tile>() { place.GetGrid()[i, j] });
                             /*place.SetCellPlacement(i, j, true);*/
-                            updatedCells.Push(cellToUpdate);
+                            if (i == 0 || i == dimensions.x || j == 0 || j == dimensions.y)
+                            {
+                                updatedCells.Push(cellToUpdate);
+                            }
+                            
                         }
                     }
                 }
             }
         }
-
-
 
     }
 

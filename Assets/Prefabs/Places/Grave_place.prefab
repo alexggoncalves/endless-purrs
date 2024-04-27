@@ -50,8 +50,10 @@ MonoBehaviour:
   width: 6
   height: 6
   cellScale: 2
-  worldPosition: {x: -56, y: 40}
+  position: {x: 0, y: 0}
   instance: {fileID: 0}
+  isPlaced: 0
+  onWait: 0
 --- !u!114 &-2752090943258620972
 MonoBehaviour:
   m_ObjectHideFlags: 0

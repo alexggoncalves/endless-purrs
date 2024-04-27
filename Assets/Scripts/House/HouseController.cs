@@ -12,8 +12,6 @@ public class HouseController : MonoBehaviour
     [SerializeField]
     GameObject houseTop;
 
-    [SerializeField] 
-    float closedDoorAngle = 0f;
     [SerializeField]
     float openDoorAngle = -160f;
     [SerializeField]
@@ -58,8 +56,6 @@ public class HouseController : MonoBehaviour
             ShowHouseTop();
         }
     }
-
-
 
     void HideHouseTop()
     {
