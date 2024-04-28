@@ -98,35 +98,39 @@ public class MapGenerator : MonoBehaviour
     void SpawnPlaces()
     {
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+
         while (placeInstances.Count < placeDensity)
         {
             bool valid = false;
+
             while (!valid)
             {
-                // Choose random place
                 Place place = unorderedPlaces[UnityEngine.Random.Range(0, unorderedPlaces.Count)];
 
                 Vector3 center = player.transform.position;
 
-                int x = UnityEngine.Random.Range((int)(center.x - placesExtents.x / 2), (int)(center.x + placesExtents.x / 2));
-                int y = UnityEngine.Random.Range((int)(center.z - placesExtents.y / 2), (int)(center.z + placesExtents.y / 2));
+                // Calculate random coordinates within extents
+                float x = UnityEngine.Random.Range(center.x - placesExtents.x / 2, center.x + placesExtents.x / 2);
+                float y = UnityEngine.Random.Range(center.z - placesExtents.y / 2, center.z + placesExtents.y / 2);
 
                 Vector2 placement = new Vector2(x, y);
 
                 // Check if chosen coordinates are inside player area
-                if (Vector2.Distance(placement, new Vector2(center.x, center.z)) > gridWidth/2 * cellScale + 10)
+                if (Vector2.Distance(placement, new Vector2(center.x, center.z)) > (gridWidth / 2) * cellScale + 15 + place.GetDimensions().x/2)
                 {
                     valid = true;
 
-                    /*// Check for collisions with other placed areas
+                    // Check for collisions with other placed areas
                     foreach (Place placed in placeInstances)
                     {
-                        if (Vector2.Distance(placement, placed.transform.position) < place.GetDimensions().x * cellScale + placed.GetDimensions().x * cellScale)
+                        // Consider the dimensions of the places for overlap check
+                        float distanceThreshold = place.GetDimensions().x * cellScale + placed.GetDimensions().x * cellScale;
+                        if (Vector2.Distance(placement, new Vector2(placed.transform.position.x, placed.transform.position.z)) < distanceThreshold)
                         {
                             valid = false;
                             break;
                         }
-                    }*/
+                    }
                 }
 
                 // If the placement is valid, create an instance of the place
@@ -143,12 +147,13 @@ public class MapGenerator : MonoBehaviour
             }
         }
     }
+
     // Removes any place that's outside the determined area
     void CheckPlaces()
     {
         foreach (Place place in placeInstances)
         {
-            if (Vector3.Distance(player.transform.position,place.transform.position) > placesExtents.x)
+            if (Vector3.Distance(player.transform.position,place.transform.position) > placesExtents.x/2 + 20)
             {
                 placesToDestroy.Push(place);
             }
@@ -157,7 +162,7 @@ public class MapGenerator : MonoBehaviour
         while (placesToDestroy.Count > 0)
         {
             Place place = placesToDestroy.Pop();
-            /*wfc.AddPlaceToDestroy(place);*/
+            wfc.AddPlaceToDestroy(place);
             place.toDelete = true;
             placeInstances.Remove(place);
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using UnityEngine.UIElements;
+using Unity.AI.Navigation;
 
 public class Cell : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class Cell : MonoBehaviour
 
     public GameObject InstantiateTile()
     {
-        tileInstance = Instantiate(tileOptions[0].prefab, transform.position, Quaternion.Euler(0, tileOptions[0].prefab.transform.rotation.y + 90 * tileOptions[0].rotation, 0)); 
+        tileInstance = Instantiate(tileOptions[0].prefab, transform.position, Quaternion.Euler(0, tileOptions[0].prefab.transform.rotation.y + 90 * tileOptions[0].rotation, 0));
         return tileInstance;
     }
 

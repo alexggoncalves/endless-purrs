@@ -6,6 +6,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using DG.Tweening;
 using System.Threading.Tasks;
+using Unity.AI.Navigation;
 
 public class WaveFunctionCollapse : MonoBehaviour
 {
@@ -171,6 +172,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
             // Instantiate the chosen tile and set it as a child of the instance container
             GameObject instance = cellToCollapse.InstantiateTile();
+            
             instance.transform.SetParent(tileInstanceContainer.transform);
         }
 
