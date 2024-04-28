@@ -32,7 +32,9 @@ public class Portal : MonoBehaviour
             print("Hallo");
 
             triggerActive = false;
-            //Destroy(this.gameObject);
+            //this.gameObject.SetActive(false);
+
+            Destroy(this.gameObject, 1);
         }
     }
 }

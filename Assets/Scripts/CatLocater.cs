@@ -12,7 +12,8 @@ public class CatLocater : MonoBehaviour
     public RectTransform button;
 
     private bool isPointerActive = false;
-    public float distance = 20f;
+    public float distance = 50f;
+    private float pointerTime = 4f;
     private bool isCooldown = false;
     private float cooldownDuration = 2f;
     private float lastDeactivationTime = 0f;
@@ -137,7 +138,7 @@ public class CatLocater : MonoBehaviour
         yield return new WaitForSeconds((call.clip.length)+0.2f);
         Miau = GameObject.FindWithTag("ArrowTarget").GetComponent<AudioSource>();
         Miau.Play();
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(pointerTime);
         isPointerActive = false;
         pointer.gameObject.SetActive(false);
         isCooldown = true;
