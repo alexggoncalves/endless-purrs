@@ -15,11 +15,6 @@ public class Portal : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             triggerActive = true;
-
-            /*player.transform.position = target;
-            print("Hallo");
-
-            DestroyPortal();*/
         }
     }
 
