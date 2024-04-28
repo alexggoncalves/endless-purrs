@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bea802e9a9abe263b907323dfaaf412, type: 3}
+  m_Name: Base Cat Settings
+  m_EditorClassIdentifier: 
+  coatColours:
+  - {r: 0.3773585, g: 0.21809061, b: 0, a: 1}
+  - {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
+  - {r: 0.9339623, g: 0.7333506, b: 0.46257564, a: 1}
+  - {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
+  - {r: 1, g: 0.6777265, b: 0.19339621, a: 1}
+  eyeColours:
+  - {r: 0.15562145, g: 0.5849056, b: 0, a: 1}
+  - {r: 0.2688679, g: 0.5761352, b: 1, a: 1}
+  - {r: 1, g: 0.7850666, b: 0.3726415, a: 1}
+  skinColours:
+  - {r: 1, g: 0.8066038, b: 0.9942926, a: 1}
+  - {r: 0.8584906, g: 0.66816485, b: 0.8546064, a: 1}
+  - {r: 0.5, g: 0.3561321, b: 0.49706393, a: 1}
+  catAccessories:
+  - {fileID: 1260173246747431630, guid: 42cf268aec80961f68e2838a3190956a, type: 3}
+  - {fileID: 69200355068165110, guid: 844ae4a4ef9306a059d9e9537ec810b3, type: 3}
+  - {fileID: 647095643502229984, guid: f0412498b3b926d2d8ee189b0f55f3ba, type: 3}
+  - {fileID: 8160507626473841047, guid: 6d2a12c95c0767f419f668f5a712d3f6, type: 3}
+  - {fileID: 9190476929376808198, guid: b42e35451505a3791ad4eb5827d4aacc, type: 3}
+  accessoryChance: 100
+  seed: 0

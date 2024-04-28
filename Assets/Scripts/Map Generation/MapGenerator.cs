@@ -97,59 +97,52 @@ public class MapGenerator : MonoBehaviour
     // Mantains the chosen density
     void SpawnPlaces()
     {
-        int maxAttempts = 100;
-        int attempts = 0;
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
-        while (placeInstances.Count < placeDensity && attempts < maxAttempts)
+        while (placeInstances.Count < placeDensity)
         {
             bool valid = false;
-            while (!valid && attempts < maxAttempts)
+            while (!valid)
             {
-                //Choose random place
-                Place place = unorderedPlaces[0];
+                // Choose random place
+                Place place = unorderedPlaces[UnityEngine.Random.Range(0, unorderedPlaces.Count)];
 
                 Vector3 center = player.transform.position;
 
-                int x = UnityEngine.Random.Range((int)(center.x - placesExtents.x/2), (int)(center.x + placesExtents.x/2));
-                int y = UnityEngine.Random.Range((int)(center.z - placesExtents.y/2), (int)(center.z + placesExtents.y/2));
+                int x = UnityEngine.Random.Range((int)(center.x - placesExtents.x / 2), (int)(center.x + placesExtents.x / 2));
+                int y = UnityEngine.Random.Range((int)(center.z - placesExtents.y / 2), (int)(center.z + placesExtents.y / 2));
 
-                Vector2 placement = new Vector2(x,y);
-                
-                // Check if chosen coordinates are inside player area or if they collide with any other placed area
-                if (!player.GetInnerPlayerArea().Contains(new Vector2(x, y)))
+                Vector2 placement = new Vector2(x, y);
+
+                // Check if chosen coordinates are inside player area
+                if (Vector2.Distance(placement, new Vector2(center.x, center.z)) > gridWidth/2 * cellScale + 10)
                 {
                     valid = true;
-                    
-                    for (int i = 0; i < placeInstances.Count; i++)
-                    {
-                        Vector2 placePosition = new Vector2(placeInstances[i].transform.position.x, placeInstances[i].transform.position.y);
 
-                        if (Vector2.Distance(placement, placePosition) < place.GetDimensions().x + placeInstances[i].GetDimensions().x + 10)
+                    /*// Check for collisions with other placed areas
+                    foreach (Place placed in placeInstances)
+                    {
+                        if (Vector2.Distance(placement, placed.transform.position) < place.GetDimensions().x * cellScale + placed.GetDimensions().x * cellScale)
                         {
                             valid = false;
                             break;
                         }
-                    }
+                    }*/
                 }
 
-                // If the placement is valid create an instance of the place
+                // If the placement is valid, create an instance of the place
                 // and send it to the wave function collapse to affect the terrain generation
                 if (valid)
                 {
-                    Place newPlace = Instantiate(orderedPlaces[0], Vector3.zero, Quaternion.identity);
+                    Place newPlace = Instantiate(place, new Vector3(x, 0, y), Quaternion.identity);
                     newPlace.Initialize(new Vector3(x, y), possibleTiles[0]);
 
                     placeInstances.Add(newPlace);
                     newPlace.onWait = true;
                     wfc.AddPlaceForPlacement(newPlace);
-                } else
-                {
-                    attempts++;
                 }
             }
         }
     }
-
     // Removes any place that's outside the determined area
     void CheckPlaces()
     {
@@ -164,7 +157,7 @@ public class MapGenerator : MonoBehaviour
         while (placesToDestroy.Count > 0)
         {
             Place place = placesToDestroy.Pop();
-            wfc.AddPlaceToDestroy(place);
+            /*wfc.AddPlaceToDestroy(place);*/
             place.toDelete = true;
             placeInstances.Remove(place);
         }

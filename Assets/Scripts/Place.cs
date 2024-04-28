@@ -82,24 +82,4 @@ public class Place : MonoBehaviour
         }
     }
 
-    public Place InstantiatePlace()
-    {
-        return Instantiate(this, position, Quaternion.identity);
-    }
-    
-    /*public void SetCellPlacement(int x, int y, bool placed)
-    {
-        cellPlacements[x, y] = placed;
-
-        int placedAmount = 0;
-
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < height; j++)
-            {
-               if(cellPlacements[i, j]) { placedAmount++; }
-            }
-        }
-        if(placedAmount >= width * height) isPlaced = true;
-    }*/
 }
