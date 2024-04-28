@@ -6,7 +6,7 @@ public class CatLocater : MonoBehaviour
 {
     //https://www.youtube.com/watch?v=dHzeHh-3bp4
 
-    [SerializeField] Camera cam;
+    private Camera cam;
     private Vector3 targetPosition;
     public RectTransform pointer;
     public RectTransform button;
@@ -19,7 +19,7 @@ public class CatLocater : MonoBehaviour
     private float lastDeactivationTime = 0f;
 
     private AudioSource call;
-    private AudioSource Miau;
+    private AudioSource[] Miau;
 
     public GameObject FindClosestCat()
     {
@@ -50,6 +50,7 @@ public class CatLocater : MonoBehaviour
 
     private void Start()
     {
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>() as Camera;
         pointer.gameObject.SetActive(false);
         button.gameObject.SetActive(true);
         call = GetComponent<AudioSource>();
@@ -136,8 +137,8 @@ public class CatLocater : MonoBehaviour
     {
         call.Play();
         yield return new WaitForSeconds((call.clip.length)+0.2f);
-        Miau = GameObject.FindWithTag("ArrowTarget").GetComponent<AudioSource>();
-        Miau.Play();
+        Miau = FindClosestCat().GetComponents<AudioSource>(); //plays first audioSource of the cat
+        Miau[1].Play();
         yield return new WaitForSeconds(pointerTime);
         isPointerActive = false;
         pointer.gameObject.SetActive(false);
