@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     public void StartGame()
     {
-        SceneManager.LoadScene("prototype_1", LoadSceneMode.Single);
+        SceneManager.LoadScene("Game", LoadSceneMode.Single);
     }
 
     public void ExitGame()

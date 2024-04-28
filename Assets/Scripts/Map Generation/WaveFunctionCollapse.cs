@@ -37,7 +37,8 @@ public class WaveFunctionCollapse : MonoBehaviour
     Vector2 totalMoveOffset = new Vector2(0, 0);
 
     // Places
-    List<Place> placesOnWait;
+    private List<Place> placesOnWait;
+    private Stack<Place> placesToDestroy;
 
     public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, Walking player, GameObject startingPlace)
     {
@@ -55,6 +56,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         tileInstanceContainer = new GameObject("Tile Instance Container");
 
         instancesToDelete = new Stack<GameObject>();
+        placesToDestroy = new Stack<Place>();
 
         this.placesOnWait = new List<Place>();
 
@@ -92,14 +94,8 @@ public class WaveFunctionCollapse : MonoBehaviour
         // Create initial grass area
         GameObject startingAreaInstance = GameObject.Instantiate(startingPlace, new Vector3(x, 0, y), Quaternion.identity);
         Place place = startingAreaInstance.GetComponent<Place>();
-        place.SetExtents();
-        place.FillWith(tiles[0]);
+        place.Initialize(new Vector2(x,y), tiles[0]);
         placesOnWait.Add(place);
-
-        Vector2 dimensions = place.GetDimensions();
-        Vector2 position = CalculateGridCoordinates(place.GetPosition().x, place.GetPosition().y);
-
-        SetGridSection(place.GetGrid(), position.x - dimensions.x / 2 + 1, position.y - dimensions.y / 2 + cellScale + 1, dimensions.x, dimensions.y);
     }
 
 
@@ -116,7 +112,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         tempGrid.RemoveAll(a => a.GetTileOptions().Count != tempGrid[0].GetTileOptions().Count);
 
 
-        yield return new WaitForSeconds(0.005f);
+        yield return new WaitForSeconds(0.01f);
 
         CollapseCell(tempGrid);
         /*PlacePlacesOnWait();*/
@@ -128,12 +124,21 @@ public class WaveFunctionCollapse : MonoBehaviour
         {
             GameObject instance = instancesToDelete.Pop();
             Destroy(instance);
-
-            yield return new WaitForSeconds(200);
         }
-        yield return new WaitForSeconds(60);
+        yield return new WaitForSeconds(0.01f);
     }
 
+    async Task ClearStackedPlacesToDestroy()
+    {
+        while (placesToDestroy.Count > 0)
+        {
+            Place place = placesToDestroy.Pop();
+            placesOnWait.Remove(place);
+            Destroy(place.gameObject);
+        }
+
+        await Task.CompletedTask;
+    }
 
     //  Collapses one of the cells with the least number of tile possibilities(superpositions)
     void CollapseCell(List<Cell> tempGrid)
@@ -320,6 +325,8 @@ public class WaveFunctionCollapse : MonoBehaviour
     {
         StartCoroutine(ClearStackedInstances());
 
+        await ClearStackedPlacesToDestroy();
+
         await UpdateCells();
 
         // After collapsing one cell and updating the tiles that need to be updated:
@@ -484,21 +491,14 @@ public class WaveFunctionCollapse : MonoBehaviour
         await Task.CompletedTask;
     }
 
-    void SetGridSection(Tile[,] newTiles, float x, float y, float width, float height)
-    {
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < height; j++)
-            {
-                Cell cellToCollapse = grid[(int)x + i, (int)y + j];
-                cellToCollapse.RecreateCell(new List<Tile> { newTiles[i, j] });
-            }
-        }
-    }
-
     public void AddPlaceForPlacement(Place place)
     {
         placesOnWait.Add(place);
+    }
+
+    public void AddPlaceToDestroy(Place place)
+    {
+        placesToDestroy.Push(place);
     }
 
     public Vector2 CalculateGridCoordinates(float x, float y)

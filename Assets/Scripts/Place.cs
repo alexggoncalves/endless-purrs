@@ -17,14 +17,17 @@ public class Place : MonoBehaviour
     int width = 2, height = 2;
     [SerializeField, Range(2, 40)]
     int cellScale = 2;
+
+    [SerializeField]
+    string tile;
+
     public Vector2 position;
 
     public RectangularArea extents;
 
-    public GameObject instance;
-
-    public bool isPlaced = false;
     public bool onWait = false;
+    public bool toDelete = false;
+    
 
     public void Initialize(Vector2 position, Tile tile)
     {

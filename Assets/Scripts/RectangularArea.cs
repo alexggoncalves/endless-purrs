@@ -43,6 +43,14 @@ public class RectangularArea : MonoBehaviour
         return overlapX && overlapY;
     }
 
+    public bool CollidesWith(float x, float y, float width, float height)
+    {
+        bool overlapX = Mathf.Abs(transform.position.x - x) * 2 < (size.x + width);
+        bool overlapY = Mathf.Abs(transform.position.y - y) * 2 < (size.y + height);
+
+        return overlapX && overlapY;
+    }
+
     public Vector2 GetOffset()
     {
         return this.offset;
