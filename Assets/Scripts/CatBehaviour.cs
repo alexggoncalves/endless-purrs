@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class CatBehaviour : MonoBehaviour
 {
+    [SerializeField] Camera cam;
     [SerializeField] private bool triggerActive = false;
     private int objectId;
+
+    public RectTransform uiButton;
+    //public Vector3 offset;
 
     private AudioSource ShortMiau;
 
     private void Start()
     {
         ShortMiau = gameObject.GetComponent<AudioSource>();
+        uiButton.gameObject.SetActive(false);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -32,6 +37,30 @@ public class CatBehaviour : MonoBehaviour
 
     private void Update()
     {
+        if (triggerActive)
+        {
+            uiButton.gameObject.SetActive(true);
+
+            /*Vector3 targetPosition = gameObject.transform.position;
+            Vector3 targetScreenPos = cam.WorldToScreenPoint(targetPosition);
+
+            Vector3 buttonPos = cam.ScreenToWorldPoint(targetScreenPos);
+
+            float canvasDistance = Mathf.Abs(cam.transform.position.y - buttonPos.y);
+            float canvasDistanceZ = Mathf.Abs(cam.transform.position.z - buttonPos.z);
+            float buttonY = Mathf.Sin(Mathf.Deg2Rad * 45) * canvasDistance;
+            float buttonZ = Mathf.Cos(Mathf.Deg2Rad * 45) * canvasDistanceZ;
+
+            Vector3 adjustedPointerPos = new Vector3(buttonPos.x, buttonY, buttonZ);
+
+            uiButton.transform.position = adjustedPointerPos + offset;*/
+
+        } else
+        {
+            uiButton.gameObject.SetActive(false);
+        }
+
+
         if (triggerActive && Input.GetKeyDown(KeyCode.E))
         {
             PlaySound(ShortMiau.clip);
@@ -57,5 +86,6 @@ public class CatBehaviour : MonoBehaviour
 
         print(objectId);
         gameObject.SetActive(false);
+        uiButton.gameObject.SetActive(false);
     }
 }
