@@ -139,22 +139,24 @@ public class MapGenerator : MonoBehaviour
                 float x = UnityEngine.Random.Range(center.x - placesExtents.x / 2, center.x + placesExtents.x / 2);
                 float y = UnityEngine.Random.Range(center.z - placesExtents.y / 2, center.z + placesExtents.y / 2);
 
-                Vector2 placement = new Vector2(x, y);
-
                 // Check if chosen coordinates are inside player area
-                if (Vector2.Distance(placement, new Vector2(center.x, center.z)) > (gridWidth / 2) * cellScale + 15 + place.GetDimensions().x/2)
+                Vector2 placement = new Vector2(x, y);
+                if(Vector2.Distance(placement, new Vector2(0,0)) > 20)
                 {
-                    valid = true;
-
-                    // Check for collisions with other placed areas
-                    foreach (Place placed in placeInstances)
+                    if (Vector2.Distance(placement, new Vector2(center.x, center.z)) > (gridWidth / 2) * cellScale + 15 + place.GetDimensions().x / 2)
                     {
-                        // Consider the dimensions of the places for overlap check
-                        float distanceThreshold = place.GetDimensions().x * cellScale + placed.GetDimensions().x * cellScale;
-                        if (Vector2.Distance(placement, new Vector2(placed.transform.position.x, placed.transform.position.z)) < distanceThreshold)
+                        valid = true;
+
+                        // Check for collisions with other placed areas
+                        foreach (Place placed in placeInstances)
                         {
-                            valid = false;
-                            break;
+                            // Consider the dimensions of the places for overlap check
+                            float distanceThreshold = place.GetDimensions().x * cellScale + placed.GetDimensions().x * cellScale;
+                            if (Vector2.Distance(placement, new Vector2(placed.transform.position.x, placed.transform.position.z)) < distanceThreshold)
+                            {
+                                valid = false;
+                                break;
+                            }
                         }
                     }
                 }
