@@ -802,6 +802,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 277645294}
   successMessage: {fileID: 821747528}
+  totalCatAmount: 1
 --- !u!1 &480638511
 GameObject:
   m_ObjectHideFlags: 0
@@ -2145,6 +2146,7 @@ MonoBehaviour:
   pointer: {fileID: 1571169410}
   button: {fileID: 1192964883}
   distance: 70
+  Success: {fileID: 0}
 --- !u!1 &1571169409
 GameObject:
   m_ObjectHideFlags: 0
@@ -2388,6 +2390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1635168310}
+  catCounter: {fileID: 0}
 --- !u!4 &1935726486
 Transform:
   m_ObjectHideFlags: 0

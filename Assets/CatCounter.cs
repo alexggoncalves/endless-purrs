@@ -9,7 +9,7 @@ public class CatCounter : MonoBehaviour
     public TextMeshProUGUI text;
     public TextMeshProUGUI successMessage;
     [SerializeField,Range(1,10)]
-    int totalCatAmount = 3;
+    int totalCatAmount = 1;
     int catCount = 0;
     
 
