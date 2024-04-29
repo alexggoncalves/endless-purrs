@@ -857,9 +857,11 @@ MonoBehaviour:
   - {fileID: -248551918939790877, guid: c337236bc2e8feb4f862a65e22f17851, type: 3}
   - {fileID: -248551918939790877, guid: 7e08e9ac2387f284181e47066d8a1f19, type: 3}
   - {fileID: -248551918939790877, guid: c9207025782e7c641affe3fddb4666b6, type: 3}
+  - {fileID: -248551918939790877, guid: d4ddc601fc85d364b9d76acd715fb82a, type: 3}
   unorderedPlaces:
   - {fileID: -248551918939790877, guid: c337236bc2e8feb4f862a65e22f17851, type: 3}
   - {fileID: -248551918939790877, guid: 7e08e9ac2387f284181e47066d8a1f19, type: 3}
+  - {fileID: -248551918939790877, guid: d4ddc601fc85d364b9d76acd715fb82a, type: 3}
   placeInstances: []
 --- !u!4 &847622287
 Transform:
@@ -1531,7 +1533,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5.5424194, y: -391.91748}
+  m_AnchoredPosition: {x: 5.5424805, y: -391.91748}
   m_SizeDelta: {x: -1920, y: -1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1443907384
