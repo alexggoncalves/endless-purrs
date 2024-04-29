@@ -27,11 +27,14 @@ public class Movement : MonoBehaviour
 
     Boolean locked;
 
+    private AudioSource footStep;
+
     private void Start()
     {
         locked = true;
         controller = GetComponent<CharacterController>();
         walkedDistance = 0;
+        footStep = gameObject.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -53,11 +56,16 @@ public class Movement : MonoBehaviour
             if (move != Vector3.zero)
             {
                 gameObject.transform.forward = move;
+                footStep.enabled = true;
+            } else
+            {
+                footStep.enabled = false;
             }
 
             // Changes the height position of the player..
             if (Input.GetButtonDown("Jump") && groundedPlayer)
             {
+                footStep.enabled = false;
                 playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
             }
 
