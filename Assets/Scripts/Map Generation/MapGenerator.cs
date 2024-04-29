@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class MapGenerator : MonoBehaviour
     private WaveFunctionCollapse wfc;
 
     // Player 
-    Walking player;
+    Movement player;
     Vector2 lastPlayerCoordinates; // (According to the grid)
 
     // Places
@@ -42,15 +43,23 @@ public class MapGenerator : MonoBehaviour
     public List<Place> placeInstances;
     private Stack<Place> placesToDestroy;
 
+    public Game game;
+
+    // loading screen
+    public GameObject loadingScreen;
+    public Slider loadingSlider;
+
 
     void Start()
     {
+        loadingScreen.SetActive(true);
+
         Time.timeScale = 1f;
         TileLoader tileLoader = this.AddComponent<TileLoader>();
         tileLoader.Initialize(tileInfoJSON, tiles);
         possibleTiles = tileLoader.Load();
 
-        player = GameObject.Find("Player").GetComponent<Walking>();
+        player = GameObject.Find("Player").GetComponent<Movement>();
         player.SetMapDetails(gridWidth, gridHeight, cellScale, worldOffset, edgeSize);
 
         placesToDestroy = new Stack<Place>();
@@ -71,6 +80,21 @@ public class MapGenerator : MonoBehaviour
         }
 
         CheckPlaces();
+
+        if (wfc.HasLoadedInitialZone() && !game.HasBegun()) game.Begin();
+
+        //Update Loading screen
+        if (!wfc.HasLoadedInitialZone())
+        {
+            float progress = map(wfc.GetIteration(), 0, player.GetInnerPlayerArea().GetCellArea(2), 0, 1);
+            loadingSlider.value = progress;
+        }
+        else if (loadingScreen.activeSelf)
+        {
+            loadingScreen.SetActive(false);
+            player.UnlockMovement();
+        }
+        
     }
 
     // Detects every time the player moves one cell size and shifts the grid in that direction
@@ -98,12 +122,14 @@ public class MapGenerator : MonoBehaviour
     void SpawnPlaces()
     {
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+        float attempts = 0;
+        float maxAttempts = 50;
 
-        while (placeInstances.Count < placeDensity)
+        while (placeInstances.Count < placeDensity && attempts < maxAttempts)
         {
             bool valid = false;
 
-            while (!valid)
+            while (!valid && attempts < maxAttempts)
             {
                 Place place = unorderedPlaces[UnityEngine.Random.Range(0, unorderedPlaces.Count)];
 
@@ -144,6 +170,8 @@ public class MapGenerator : MonoBehaviour
                     newPlace.onWait = true;
                     wfc.AddPlaceForPlacement(newPlace);
                 }
+
+                attempts++;
             }
         }
     }
@@ -166,5 +194,10 @@ public class MapGenerator : MonoBehaviour
             place.toDelete = true;
             placeInstances.Remove(place);
         }
+    }
+
+    float map(float s, float a1, float a2, float b1, float b2)
+    {
+        return b1 + (s - a1) * (b2 - b1) / (a2 - a1);
     }
 }

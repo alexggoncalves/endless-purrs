@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Walking : MonoBehaviour
+public class Movement : MonoBehaviour
 {
     private CharacterController controller;
     private Vector3 playerVelocity;
@@ -25,41 +25,47 @@ public class Walking : MonoBehaviour
 
     float walkedDistance;
 
+    Boolean locked;
+
     private void Start()
     {
+        locked = true;
         controller = GetComponent<CharacterController>();
         walkedDistance = 0;
     }
 
     void Update()
     {
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
+        if (!locked)
         {
-            playerVelocity.y = 0f;
+            groundedPlayer = controller.isGrounded;
+            if (groundedPlayer && playerVelocity.y < 0)
+            {
+                playerVelocity.y = 0f;
+            }
+
+            Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+
+            controller.Move(move.normalized * Time.deltaTime * playerSpeed);
+
+            animator.SetFloat("Velocity", move.magnitude);
+
+            if (move != Vector3.zero)
+            {
+                gameObject.transform.forward = move;
+            }
+
+            // Changes the height position of the player..
+            if (Input.GetButtonDown("Jump") && groundedPlayer)
+            {
+                playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            }
+
+            playerVelocity.y += gravityValue * Time.deltaTime;
+            controller.Move(playerVelocity * Time.deltaTime);
+
+            walkedDistance += (move.normalized * Time.deltaTime * playerSpeed).magnitude;
         }
-          
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-
-        controller.Move(move.normalized * Time.deltaTime * playerSpeed);
-
-        animator.SetFloat("Velocity", move.magnitude);
-
-        if (move != Vector3.zero)
-        {
-            gameObject.transform.forward = move;
-        }
-
-        // Changes the height position of the player..
-        if (Input.GetButtonDown("Jump") && groundedPlayer)
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        }
-
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
-
-        walkedDistance += (move.normalized * Time.deltaTime * playerSpeed).magnitude;
     }
 
     public void SetMapDetails(int gridWidth, int gridHeight, float cellScale, Vector2 mapOffset, Vector2 edgeSize)
@@ -92,5 +98,19 @@ public class Walking : MonoBehaviour
     public float GetWalkedDistance()
     {
         return walkedDistance;
+    }
+
+    public void LockMovement()
+    {
+        locked = true;
+    }
+    public void UnlockMovement()
+    {
+        locked = false;
+    }
+
+    public void ResetVelocity()
+    {
+        playerVelocity = Vector3.zero;
     }
 }

@@ -33,7 +33,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     public Stack<GameObject> instancesToDelete;
 
     // Player
-    Walking player;
+    Movement player;
     Vector2 moveOffset = new Vector2(0, 0);
     Vector2 totalMoveOffset = new Vector2(0, 0);
 
@@ -41,8 +41,10 @@ public class WaveFunctionCollapse : MonoBehaviour
     private List<Place> placesOnWait;
     private Stack<Place> placesToDestroy;
 
-    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, Walking player, GameObject startingPlace)
-    {
+    Boolean initialLoading = true;
+
+    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, Movement player, GameObject startingPlace)
+    { 
         tiles = new List<Tile>(possibleTiles);
         this.player = player;
 
@@ -336,13 +338,14 @@ public class WaveFunctionCollapse : MonoBehaviour
         // else the algorithm enters a rest state until there's a cell that needs to be collapsed
 
         iteration++;
-
+        
         if (iteration < player.GetInnerPlayerArea().GetCellArea(cellScale))
         {
             StartCoroutine(CheckEntropy());
         }
         else
         {
+            if(initialLoading) initialLoading = false;
             updating = false;
         }
     }
@@ -545,6 +548,16 @@ public class WaveFunctionCollapse : MonoBehaviour
     }
 
     public Vector2 GetMoveOffset() { return moveOffset; }
+
+    public Boolean HasLoadedInitialZone()
+    {
+        return !initialLoading;
+    }
+
+    public int GetIteration()
+    {
+        return iteration;
+    }
 
     private void OnDestroy()
     {

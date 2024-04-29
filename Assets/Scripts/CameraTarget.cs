@@ -15,7 +15,8 @@ public class CameraTarget : MonoBehaviour
         //Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         //Vector3 mousePos = Input.mousePosition;
         Vector3 mousePos = cam.ScreenToWorldPoint(new Vector3(mouse.x, mouse.y, 10));
-        Vector3 targetPos = new Vector3((player.position.x + mousePos.x) / 2f, 0f, (player.position.z + mousePos.y));
+        /*Vector3 targetPos = new Vector3((player.position.x + mousePos.x) / 2f, 0f, (player.position.z + mousePos.y));*/
+        Vector3 targetPos = new Vector3((player.position.x), 0f, (player.position.z));
 
         targetPos.x = Mathf.Clamp(targetPos.x, -threshold/2 + player.position.x, threshold/2 + player.position.x);
         targetPos.z = Mathf.Clamp(targetPos.z, -threshold/2 + player.position.z, threshold/2 + player.position.z);
