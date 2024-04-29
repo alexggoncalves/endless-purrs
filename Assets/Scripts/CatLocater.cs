@@ -13,7 +13,7 @@ public class CatLocater : MonoBehaviour
 
     private bool isPointerActive = false;
     public float distance = 50f;
-    private float pointerTime = 4f;
+    private float pointerTime = 3.5f;
     private bool isCooldown = false;
     private float cooldownDuration = 2f;
     private float lastDeactivationTime = 0f;
@@ -82,8 +82,8 @@ public class CatLocater : MonoBehaviour
 
         if (isPointerActive)
         {
-            float fixXPos = 5f; //camera dependent magic number
-            float fixZPos = 5f; //camera dependent magic number
+            float fixXPos = 5f;
+            float fixZPos = 5f;
             Vector3 toPosition = targetPosition;
             Vector3 fromPosition = new Vector3(cam.transform.position.x - fixXPos, 0f, cam.transform.position.z + fixZPos);
             Vector3 dir = (toPosition - fromPosition).normalized;
@@ -91,6 +91,7 @@ public class CatLocater : MonoBehaviour
             float angle = ((Mathf.Atan2(dir.z, dir.x) * Mathf.Rad2Deg) % 360) - 90;
             pointer.localEulerAngles = new Vector3(0, 0, angle);
 
+            //code for dynamic pointer
             /*float borderSize = 500f;
             Vector3 targetScreenPos = cam.WorldToScreenPoint(targetPosition);
             bool isOffScreen = targetScreenPos.x <= borderSize || targetScreenPos.x >= Screen.width - borderSize || targetScreenPos.y <= borderSize || targetScreenPos.y >= Screen.height - borderSize;

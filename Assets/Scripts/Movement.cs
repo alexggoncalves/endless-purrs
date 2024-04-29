@@ -29,14 +29,15 @@ public class Movement : MonoBehaviour
 
     Boolean locked;
 
-    private AudioSource footStep;
+    private AudioSource[] footStep;
+
 
     private void Start()
     {
         locked = true;
         controller = GetComponent<CharacterController>();
         walkedDistance = 0;
-        footStep = gameObject.GetComponent<AudioSource>();
+        footStep = gameObject.GetComponents<AudioSource>();
     }
 
     void Update()
@@ -58,16 +59,27 @@ public class Movement : MonoBehaviour
             if (move != Vector3.zero)
             {
                 gameObject.transform.forward = move;
-                footStep.enabled = true;
+                if (IsInsideHouse())
+                {
+                    footStep[1].enabled = true;
+                    footStep[0].enabled = false;
+                }
+                else
+                {
+                    footStep[0].enabled = true;
+                    footStep[1].enabled = false;
+                }
             } else
             {
-                footStep.enabled = false;
+                footStep[0].enabled = false;
+                footStep[1].enabled = false;
             }
 
             // Changes the height position of the player..
             if (Input.GetButtonDown("Jump") && groundedPlayer)
             {
-                footStep.enabled = false;
+                footStep[0].enabled = false;
+                footStep[1].enabled = false;
                 playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
             }
 
