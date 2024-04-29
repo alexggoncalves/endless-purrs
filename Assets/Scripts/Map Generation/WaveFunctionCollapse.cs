@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using DG.Tweening;
 using System.Threading.Tasks;
 using Unity.AI.Navigation;
+using UnityEngine.UIElements;
 
 public class WaveFunctionCollapse : MonoBehaviour
 {
@@ -99,6 +100,11 @@ public class WaveFunctionCollapse : MonoBehaviour
         Place place = startingAreaInstance.GetComponent<Place>();
         place.Initialize(new Vector2(x,y), tiles[0]);
         placesOnWait.Add(place);
+
+        Vector2 dimensions = place.GetDimensions();
+        Vector2 position = CalculateGridCoordinates(place.GetPosition().x, place.GetPosition().y);
+
+        SetGridSection(place.GetGrid(), position.x - dimensions.x / 2 + 1, position.y - dimensions.y / 2 + cellScale + 1, dimensions.x, dimensions.y);
     }
 
 
@@ -325,6 +331,20 @@ public class WaveFunctionCollapse : MonoBehaviour
         await Task.CompletedTask;
     }
 
+    async void SetGridSection(Tile[,] newTiles, float x, float y, float width, float height)
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                Cell cell = grid[(int)x + i, (int)y + j];
+                cell.RecreateCell(new List<Tile> { newTiles[i, j] });
+                updatedCells.Push(cell);
+                await UpdateCells();
+            }
+        }
+    }
+
      async void UpdateGeneration()
     {
         StartCoroutine(ClearStackedInstances());
@@ -511,18 +531,19 @@ public class WaveFunctionCollapse : MonoBehaviour
         x -= cellScale / 2;
         y -= cellScale / 2;
 
-        // Calculating grid coordinates
+        // Calculate grid coordinates
         int gridX = Mathf.RoundToInt((x + (gridWidth * cellScale) / 2) / cellScale);
         int gridY = Mathf.RoundToInt((y + (gridHeight * cellScale) / 2) / cellScale);
 
-        // Adjusting for world offset
+        // Adjust for world offset
         gridX -= Mathf.RoundToInt(worldOffset.x / cellScale);
         gridY -= Mathf.RoundToInt(worldOffset.y / cellScale);
 
+        // Adjust for move offset
         gridX -= Mathf.RoundToInt(totalMoveOffset.x);
         gridY -= Mathf.RoundToInt(totalMoveOffset.y);
 
-        // Adding world offset
+        
         return new Vector2(gridX, gridY);
     }
 
@@ -532,11 +553,10 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         if (gridHeight % 2 == 0) { y -= cellScale / 2; }
 
-        // Calculating grid coordinates
         int gridX = Mathf.RoundToInt((x) / cellScale);
         int gridY = Mathf.RoundToInt((y) / cellScale);
 
-        // Adding world offset
+       
         return new Vector2(gridX, gridY);
     }
 
