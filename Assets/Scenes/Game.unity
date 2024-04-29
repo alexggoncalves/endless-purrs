@@ -732,6 +732,8 @@ MonoBehaviour:
   unorderedPlaces:
   - {fileID: -248551918939790877, guid: c337236bc2e8feb4f862a65e22f17851, type: 3}
   - {fileID: -248551918939790877, guid: 7e08e9ac2387f284181e47066d8a1f19, type: 3}
+  - {fileID: -248551918939790877, guid: ae7f7787d9ec53344a68fa94475bf77f, type: 3}
+  - {fileID: -248551918939790877, guid: d4ddc601fc85d364b9d76acd715fb82a, type: 3}
   placeInstances: []
   game: {fileID: 1935726485}
   loadingScreen: {fileID: 714114655270450851}
@@ -1723,7 +1725,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b6d1d50fbcb7eb43a6534c1a1d60477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 1170006970}
   pointer: {fileID: 1571169410}
   button: {fileID: 1192964883}
   distance: 70

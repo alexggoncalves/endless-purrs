@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class CatBehaviour : MonoBehaviour
 {
-    [SerializeField] Camera cam;
+    private Camera cam;
     [SerializeField] private bool triggerActive = false;
     private int objectId;
 
     public RectTransform uiButton;
     //public Vector3 offset;
 
-    private AudioSource ShortMiau;
+    private AudioSource[] Meow;
 
     private void Start()
     {
-        ShortMiau = gameObject.GetComponent<AudioSource>();
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>() as Camera;
+        Meow = gameObject.GetComponents<AudioSource>();
         uiButton.gameObject.SetActive(false);
+
+        //GameObject newObject = Instantiate (yourPrefabRef);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -63,7 +66,7 @@ public class CatBehaviour : MonoBehaviour
 
         if (triggerActive && Input.GetKeyDown(KeyCode.E))
         {
-            PlaySound(ShortMiau.clip);
+            PlaySound(Meow[1].clip);
             CatchCat();
         }
     }
