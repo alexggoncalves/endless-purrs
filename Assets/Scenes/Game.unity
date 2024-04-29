@@ -251,7 +251,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 128549081794453509, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.99
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 128549081794453509, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -401,6 +401,10 @@ PrefabInstance:
       propertyPath: m_VerticalAlignment
       value: 256
       objectReference: {fileID: 0}
+    - target: {fileID: 4321068685951889376, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 4577704608573639693, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.33721524
@@ -425,6 +429,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: continue button (TMP)
       objectReference: {fileID: 0}
+    - target: {fileID: 5067954671446242964, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 5086790562303847103, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -672,10 +680,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 0/0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
-  m_sharedMaterial: {fileID: 6193864787519833361, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -802,7 +810,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 277645294}
   successMessage: {fileID: 821747528}
-  totalCatAmount: 1
+  totalCatAmount: 3
 --- !u!1 &480638511
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,7 +1053,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 1.5e-44, z: 2.386e-41, w: 2}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 2.4e-44, z: 2.4555e-41, w: 1.076e-42}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -1105,7 +1113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &821747527
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1114,7 +1122,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 821747526}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1122,8 +1130,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 333.6, y: -454.6}
-  m_SizeDelta: {x: 651.1, y: 50}
+  m_AnchoredPosition: {x: 129, y: -455}
+  m_SizeDelta: {x: 1050.98, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &821747528
 MonoBehaviour:
@@ -1145,10 +1153,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You have collected all the cats, open a portal a return home.
+  m_text: You have collected all the cats, return home.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
-  m_sharedMaterial: {fileID: 6193864787519833361, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2390,7 +2398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1635168310}
-  catCounter: {fileID: 0}
+  catCounter: {fileID: 328318247}
 --- !u!4 &1935726486
 Transform:
   m_ObjectHideFlags: 0
@@ -2453,7 +2461,7 @@ PrefabInstance:
     - target: {fileID: 3539548722512100643, guid: e5e497a51aadeca4aa51f87dcaba0717, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 6193864787519833361, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
+      objectReference: {fileID: -8340413548841736878, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
     - target: {fileID: 3539548722512100643, guid: e5e497a51aadeca4aa51f87dcaba0717, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0

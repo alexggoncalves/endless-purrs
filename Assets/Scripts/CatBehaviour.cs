@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class CatBehaviour : MonoBehaviour
@@ -16,8 +17,13 @@ public class CatBehaviour : MonoBehaviour
 
     public CatCounter catCounter;
 
+    private List<Slot> slots;
+    GameObject slotsObject;
+
     private void Start()
     {
+        slots = new List<Slot>();
+
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>() as Camera;
         Meow = gameObject.GetComponents<AudioSource>();
 
@@ -63,6 +69,7 @@ public class CatBehaviour : MonoBehaviour
         audioSource.Play();
 
         Destroy(soundObject, clip.length);
+
     }
 
     public void CatchCat()
@@ -70,8 +77,26 @@ public class CatBehaviour : MonoBehaviour
         // Save the ID of the object
         objectId = gameObject.GetInstanceID();
 
-        print(objectId);
-        gameObject.SetActive(false);
+        slotsObject = GameObject.Find("Slots");
+
+        foreach (Transform child in slotsObject.transform)
+        {
+            slots.Add(child.GetComponent<Slot>());
+        }
+
+        foreach (Slot slot in slots)
+        {
+            if (!slot.IsOccupied())
+            {
+                Debug.Log(slot.gameObject.transform.position);
+                gameObject.transform.localPosition = slot.gameObject.transform.position;
+                slot.SetInstance(gameObject);
+
+                slot.SetOccupied(true);
+                break;
+            }        
+        }
+        /*gameObject.SetActive(false);*/
         HideUIButton();
 
         catCounter.AddCat();

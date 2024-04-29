@@ -7,6 +7,7 @@ TagManager:
   - ArrowTarget
   - tile
   - SpawnPoint
+  - CatSlots
   layers:
   - Default
   - TransparentFX

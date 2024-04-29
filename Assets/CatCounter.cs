@@ -40,4 +40,9 @@ public class CatCounter : MonoBehaviour
     {
         return catCount >= totalCatAmount;
     }
+
+    public void SetMessage(string text)
+    {
+        successMessage.SetText(text);
+    }
 }

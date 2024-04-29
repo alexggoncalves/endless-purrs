@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -60,8 +61,8 @@ public class CatLocater : MonoBehaviour
 
     private void Update()
     {
-        Success = GameObject.Find("Success").GetComponent<CatCounter>();
-        if (Success)
+        Boolean success = GameObject.Find("Cat Counter").GetComponent<CatCounter>().Success();
+        if (success)
         {
             float fixXPos = 5f;
             float fixZPos = 5f;

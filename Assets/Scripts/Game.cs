@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 
@@ -14,6 +15,7 @@ public class Game : MonoBehaviour
     private Movement playerMovement;
 
     Speech speech;
+    Decision decision;
     public CatCounter catCounter;
 
     int endSequence = 0;
@@ -21,6 +23,7 @@ public class Game : MonoBehaviour
     private void Start()
     {
         speech = player.transform.GetChild(1).gameObject.GetComponent<Speech>(); // Get Speech
+        decision = player.transform.GetChild(2).gameObject.GetComponent<Decision>();
         player.transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
         playerMovement = player.GetComponent<Movement>();
     }
@@ -39,9 +42,38 @@ public class Game : MonoBehaviour
             if (!speech.IsActive())
             {
                 endSequence = 2;
-                speech.SetText("aaa");
-                speech.Show();
+                
             }
+        }
+
+        if(endSequence == 2)
+        {
+            decision.Show();
+            if(decision.GetDecision() != '0')
+            {
+                endSequence = 3;
+            }
+        }
+
+        if(endSequence == 3)
+        {
+            decision.Hide();
+            if(decision.GetDecision() == 'y')
+            {
+                catCounter.SetMessage("You let the cats be free. Thanks for play-testing our game!");
+                GameObject slotsObject = GameObject.Find("Slots");
+
+                foreach (Transform child in slotsObject.transform)
+                {
+                    if (child.GetComponent<Slot>().GetInstance() != null) Destroy(child.GetComponent<Slot>().GetInstance());
+                }
+            } 
+            else if(decision.GetDecision() == 'n')
+            {
+                catCounter.SetMessage("You are keeping the cats locked in. Thanks for play-testing our game!");
+            }
+           endSequence = 4;
+
         }
     }
 
