@@ -10,6 +10,8 @@ public class Movement : MonoBehaviour
     private Vector3 playerVelocity;
     private bool groundedPlayer = true;
 
+    bool isInsideHouse = false;
+
     [SerializeField]
     private float jumpHeight = 1.0f;
     [SerializeField]
@@ -120,5 +122,20 @@ public class Movement : MonoBehaviour
     public void ResetVelocity()
     {
         playerVelocity = Vector3.zero;
+    }
+
+    public void EnterHouse()
+    {
+        isInsideHouse = true;
+    }
+    
+    public void LeaveHouse()
+    {
+        isInsideHouse = false;
+    }
+
+    public Boolean IsInsideHouse()
+    {
+        return isInsideHouse;
     }
 }

@@ -8,6 +8,7 @@ public class Portal : MonoBehaviour
 
     public GameObject player;
     public Vector3 target = new Vector3(0, 0, 0);
+    public MapGenerator mapGenerator;
 
     public void OnTriggerEnter(Collider other)
     {
@@ -24,6 +25,7 @@ public class Portal : MonoBehaviour
             player.transform.position = target;
 
             triggerActive = false;
+            /*mapGenerator.GetWFC().MoveToOrigin();*/
 
             Destroy(this.gameObject, 1);
         }

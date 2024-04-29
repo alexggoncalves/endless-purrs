@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,7 @@ public class CatCounter : MonoBehaviour
 {
     public TextMeshProUGUI text;
     public TextMeshProUGUI successMessage;
+    [SerializeField,Range(1,10)]
     int totalCatAmount = 3;
     int catCount = 0;
     
@@ -18,7 +20,7 @@ public class CatCounter : MonoBehaviour
         text.SetText(catCount.ToString() + "/" + totalCatAmount);
     }
 
-    void addCat()
+    public void AddCat()
     {
         catCount++;
         text.SetText(catCount.ToString() + "/" + totalCatAmount);
@@ -29,8 +31,13 @@ public class CatCounter : MonoBehaviour
         }
     }
 
-    int getCatCount()
+    int GetCatCount()
     {
         return catCount;
+    }
+
+    public Boolean Success()
+    {
+        return catCount >= totalCatAmount;
     }
 }

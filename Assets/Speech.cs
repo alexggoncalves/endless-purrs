@@ -48,9 +48,9 @@ public class Speech : MonoBehaviour
 
     public void Hide()
     {
-        if(transform.parent.CompareTag("Player")){
+        /*if(transform.parent.CompareTag("Player")){
             transform.parent.GetComponent<Movement>().UnlockMovement();
-        }
+        }*/
         active = false;
         foreach (Transform child in transform)
         {
@@ -60,13 +60,18 @@ public class Speech : MonoBehaviour
 
     public void Show()
     {
-        if(transform.parent.CompareTag("Player")){
+        /*if(transform.parent.CompareTag("Player")){
             transform.parent.GetComponent<Movement>().LockMovement();
-        }
+        }*/
         active = true;
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
         }
+    }
+
+    public Boolean IsActive()
+    {
+        return active;
     }
 }

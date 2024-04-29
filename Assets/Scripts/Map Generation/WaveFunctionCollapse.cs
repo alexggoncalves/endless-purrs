@@ -26,6 +26,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     // Grid
     public Cell[,] grid;
     GameObject tileInstanceContainer;
+    Tile[,] initialAreaGrid;
 
     public Stack<Cell> updatedCells;
     private bool updating;
@@ -43,6 +44,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     private Stack<Place> placesToDestroy;
 
     Boolean initialLoading = true;
+    Boolean moving = false;
 
     public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, Movement player, GameObject startingPlace)
     { 
@@ -74,6 +76,8 @@ public class WaveFunctionCollapse : MonoBehaviour
     public void InitializeGrid()
     {
         grid = new Cell[gridWidth, gridHeight];
+        initialAreaGrid = new Tile[gridWidth, gridHeight];
+
         // Add the Cell component for every cell of the grid
         for (int y = 0; y < gridHeight; y++)
         {
@@ -105,6 +109,50 @@ public class WaveFunctionCollapse : MonoBehaviour
         Vector2 position = CalculateGridCoordinates(place.GetPosition().x, place.GetPosition().y);
 
         SetGridSection(place.GetGrid(), position.x - dimensions.x / 2 + 1, position.y - dimensions.y / 2 + cellScale + 1, dimensions.x, dimensions.y);
+    }
+
+    void SaveStartingArea()
+    {
+        for (int i = 0; i < gridWidth; i++)
+        {
+            for (int j = 0; j < gridHeight; j++)
+            {
+                initialAreaGrid[i, j] = grid[i, j].tileOptions[0];
+            }
+        }
+    }
+
+    public void MoveToOrigin()
+    {
+        moving = true;
+        cellContainer.transform.position = new Vector3(0, 0, 0);
+        for (int i = 0; i < gridWidth; i++)
+        {
+            for (int j = 0; j < gridHeight; j++)
+            {
+                grid[i, j].collapsed = false;
+                
+                grid[i, j].RecreateCell(new List<Tile> { initialAreaGrid[i, j] });
+            }
+        }
+
+        iteration = 0;
+
+        /*RefreshInstances();*/
+        moveOffset = new Vector2(0, 0);
+        totalMoveOffset = new Vector2(0, 0);
+        moving = false;
+    }
+
+    void RefreshInstances()
+    {
+        foreach(Cell cell in grid)
+        {
+            Destroy(cell.tileInstance);
+            GameObject instance = cell.InstantiateTile();
+
+            instance.transform.SetParent(tileInstanceContainer.transform);
+        }
     }
 
 
@@ -358,6 +406,8 @@ public class WaveFunctionCollapse : MonoBehaviour
         // else the algorithm enters a rest state until there's a cell that needs to be collapsed
 
         iteration++;
+
+        while (moving) { };
         
         if (iteration < player.GetInnerPlayerArea().GetCellArea(cellScale))
         {
@@ -365,10 +415,16 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
         else
         {
-            if(initialLoading) initialLoading = false;
+            if (initialLoading)
+            {
+                initialLoading = false;
+                SaveStartingArea();
+            }
             updating = false;
         }
     }
+
+    
 
     // Go through the options array for the cell being updated and remove any tile that isn't present in the valid options array.
     // The valid options array will bring the tiles that each of the directions allow the focused tile to be.
@@ -411,7 +467,6 @@ public class WaveFunctionCollapse : MonoBehaviour
                     if (x < gridWidth - 1)
                     {
                         if (x == 0) instancesToDelete.Push(grid[x, y].tileInstance);
-                            /*Destroy(grid[x, y].tileInstance);*/
                         grid[x, y].tileInstance = grid[x + 1, y].tileInstance;
                         grid[x, y].tileOptions = grid[x + 1, y].tileOptions;
                         grid[x, y].collapsed = grid[x + 1, y].collapsed;

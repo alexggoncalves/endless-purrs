@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HouseController : MonoBehaviour
@@ -20,10 +22,15 @@ public class HouseController : MonoBehaviour
     private Quaternion closedDoorRotation;
     private Quaternion openDoorRotation;
 
+    private Movement player;
+
+    
+
     private void Start()
     {
         closedDoorRotation = door.rotation;
         openDoorRotation = Quaternion.Euler(door.rotation.eulerAngles + Vector3.up * openDoorAngle);
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>();
     }
 
     private void FixedUpdate()
@@ -43,8 +50,10 @@ public class HouseController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInside = true;
-            
+            other.gameObject.GetComponent<Movement>().EnterHouse();
+
             HideHouseTop();
+
         }
     }
 
@@ -53,6 +62,8 @@ public class HouseController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInside = false;
+            other.gameObject.GetComponent<Movement>().LeaveHouse();
+
             ShowHouseTop();
         }
     }
@@ -77,5 +88,10 @@ public class HouseController : MonoBehaviour
             color.a = 1f;
             mat.color = color;
         }
+    }
+
+    public Boolean IsPlayerInside()
+    {
+        return isPlayerInside;
     }
 }
