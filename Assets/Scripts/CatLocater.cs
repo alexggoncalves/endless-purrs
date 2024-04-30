@@ -24,15 +24,25 @@ public class CatLocater : MonoBehaviour
 
     public CatCounter Success;
 
+    public Movement player;
+    private void Start()
+    {
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>() as Camera;
+        pointer.gameObject.SetActive(false);
+        button.gameObject.SetActive(true);
+        call = GetComponent<AudioSource>();
+    }
+
     public GameObject FindClosestCat()
     {
         GameObject[] gos;
         gos = GameObject.FindGameObjectsWithTag("ArrowTarget");
+
         if (gos != null)
         {
             GameObject closest = null;
             float distance = Mathf.Infinity;
-            Vector3 position = transform.position;
+            Vector3 position = player.transform.position;
             foreach (GameObject go in gos)
             {
                 Vector3 diff = go.transform.position - position;
@@ -50,26 +60,20 @@ public class CatLocater : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>() as Camera;
-        pointer.gameObject.SetActive(false);
-        button.gameObject.SetActive(true);
-        call = GetComponent<AudioSource>();
-    }
+    
 
     private void Update()
     {
         Boolean success = GameObject.Find("Cat Counter").GetComponent<CatCounter>().Success();
         if (success)
         {
-            float fixXPos = 5f;
-            float fixZPos = 5f;
+            float fixXPos = 0;
+            float fixZPos = 0;
             targetPosition = Vector3.zero;
             pointer.gameObject.SetActive(true);
             button.gameObject.SetActive(false);
             Vector3 toPosition = targetPosition;
-            Vector3 fromPosition = new Vector3(cam.transform.position.x - fixXPos, 0f, cam.transform.position.z + fixZPos);
+            Vector3 fromPosition = new Vector3(player.transform.position.x - fixXPos, 0f, player.transform.position.z + fixZPos);
             Vector3 dir = (toPosition - fromPosition).normalized;
 
             float angle = ((Mathf.Atan2(dir.z, dir.x) * Mathf.Rad2Deg) % 360) - 90;
@@ -83,7 +87,7 @@ public class CatLocater : MonoBehaviour
             {
                 button.gameObject.SetActive(false);
                 float maxDistance = distance;
-                float distanceToTarget = Vector3.Distance(cam.transform.position, targetPosition);
+                float distanceToTarget = Vector3.Distance(player.transform.position, targetPosition);
 
                 if (distanceToTarget <= maxDistance && distanceToTarget >= 5f && FindClosestCat() != null)
                 //if (distanceToTarget <= maxDistance)
@@ -104,10 +108,10 @@ public class CatLocater : MonoBehaviour
 
             if (isPointerActive)
             {
-                float fixXPos = 5f;
-                float fixZPos = 5f;
+                float fixXPos = 0;
+                float fixZPos = 0;
                 Vector3 toPosition = targetPosition;
-                Vector3 fromPosition = new Vector3(cam.transform.position.x - fixXPos, 0f, cam.transform.position.z + fixZPos);
+                Vector3 fromPosition = new Vector3(player.transform.position.x - fixXPos, 0f, player.transform.position.z + fixZPos);
                 Vector3 dir = (toPosition - fromPosition).normalized;
 
                 float angle = ((Mathf.Atan2(dir.z, dir.x) * Mathf.Rad2Deg) % 360) - 90;

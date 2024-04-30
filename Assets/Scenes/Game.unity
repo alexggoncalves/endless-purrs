@@ -2610,6 +2610,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4607971506560942703, guid: e5e497a51aadeca4aa51f87dcaba0717, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4607971506560942703, guid: e5e497a51aadeca4aa51f87dcaba0717, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8459538894316574289, guid: e5e497a51aadeca4aa51f87dcaba0717, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -3.77
