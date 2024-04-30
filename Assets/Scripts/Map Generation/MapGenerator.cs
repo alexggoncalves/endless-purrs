@@ -141,8 +141,9 @@ public class MapGenerator : MonoBehaviour
 
                 // Check if chosen coordinates are inside player area
                 Vector2 placement = new Vector2(x, y);
-                if(Vector2.Distance(placement, new Vector2(0,0)) > 20)
+                if(Vector3.Distance(placement, new Vector2(0,0)) > (place.GetDimensions().x +  startingPlace.GetComponent<Place>().GetDimensions().x + 5)* cellScale)
                 {
+                    Debug.Log(Vector2.Distance(placement, new Vector2(0, 0)));
                     if (Vector2.Distance(placement, new Vector2(center.x, center.z)) > (gridWidth / 2) * cellScale + 15 + place.GetDimensions().x / 2)
                     {
                         valid = true;

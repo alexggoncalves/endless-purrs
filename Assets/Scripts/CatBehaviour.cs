@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 public class CatBehaviour : MonoBehaviour
 {
-    private Camera cam;
+    
     [SerializeField] private bool triggerActive = false;
     private int objectId;
 
@@ -15,16 +16,17 @@ public class CatBehaviour : MonoBehaviour
 
     private RectTransform currentUIButton;
 
-    public CatCounter catCounter;
+    private CatCounter catCounter;
 
     private List<Slot> slots;
     GameObject slotsObject;
 
+    Boolean caught = false;
+
     private void Start()
     {
         slots = new List<Slot>();
-
-        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>() as Camera;
+        
         Meow = gameObject.GetComponents<AudioSource>();
 
         uiButtonPrefab = Resources.Load<RectTransform>("CatCatcher");
@@ -74,32 +76,38 @@ public class CatBehaviour : MonoBehaviour
 
     public void CatchCat()
     {
-        // Save the ID of the object
-        objectId = gameObject.GetInstanceID();
-
-        slotsObject = GameObject.Find("Slots");
-
-        foreach (Transform child in slotsObject.transform)
+        if (!caught)
         {
-            slots.Add(child.GetComponent<Slot>());
-        }
+            // Save the ID of the object
+            objectId = gameObject.GetInstanceID();
 
-        foreach (Slot slot in slots)
-        {
-            if (!slot.IsOccupied())
+            slotsObject = GameObject.Find("Slots");
+
+            // Send cat to a empty slot inside the house
+            foreach (Transform child in slotsObject.transform)
             {
-                Debug.Log(slot.gameObject.transform.position);
-                gameObject.transform.localPosition = slot.gameObject.transform.position;
-                slot.SetInstance(gameObject);
+                slots.Add(child.GetComponent<Slot>());
+            }
+            foreach (Slot slot in slots)
+            {
+                if (!slot.IsOccupied())
+                {
+                    Debug.Log(slot.gameObject.transform.position);
+                    gameObject.transform.position = slot.gameObject.transform.position;
+                    gameObject.transform.localRotation = slot.gameObject.transform.localRotation;
+                    slot.SetInstance(gameObject);
 
-                slot.SetOccupied(true);
-                break;
-            }        
+                    slot.SetOccupied(true);
+                    break;
+                }
+            }
+            /*gameObject.SetActive(false);*/
+            HideUIButton();
+
+            catCounter.AddCat();
+            caught = true;
         }
-        /*gameObject.SetActive(false);*/
-        HideUIButton();
-
-        catCounter.AddCat();
+        
     }
 
     private void ShowUIButton()
@@ -120,5 +128,10 @@ public class CatBehaviour : MonoBehaviour
             Destroy(currentUIButton.gameObject);
             currentUIButton = null;
         }
+    }
+
+    public Boolean HasBeenCaught()
+    {
+        return caught;
     }
 }

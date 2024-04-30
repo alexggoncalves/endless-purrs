@@ -37,7 +37,7 @@ public class CatLocater : MonoBehaviour
             {
                 Vector3 diff = go.transform.position - position;
                 float curDistance = diff.sqrMagnitude;
-                if (curDistance < distance)
+                if (curDistance < distance && !go.GetComponent<CatBehaviour>().HasBeenCaught())
                 {
                     closest = go;
                     distance = curDistance;
@@ -46,8 +46,7 @@ public class CatLocater : MonoBehaviour
             return closest;
         } else
         {
-            GameObject noCats = null;
-            return noCats;
+            return null;
         }
     }
 
