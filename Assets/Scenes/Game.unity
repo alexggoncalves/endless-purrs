@@ -2203,6 +2203,7 @@ MonoBehaviour:
   button: {fileID: 1192964883}
   distance: 70
   Success: {fileID: 0}
+  player: {fileID: 1635168314}
 --- !u!1 &1571169409
 GameObject:
   m_ObjectHideFlags: 0
@@ -2416,6 +2417,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1996664381415714018, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
   m_PrefabInstance: {fileID: 225848950}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1635168314 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2806696272757698312, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
+  m_PrefabInstance: {fileID: 225848950}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635168310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 212c1606e504afb4cb9c93d1eaee4a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1935726484
 GameObject:
   m_ObjectHideFlags: 0
@@ -2616,7 +2628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4607971506560942703, guid: e5e497a51aadeca4aa51f87dcaba0717, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
-      value: 1
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8459538894316574289, guid: e5e497a51aadeca4aa51f87dcaba0717, type: 3}
       propertyPath: m_AnchoredPosition.x
