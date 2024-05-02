@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
-using Unity.VisualScripting;
-using DG.Tweening;
 using System.Threading.Tasks;
+using static UnityEditor.Experimental.GraphView.GraphView;
 using Unity.AI.Navigation;
-using UnityEngine.UIElements;
 
 public class WaveFunctionCollapse : MonoBehaviour
 {
@@ -18,6 +16,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     float cellScale;
     int gridWidth, gridHeight;
     Vector2 worldOffset = new Vector2(0, 0);
+    Vector2 edgeSize;
 
     // Cells
     GameObject cellContainer;
@@ -44,9 +43,12 @@ public class WaveFunctionCollapse : MonoBehaviour
     private Stack<Place> placesToDestroy;
 
     Boolean initialLoading = true;
-    Boolean moving = false;
 
-    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, Movement player, GameObject startingPlace)
+    NatureElementPlacer natureElements;
+
+    
+
+    public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, Movement player, GameObject startingPlace, Vector2 edgeSize)
     { 
         tiles = new List<Tile>(possibleTiles);
         this.player = player;
@@ -65,11 +67,14 @@ public class WaveFunctionCollapse : MonoBehaviour
         placesToDestroy = new Stack<Place>();
 
         this.placesOnWait = new List<Place>();
+        
+        this.edgeSize = edgeSize;
+        this.updating = true;
+
+        natureElements = GameObject.Find("Nature Elements").GetComponent<NatureElementPlacer>();
 
         InitializeGrid();
-        PlaceStartingArea(startingPlace,0,6);
-
-        this.updating = true;
+        PlaceStartingArea(startingPlace,0,6);        
         StartCoroutine(CheckEntropy());
     }
 
@@ -124,7 +129,6 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     public void MoveToOrigin()
     {
-        moving = true;
         cellContainer.transform.position = new Vector3(0, 0, 0);
         for (int i = 0; i < gridWidth; i++)
         {
@@ -141,7 +145,6 @@ public class WaveFunctionCollapse : MonoBehaviour
         /*RefreshInstances();*/
         moveOffset = new Vector2(0, 0);
         totalMoveOffset = new Vector2(0, 0);
-        moving = false;
     }
 
     void RefreshInstances()
@@ -226,9 +229,22 @@ public class WaveFunctionCollapse : MonoBehaviour
                 cellToCollapse.RecreateCell(new List<Tile> { tiles[0] });
             }
 
+            
+            //Spawn Nature
+            if(selectedTile.name == "grass")
+            {
+                GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position, NatureElementPlacer.BiomeType.Forest);
+                cellToCollapse.SetNatureElementInstance(natureElement);
+            }
+            else if (selectedTile.name == "high_grass")
+            {
+                GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position + Vector3.up, NatureElementPlacer.BiomeType.Forest);
+                cellToCollapse.SetNatureElementInstance(natureElement);
+            }
             // Instantiate the chosen tile and set it as a child of the instance container
             GameObject instance = cellToCollapse.InstantiateTile();
-            
+            instance.layer = LayerMask.NameToLayer("Tiles");
+
             instance.transform.SetParent(tileInstanceContainer.transform);
         }
 
@@ -406,15 +422,15 @@ public class WaveFunctionCollapse : MonoBehaviour
         // else the algorithm enters a rest state until there's a cell that needs to be collapsed
 
         iteration++;
-
-        while (moving) { };
         
+
         if (iteration < player.GetInnerPlayerArea().GetCellArea(cellScale))
         {
             StartCoroutine(CheckEntropy());
         }
         else
         {
+            Debug.Log(iteration);
             if (initialLoading)
             {
                 initialLoading = false;
@@ -466,7 +482,13 @@ public class WaveFunctionCollapse : MonoBehaviour
                 {
                     if (x < gridWidth - 1)
                     {
-                        if (x == 0) instancesToDelete.Push(grid[x, y].tileInstance);
+                        if (x == 0)
+                        {
+                            if (grid[x, y].natureElement != null) Destroy(grid[x, y].natureElement);
+                            instancesToDelete.Push(grid[x, y].tileInstance);
+                            
+                        }
+                        grid[x, y].natureElement = grid[x + 1, y].natureElement;
                         grid[x, y].tileInstance = grid[x + 1, y].tileInstance;
                         grid[x, y].tileOptions = grid[x + 1, y].tileOptions;
                         grid[x, y].collapsed = grid[x + 1, y].collapsed;
@@ -482,7 +504,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             }
             cellContainer.transform.position += new Vector3(direction.x * cellScale, 0, 0);
             moveOffset.x -= 1;
-            iteration -= gridHeight + 1;
+            iteration -= (gridHeight - (int)edgeSize.y + 1);
             totalMoveOffset.x += 1;
         }
         else if (direction.x == -1)
@@ -493,7 +515,13 @@ public class WaveFunctionCollapse : MonoBehaviour
                 {
                     if (x > 0)
                     {
-                        if (x == gridWidth - 1) instancesToDelete.Push(grid[x, y].tileInstance);
+                        if (x == gridWidth - 1)
+                        {
+                            if (grid[x, y].natureElement != null) Destroy(grid[x, y].natureElement);
+                            instancesToDelete.Push(grid[x, y].tileInstance);
+                           
+                        }
+                        grid[x, y].natureElement = grid[x - 1, y].natureElement;
                         grid[x, y].tileInstance = grid[x - 1, y].tileInstance;
                         grid[x, y].tileOptions = grid[x - 1, y].tileOptions;
                         grid[x, y].collapsed = grid[x - 1, y].collapsed;
@@ -508,11 +536,11 @@ public class WaveFunctionCollapse : MonoBehaviour
             }
             cellContainer.transform.position += new Vector3(direction.x * cellScale, 0, 0);
             moveOffset.x += 1;
-            iteration -= gridHeight + 1;
+            iteration -= (gridHeight - (int)edgeSize.y * 2 + 1);
             totalMoveOffset.x -= 1;
+            
         }
-
-        if (direction.y == 1)
+        else if (direction.y == 1)
         {
             for (int x = 0; x < gridWidth; x++)
             {
@@ -520,7 +548,13 @@ public class WaveFunctionCollapse : MonoBehaviour
                 {
                     if (y < gridHeight - 1)
                     {
-                        if (y == 0) instancesToDelete.Push(grid[x, y].tileInstance);
+                        if (y == 0)
+                        {
+                            if (grid[x, y].natureElement != null) Destroy(grid[x, y].natureElement);
+                            instancesToDelete.Push(grid[x, y].tileInstance);
+                        }
+                        
+                        grid[x, y].natureElement = grid[x, y + 1].natureElement;
                         grid[x, y].tileInstance = grid[x, y + 1].tileInstance;
                         grid[x, y].tileOptions = grid[x, y + 1].tileOptions;
                         grid[x, y].collapsed = grid[x, y + 1].collapsed;
@@ -536,7 +570,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             }
             cellContainer.transform.position += new Vector3(0, 0, direction.y * cellScale);
             moveOffset.y -= 1;
-            iteration -= gridWidth + 1;
+            iteration -= (gridWidth - (int)edgeSize.x*2 + 1);
             totalMoveOffset.y += 1;
             
         }
@@ -548,7 +582,12 @@ public class WaveFunctionCollapse : MonoBehaviour
                 {
                     if (y > 0)
                     {
-                        if (y == gridHeight - 1) instancesToDelete.Push(grid[x, y].tileInstance);
+                        if (y == gridHeight - 1)
+                        {
+                            if (grid[x, y].natureElement != null) Destroy(grid[x, y].natureElement);
+                            instancesToDelete.Push(grid[x, y].tileInstance);
+                        }
+                        grid[x, y].natureElement = grid[x, y - 1].natureElement;
                         grid[x, y].tileInstance = grid[x, y - 1].tileInstance;
                         grid[x, y].tileOptions = grid[x, y - 1].tileOptions;
                         grid[x, y].collapsed = grid[x, y - 1].collapsed;
@@ -564,10 +603,9 @@ public class WaveFunctionCollapse : MonoBehaviour
             }
             cellContainer.transform.position += new Vector3(0, 0, direction.y * cellScale);
             moveOffset.y += 1;
-            iteration -= gridWidth + 1;
+            iteration -= (gridWidth - (int)edgeSize.x * 2 + 1); ;
             totalMoveOffset.y -= 1;
         }
-
         await Task.CompletedTask;
     }
 

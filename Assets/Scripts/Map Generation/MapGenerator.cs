@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,7 +38,7 @@ public class MapGenerator : MonoBehaviour
     public List<Place> orderedPlaces; // Places that are related to the story and 
     public List<Place> unorderedPlaces;
     
-    public List<Place> placeInstances;
+    private List<Place> placeInstances;
     private Stack<Place> placesToDestroy;
 
     public Game game;
@@ -48,7 +46,6 @@ public class MapGenerator : MonoBehaviour
     // loading screen
     public GameObject loadingScreen;
     public Slider loadingSlider;
-
 
     void Start()
     {
@@ -58,6 +55,7 @@ public class MapGenerator : MonoBehaviour
         TileLoader tileLoader = this.AddComponent<TileLoader>();
         tileLoader.Initialize(tileInfoJSON, tiles);
         possibleTiles = tileLoader.Load();
+        placeInstances = new List<Place>();
 
         player = GameObject.Find("Player").GetComponent<Movement>();
         player.SetMapDetails(gridWidth, gridHeight, cellScale, worldOffset, edgeSize);
@@ -65,7 +63,7 @@ public class MapGenerator : MonoBehaviour
         placesToDestroy = new Stack<Place>();
 
         wfc = this.AddComponent<WaveFunctionCollapse>();
-        wfc.Initialize(possibleTiles, gridWidth, gridHeight, cellScale, cellObj, worldOffset, player, startingPlace);
+        wfc.Initialize(possibleTiles, gridWidth, gridHeight, cellScale, cellObj, worldOffset, player, startingPlace, edgeSize);
 
         lastPlayerCoordinates = wfc.CalculateWorldCoordinates(player.transform.position.x, player.transform.position.z);
     }
@@ -81,7 +79,9 @@ public class MapGenerator : MonoBehaviour
 
         CheckPlaces();
 
-        if (wfc.HasLoadedInitialZone() && !game.HasBegun()) game.Begin();
+        if (wfc.HasLoadedInitialZone() && !game.HasBegun()) { 
+            game.Begin(); 
+        };
 
         //Update Loading screen
         if (!wfc.HasLoadedInitialZone())
@@ -141,10 +141,9 @@ public class MapGenerator : MonoBehaviour
 
                 // Check if chosen coordinates are inside player area
                 Vector2 placement = new Vector2(x, y);
-                if(Vector3.Distance(placement, new Vector2(0,0)) > (place.GetDimensions().x +  startingPlace.GetComponent<Place>().GetDimensions().x + 5)* cellScale)
+                if(Vector3.Distance(placement, new Vector2(0,0)) > (place.GetDimensions().x +  startingPlace.GetComponent<Place>().GetDimensions().x + 6)* cellScale)
                 {
-                    Debug.Log(Vector2.Distance(placement, new Vector2(0, 0)));
-                    if (Vector2.Distance(placement, new Vector2(center.x, center.z)) > (gridWidth / 2) * cellScale + 15 + place.GetDimensions().x / 2)
+                    if (Vector2.Distance(placement, new Vector2(center.x + worldOffset.x, center.z + worldOffset.y)) > (gridWidth / 2) * cellScale + 16 + place.GetDimensions().x)
                     {
                         valid = true;
 
@@ -172,9 +171,10 @@ public class MapGenerator : MonoBehaviour
                     placeInstances.Add(newPlace);
                     newPlace.onWait = true;
                     wfc.AddPlaceForPlacement(newPlace);
-                }
+                } 
+                else attempts++;
 
-                attempts++;
+
             }
         }
     }

@@ -14,6 +14,8 @@ public class Cell : MonoBehaviour
     public GameObject tileInstance;
     public bool preset = false;
 
+    public GameObject natureElement;
+
     public void CreateCell(bool collapseState, List<Tile> tiles, int x, int y)
     {
         collapsed = collapseState;
@@ -21,6 +23,7 @@ public class Cell : MonoBehaviour
         this.x = x;
         this.y = y;
         tileInstance = null;
+        natureElement = null;
     }
 
     public void CollapseCell(Tile tile)
@@ -70,6 +73,11 @@ public class Cell : MonoBehaviour
     public List<Tile> GetTileOptions()
     {
         return tileOptions;
+    }
+
+    public void SetNatureElementInstance(GameObject natureElement)
+    {
+        this.natureElement = natureElement;
     }
 }
 

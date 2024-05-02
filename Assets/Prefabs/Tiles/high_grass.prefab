@@ -61,6 +61,10 @@ PrefabInstance:
       value: high_grass
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ce54e92d21d14a442ab93a2ccb707b6f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ce54e92d21d14a442ab93a2ccb707b6f, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4
       objectReference: {fileID: 0}
