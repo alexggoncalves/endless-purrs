@@ -79,7 +79,7 @@ MonoBehaviour:
     DirectLightingStrength: 0.046
     Radius: 2.1
     Samples: 1
-    BlurQuality: 0
+    BlurQuality: 1
     Falloff: 92.89
     SampleCount: -1
   m_BlueNoise256Textures:

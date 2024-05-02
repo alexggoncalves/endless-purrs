@@ -46,7 +46,10 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     NatureElementPlacer natureElements;
 
-    
+    private void Update()
+    {
+        Debug.Log(iteration);
+    }
 
     public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, Movement player, GameObject startingPlace, Vector2 edgeSize)
     { 
@@ -484,7 +487,7 @@ public class WaveFunctionCollapse : MonoBehaviour
                     {
                         if (x == 0)
                         {
-                            if (grid[x, y].natureElement != null) Destroy(grid[x, y].natureElement);
+                            if (grid[x, y].natureElement != null) instancesToDelete.Push(grid[x, y].natureElement);
                             instancesToDelete.Push(grid[x, y].tileInstance);
                             
                         }
@@ -517,7 +520,7 @@ public class WaveFunctionCollapse : MonoBehaviour
                     {
                         if (x == gridWidth - 1)
                         {
-                            if (grid[x, y].natureElement != null) Destroy(grid[x, y].natureElement);
+                            if (grid[x, y].natureElement != null) instancesToDelete.Push(grid[x, y].natureElement);
                             instancesToDelete.Push(grid[x, y].tileInstance);
                            
                         }
@@ -550,7 +553,7 @@ public class WaveFunctionCollapse : MonoBehaviour
                     {
                         if (y == 0)
                         {
-                            if (grid[x, y].natureElement != null) Destroy(grid[x, y].natureElement);
+                            if (grid[x, y].natureElement != null) instancesToDelete.Push(grid[x, y].natureElement);
                             instancesToDelete.Push(grid[x, y].tileInstance);
                         }
                         
@@ -584,7 +587,7 @@ public class WaveFunctionCollapse : MonoBehaviour
                     {
                         if (y == gridHeight - 1)
                         {
-                            if (grid[x, y].natureElement != null) Destroy(grid[x, y].natureElement);
+                            if (grid[x, y].natureElement != null) instancesToDelete.Push(grid[x, y].natureElement);
                             instancesToDelete.Push(grid[x, y].tileInstance);
                         }
                         grid[x, y].natureElement = grid[x, y - 1].natureElement;
@@ -606,7 +609,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             iteration -= (gridWidth - (int)edgeSize.x * 2 + 1); ;
             totalMoveOffset.y -= 1;
         }
-        await Task.CompletedTask;
+        await Task.Yield();
     }
 
     public void AddPlaceForPlacement(Place place)
