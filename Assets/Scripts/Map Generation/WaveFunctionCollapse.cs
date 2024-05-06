@@ -48,7 +48,19 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(iteration);
+        if(instancesToDelete.Count > 0)
+        {
+            GameObject instance = instancesToDelete.Pop();
+            Destroy(instance);
+        }
+
+        if(placesToDestroy.Count > 0)
+        {
+            Place place = placesToDestroy.Pop();
+            placesOnWait.Remove(place);
+            Destroy(place.gameObject);
+        }
+       
     }
 
     public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, Movement player, GameObject startingPlace, Vector2 edgeSize)
@@ -175,32 +187,9 @@ public class WaveFunctionCollapse : MonoBehaviour
         tempGrid.RemoveAll(a => a.GetTileOptions().Count != tempGrid[0].GetTileOptions().Count);
 
 
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.015f);
 
         CollapseCell(tempGrid);
-        /*PlacePlacesOnWait();*/
-    }
-
-     IEnumerator ClearStackedInstances()
-    {
-        while (instancesToDelete.Count > 0)
-        {
-            GameObject instance = instancesToDelete.Pop();
-            Destroy(instance);
-        }
-        yield return new WaitForSeconds(0.01f);
-    }
-
-    async Task ClearStackedPlacesToDestroy()
-    {
-        while (placesToDestroy.Count > 0)
-        {
-            Place place = placesToDestroy.Pop();
-            placesOnWait.Remove(place);
-            Destroy(place.gameObject);
-        }
-
-        await Task.CompletedTask;
     }
 
     //  Collapses one of the cells with the least number of tile possibilities(superpositions)
@@ -232,18 +221,21 @@ public class WaveFunctionCollapse : MonoBehaviour
                 cellToCollapse.RecreateCell(new List<Tile> { tiles[0] });
             }
 
-            
-            //Spawn Nature
-            if(selectedTile.name == "grass")
+            if (!CellIsInsidePlace(cellToCollapse))
             {
-                GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position, NatureElementPlacer.BiomeType.Forest);
-                cellToCollapse.SetNatureElementInstance(natureElement);
+                if (selectedTile.name == "grass")
+                {
+
+                    GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position, NatureElementPlacer.BiomeType.Forest);
+                    cellToCollapse.SetNatureElementInstance(natureElement);
+                }
+                else if (selectedTile.name == "high_grass")
+                {
+                    GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position + Vector3.up, NatureElementPlacer.BiomeType.Forest);
+                    cellToCollapse.SetNatureElementInstance(natureElement);
+                }                
             }
-            else if (selectedTile.name == "high_grass")
-            {
-                GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position + Vector3.up, NatureElementPlacer.BiomeType.Forest);
-                cellToCollapse.SetNatureElementInstance(natureElement);
-            }
+
             // Instantiate the chosen tile and set it as a child of the instance container
             GameObject instance = cellToCollapse.InstantiateTile();
             instance.layer = LayerMask.NameToLayer("Tiles");
@@ -253,6 +245,18 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         // Move on to propagate changes and restart temporarily pause cycle
         UpdateGeneration();
+    }
+
+    Boolean CellIsInsidePlace(Cell cell)
+    {
+        foreach (Place place in placesOnWait)
+        {
+            if (place.extents.Contains(new Vector2(cell.transform.position.x, cell.transform.position.z)))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Selects a random Tile from the possible options based on their weights
@@ -414,10 +418,6 @@ public class WaveFunctionCollapse : MonoBehaviour
 
      async void UpdateGeneration()
     {
-        StartCoroutine(ClearStackedInstances());
-
-        await ClearStackedPlacesToDestroy();
-
         await UpdateCells();
 
         // After collapsing one cell and updating the tiles that need to be updated:
@@ -470,8 +470,10 @@ public class WaveFunctionCollapse : MonoBehaviour
         else direction.y = moveOffset.y / Mathf.Abs(moveOffset.y);
 
         await MoveAndOffsetGeneration(direction);
-        
+
+        /*StartCoroutine(ClearStackedInstances());*/
         UpdateGeneration();
+        /*StartCoroutine(CheckEntropy());*/
     }
 
 
@@ -501,13 +503,12 @@ public class WaveFunctionCollapse : MonoBehaviour
                         grid[x, y].ResetCell(tiles);
                         updatedCells.Push(grid[x, y]);
                     }
-
                 }
                 
             }
             cellContainer.transform.position += new Vector3(direction.x * cellScale, 0, 0);
             moveOffset.x -= 1;
-            iteration -= (gridHeight - (int)edgeSize.y + 1);
+            iteration -= (gridHeight - (int)edgeSize.y * 2 + 1);
             totalMoveOffset.x += 1;
         }
         else if (direction.x == -1)
@@ -534,7 +535,7 @@ public class WaveFunctionCollapse : MonoBehaviour
                         grid[x, y].ResetCell(tiles);
                         updatedCells.Push(grid[x, y]);
                     }
-
+                    
                 }
             }
             cellContainer.transform.position += new Vector3(direction.x * cellScale, 0, 0);
@@ -568,7 +569,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
                         updatedCells.Push(grid[x, y]);
                     }
-
+                    
                 }
             }
             cellContainer.transform.position += new Vector3(0, 0, direction.y * cellScale);
@@ -600,10 +601,10 @@ public class WaveFunctionCollapse : MonoBehaviour
                         grid[x, y].ResetCell(tiles);
                         updatedCells.Push(grid[x, y]);
                     }
-
+                    
                 }
-                
             }
+
             cellContainer.transform.position += new Vector3(0, 0, direction.y * cellScale);
             moveOffset.y += 1;
             iteration -= (gridWidth - (int)edgeSize.x * 2 + 1); ;
@@ -611,6 +612,8 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
         await Task.Yield();
     }
+
+    
 
     public void AddPlaceForPlacement(Place place)
     {

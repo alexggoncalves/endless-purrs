@@ -33,4 +33,4 @@ MonoBehaviour:
   - {fileID: 8160507626473841047, guid: 6d2a12c95c0767f419f668f5a712d3f6, type: 3}
   - {fileID: 9190476929376808198, guid: b42e35451505a3791ad4eb5827d4aacc, type: 3}
   accessoryChance: 41
-  seed: 0
+  seed: -65

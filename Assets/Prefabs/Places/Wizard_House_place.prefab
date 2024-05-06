@@ -1390,7 +1390,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8556939004386653462}
-  - component: {fileID: 1980355109245019823}
   - component: {fileID: 5751093406877778992}
   m_Layer: 0
   m_Name: cabin
@@ -1419,22 +1418,6 @@ Transform:
   - {fileID: 45171889996651851}
   m_Father: {fileID: 7608276657007212618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1980355109245019823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9046476131575197612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 569fcf5aa20dddb4ba0b5d90245e2953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  door: {fileID: 6194096948821835761}
-  houseTop: {fileID: 3906707820009997449}
-  openDoorAngle: -160
-  doorSpeed: 2
 --- !u!65 &5751093406877778992
 BoxCollider:
   m_ObjectHideFlags: 0

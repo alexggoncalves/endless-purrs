@@ -117,9 +117,57 @@ public class MapGenerator : MonoBehaviour
 
     }
 
+    void SpawnPlaces()
+    {
+        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+
+        bool valid = false;
+        if (placeInstances.Count < placeDensity)
+        {
+            Place place = unorderedPlaces[UnityEngine.Random.Range(0, unorderedPlaces.Count)];
+            Vector3 center = player.transform.position;
+            float x = UnityEngine.Random.Range(center.x - placesExtents.x / 2, center.x + placesExtents.x / 2);
+            float y = UnityEngine.Random.Range(center.z - placesExtents.y / 2, center.z + placesExtents.y / 2);
+
+            // Check if chosen coordinates are inside player area
+            Vector2 placement = new Vector2(x, y);
+            if (Vector3.Distance(placement, new Vector2(0, 0)) > (place.GetDimensions().x + startingPlace.GetComponent<Place>().GetDimensions().x + 6) * cellScale)
+            {
+                if (Vector2.Distance(placement, new Vector2(center.x + worldOffset.x, center.z + worldOffset.y)) > (gridWidth / 2) * cellScale + 16 + place.GetDimensions().x)
+                {
+                    valid = true;
+
+                    // Check for collisions with other placed areas
+                    foreach (Place placed in placeInstances)
+                    {
+                        // Consider the dimensions of the places for overlap check
+                        float distanceThreshold = place.GetDimensions().x * cellScale + placed.GetDimensions().x * cellScale + 4;
+                        if (Vector2.Distance(placement, new Vector2(placed.transform.position.x, placed.transform.position.z)) < distanceThreshold)
+                        {
+                            valid = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // If the placement is valid, create an instance of the place
+            // and send it to the wave function collapse to affect the terrain generation
+            if (valid)
+            {
+                Place newPlace = Instantiate(place, new Vector3(x, 0, y), Quaternion.identity);
+                newPlace.Initialize(new Vector3(x, y), possibleTiles[0]);
+
+                placeInstances.Add(newPlace);
+                newPlace.onWait = true;
+                wfc.AddPlaceForPlacement(newPlace);
+            }
+        }
+    }
+
     // Spawns the places randomly inside the determined extents
     // Mantains the chosen density
-    void SpawnPlaces()
+    void SpawnPlaces2()
     {
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
         float attempts = 0;

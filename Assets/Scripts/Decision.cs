@@ -75,7 +75,6 @@ public class Decision : MonoBehaviour
         transform.gameObject.SetActive(true);   
         foreach (Transform child in transform)
         {
-            Debug.Log(child);
             child.gameObject.SetActive(true);
         }
     }

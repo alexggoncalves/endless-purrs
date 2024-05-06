@@ -3,7 +3,22 @@ guid: eff7eefac53c3e1489c19615e044b006
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 40e1f49f3b90a14438c62e9131b11ca8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pijama
+    second: {fileID: 2100000, guid: 4421d04a5444a1842a23527a7217e7c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: skin
+    second: {fileID: 2100000, guid: 6d61693e46f85344695e419fcb661b78, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -90,7 +90,6 @@ public class CatBehaviour : MonoBehaviour
             {
                 if (!slot.IsOccupied())
                 {
-                    Debug.Log(slot.gameObject.transform.position);
                     gameObject.transform.position = slot.gameObject.transform.position;
                     gameObject.transform.localRotation = slot.gameObject.transform.localRotation;
                     slot.SetInstance(gameObject);
