@@ -88,7 +88,7 @@ public class CatLocater : MonoBehaviour
                 float maxDistance = distance;
                 float distanceToTarget = Vector3.Distance(player.transform.position, targetPosition);
 
-                if (distanceToTarget <= maxDistance && distanceToTarget >= 5f && FindClosestCat() != null)
+                if (distanceToTarget <= maxDistance && FindClosestCat() != null)
                 //if (distanceToTarget <= maxDistance)
                 {
                     isPointerActive = true;

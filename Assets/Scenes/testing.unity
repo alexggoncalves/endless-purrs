@@ -282,6 +282,8 @@ MonoBehaviour:
   pointer: {fileID: 211345476}
   button: {fileID: 1443907385}
   distance: 70
+  Success: {fileID: 0}
+  player: {fileID: 0}
 --- !u!82 &145764336
 AudioSource:
   m_ObjectHideFlags: 0
@@ -439,7 +441,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 55503aed2c2639e4faea0cb27ce85708, type: 2}
+  - {fileID: -876546973899608171, guid: fbcf991acc52c5248bc9cece073e7cd5, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -499,6 +501,7 @@ MonoBehaviour:
   triggerActive: 0
   player: {fileID: 985648758}
   target: {x: 0, y: 0.1, z: 0}
+  mapGenerator: {fileID: 0}
 --- !u!1 &211345475
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,6 +927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 985648758}
+  catCounter: {fileID: 0}
 --- !u!4 &902633314
 Transform:
   m_ObjectHideFlags: 0
@@ -1316,7 +1320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
+  m_RequiresOpaqueTextureOption: 1
   m_CameraType: 0
   m_Cameras: []
   m_RendererIndex: -1
@@ -1589,17 +1593,6 @@ MonoBehaviour:
   gridHeight: 30
   worldOffset: {x: 0, y: 8}
   edgeSize: {x: 6, y: 6}
-  tileInfoJSON: {fileID: 4900000, guid: 5b8b2f6c0baeeed478cfd04372576636, type: 3}
-  tiles:
-  - {fileID: 8740449406502879084, guid: 19b7d78aa85001d40a01b56323513548, type: 3}
-  - {fileID: 5205376032843533854, guid: a9d363b801c0afd4a84c6cb005721658, type: 3}
-  - {fileID: 7011237122414523335, guid: 89fc6b0de9d1591418c23ee97ef09969, type: 3}
-  - {fileID: 6819499883566379380, guid: e956c86012de95a4ab502beb88728259, type: 3}
-  - {fileID: 470633932573890769, guid: 83de66867f6e0e9419c968397e7e3dda, type: 3}
-  - {fileID: 2985030651423686905, guid: cc118eddcdb0d4040b330724662fcf25, type: 3}
-  - {fileID: 193369842070751977, guid: 0c6a953a41a6d754795bb2782c6e6fad, type: 3}
-  - {fileID: 7293241743806454097, guid: 77f259ed9b96ab34ea3489cd48b7df78, type: 3}
-  - {fileID: 4716273329449011785, guid: 190dc87ec4dc0444aa6d4d660ec60e14, type: 3}
   cellObj: {fileID: 3549023687805126509, guid: 0bdda6710b7f00f4bbd9a8e90bb71322, type: 3}
   placeDensity: 8
   placesExtents: {x: 140, y: 140}
@@ -1613,10 +1606,10 @@ MonoBehaviour:
   - {fileID: -248551918939790877, guid: 7e08e9ac2387f284181e47066d8a1f19, type: 3}
   - {fileID: -248551918939790877, guid: ae7f7787d9ec53344a68fa94475bf77f, type: 3}
   - {fileID: -248551918939790877, guid: d4ddc601fc85d364b9d76acd715fb82a, type: 3}
-  placeInstances: []
   game: {fileID: 902633313}
   loadingScreen: {fileID: 259405021}
   loadingSlider: {fileID: 1765867073}
+  tileLoader: {fileID: 0}
 --- !u!4 &1646883543
 Transform:
   m_ObjectHideFlags: 0
