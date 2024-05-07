@@ -54,13 +54,15 @@ public class WaveFunctionCollapse : MonoBehaviour
             Destroy(instance);
         }
 
-        if(placesToDestroy.Count > 0)
+        if (placesToDestroy.Count > 0)
         {
-            Place place = placesToDestroy.Pop();
-            placesOnWait.Remove(place);
-            Destroy(place.gameObject);
+           Place place = placesToDestroy.Pop();
+           placesOnWait.Remove(place);
+           Destroy(place.gameObject);
         }
-       
+
+
+
     }
 
     public void Initialize(List<Tile> possibleTiles, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, Movement player, GameObject startingPlace, Vector2 edgeSize)
@@ -89,7 +91,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         natureElements = GameObject.Find("Nature Elements").GetComponent<NatureElementPlacer>();
 
         InitializeGrid();
-        PlaceStartingArea(startingPlace,0,6);        
+        PlaceStartingArea(startingPlace, 0, 6);
         StartCoroutine(CheckEntropy());
     }
 
@@ -120,7 +122,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     void PlaceStartingArea(GameObject startingPlace, int x, int y)
     {
         // Create initial grass area
-        GameObject startingAreaInstance = GameObject.Instantiate(startingPlace, new Vector3(x, 0, y), Quaternion.identity);
+        GameObject startingAreaInstance = Instantiate(startingPlace, new Vector3(x, 0, y), Quaternion.identity);
         Place place = startingAreaInstance.GetComponent<Place>();
         place.Initialize(new Vector2(x,y), tiles[0]);
         placesOnWait.Add(place);
@@ -162,17 +164,6 @@ public class WaveFunctionCollapse : MonoBehaviour
         totalMoveOffset = new Vector2(0, 0);
     }
 
-    void RefreshInstances()
-    {
-        foreach(Cell cell in grid)
-        {
-            Destroy(cell.tileInstance);
-            GameObject instance = cell.InstantiateTile();
-
-            instance.transform.SetParent(tileInstanceContainer.transform);
-        }
-    }
-
 
     // Find the cell(s) with the least tile possibilies and collapse it into one of the superpositions(tiles)
     IEnumerator CheckEntropy()
@@ -187,7 +178,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         tempGrid.RemoveAll(a => a.GetTileOptions().Count != tempGrid[0].GetTileOptions().Count);
 
 
-        yield return new WaitForSeconds(0.015f);
+        yield return new WaitForSeconds(0.002f);
 
         CollapseCell(tempGrid);
     }
@@ -215,13 +206,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             if (selectedTile != null)
             {
                 cellToCollapse.RecreateCell(new List<Tile> { selectedTile });
-            }
-            else
-            {
-                cellToCollapse.RecreateCell(new List<Tile> { tiles[0] });
-            }
-
-            if (!CellIsInsidePlace(cellToCollapse))
+                 if (!CellIsInsidePlace(cellToCollapse))
             {
                 if (selectedTile.name == "grass")
                 {
@@ -235,6 +220,13 @@ public class WaveFunctionCollapse : MonoBehaviour
                     cellToCollapse.SetNatureElementInstance(natureElement);
                 }                
             }
+            }
+            else
+            {
+                cellToCollapse.RecreateCell(new List<Tile> { tiles[0] });
+            }
+
+           
 
             // Instantiate the chosen tile and set it as a child of the instance container
             GameObject instance = cellToCollapse.InstantiateTile();
@@ -359,6 +351,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     async Task UpdateCells()
     {
+       
         while (updatedCells.Count > 0)
         {
             Cell cell = updatedCells.Pop();
@@ -397,9 +390,9 @@ public class WaveFunctionCollapse : MonoBehaviour
                 UpdateCellsEntropy(left, true);
 
             }
-
+            await Task.Delay(1);
         }
-        await Task.CompletedTask;
+
     }
 
     async void SetGridSection(Tile[,] newTiles, float x, float y, float width, float height)
@@ -433,11 +426,11 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
         else
         {
-            Debug.Log(iteration);
+            
             if (initialLoading)
             {
                 initialLoading = false;
-                SaveStartingArea();
+                /*SaveStartingArea();*/
             }
             updating = false;
         }

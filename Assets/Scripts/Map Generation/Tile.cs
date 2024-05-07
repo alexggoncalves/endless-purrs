@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 public class Tile : MonoBehaviour
 {
@@ -16,9 +16,9 @@ public class Tile : MonoBehaviour
     public List<Tile> leftNeighbours;
     public List<Tile> rightNeighbours;
 
-    public GameObject prefab;
+    public TileOption[] options;
 
-    public Tile Initialize (GameObject prefab, string name, string pX, string nX, string pY, string nY, float weight,int rotation)
+    public Tile Initialize (TileOption[] options, string name, string pX, string nX, string pY, string nY, float weight,int rotation)
     {
         this.name = name;
         this.pX = pX;
@@ -27,7 +27,7 @@ public class Tile : MonoBehaviour
         this.nY = nY;
         this.rotation = rotation;
         this.weight = weight;
-        this.prefab = prefab;
+        this.options = options;
 
 
         upNeighbours = new List<Tile>();
@@ -35,20 +35,21 @@ public class Tile : MonoBehaviour
         leftNeighbours = new List<Tile>();
         rightNeighbours = new List<Tile>();
 
-        /*Instantiate(prefab, Vector3.zero, Quaternion.Euler(0, prefab.transform.rotation.y + 90 * rotation, 0));*/
         return this;
+    }
+
+    public GameObject SelectOption()
+    {
+        // Choose from weighted list !!
+        GameObject prefab = options[0].tilePrefab;
+        return prefab;
     }
 
     public GameObject Instantiate(Vector3 position)
     {
-        return Instantiate(prefab, position, Quaternion.Euler(0, prefab.transform.rotation.y + 90 * rotation, 0));
-    }
+        // Choose from weighted list !!
+        GameObject prefab = options[0].tilePrefab;
 
-    public void SetAllNeighbours(Tile tile)
-    {
-        upNeighbours.Add(tile);
-        downNeighbours.Add(tile);
-        leftNeighbours.Add(tile);
-        rightNeighbours.Add(tile);
+        return Instantiate(prefab, position, Quaternion.Euler(0, prefab.transform.rotation.y + 90 * rotation, 0));
     }
 }

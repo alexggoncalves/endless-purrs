@@ -42,7 +42,8 @@ public class Cell : MonoBehaviour
 
     public GameObject InstantiateTile()
     {
-        tileInstance = Instantiate(tileOptions[0].prefab, transform.position, Quaternion.Euler(0, tileOptions[0].prefab.transform.rotation.y + 90 * tileOptions[0].rotation, 0));
+        GameObject selectedOption = tileOptions[0].SelectOption();
+        tileInstance = Instantiate(selectedOption, transform.position, Quaternion.Euler(0, selectedOption.transform.rotation.y + 90 * tileOptions[0].rotation, 0));
         return tileInstance;
     }
 
@@ -52,12 +53,6 @@ public class Cell : MonoBehaviour
         tileOptions = tiles;
         /*Destroy(tileInstance);*/
         tileInstance = null;
-    }
-
-    public void UpdateCell()
-    {
-        Destroy(tileInstance);
-        tileInstance = Instantiate(tileOptions[0].prefab, transform.position, Quaternion.Euler(0, tileOptions[0].prefab.transform.rotation.y + 90 * tileOptions[0].rotation, 0));
     }
 
     public int GetX()

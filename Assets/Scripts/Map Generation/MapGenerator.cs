@@ -15,8 +15,6 @@ public class MapGenerator : MonoBehaviour
     Vector2 edgeSize = new Vector2(4, 4);
 
     // Tiles
-    public TextAsset tileInfoJSON;
-    public GameObject[] tiles;
     List<Tile> possibleTiles;
 
     public Cell cellObj;
@@ -47,14 +45,14 @@ public class MapGenerator : MonoBehaviour
     public GameObject loadingScreen;
     public Slider loadingSlider;
 
+    public TileLoader tileLoader;
+
     void Start()
     {
         loadingScreen.SetActive(true);
 
-        Time.timeScale = 1f;
-        TileLoader tileLoader = this.AddComponent<TileLoader>();
-        tileLoader.Initialize(tileInfoJSON, tiles);
-        possibleTiles = tileLoader.Load();
+        possibleTiles =  tileLoader.GetTiles();
+
         placeInstances = new List<Place>();
 
         player = GameObject.Find("Player").GetComponent<Movement>();
@@ -79,8 +77,9 @@ public class MapGenerator : MonoBehaviour
 
         CheckPlaces();
 
-        if (wfc.HasLoadedInitialZone() && !game.HasBegun()) { 
-            game.Begin(); 
+        if (wfc.HasLoadedInitialZone() && !game.HasBegun())
+        {
+            game.Begin();
         };
 
         //Update Loading screen
@@ -94,7 +93,7 @@ public class MapGenerator : MonoBehaviour
             loadingScreen.SetActive(false);
             player.UnlockMovement();
         }
-        
+
     }
 
     // Detects every time the player moves one cell size and shifts the grid in that direction
@@ -161,68 +160,6 @@ public class MapGenerator : MonoBehaviour
                 placeInstances.Add(newPlace);
                 newPlace.onWait = true;
                 wfc.AddPlaceForPlacement(newPlace);
-            }
-        }
-    }
-
-    // Spawns the places randomly inside the determined extents
-    // Mantains the chosen density
-    void SpawnPlaces2()
-    {
-        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
-        float attempts = 0;
-        float maxAttempts = 50;
-
-        while (placeInstances.Count < placeDensity && attempts < maxAttempts)
-        {
-            bool valid = false;
-
-            while (!valid && attempts < maxAttempts)
-            {
-                Place place = unorderedPlaces[UnityEngine.Random.Range(0, unorderedPlaces.Count)];
-
-                Vector3 center = player.transform.position;
-
-                // Calculate random coordinates within extents
-                float x = UnityEngine.Random.Range(center.x - placesExtents.x / 2, center.x + placesExtents.x / 2);
-                float y = UnityEngine.Random.Range(center.z - placesExtents.y / 2, center.z + placesExtents.y / 2);
-
-                // Check if chosen coordinates are inside player area
-                Vector2 placement = new Vector2(x, y);
-                if(Vector3.Distance(placement, new Vector2(0,0)) > (place.GetDimensions().x +  startingPlace.GetComponent<Place>().GetDimensions().x + 6)* cellScale)
-                {
-                    if (Vector2.Distance(placement, new Vector2(center.x + worldOffset.x, center.z + worldOffset.y)) > (gridWidth / 2) * cellScale + 16 + place.GetDimensions().x)
-                    {
-                        valid = true;
-
-                        // Check for collisions with other placed areas
-                        foreach (Place placed in placeInstances)
-                        {
-                            // Consider the dimensions of the places for overlap check
-                            float distanceThreshold = place.GetDimensions().x * cellScale + placed.GetDimensions().x * cellScale;
-                            if (Vector2.Distance(placement, new Vector2(placed.transform.position.x, placed.transform.position.z)) < distanceThreshold)
-                            {
-                                valid = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                // If the placement is valid, create an instance of the place
-                // and send it to the wave function collapse to affect the terrain generation
-                if (valid)
-                {
-                    Place newPlace = Instantiate(place, new Vector3(x, 0, y), Quaternion.identity);
-                    newPlace.Initialize(new Vector3(x, y), possibleTiles[0]);
-
-                    placeInstances.Add(newPlace);
-                    newPlace.onWait = true;
-                    wfc.AddPlaceForPlacement(newPlace);
-                } 
-                else attempts++;
-
-
             }
         }
     }

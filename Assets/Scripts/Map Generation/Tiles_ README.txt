@@ -1,11 +1,15 @@
 TILE IDENTIFIER:
     -1 => empty
     0 => grass
-    1 => road
-    2 => high grass (vai deixar de existir)
-    3 => cliffs
-    4 => water
-    5 => beach
+    1 => grass_L1
+    2 => grass_L2
+    3 => cliff
+    4 => cliff_L1
+    5 => grass->sand intersection sides
+    6 => sand
+    7 => sand_slope
+    8 => water
+    
 
 SUFFIXES:
     s => symmetrical

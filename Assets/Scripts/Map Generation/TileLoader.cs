@@ -1,43 +1,73 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
+public enum TileType
+{
+    grass,
+    grass_L1,
+    grass_L2,
+    cliff,
+    cliff_L1,
+    sand,
+    water
+}
+
+[System.Serializable]
+public class TileOption
+{
+    public GameObject tilePrefab;
+    public float weight;
+}
+
+[System.Serializable]
+public class TileConstraints
+{
+    [SerializeField, Range(0, 3)]
+    public int rotation;
+    public string pX, nX, pY, nY;
+}
+
+[System.Serializable]
+public class TileInfo
+{
+    public string name;
+    public Boolean enabled = true;
+    public TileType type;
+    public TileOption[] tileOptions;
+    public TileConstraints[] constraints;
+    public float weight;
+}
+
 public class TileLoader : MonoBehaviour
 {
+    public List<Tile> tiles = new List<Tile>();
+    [SerializeField]
+    public TileInfo[] tileInfo;
 
-    private GameObject[] tilePrefabs;
-
-    public List<Tile> tiles;
-
-    private TextAsset jsonFile;
-
-    public void Initialize(TextAsset jsonFile, GameObject[] tilePrefabs)
+    private void Start()
     {
-        this.tilePrefabs = tilePrefabs;
-        this.jsonFile = jsonFile;
-        this.tiles = new List<Tile>();
-    }
-
-    public List<Tile> Load()
-    {
-        TileData tileData = JsonUtility.FromJson<TileData>(jsonFile.text);
-        GameObject tilesContainer = new GameObject("Imported Tiles");
-        // Create tiles based in the imported data.
-        foreach (TileInfo tileInfo in tileData.tiles)
+        // Create all the tiles with the information given on the editor
+        foreach (TileInfo tile in tileInfo)
         {
-            foreach (GameObject tile in tilePrefabs)
+            if(enabled)
             {
-                if (tile.name == tileInfo.prefab)
+                foreach (TileConstraints constraints in tile.constraints)
                 {
-                    GameObject newTile = new GameObject(tileInfo.name);
+                    string name = tile.name.ToString();
+                    GameObject newTile = new GameObject(name);
                     Tile tileComponent = newTile.AddComponent<Tile>();
-                    tileComponent.Initialize(tile, tileInfo.name, tileInfo.pX, tileInfo.nX, tileInfo.pY, tileInfo.nY, tileInfo.weight, tileInfo.rotation);
+                    tileComponent.Initialize(tile.tileOptions, name, constraints.pX, constraints.nX, constraints.pY, constraints.nY, tile.weight, constraints.rotation);
                     tiles.Add(tileComponent);
-                    newTile.transform.SetParent(tilesContainer.transform);
+                    newTile.transform.SetParent(transform);
                 }
             }
+            
         }
 
         // Compare every profile (on the X and Y [Z in unity] axis) of the pieces of the tileset to each other and set up neighbours.
@@ -45,7 +75,6 @@ public class TileLoader : MonoBehaviour
         {
             foreach (Tile tileB in tiles)
             {
-
                 if (isSymmetrical(tileA.pX, tileB.nX) ^ isAsymmetrical(tileA.pX, tileB.nX))
                 {
                     if (!tileB.leftNeighbours.Contains(tileA)) tileB.leftNeighbours.Add(tileA);
@@ -65,7 +94,10 @@ public class TileLoader : MonoBehaviour
 
             }
         }
+    }
 
+    public List<Tile> GetTiles()
+    {
         return tiles;
     }
 
@@ -83,18 +115,3 @@ public class TileLoader : MonoBehaviour
     }
 } 
 
-[System.Serializable]
-public class TileData
-{
-    public TileInfo[] tiles;
-}
-
-[System.Serializable]
-public class TileInfo
-{
-    public string name;
-    public string prefab;
-    public int rotation;
-    public string pX, nX, pY, nY;
-    public float weight;
-}
