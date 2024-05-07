@@ -55,7 +55,7 @@ public class TileLoader : MonoBehaviour
         // Create all the tiles with the information given on the editor
         foreach (TileInfo tile in tileInfo)
         {
-            if(enabled)
+            if(tile.enabled)
             {
                 foreach (TileConstraints constraints in tile.constraints)
                 {

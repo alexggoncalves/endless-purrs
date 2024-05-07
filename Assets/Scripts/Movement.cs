@@ -100,10 +100,10 @@ public class Movement : MonoBehaviour
         outterPlayerArea.Initialize(gridDimensions.x * cellScale, gridDimensions.y * cellScale, mapOffset, UnityEngine.Color.magenta);
     }
 
-    public Vector2 GetPlayerWorldCoordinates()
+    public Vector2 GetPlayerWorldCoordinates(float cellScale)
     {
-        int x = Mathf.RoundToInt((transform.position.x / 2 + (gridDimensions.x / 2)) + innerPlayerArea.GetOffset().x); 
-        int y = Mathf.RoundToInt((transform.position.z / 2 + (gridDimensions.y / 2)) + innerPlayerArea.GetOffset().y);
+        int x = Mathf.RoundToInt((transform.position.x / cellScale + (gridDimensions.x / cellScale)) + innerPlayerArea.GetOffset().x); 
+        int y = Mathf.RoundToInt((transform.position.z / cellScale + (gridDimensions.y / cellScale)) + innerPlayerArea.GetOffset().y);
         return new Vector2( x,y);
     }
 

@@ -4,8 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using Unity.AI.Navigation;
+
 
 public class WaveFunctionCollapse : MonoBehaviour
 {
@@ -124,7 +123,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         // Create initial grass area
         GameObject startingAreaInstance = Instantiate(startingPlace, new Vector3(x, 0, y), Quaternion.identity);
         Place place = startingAreaInstance.GetComponent<Place>();
-        place.Initialize(new Vector2(x,y), tiles[0]);
+        place.Initialize(new Vector2(x, y), tiles[0]);
         placesOnWait.Add(place);
 
         Vector2 dimensions = place.GetDimensions();
@@ -178,7 +177,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         tempGrid.RemoveAll(a => a.GetTileOptions().Count != tempGrid[0].GetTileOptions().Count);
 
 
-        yield return new WaitForSeconds(0.002f);
+        yield return new WaitForSeconds(0.01f);
 
         CollapseCell(tempGrid);
     }
@@ -206,27 +205,24 @@ public class WaveFunctionCollapse : MonoBehaviour
             if (selectedTile != null)
             {
                 cellToCollapse.RecreateCell(new List<Tile> { selectedTile });
-                 if (!CellIsInsidePlace(cellToCollapse))
-            {
-                if (selectedTile.name == "grass")
+                if (!CellIsInsidePlace(cellToCollapse))
                 {
-
-                    GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position, NatureElementPlacer.BiomeType.Forest);
-                    cellToCollapse.SetNatureElementInstance(natureElement);
+                    if (selectedTile.name == "grass")
+                    {
+                        GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position, NatureElementPlacer.BiomeType.Forest);
+                        cellToCollapse.SetNatureElementInstance(natureElement);
+                    }
+                    else if (selectedTile.name == "grass_L1")
+                    {
+                        GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position + Vector3.up, NatureElementPlacer.BiomeType.Forest);
+                        cellToCollapse.SetNatureElementInstance(natureElement);
+                    }                
                 }
-                else if (selectedTile.name == "high_grass")
-                {
-                    GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position + Vector3.up, NatureElementPlacer.BiomeType.Forest);
-                    cellToCollapse.SetNatureElementInstance(natureElement);
-                }                
-            }
             }
             else
             {
                 cellToCollapse.RecreateCell(new List<Tile> { tiles[0] });
             }
-
-           
 
             // Instantiate the chosen tile and set it as a child of the instance container
             GameObject instance = cellToCollapse.InstantiateTile();
@@ -390,12 +386,11 @@ public class WaveFunctionCollapse : MonoBehaviour
                 UpdateCellsEntropy(left, true);
 
             }
-            await Task.Delay(1);
         }
-
     }
 
-    async void SetGridSection(Tile[,] newTiles, float x, float y, float width, float height)
+    
+    void SetGridSection(Tile[,] newTiles, float x, float y, float width, float height)
     {
         for (int i = 0; i < width; i++)
         {
@@ -404,9 +399,10 @@ public class WaveFunctionCollapse : MonoBehaviour
                 Cell cell = grid[(int)x + i, (int)y + j];
                 cell.RecreateCell(new List<Tile> { newTiles[i, j] });
                 updatedCells.Push(cell);
-                await UpdateCells();
+                
             }
         }
+
     }
 
      async void UpdateGeneration()

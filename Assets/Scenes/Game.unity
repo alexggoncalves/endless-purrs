@@ -908,7 +908,7 @@ MonoBehaviour:
       nY: 0s
     weight: 40
   - name: water
-    enabled: 1
+    enabled: 0
     type: 6
     tileOptions:
     - tilePrefab: {fileID: 5107385307107585503, guid: c31ba0e6bd0e200439cedfe906359208, type: 3}
@@ -921,7 +921,7 @@ MonoBehaviour:
       nY: 8s
     weight: 40
   - name: sand
-    enabled: 1
+    enabled: 0
     type: 0
     tileOptions:
     - tilePrefab: {fileID: 5731464819329663448, guid: 0a24f7068b3d83447aca1167e27e3f18, type: 3}
@@ -947,7 +947,7 @@ MonoBehaviour:
       nY: 1s
     weight: 1
   - name: grass_L2
-    enabled: 1
+    enabled: 0
     type: 2
     tileOptions:
     - tilePrefab: {fileID: 642601370496186001, guid: 2993f7022a7e2294b87e685b881a5167, type: 3}
@@ -1044,7 +1044,7 @@ MonoBehaviour:
       nY: 3f
     weight: 1
   - name: cliff_L1
-    enabled: 1
+    enabled: 0
     type: 4
     tileOptions:
     - tilePrefab: {fileID: 8658550378406287334, guid: 69f3c99e858206b4e9eee55eb61c8c20, type: 3}
@@ -1072,10 +1072,10 @@ MonoBehaviour:
       nY: 2s
     weight: 1
   - name: cliff_inner_corner_L1
-    enabled: 1
+    enabled: 0
     type: 4
     tileOptions:
-    - tilePrefab: {fileID: 8013685013026403134, guid: 42a8346f9bd50ff428c47789edb7e54c, type: 3}
+    - tilePrefab: {fileID: 3128404890366844636, guid: 42a8346f9bd50ff428c47789edb7e54c, type: 3}
       weight: 1
     constraints:
     - rotation: 0
@@ -1100,7 +1100,7 @@ MonoBehaviour:
       nY: 2s
     weight: 1
   - name: cliff_outer_corner_L1
-    enabled: 1
+    enabled: 0
     type: 1
     tileOptions:
     - tilePrefab: {fileID: 1267932399096216250, guid: 17b9434bec0e50c4d830427371b5198c, type: 3}
@@ -1128,7 +1128,7 @@ MonoBehaviour:
       nY: 4f
     weight: 1
   - name: grass_sand
-    enabled: 1
+    enabled: 0
     type: 5
     tileOptions:
     - tilePrefab: {fileID: 1228443796563473274, guid: a5551df2dd09bf34cb89f51d97eed712, type: 3}
@@ -1156,7 +1156,7 @@ MonoBehaviour:
       nY: 0s
     weight: 1
   - name: grass_sand_inner_corner
-    enabled: 1
+    enabled: 0
     type: 5
     tileOptions:
     - tilePrefab: {fileID: 646272753748539375, guid: e9ea5ffede5be02419a30a170305d888, type: 3}
@@ -1184,7 +1184,7 @@ MonoBehaviour:
       nY: 0s
     weight: 1
   - name: grass_sand_outer_corner
-    enabled: 1
+    enabled: 0
     type: 5
     tileOptions:
     - tilePrefab: {fileID: 3072538311733254287, guid: bc9715cd3908d8f43b2881391a8b8ad5, type: 3}
@@ -1212,7 +1212,7 @@ MonoBehaviour:
       nY: 5f
     weight: 1
   - name: sand_slope
-    enabled: 1
+    enabled: 0
     type: 5
     tileOptions:
     - tilePrefab: {fileID: 6216899509153078237, guid: 55912d21ba09ce644a1f5fee98257f37, type: 3}
@@ -1240,7 +1240,7 @@ MonoBehaviour:
       nY: 6s
     weight: 10
   - name: sand_slope_inner_corner
-    enabled: 1
+    enabled: 0
     type: 5
     tileOptions:
     - tilePrefab: {fileID: 1914462253383052492, guid: 91ea30659ebd1ed40996341aca19800b, type: 3}
@@ -1268,7 +1268,7 @@ MonoBehaviour:
       nY: 6s
     weight: 10
   - name: sand_slope_outer_corner
-    enabled: 1
+    enabled: 0
     type: 3
     tileOptions:
     - tilePrefab: {fileID: 9164216891958301786, guid: f8711beece50e894eaca7511588364aa, type: 3}
@@ -1369,14 +1369,6 @@ MonoBehaviour:
       - {fileID: 1761237901160299676, guid: a8408c877ae90cd499d134867479a24a, type: 3}
       - {fileID: 8128976274049848339, guid: ee3611963b2be7d4aaad571dd1c896a2, type: 3}
       - {fileID: 9075161928397506635, guid: 2a815798d20616345861cbe1734ef7e8, type: 3}
-      weight: 1
-    - type: 1
-      prefabs:
-      - {fileID: 6804925784554854962, guid: 3572a20220ebdf24b8f7b1e896ef8cd0, type: 3}
-      - {fileID: 8740113898319443049, guid: 1f6183000ec6e5f49b537cf369552d51, type: 3}
-      - {fileID: 1351698925470532455, guid: 9a2a2a8600c311c45b3a5e34246edf92, type: 3}
-      - {fileID: 3382440732257082223, guid: a68b0bc1dbc722c43b90ee7919d25ace, type: 3}
-      - {fileID: 5092865969127251256, guid: a53d4878f878e7a42bf69592c4e7bef4, type: 3}
       weight: 1
     - type: 2
       prefabs:
@@ -1499,11 +1491,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91355824ffe8f864284a7b6f395a5cb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellScale: 4
-  gridWidth: 27
-  gridHeight: 23
+  cellScale: 3
+  gridWidth: 25
+  gridHeight: 21
   worldOffset: {x: 0, y: 8}
-  edgeSize: {x: 2, y: 2}
+  edgeSize: {x: 3, y: 3}
   cellObj: {fileID: 3549023687805126509, guid: 0bdda6710b7f00f4bbd9a8e90bb71322, type: 3}
   placeDensity: 6
   placesExtents: {x: 140, y: 140}
@@ -2292,7 +2284,7 @@ Camera:
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 2
+  m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
   m_Iso: 200

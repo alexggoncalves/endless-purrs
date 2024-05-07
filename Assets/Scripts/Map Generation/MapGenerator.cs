@@ -85,7 +85,7 @@ public class MapGenerator : MonoBehaviour
         //Update Loading screen
         if (!wfc.HasLoadedInitialZone())
         {
-            float progress = map(wfc.GetIteration(), 0, player.GetInnerPlayerArea().GetCellArea(2), 0, 1);
+            float progress = map(wfc.GetIteration(), 0, player.GetInnerPlayerArea().GetCellArea(cellScale), 0, 1);
             loadingSlider.value = progress;
         }
         else if (loadingScreen.activeSelf)
