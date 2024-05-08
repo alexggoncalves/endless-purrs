@@ -28,9 +28,9 @@ public class MapGenerator : MonoBehaviour
 
     // Places
     [SerializeField, Min(1)]
-    int placeDensity = 3;
+    int placeDensity = 6;
     [SerializeField]
-    Vector2 placesExtents = new Vector2(100, 100);
+    Vector2 placesExtents = new Vector2(150, 150);
 
     public GameObject startingPlace;
     public List<Place> orderedPlaces; // Places that are related to the story and 
@@ -107,7 +107,7 @@ public class MapGenerator : MonoBehaviour
             wfc.AddToMoveOffset(moveAmout);
         }
 
-        if ((wfc.GetMoveOffset().x != 0 || wfc.GetMoveOffset().y != 0) && !wfc.IsUpdating())
+        if ((wfc.GetMoveOffset().x != 0 || wfc.GetMoveOffset().y != 0) && wfc.IsPaused())
         {
             wfc.ShiftGrid();
         }
@@ -118,11 +118,12 @@ public class MapGenerator : MonoBehaviour
 
     void SpawnPlaces()
     {
-        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+        
 
         bool valid = false;
         if (placeInstances.Count < placeDensity)
         {
+            UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
             Place place = unorderedPlaces[UnityEngine.Random.Range(0, unorderedPlaces.Count)];
             Vector3 center = player.transform.position;
             float x = UnityEngine.Random.Range(center.x - placesExtents.x / 2, center.x + placesExtents.x / 2);
@@ -132,11 +133,11 @@ public class MapGenerator : MonoBehaviour
             Vector2 placement = new Vector2(x, y);
             if (Vector3.Distance(placement, new Vector2(0, 0)) > (place.GetDimensions().x + startingPlace.GetComponent<Place>().GetDimensions().x + 6) * cellScale)
             {
-                if (Vector2.Distance(placement, new Vector2(center.x + worldOffset.x, center.z + worldOffset.y)) > (gridWidth / 2) * cellScale + 16 + place.GetDimensions().x)
+                if (Vector2.Distance(placement, new Vector2(center.x + worldOffset.x, center.z + worldOffset.y)) > (gridWidth / 2) * cellScale + 14 + place.GetDimensions().x)
                 {
                     valid = true;
 
-                    // Check for collisions with other placed areas
+                   /* // Check for collisions with other placed areas
                     foreach (Place placed in placeInstances)
                     {
                         // Consider the dimensions of the places for overlap check
@@ -146,7 +147,7 @@ public class MapGenerator : MonoBehaviour
                             valid = false;
                             break;
                         }
-                    }
+                    }*/
                 }
             }
 
@@ -159,7 +160,7 @@ public class MapGenerator : MonoBehaviour
 
                 placeInstances.Add(newPlace);
                 newPlace.onWait = true;
-                wfc.AddPlaceForPlacement(newPlace);
+                /*wfc.AddPlaceForPlacement(newPlace);*/
             }
         }
     }

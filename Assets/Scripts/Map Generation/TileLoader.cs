@@ -70,6 +70,12 @@ public class TileLoader : MonoBehaviour
             
         }
 
+        /*// Order tiles by weight
+        tiles.Sort((Tile tileA, Tile tileB) =>
+        {
+            return tileA.weight.CompareTo(tileB.weight);
+        });*/
+
         // Compare every profile (on the X and Y [Z in unity] axis) of the pieces of the tileset to each other and set up neighbours.
         foreach (Tile tileA in tiles)
         {

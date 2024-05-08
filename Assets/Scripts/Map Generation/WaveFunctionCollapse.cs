@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 
 public class WaveFunctionCollapse : MonoBehaviour
@@ -27,7 +28,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     Tile[,] initialAreaGrid;
 
     public Stack<Cell> updatedCells;
-    private bool updating;
+    private bool paused;
     private int iteration = 0;
 
     public Stack<GameObject> instancesToDelete;
@@ -85,7 +86,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         this.placesOnWait = new List<Place>();
         
         this.edgeSize = edgeSize;
-        this.updating = true;
+        this.paused = false;
 
         natureElements = GameObject.Find("Nature Elements").GetComponent<NatureElementPlacer>();
 
@@ -177,7 +178,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         tempGrid.RemoveAll(a => a.GetTileOptions().Count != tempGrid[0].GetTileOptions().Count);
 
 
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.03f);
 
         CollapseCell(tempGrid);
     }
@@ -232,7 +233,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
 
         // Move on to propagate changes and restart temporarily pause cycle
-        UpdateGeneration();
+        StartCoroutine(UpdateGeneration());
     }
 
     Boolean CellIsInsidePlace(Cell cell)
@@ -247,11 +248,9 @@ public class WaveFunctionCollapse : MonoBehaviour
         return false;
     }
 
-    // Selects a random Tile from the possible options based on their weights
-    Tile SelectRandomTile(Cell cellToColapse)
+    Tile SelectRandomTile(Cell cellToCollapse)
     {
-        Tile[] options = cellToColapse.GetTileOptions().ToArray();
-        Array.Sort(options, (a, b) => a.weight.CompareTo(b.weight));
+        List<Tile> options = cellToCollapse.GetTileOptions();
 
         float totalWeight = 0f;
         foreach (Tile t in options) totalWeight += t.weight;
@@ -259,12 +258,12 @@ public class WaveFunctionCollapse : MonoBehaviour
         float diceRoll = UnityEngine.Random.Range(0, totalWeight);
 
         float cumulative = 0f;
-        for (int i = 0; i < options.Length; i++)
+        for (int i = 0; i < options.Count; i++)
         {
             cumulative += options[i].weight;
             if (diceRoll < cumulative)
             {
-                return options[i]; ;
+                return options[i];
             }
         }
         return null;
@@ -284,7 +283,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             if (y > 0) // DOWN
             {
                 List<Tile> down = grid[x, y - 1].GetTileOptions();
-                List<Tile> validOptions = new List<Tile>();
+                List<Tile> validOptions = new();
                 // Loop through the up cell tileOptions and get all their compatible down neighbours
                 for (int i = 0; i < down.Count; i++)
                 {
@@ -297,7 +296,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             if (x < gridWidth - 1) // RIGHT
             {
                 List<Tile> right = grid[x + 1, y].GetTileOptions();
-                List<Tile> validOptions = new List<Tile>();
+                List<Tile> validOptions = new();
 
                 for (int i = 0; i < right.Count; i++)
                 {
@@ -310,7 +309,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             if (y < gridHeight - 1) // UP
             {
                 List<Tile> up = grid[x, y + 1].GetTileOptions();
-                List<Tile> validOptions = new List<Tile>();
+                List<Tile> validOptions = new();
 
                 for (int i = 0; i < up.Count; i++)
                 {
@@ -323,7 +322,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             if (x > 0) // LEFT
             {
                 List<Tile> left = grid[x - 1, y].GetTileOptions();
-                List<Tile> validOptions = new List<Tile>();
+                List<Tile> validOptions = new();
 
                 for (int i = 0; i < left.Count; i++)
                 {
@@ -337,7 +336,6 @@ public class WaveFunctionCollapse : MonoBehaviour
 
             if (cell.GetTileOptions().Count != options.Count)
             {
-
                 // Update cell's tile options
                 cell.RecreateCell(options);
                 if (propagate) { updatedCells.Push(cell); }
@@ -345,9 +343,27 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-    async Task UpdateCells()
+
+    
+    void SetGridSection(Tile[,] newTiles, float x, float y, float width, float height)
     {
-       
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                Cell cell = grid[(int)x + i, (int)y + j];
+                cell.RecreateCell(new List<Tile> { newTiles[i, j] });
+                updatedCells.Push(cell);
+                
+            }
+        }
+
+    }
+
+    IEnumerator UpdateGeneration()
+    {   // After collapsing one cell and updating the tiles that need to be updated:
+        // start another iteration of the algorithm if there are still cells remaining to be collapsed
+        // else the algorithm enters a rest state until there's a cell that needs to be collapsed
         while (updatedCells.Count > 0)
         {
             Cell cell = updatedCells.Pop();
@@ -356,7 +372,8 @@ public class WaveFunctionCollapse : MonoBehaviour
 
             foreach (Place place in placesOnWait)
             {
-                if (place.extents.Contains(new Vector2(cell.transform.position.x, cell.transform.position.z))){
+                if (place.extents.Contains(new Vector2(cell.transform.position.x, cell.transform.position.z)))
+                {
                     cell.RecreateCell(new List<Tile> { tiles[0] });
                 }
             }
@@ -386,53 +403,30 @@ public class WaveFunctionCollapse : MonoBehaviour
                 UpdateCellsEntropy(left, true);
 
             }
+            yield return new WaitForSeconds(0.0001f);
         }
-    }
-
-    
-    void SetGridSection(Tile[,] newTiles, float x, float y, float width, float height)
-    {
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < height; j++)
-            {
-                Cell cell = grid[(int)x + i, (int)y + j];
-                cell.RecreateCell(new List<Tile> { newTiles[i, j] });
-                updatedCells.Push(cell);
-                
-            }
-        }
-
-    }
-
-     async void UpdateGeneration()
-    {
-        await UpdateCells();
-
-        // After collapsing one cell and updating the tiles that need to be updated:
-        // start another iteration of the algorithm if there are still cells remaining to be collapsed
-        // else the algorithm enters a rest state until there's a cell that needs to be collapsed
+        
 
         iteration++;
-        
 
         if (iteration < player.GetInnerPlayerArea().GetCellArea(cellScale))
         {
+            paused = false;
             StartCoroutine(CheckEntropy());
         }
         else
         {
-            
             if (initialLoading)
             {
                 initialLoading = false;
-                /*SaveStartingArea();*/
             }
-            updating = false;
+            paused = true;
+
         }
+
     }
 
-    
+
 
     // Go through the options array for the cell being updated and remove any tile that isn't present in the valid options array.
     // The valid options array will bring the tiles that each of the directions allow the focused tile to be.
@@ -448,9 +442,8 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-    public  async void ShiftGrid()
+    public void ShiftGrid()
     {
-        updating = true;
         Vector2 direction = new Vector2();
         if (moveOffset.x == 0) direction.x = 0;
         else direction.x = moveOffset.x / Mathf.Abs(moveOffset.x);
@@ -458,15 +451,22 @@ public class WaveFunctionCollapse : MonoBehaviour
         if (moveOffset.y == 0) direction.y = 0;
         else direction.y = moveOffset.y / Mathf.Abs(moveOffset.y);
 
-        await MoveAndOffsetGeneration(direction);
+        MoveAndOffsetGeneration(direction);
 
-        /*StartCoroutine(ClearStackedInstances());*/
-        UpdateGeneration();
-        /*StartCoroutine(CheckEntropy());*/
+        paused = false;
+        StartCoroutine(UpdateGeneration());
+    }
+
+    void SwapCellState(Cell copyTo, Cell copyFrom)
+    {
+        copyTo.natureElement = copyFrom.natureElement;
+        copyTo.tileInstance = copyFrom.tileInstance;
+        copyTo.tileOptions = copyFrom.tileOptions;
+        copyTo.collapsed = copyFrom.collapsed;
     }
 
 
-   async Task MoveAndOffsetGeneration(Vector2 direction)
+    void MoveAndOffsetGeneration(Vector2 direction)
     {
         if (direction.x == 1)
         {
@@ -480,12 +480,8 @@ public class WaveFunctionCollapse : MonoBehaviour
                         {
                             if (grid[x, y].natureElement != null) instancesToDelete.Push(grid[x, y].natureElement);
                             instancesToDelete.Push(grid[x, y].tileInstance);
-                            
                         }
-                        grid[x, y].natureElement = grid[x + 1, y].natureElement;
-                        grid[x, y].tileInstance = grid[x + 1, y].tileInstance;
-                        grid[x, y].tileOptions = grid[x + 1, y].tileOptions;
-                        grid[x, y].collapsed = grid[x + 1, y].collapsed;
+                        SwapCellState(grid[x, y], grid[x + 1, y]);
                     }
                     else
                     {
@@ -493,7 +489,6 @@ public class WaveFunctionCollapse : MonoBehaviour
                         updatedCells.Push(grid[x, y]);
                     }
                 }
-                
             }
             cellContainer.transform.position += new Vector3(direction.x * cellScale, 0, 0);
             moveOffset.x -= 1;
@@ -512,26 +507,20 @@ public class WaveFunctionCollapse : MonoBehaviour
                         {
                             if (grid[x, y].natureElement != null) instancesToDelete.Push(grid[x, y].natureElement);
                             instancesToDelete.Push(grid[x, y].tileInstance);
-                           
                         }
-                        grid[x, y].natureElement = grid[x - 1, y].natureElement;
-                        grid[x, y].tileInstance = grid[x - 1, y].tileInstance;
-                        grid[x, y].tileOptions = grid[x - 1, y].tileOptions;
-                        grid[x, y].collapsed = grid[x - 1, y].collapsed;
+                        SwapCellState(grid[x, y], grid[x - 1, y]);
                     }
                     else
                     {
                         grid[x, y].ResetCell(tiles);
                         updatedCells.Push(grid[x, y]);
                     }
-                    
                 }
             }
             cellContainer.transform.position += new Vector3(direction.x * cellScale, 0, 0);
             moveOffset.x += 1;
             iteration -= (gridHeight - (int)edgeSize.y * 2 + 1);
             totalMoveOffset.x -= 1;
-            
         }
         else if (direction.y == 1)
         {
@@ -546,26 +535,22 @@ public class WaveFunctionCollapse : MonoBehaviour
                             if (grid[x, y].natureElement != null) instancesToDelete.Push(grid[x, y].natureElement);
                             instancesToDelete.Push(grid[x, y].tileInstance);
                         }
-                        
-                        grid[x, y].natureElement = grid[x, y + 1].natureElement;
-                        grid[x, y].tileInstance = grid[x, y + 1].tileInstance;
-                        grid[x, y].tileOptions = grid[x, y + 1].tileOptions;
+
+                        SwapCellState(grid[x, y], grid[x, y + 1]);
                         grid[x, y].collapsed = grid[x, y + 1].collapsed;
                     }
                     else
                     {
                         grid[x, y].ResetCell(tiles);
-
                         updatedCells.Push(grid[x, y]);
                     }
-                    
                 }
             }
             cellContainer.transform.position += new Vector3(0, 0, direction.y * cellScale);
             moveOffset.y -= 1;
-            iteration -= (gridWidth - (int)edgeSize.x*2 + 1);
+            iteration -= (gridWidth - (int)edgeSize.x * 2 + 1);
             totalMoveOffset.y += 1;
-            
+
         }
         else if (direction.y == -1)
         {
@@ -580,17 +565,13 @@ public class WaveFunctionCollapse : MonoBehaviour
                             if (grid[x, y].natureElement != null) instancesToDelete.Push(grid[x, y].natureElement);
                             instancesToDelete.Push(grid[x, y].tileInstance);
                         }
-                        grid[x, y].natureElement = grid[x, y - 1].natureElement;
-                        grid[x, y].tileInstance = grid[x, y - 1].tileInstance;
-                        grid[x, y].tileOptions = grid[x, y - 1].tileOptions;
-                        grid[x, y].collapsed = grid[x, y - 1].collapsed;
+                        SwapCellState(grid[x, y], grid[x, y - 1]);
                     }
                     else
                     {
                         grid[x, y].ResetCell(tiles);
                         updatedCells.Push(grid[x, y]);
                     }
-                    
                 }
             }
 
@@ -599,10 +580,9 @@ public class WaveFunctionCollapse : MonoBehaviour
             iteration -= (gridWidth - (int)edgeSize.x * 2 + 1); ;
             totalMoveOffset.y -= 1;
         }
-        await Task.Yield();
     }
 
-    
+
 
     public void AddPlaceForPlacement(Place place)
     {
@@ -631,7 +611,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         gridX -= Mathf.RoundToInt(totalMoveOffset.x);
         gridY -= Mathf.RoundToInt(totalMoveOffset.y);
 
-        
+
         return new Vector2(gridX, gridY);
     }
 
@@ -643,12 +623,10 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         int gridX = Mathf.RoundToInt((x) / cellScale);
         int gridY = Mathf.RoundToInt((y) / cellScale);
-
-       
         return new Vector2(gridX, gridY);
     }
 
-    public bool IsUpdating() { return updating; }
+    public bool IsPaused() { return paused; }
 
     public void AddToMoveOffset(Vector2 offset)
     {
