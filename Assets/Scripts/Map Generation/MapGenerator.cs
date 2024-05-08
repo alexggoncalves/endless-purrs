@@ -51,8 +51,6 @@ public class MapGenerator : MonoBehaviour
     {
         loadingScreen.SetActive(true);
 
-        possibleTiles =  tileLoader.GetTiles();
-
         placeInstances = new List<Place>();
 
         player = GameObject.Find("Player").GetComponent<Movement>();
@@ -61,7 +59,7 @@ public class MapGenerator : MonoBehaviour
         placesToDestroy = new Stack<Place>();
 
         wfc = this.AddComponent<WaveFunctionCollapse>();
-        wfc.Initialize(possibleTiles, gridWidth, gridHeight, cellScale, cellObj, worldOffset, player, startingPlace, edgeSize);
+        wfc.Initialize(tileLoader, gridWidth, gridHeight, cellScale, cellObj, worldOffset, player, startingPlace, edgeSize);
 
         lastPlayerCoordinates = wfc.CalculateWorldCoordinates(player.transform.position.x, player.transform.position.z);
     }
@@ -70,12 +68,12 @@ public class MapGenerator : MonoBehaviour
     {
         HandleGridMove();
 
-        if (orderedPlaces.Count > 0 || unorderedPlaces.Count > 0)
+        /*if (orderedPlaces.Count > 0 || unorderedPlaces.Count > 0)
         {
             SpawnPlaces();
         }
 
-        CheckPlaces();
+        CheckPlaces();*/
 
         if (wfc.HasLoadedInitialZone() && !game.HasBegun())
         {
@@ -130,7 +128,7 @@ public class MapGenerator : MonoBehaviour
             float y = UnityEngine.Random.Range(center.z - placesExtents.y / 2, center.z + placesExtents.y / 2);
 
             // Check if chosen coordinates are inside player area
-            Vector2 placement = new Vector2(x, y);
+            Vector2 placement = new(x, y);
             if (Vector3.Distance(placement, new Vector2(0, 0)) > (place.GetDimensions().x + startingPlace.GetComponent<Place>().GetDimensions().x + 6) * cellScale)
             {
                 if (Vector2.Distance(placement, new Vector2(center.x + worldOffset.x, center.z + worldOffset.y)) > (gridWidth / 2) * cellScale + 14 + place.GetDimensions().x)
@@ -156,7 +154,7 @@ public class MapGenerator : MonoBehaviour
             if (valid)
             {
                 Place newPlace = Instantiate(place, new Vector3(x, 0, y), Quaternion.identity);
-                newPlace.Initialize(new Vector3(x, y), possibleTiles[0]);
+                newPlace.Initialize(new Vector3(x, y), tileLoader.grassID);
 
                 placeInstances.Add(newPlace);
                 newPlace.onWait = true;

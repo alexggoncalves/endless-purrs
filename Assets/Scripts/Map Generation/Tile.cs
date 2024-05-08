@@ -1,20 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 
 public class Tile : MonoBehaviour
 {
+    public  int id;
     public string pX, nX, pY, nY;
     public int rotation;
 
     public float weight;
 
-    public List<Tile> upNeighbours;
-    public List<Tile> downNeighbours;
-    public List<Tile> leftNeighbours;
-    public List<Tile> rightNeighbours;
+    public List<int> upNeighbours;
+    public List<int> downNeighbours;
+    public List<int> leftNeighbours;
+    public List<int> rightNeighbours;
 
     public TileOption[] options;
 
@@ -30,12 +30,22 @@ public class Tile : MonoBehaviour
         this.options = options;
 
 
-        upNeighbours = new List<Tile>();
-        downNeighbours = new List<Tile>();
-        leftNeighbours = new List<Tile>();
-        rightNeighbours = new List<Tile>();
+        upNeighbours = new List<int>();
+        downNeighbours = new List<int>();
+        leftNeighbours = new List<int>();
+        rightNeighbours = new List<int>();
 
         return this;
+    }
+
+    public void SetID(int id)
+    {
+        this.id = id;
+    }
+
+    public int GetID()
+    {
+        return this.id;
     }
 
     public GameObject SelectOption()
@@ -50,6 +60,6 @@ public class Tile : MonoBehaviour
         // Choose from weighted list !!
         GameObject prefab = options[0].tilePrefab;
 
-        return Instantiate(prefab, position, Quaternion.Euler(0, prefab.transform.rotation.y + 90 * rotation, 0));
+        return GameObject.Instantiate(prefab, position, Quaternion.Euler(0, prefab.transform.rotation.y + 90 * rotation, 0));
     }
 }

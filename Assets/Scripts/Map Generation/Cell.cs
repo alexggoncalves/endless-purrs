@@ -10,48 +10,54 @@ public class Cell : MonoBehaviour
 {
     public bool collapsed;
     public int x, y;
-    public List<Tile> tileOptions;
+    public List<int> tileOptions;
     public GameObject tileInstance;
     public bool preset = false;
 
+    TileLoader tileLoader;
+
     public GameObject natureElement;
 
-    public void CreateCell(bool collapseState, List<Tile> tiles, int x, int y)
+    public void CreateCell(bool collapseState, int x, int y, TileLoader tileLoader)
     {
-        collapsed = collapseState;
-        tileOptions = tiles;
         this.x = x;
         this.y = y;
+
+        collapsed = collapseState;
+
+        this.tileLoader = tileLoader;
+        tileOptions = tileLoader.GetPossibleTileIDs();
+        
         tileInstance = null;
         natureElement = null;
     }
 
-    public void CollapseCell(Tile tile)
+    public void CollapseCell(int tileID)
     {
         collapsed = true;
-        tileOptions = new List<Tile> { tile };
+        tileOptions = new List<int> { tileID };
         preset = true;
         /*tileInstance = Instantiate(tile.prefab, transform.position, Quaternion.Euler(0, tile.prefab.transform.rotation.y + 90 * tile.rotation, 0));*/ 
 
     }
 
-    public void RecreateCell(List<Tile> tiles)
+    public void RecreateCell(List<int> tileIDs)
     {
-        tileOptions = tiles;
+        tileOptions =  tileIDs;
     }
 
     public GameObject InstantiateTile()
     {
-        GameObject selectedOption = tileOptions[0].SelectOption();
-        tileInstance = Instantiate(selectedOption, transform.position, Quaternion.Euler(0, selectedOption.transform.rotation.y + 90 * tileOptions[0].rotation, 0));
+        Tile tile = tileLoader.GetTileByID(tileOptions[0]);
+        GameObject selectedOption = tile.SelectOption();
+        tileInstance = Instantiate(selectedOption, transform.position, Quaternion.Euler(0, selectedOption.transform.rotation.y + 90 * tile.rotation, 0));
         return tileInstance;
     }
 
-    public void ResetCell(List<Tile> tiles)
+    public void ResetCell()
     {
         collapsed = false;
-        tileOptions = tiles;
-        /*Destroy(tileInstance);*/
+        tileOptions = tileLoader.GetPossibleTileIDs();
         tileInstance = null;
     }
 
@@ -65,7 +71,7 @@ public class Cell : MonoBehaviour
         return y;
     }
 
-    public List<Tile> GetTileOptions()
+    public List<int> GetTileOptions()
     {
         return tileOptions;
     }

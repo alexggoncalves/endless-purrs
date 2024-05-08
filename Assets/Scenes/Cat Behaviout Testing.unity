@@ -892,7 +892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ae57597e4bde04ea25b51813d51234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiles: []
   tileInfo:
   - name: grass
     enabled: 1
@@ -908,7 +907,7 @@ MonoBehaviour:
       nY: 0s
     weight: 40
   - name: water
-    enabled: 1
+    enabled: 0
     type: 6
     tileOptions:
     - tilePrefab: {fileID: 5107385307107585503, guid: c31ba0e6bd0e200439cedfe906359208, type: 3}
@@ -921,7 +920,7 @@ MonoBehaviour:
       nY: 8s
     weight: 40
   - name: sand
-    enabled: 0
+    enabled: 1
     type: 0
     tileOptions:
     - tilePrefab: {fileID: 5731464819329663448, guid: 0a24f7068b3d83447aca1167e27e3f18, type: 3}
@@ -1295,6 +1294,8 @@ MonoBehaviour:
       pY: 8s
       nY: 7f
     weight: 2
+  tiles: []
+  grassID: 0
 --- !u!4 &437933911
 Transform:
   m_ObjectHideFlags: 0
@@ -1492,10 +1493,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellScale: 3
-  gridWidth: 30
-  gridHeight: 24
+  gridWidth: 24
+  gridHeight: 18
   worldOffset: {x: 0, y: 8}
-  edgeSize: {x: 2, y: 2}
+  edgeSize: {x: 1, y: 1}
   cellObj: {fileID: 3549023687805126509, guid: 0bdda6710b7f00f4bbd9a8e90bb71322, type: 3}
   placeDensity: 6
   placesExtents: {x: 140, y: 140}

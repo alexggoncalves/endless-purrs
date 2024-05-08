@@ -1,0 +1,14 @@
+{
+    "name": "JacksonDunstan.NativeCollections.Tests",
+    "references": [
+        "JacksonDunstan.NativeCollections"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true
+}

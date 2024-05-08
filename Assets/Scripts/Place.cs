@@ -9,7 +9,7 @@ public class Place : MonoBehaviour
     string placeName;
 
     [SerializeField]
-    public Tile[,] grid;
+    public int[,] grid;
 
     public bool[,] cellPlacements;
 
@@ -29,7 +29,7 @@ public class Place : MonoBehaviour
     public bool toDelete = false;
     
 
-    public void Initialize(Vector2 position, Tile tile)
+    public void Initialize(Vector2 position, int tile)
     {
         this.position = position;
         transform.position = new Vector3(position.x, 0, position.y);
@@ -45,9 +45,9 @@ public class Place : MonoBehaviour
         extents.Initialize(width * cellScale, height * cellScale, Vector2.zero, UnityEngine.Color.yellow);
     }
 
-    public void FillWith(Tile tile)
+    public void FillWith(int tile)
     {
-        grid = new Tile[width, height];
+        grid = new int[width, height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++)
             {
@@ -60,26 +60,8 @@ public class Place : MonoBehaviour
 
     public Vector2 GetPosition() { return position; }
 
-    public Tile[,] GetGrid() { return grid; }
+    public int[,] GetGrid() { return grid; }
 
     public RectangularArea GetExtents() { return extents; }
-
-    public void FillWithCustom(Tile[,] tiles, Tile backup)
-    {
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < height; j++)
-            {
-                if (tiles[i, j] != null)
-                {
-                    grid[i, j] = tiles[i, j];
-                } else
-                {
-                    grid[i, j] = backup;
-                }
-                
-            }
-        }
-    }
 
 }
