@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class MapGenerator : MonoBehaviour
@@ -47,6 +49,8 @@ public class MapGenerator : MonoBehaviour
 
     public TileLoader tileLoader;
 
+    public NavMeshSurface navMesh;
+
     void Start()
     {
         loadingScreen.SetActive(true);
@@ -78,6 +82,7 @@ public class MapGenerator : MonoBehaviour
         if (wfc.HasLoadedInitialZone() && !game.HasBegun())
         {
             game.Begin();
+            
         };
 
         //Update Loading screen
@@ -108,6 +113,7 @@ public class MapGenerator : MonoBehaviour
         if ((wfc.GetMoveOffset().x != 0 || wfc.GetMoveOffset().y != 0) && wfc.IsPaused())
         {
             wfc.ShiftGrid();
+            
         }
 
         lastPlayerCoordinates = playerCoordinates;

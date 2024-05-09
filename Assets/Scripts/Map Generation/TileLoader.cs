@@ -63,17 +63,17 @@ public class TileLoader : MonoBehaviour
                 foreach (TileConstraints constraints in tile.constraints)
                 {
                     string name = tile.name.ToString();
-                    GameObject newTile = new(name);
-                    Tile tileComponent = newTile.AddComponent<Tile>();
+                    /*GameObject newTile = new(name);*/
+                    Tile tileComponent = new Tile(); /*newTile.AddComponent<Tile>();*/
                     tileComponent.Initialize(tile.tileOptions, name, constraints.pX, constraints.nX, constraints.pY, constraints.nY, tile.weight, constraints.rotation);
                     tiles.Add(tileComponent);
-                    newTile.transform.SetParent(transform);
+                    /*newTile.transform.SetParent(transform);*/
                 }
             }
         }
 
         // Order tiles by weight
-        /*tiles.Sort((tileA, tileB) => tileB.weight.CompareTo(tileA.weight));*/
+        tiles.Sort((tileA, tileB) => tileB.weight.CompareTo(tileA.weight));
 
         int counter = 0;
         // Compare every profile (on the X and Y [Z in unity] axis) of the pieces of the tileset to each other and set up neighbours.

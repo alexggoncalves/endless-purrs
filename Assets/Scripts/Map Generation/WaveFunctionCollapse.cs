@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Unity.VisualScripting.Antlr3.Runtime;
 using static UnityEditor.Rendering.FilterWindow;
 using Unity.VisualScripting;
+using UnityEngine.AI;
+using Unity.AI.Navigation;
 
 public class WaveFunctionCollapse : MonoBehaviour
 {
@@ -174,7 +176,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         tempGrid.RemoveAll(a => a.GetTileOptions().Count != tempGrid[0].GetTileOptions().Count);
 
 
-        yield return new WaitForSeconds(0.002f);
+        yield return new WaitForSeconds(0.01f);
 
         CollapseCell(tempGrid);
     }
@@ -213,12 +215,17 @@ public class WaveFunctionCollapse : MonoBehaviour
                     {
                         GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position + Vector3.up, NatureElementPlacer.BiomeType.Forest);
                         cellToCollapse.SetNatureElementInstance(natureElement);
-                    }                
+                    }
+                    else if (tileLoader.GetNameById(selectedTile) == "grass_L2")
+                    {
+                        GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position + Vector3.up, NatureElementPlacer.BiomeType.Forest);
+                        cellToCollapse.SetNatureElementInstance(natureElement);
+                    }
                 }
             }
             else
             {
-                cellToCollapse.RecreateCell(new List<int> { 20 });
+                cellToCollapse.RecreateCell(new List<int> { tileLoader.grassID });
             }
 
             // Instantiate the chosen tile and set it as a child of the instance container
@@ -405,13 +412,16 @@ public class WaveFunctionCollapse : MonoBehaviour
                 UpdateCellsEntropy(left, true);
 
             }
-            if(updatedCells.Count % 4 == 0)
+            if(updatedCells.Count % 6 == 0)
             {
                 yield return new WaitForSeconds(0.01f);
             }
             
         }
+
         
+        
+
 
         iteration++;
 
@@ -458,6 +468,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         paused = false;
         StartCoroutine(UpdateGeneration());
+        GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 
     void SwapCellState(Cell copyTo, Cell copyFrom)

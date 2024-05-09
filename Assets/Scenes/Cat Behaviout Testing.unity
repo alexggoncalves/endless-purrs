@@ -675,6 +675,37 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
+--- !u!1 &242215191
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 242215193}
+  m_Layer: 0
+  m_Name: NavMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &242215193
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242215191}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &277645292
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,7 +938,7 @@ MonoBehaviour:
       nY: 0s
     weight: 40
   - name: water
-    enabled: 0
+    enabled: 1
     type: 6
     tileOptions:
     - tilePrefab: {fileID: 5107385307107585503, guid: c31ba0e6bd0e200439cedfe906359208, type: 3}
@@ -957,7 +988,7 @@ MonoBehaviour:
       nX: 2s
       pY: 2s
       nY: 2s
-    weight: 4
+    weight: 2
   - name: cliff
     enabled: 1
     type: 3
@@ -1097,7 +1128,7 @@ MonoBehaviour:
       nX: 2s
       pY: 4
       nY: 2s
-    weight: 1
+    weight: 2
   - name: cliff_outer_corner_L1
     enabled: 1
     type: 1
@@ -1294,7 +1325,6 @@ MonoBehaviour:
       pY: 8s
       nY: 7f
     weight: 2
-  tiles: []
   grassID: 0
 --- !u!4 &437933911
 Transform:
@@ -1473,6 +1503,7 @@ GameObject:
   - component: {fileID: 649935452}
   - component: {fileID: 649935451}
   - component: {fileID: 649935453}
+  - component: {fileID: 649935454}
   m_Layer: 0
   m_Name: Map Generator
   m_TagString: Untagged
@@ -1492,11 +1523,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91355824ffe8f864284a7b6f395a5cb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellScale: 3
-  gridWidth: 24
-  gridHeight: 18
+  cellScale: 3.5
+  gridWidth: 27
+  gridHeight: 21
   worldOffset: {x: 0, y: 8}
-  edgeSize: {x: 1, y: 1}
+  edgeSize: {x: 2, y: 2}
   cellObj: {fileID: 3549023687805126509, guid: 0bdda6710b7f00f4bbd9a8e90bb71322, type: 3}
   placeDensity: 6
   placesExtents: {x: 140, y: 140}
@@ -1514,6 +1545,7 @@ MonoBehaviour:
   loadingScreen: {fileID: 714114655270450851}
   loadingSlider: {fileID: 714114655270450852}
   tileLoader: {fileID: 437933910}
+  navMesh: {fileID: 0}
 --- !u!4 &649935452
 Transform:
   m_ObjectHideFlags: 0
@@ -1551,6 +1583,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5, y: 0.2, z: 5}
   m_Center: {x: 0, y: -0.15, z: 0}
+--- !u!114 &649935454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649935450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 3
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_GenerateLinks: 1
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 1
+  m_TileSize: 30
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 5
+  m_NavMeshData: {fileID: 0}
+  m_BuildHeightMesh: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,7 +2401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1124580460}
-  offset: {x: 0, y: 10, z: -8}
+  offset: {x: 0, y: 10, z: -9}
   smoothTime: 0.5
   height: 0
 --- !u!114 &1170006972
@@ -2394,7 +2457,7 @@ Transform:
   m_GameObject: {fileID: 1170006969}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3826835, y: 0.000000015896624, z: -0.000000006584597, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 13, z: -10.5}
+  m_LocalPosition: {x: 0, y: 10, z: -9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3210,3 +3273,4 @@ SceneRoots:
   - {fileID: 27453720}
   - {fileID: 714114655270450850}
   - {fileID: 480638514}
+  - {fileID: 242215193}

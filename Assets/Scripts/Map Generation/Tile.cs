@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Tile : MonoBehaviour
+public class Tile
 {
+    public string name;
     public  int id;
     public string pX, nX, pY, nY;
     public int rotation;

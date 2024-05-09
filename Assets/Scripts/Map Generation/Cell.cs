@@ -31,16 +31,6 @@ public class Cell : MonoBehaviour
         tileInstance = null;
         natureElement = null;
     }
-
-    public void CollapseCell(int tileID)
-    {
-        collapsed = true;
-        tileOptions = new List<int> { tileID };
-        preset = true;
-        /*tileInstance = Instantiate(tile.prefab, transform.position, Quaternion.Euler(0, tile.prefab.transform.rotation.y + 90 * tile.rotation, 0));*/ 
-
-    }
-
     public void RecreateCell(List<int> tileIDs)
     {
         tileOptions =  tileIDs;
