@@ -10,7 +10,11 @@ NavMeshProjectSettings:
   - name: Not Walkable
     cost: 1
   - name: Jump
-    cost: 2
+    cost: 5
+  - name: Water Shallow
+    cost: 7
+  - name: Deep Water
+    cost: 20
   - name: 
     cost: 1
   - name: 
@@ -65,20 +69,16 @@ NavMeshProjectSettings:
     cost: 1
   - name: 
     cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
-  m_LastAgentTypeID: -334000983
+  m_LastAgentTypeID: 1479372276
   m_Settings:
   - serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
-    agentSlope: 45
+    agentSlope: 60
     agentClimb: 0.75
-    ledgeDropHeight: 0
-    maxJumpAcrossDistance: 0
+    ledgeDropHeight: 5
+    maxJumpAcrossDistance: 5
     minRegionArea: 2
     manualCellSize: 0
     cellSize: 0.16666667
@@ -90,13 +90,13 @@ NavMeshProjectSettings:
     debug:
       m_Flags: 0
   - serializedVersion: 3
-    agentTypeID: -334000983
-    agentRadius: 0.5
-    agentHeight: 2
-    agentSlope: 45
-    agentClimb: 0.4
-    ledgeDropHeight: 0
-    maxJumpAcrossDistance: 0
+    agentTypeID: 1479372276
+    agentRadius: 0.16
+    agentHeight: 1.5
+    agentSlope: 41
+    agentClimb: 1.34
+    ledgeDropHeight: 10
+    maxJumpAcrossDistance: 10
     minRegionArea: 2
     manualCellSize: 0
     cellSize: 0.16666667
@@ -109,4 +109,4 @@ NavMeshProjectSettings:
       m_Flags: 0
   m_SettingNames:
   - Humanoid
-  - New Agent
+  - Cat

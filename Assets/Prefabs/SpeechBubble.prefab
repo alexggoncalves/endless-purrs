@@ -57,7 +57,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 6193864787519833361, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
+  - {fileID: -8340413548841736878, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
     I must find them!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
-  m_sharedMaterial: {fileID: 6193864787519833361, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
+  m_sharedMaterial: {fileID: -8340413548841736878, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -364,7 +364,6 @@ GameObject:
   - component: {fileID: 458036234221349235}
   - component: {fileID: 3856660807453002889}
   - component: {fileID: 4396924362780135295}
-  - component: {fileID: 2628814029745587288}
   m_Layer: 7
   m_Name: background
   m_TagString: Untagged
@@ -441,28 +440,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2628814029745587288
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7756435833688376714}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8981873912608747662
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +497,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 6193864787519833361, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
+  - {fileID: -8340413548841736878, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -565,7 +542,7 @@ MonoBehaviour:
   m_text: press "e" to continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
-  m_sharedMaterial: {fileID: 6193864787519833361, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
+  m_sharedMaterial: {fileID: -8340413548841736878, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

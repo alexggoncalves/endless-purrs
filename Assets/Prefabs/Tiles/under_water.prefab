@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 2279072551023816406}
   - component: {fileID: 3779260532774301954}
   - component: {fileID: 1844929966605042939}
-  m_Layer: 0
+  - component: {fileID: -6559088082301656792}
+  m_Layer: 8
   m_Name: under_water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,3 +106,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.019999998, y: 0, z: 0.019999998}
   m_Center: {x: 0, y: -0.0034303854, z: 0}
+--- !u!114 &-6559088082301656792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5107385307107585503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 4
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: f46d2d58

@@ -6,7 +6,6 @@ public class CatLocater : MonoBehaviour
 {
     //https://www.youtube.com/watch?v=dHzeHh-3bp4
 
-    private Camera cam;
     private Vector3 targetPosition;
     public RectTransform pointer;
     public RectTransform button;
@@ -26,7 +25,6 @@ public class CatLocater : MonoBehaviour
     public Movement player;
     private void Start()
     {
-        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>() as Camera;
         pointer.gameObject.SetActive(false);
         button.gameObject.SetActive(true);
         call = GetComponent<AudioSource>();

@@ -4,9 +4,7 @@ using UnityEngine.AI;
 
 namespace CAC
 {
-    /// <summary>
     /// A runtime class for providing random wander behaviour to cats in scene
-    /// </summary>
     public class CatWanderScript : MonoBehaviour
     {
         // How long the agent waits upon arriving at a new location
@@ -19,9 +17,7 @@ namespace CAC
         private NavMeshAgent navMeshAgent; // Reference to the cat's nav mesh agent
         private float timer; // Timer count used to perform actions in sequence
 
-        /// <summary>
         /// Static method returning the random destination a cat should move to
-        /// </summary>
         /// <param name="pos">The starting position</param>
         /// <returns>Vector3 The random destination to be moved to</returns>
         private static Vector3 GetRandomDestination(Vector3 pos)

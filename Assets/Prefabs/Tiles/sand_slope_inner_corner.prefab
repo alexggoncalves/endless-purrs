@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5293142284883870163}
   - component: {fileID: 4372926490831077286}
   - component: {fileID: 2990920508163670854}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: sand_slope_inner_corner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,8 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OverrideArea: 0
-  m_Area: 0
+  m_OverrideArea: 1
+  m_Area: 3
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0

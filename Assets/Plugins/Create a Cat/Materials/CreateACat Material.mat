@@ -92,7 +92,7 @@ Material:
     m_Floats:
     - _Float: 1.08
     - _Pattern_Noise_Scale: 6
-    - _Pattern_Threshold: 0.7
+    - _Pattern_Threshold: -1.17
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Spots_Pattern: 0
@@ -101,10 +101,10 @@ Material:
     - _Undercoat_Tail_Coverage: 1
     - _Undercoat_Threshold: 1
     m_Colors:
-    - _Coat_Colour: {r: 0.36792448, g: 0.20566377, b: 0.03991635, a: 1}
-    - _Eye_Colour: {r: 0, g: 0.46226412, b: 0.14395797, a: 1}
+    - _Coat_Colour: {r: 1, g: 1, b: 1, a: 1}
+    - _Eye_Colour: {r: 0.4627451, g: 0.3993849, b: 0, a: 1}
     - _Pattern_Colour: {r: 0.37735847, g: 0.23022497, b: 0.02669989, a: 1}
     - _Pattern_Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _Skin_Colour: {r: 0.9339623, g: 0.63879496, b: 0.8541873, a: 1}
+    - _Skin_Colour: {r: 0.5943396, g: 0.5018245, b: 0.5442372, a: 1}
     - _Undercoat_Colour: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

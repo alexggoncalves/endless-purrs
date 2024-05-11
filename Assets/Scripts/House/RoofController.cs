@@ -37,37 +37,6 @@ public class RoofController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-       /* if (other.CompareTag("Player"))
-        {
-            if(isPlayerInside)
-            {
-                isPlayerInside = false;
-                HideHouseTop();
-                other.gameObject.GetComponent<Movement>().EnterHouse();
-
-            } else
-            {
-                ShowHouseTop();
-               
-                isPlayerInside = true;
-                other.gameObject.GetComponent<Movement>().LeaveHouse();
-            }
-        }*/
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        /*if (other.CompareTag("Player"))
-        {
-            isPlayerInside = false;
-            other.gameObject.GetComponent<Movement>().LeaveHouse();
-
-            ShowHouseTop();
-        }*/
-    }
-
     void HideHouseTop()
     {
         foreach (Transform child in transform)

@@ -45,6 +45,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     bool initialLoading = true;
     private bool paused;
     NatureElementPlacer natureElements;
+    NavMeshSurface meshSurface;
 
     private void Update()
     {
@@ -70,6 +71,8 @@ public class WaveFunctionCollapse : MonoBehaviour
         this.gridWidth = width;
         this.gridHeight = height;
         this.worldOffset = worldOffset;
+
+        meshSurface = GetComponent<NavMeshSurface>();
 
         this.cellObj = cellObj;
         updatedCells = new Stack<Cell>();
@@ -419,10 +422,6 @@ public class WaveFunctionCollapse : MonoBehaviour
             
         }
 
-        
-        
-
-
         iteration++;
 
         if (iteration < player.GetInnerPlayerArea().GetCellArea(cellScale))
@@ -435,6 +434,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             if (initialLoading)
             {
                 initialLoading = false;
+                meshSurface.BuildNavMesh();
             }
             paused = true;
         }
@@ -468,7 +468,8 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         paused = false;
         StartCoroutine(UpdateGeneration());
-        GetComponent<NavMeshSurface>().BuildNavMesh();
+        GetComponent<NavMeshSurface>().UpdateNavMesh(meshSurface.navMeshData);
+       
     }
 
     void SwapCellState(Cell copyTo, Cell copyFrom)

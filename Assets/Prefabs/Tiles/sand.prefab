@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2361035785489689858}
   - component: {fileID: 8978124316467144946}
   - component: {fileID: -8381706214813444601}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: sand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,8 +104,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.019999998, y: 0, z: 0.019999998}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.019999998, y: 0.0007365002, z: 0.019999998}
+  m_Center: {x: 0, y: -0.0013943103, z: 0}
 --- !u!114 &-8381706214813444601
 MonoBehaviour:
   m_ObjectHideFlags: 0

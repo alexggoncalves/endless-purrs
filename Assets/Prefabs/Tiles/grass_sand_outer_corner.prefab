@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5150672140427651420}
   - component: {fileID: 2299349773513334877}
   - component: {fileID: -8741990734997881999}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: grass_sand_outer_corner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -964895270735209126, guid: 6a954bdf2d0dddf43b5ea2c5377d8465, type: 3}
 --- !u!114 &-8741990734997881999
