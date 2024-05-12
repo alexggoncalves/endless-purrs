@@ -1,12 +1,5 @@
 {
   "dependencies": {
-    "com.jacksondunstan.native-collections": {
-      "version": "https://github.com/jacksondunstan/NativeCollections.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "1b79941384fc8a9fc880e395077b428d28edbcf8"
-    },
     "com.unity.ai.navigation": {
       "version": "1.1.5",
       "depth": 0,
@@ -195,6 +188,15 @@
       "dependencies": {
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
+      }
+    },
+    "com.unity.visualeffectgraph": {
+      "version": "14.0.9",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.shadergraph": "14.0.9",
+        "com.unity.render-pipelines.core": "14.0.9"
       }
     },
     "com.unity.visualscripting": {
