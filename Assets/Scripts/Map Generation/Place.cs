@@ -16,7 +16,7 @@ public class Place : MonoBehaviour
     [SerializeField, Range(2,40)]
     int width = 2, height = 2;
     [SerializeField, Range(2, 40)]
-    int cellScale = 2;
+    float cellScale = 3.5f;
 
     [SerializeField]
     string tile;

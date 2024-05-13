@@ -27,7 +27,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     // Grid
     public Cell[,] grid;
     GameObject tileInstanceContainer;
-    Tile[,] initialAreaGrid;
+    int[,] initialAreaGrid;
 
     // Player
     Movement player;
@@ -38,6 +38,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     private List<Place> placesOnWait;
     private Stack<Place> placesToDestroy;
     public Stack<GameObject> instancesToDelete;
+    public GameObject homeInstance;
     
 
     // Other
@@ -97,7 +98,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     public void InitializeGrid()
     {
         grid = new Cell[gridWidth, gridHeight];
-        initialAreaGrid = new Tile[gridWidth, gridHeight];
+        initialAreaGrid = new int[gridWidth, gridHeight];
 
         // Add the Cell component for every cell of the grid
         for (int y = 0; y < gridHeight; y++)
@@ -123,8 +124,8 @@ public class WaveFunctionCollapse : MonoBehaviour
     void PlaceStartingArea(GameObject startingPlace, int x, int y)
     {
         // Create initial grass area
-        GameObject startingAreaInstance = Instantiate(startingPlace, new Vector3(x, 0, y), Quaternion.identity);
-        Place place = startingAreaInstance.GetComponent<Place>();
+        homeInstance = Instantiate(startingPlace, new Vector3(x, 0, y), Quaternion.identity);
+        Place place = homeInstance.GetComponent<Place>();
         place.Initialize(new Vector2(x, y), tileLoader.grassID);
         placesOnWait.Add(place);
 
@@ -595,6 +596,11 @@ public class WaveFunctionCollapse : MonoBehaviour
             iteration -= (gridWidth - (int)edgeSize.x * 2 + 1); ;
             totalMoveOffset.y -= 1;
         }
+    }
+
+    public GameObject GetHomeInstance()
+    {
+        return homeInstance;
     }
 
 

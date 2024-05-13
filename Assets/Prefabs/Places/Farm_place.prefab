@@ -48,13 +48,12 @@ MonoBehaviour:
   placeName: Wizard House
   width: 10
   height: 10
-  cellScale: 2
+  cellScale: 3.5
   tile: grass
   position: {x: 0, y: 0}
   extents: {fileID: 0}
-  instance: {fileID: 0}
-  isPlaced: 0
   onWait: 0
+  toDelete: 0
 --- !u!1001 &9002240582544260591
 PrefabInstance:
   m_ObjectHideFlags: 0

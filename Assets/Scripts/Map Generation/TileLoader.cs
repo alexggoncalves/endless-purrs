@@ -110,7 +110,7 @@ public class TileLoader : MonoBehaviour
 
     bool IsSymmetrical(string socketA, string socketB)
     {
-        if (socketA.Contains("s") && socketA == socketB)
+        if ((socketA.Contains("s") && socketA == socketB) || (socketA == "-1" || socketB == "-1"))
             return true;
         else
             return false;

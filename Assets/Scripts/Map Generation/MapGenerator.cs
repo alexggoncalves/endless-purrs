@@ -32,7 +32,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField, Min(1)]
     int placeDensity = 6;
     [SerializeField]
-    Vector2 placesExtents = new Vector2(150, 150);
+    Vector2 placesExtents = new Vector2(200, 200);
 
     public GameObject startingPlace;
     public List<Place> orderedPlaces; // Places that are related to the story and 
@@ -53,6 +53,7 @@ public class MapGenerator : MonoBehaviour
 
     void Start()
     {
+        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
         loadingScreen.SetActive(true);
 
         placeInstances = new List<Place>();
@@ -72,12 +73,12 @@ public class MapGenerator : MonoBehaviour
     {
         HandleGridMove();
 
-        /*if (orderedPlaces.Count > 0 || unorderedPlaces.Count > 0)
+        if (orderedPlaces.Count > 0 || unorderedPlaces.Count > 0)
         {
             SpawnPlaces();
         }
 
-        CheckPlaces();*/
+        CheckPlaces();
 
         if (wfc.HasLoadedInitialZone() && !game.HasBegun())
         {
@@ -95,6 +96,14 @@ public class MapGenerator : MonoBehaviour
         {
             loadingScreen.SetActive(false);
             player.UnlockMovement();
+        }
+
+        if (placesToDestroy.Count > 0)
+        {
+            Place place = placesToDestroy.Pop();
+            wfc.AddPlaceToDestroy(place);
+            place.toDelete = true;
+            placeInstances.Remove(place);
         }
 
     }
@@ -122,36 +131,34 @@ public class MapGenerator : MonoBehaviour
 
     void SpawnPlaces()
     {
-        
-
         bool valid = false;
-        if (placeInstances.Count < placeDensity)
+        if (placeInstances.Count < placeDensity && wfc.IsPaused())
         {
-            UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+           
             Place place = unorderedPlaces[UnityEngine.Random.Range(0, unorderedPlaces.Count)];
             Vector3 center = player.transform.position;
             float x = UnityEngine.Random.Range(center.x - placesExtents.x / 2, center.x + placesExtents.x / 2);
             float y = UnityEngine.Random.Range(center.z - placesExtents.y / 2, center.z + placesExtents.y / 2);
 
             // Check if chosen coordinates are inside player area
-            Vector2 placement = new(x, y);
-            if (Vector3.Distance(placement, new Vector2(0, 0)) > (place.GetDimensions().x + startingPlace.GetComponent<Place>().GetDimensions().x + 6) * cellScale)
+
+            if (!wfc.GetHomeInstance().GetComponent<Place>().GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 5))
             {
-                if (Vector2.Distance(placement, new Vector2(center.x + worldOffset.x, center.z + worldOffset.y)) > (gridWidth / 2) * cellScale + 14 + place.GetDimensions().x)
+                if (!player.GetOutterPlayerArea().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 5))
                 {
                     valid = true;
 
-                   /* // Check for collisions with other placed areas
+                    // Check for collisions with other placed areas
                     foreach (Place placed in placeInstances)
                     {
                         // Consider the dimensions of the places for overlap check
-                        float distanceThreshold = place.GetDimensions().x * cellScale + placed.GetDimensions().x * cellScale + 4;
-                        if (Vector2.Distance(placement, new Vector2(placed.transform.position.x, placed.transform.position.z)) < distanceThreshold)
+                        if (!placed.GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 5))
                         {
+                            Debug.Log("a");
                             valid = false;
                             break;
                         }
-                    }*/
+                    }
                 }
             }
 
@@ -164,7 +171,7 @@ public class MapGenerator : MonoBehaviour
 
                 placeInstances.Add(newPlace);
                 newPlace.onWait = true;
-                /*wfc.AddPlaceForPlacement(newPlace);*/
+                wfc.AddPlaceForPlacement(newPlace);
             }
         }
     }
@@ -178,14 +185,6 @@ public class MapGenerator : MonoBehaviour
             {
                 placesToDestroy.Push(place);
             }
-        }
-
-        while (placesToDestroy.Count > 0)
-        {
-            Place place = placesToDestroy.Pop();
-            wfc.AddPlaceToDestroy(place);
-            place.toDelete = true;
-            placeInstances.Remove(place);
         }
     }
 

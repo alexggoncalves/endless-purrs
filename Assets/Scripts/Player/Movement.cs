@@ -6,59 +6,120 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    private CharacterController controller;
-    private Vector3 playerVelocity;
-    private bool groundedPlayer = true;
-
-    bool isInsideHouse = false;
-
     [SerializeField]
     private float jumpHeight = 1.0f;
+
+    [SerializeField]
+    private float rotationSpeed = 400;
+
     [SerializeField]
     private float gravityValue = -9.81f;
+
     [SerializeField]
-    float playerSpeed = 3.5f;
+    float maxSpeed = 6f;
+    
+    [SerializeField]
+    float jumpDebouncePeriod = 0.2f;
+
+    [SerializeField]
+    float jumpHorizontalSpeed = 2f;
+
     [SerializeField]
     Animator animator;
 
-    Vector2 gridDimensions = new Vector2(2,2);
-    RectangularArea innerPlayerArea;
-    RectangularArea outterPlayerArea;
+    private CharacterController controller;
 
+    float ySpeed = 0;
+    private float? jumpButtonPressedTime = 0;
+    private float? lastGroundedTime = 0;
+    private bool isGrounded;
+    private bool isJumping;
+    
+    bool locked;
+    bool isInsideHouse = false;
     float walkedDistance;
-
-    Boolean locked;
 
     private AudioSource[] footStep;
 
+    Vector2 gridDimensions = new(2, 2);
+    RectangularArea innerPlayerArea;
+    RectangularArea outterPlayerArea;
 
     private void Start()
     {
         locked = true;
         controller = GetComponent<CharacterController>();
-        walkedDistance = 0;
         footStep = gameObject.GetComponents<AudioSource>();
+        walkedDistance = 0;
     }
 
     void Update()
     {
         if (!locked)
         {
-            groundedPlayer = controller.isGrounded;
-            if (groundedPlayer && playerVelocity.y < 0)
+            Vector3 movementDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            
+            float inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
+            if(!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift))
             {
-                playerVelocity.y = 0f;
+                inputMagnitude *= 0.66f;
+            }
+            animator.SetFloat("Velocity", inputMagnitude, 0.05f, Time.deltaTime);
+            movementDirection.Normalize();
+
+            ySpeed += Physics.gravity.y * Time.deltaTime;
+
+            
+            if (controller.isGrounded)
+            {
+                lastGroundedTime = Time.time;
             }
 
-            Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-
-            controller.Move(move.normalized * Time.deltaTime * playerSpeed);
-
-            animator.SetFloat("Velocity", move.magnitude);
-
-            if (move != Vector3.zero)
+            if (Input.GetButtonDown("Jump"))
             {
-                gameObject.transform.forward = move;
+                jumpButtonPressedTime = Time.time;
+            }
+
+            if (Time.time - lastGroundedTime <= jumpDebouncePeriod)
+            {
+                ySpeed = -0.5f;
+                animator.SetBool("IsGrounded", true);
+                isGrounded = true;
+                animator.SetBool("IsJumping", false);
+                isJumping = false;
+                animator.SetBool("IsFalling", false);
+
+                if (Time.time - jumpButtonPressedTime <= jumpDebouncePeriod)
+                {
+                    footStep[0].enabled = false;
+                    footStep[1].enabled = false;
+
+                    ySpeed += Mathf.Sqrt(jumpHeight * -3.0f * Physics.gravity.y);
+                    lastGroundedTime = null;
+                    jumpButtonPressedTime = null;
+                    animator.SetBool("IsJumping", true);
+                    isJumping = true;
+                }
+            }
+            else
+            {
+                animator.SetBool("IsGrounded", false);
+                isGrounded = false;
+
+                if ((isJumping && ySpeed < 0) || ySpeed < -3f)
+                {
+                    animator.SetBool("IsFalling", true);
+                }
+            }
+
+               
+            if (movementDirection != Vector3.zero)
+            {
+                animator.SetBool("IsMoving", true);
+
+                Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+
                 if (IsInsideHouse())
                 {
                     footStep[1].enabled = true;
@@ -71,22 +132,19 @@ public class Movement : MonoBehaviour
                 }
             } else
             {
+                animator.SetBool("IsMoving", false);
                 footStep[0].enabled = false;
                 footStep[1].enabled = false;
             }
 
-            // Changes the height position of the player..
-            if (Input.GetButtonDown("Jump") && groundedPlayer)
-            {
-                footStep[0].enabled = false;
-                footStep[1].enabled = false;
-                playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-            }
+          
+            Vector3 velocity = movementDirection * inputMagnitude * maxSpeed;
+            velocity.y = ySpeed;
 
-            playerVelocity.y += gravityValue * Time.deltaTime;
-            controller.Move(playerVelocity * Time.deltaTime);
+            controller.Move(velocity * Time.deltaTime);
 
-            walkedDistance += (move.normalized * Time.deltaTime * playerSpeed).magnitude;
+
+            walkedDistance += inputMagnitude * maxSpeed * Time.deltaTime;
         }
     }
 
@@ -129,11 +187,6 @@ public class Movement : MonoBehaviour
     public void UnlockMovement()
     {
         locked = false;
-    }
-
-    public void ResetVelocity()
-    {
-        playerVelocity = Vector3.zero;
     }
 
     public void EnterHouse()
