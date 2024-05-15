@@ -340,20 +340,6 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "7bbab84dc47544028e54ec22bf92d412"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "eef8d2303f8f40d6a93835068584dab0"
-                },
-                "m_SlotId": 2
-            },
-            "m_InputSlot": {
-                "m_Node": {
                     "m_Id": "d5ed529eba684ce9a62bc6178ce0a074"
                 },
                 "m_SlotId": 0
@@ -376,8 +362,8 @@
     ],
     "m_VertexContext": {
         "m_Position": {
-            "x": 60.8000602722168,
-            "y": 0.000034332275390625
+            "x": 60.80000305175781,
+            "y": -6.400006294250488
         },
         "m_Blocks": [
             {
@@ -815,12 +801,6 @@
 }
 
 {
-    "m_SGVersion": 2,
-    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalUnlitSubTarget",
-    "m_ObjectId": "2df79e28106b49ee83ef461571522b2b"
-}
-
-{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "2fc19d673531411aaf607cf4976c3f13",
@@ -1152,6 +1132,12 @@
     "m_Value": 1.0,
     "m_DefaultValue": 1.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 2,
+    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalUnlitSubTarget",
+    "m_ObjectId": "54edc8bf3c4b4eccb4fac9969b86b974"
 }
 
 {
@@ -2490,7 +2476,7 @@
     "m_ObjectId": "cd57e5e589664b6ebf1984dc9cbed32b",
     "m_Datas": [],
     "m_ActiveSubTarget": {
-        "m_Id": "2df79e28106b49ee83ef461571522b2b"
+        "m_Id": "54edc8bf3c4b4eccb4fac9969b86b974"
     },
     "m_AllowMaterialOverride": true,
     "m_SurfaceType": 1,
@@ -2499,7 +2485,7 @@
     "m_AlphaMode": 0,
     "m_RenderFace": 0,
     "m_AlphaClip": false,
-    "m_CastShadows": true,
+    "m_CastShadows": false,
     "m_ReceiveShadows": true,
     "m_SupportsLODCrossFade": false,
     "m_CustomEditorGUI": "",
@@ -2966,9 +2952,9 @@
     "m_ShaderOutputName": "Emission",
     "m_StageCapability": 2,
     "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
     },
     "m_DefaultValue": {
         "x": 0.0,
