@@ -132,35 +132,39 @@ public class MapGenerator : MonoBehaviour
     void SpawnPlaces()
     {
         bool valid = false;
+
         if (placeInstances.Count < placeDensity && wfc.IsPaused())
         {
-           
             Place place = unorderedPlaces[UnityEngine.Random.Range(0, unorderedPlaces.Count)];
             Vector3 center = player.transform.position;
             float x = UnityEngine.Random.Range(center.x - placesExtents.x / 2, center.x + placesExtents.x / 2);
             float y = UnityEngine.Random.Range(center.z - placesExtents.y / 2, center.z + placesExtents.y / 2);
 
+            // Debugging output
+            Debug.Log($"Generated position: x = {x}, y = {y}");
+
             // Check if chosen coordinates are inside player area
+            bool collidesWithHomeInstance = wfc.GetHomeInstance().GetComponent<Place>().GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 5);
+            bool collidesWithOutterPlayerArea = player.GetOutterPlayerArea().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 5);
 
-            if (!wfc.GetHomeInstance().GetComponent<Place>().GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 5))
+            if (!collidesWithHomeInstance && !collidesWithOutterPlayerArea)
             {
-                if (!player.GetOutterPlayerArea().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 5))
-                {
-                    valid = true;
+                valid = true;
 
-                    // Check for collisions with other placed areas
-                    foreach (Place placed in placeInstances)
+                // Check for collisions with other placed areas
+                foreach (Place placed in placeInstances)
+                {
+                    // Consider the dimensions of the places for overlap check
+                    if (placed.GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 5))
                     {
-                        // Consider the dimensions of the places for overlap check
-                        if (!placed.GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 5))
-                        {
-                            Debug.Log("a");
-                            valid = false;
-                            break;
-                        }
+                        valid = false;
+                        break;
                     }
                 }
             }
+
+            // Debugging output
+            Debug.Log($"Placement valid: {valid}");
 
             // If the placement is valid, create an instance of the place
             // and send it to the wave function collapse to affect the terrain generation
@@ -172,7 +176,20 @@ public class MapGenerator : MonoBehaviour
                 placeInstances.Add(newPlace);
                 newPlace.onWait = true;
                 wfc.AddPlaceForPlacement(newPlace);
+
+                // Debugging output
+                Debug.Log($"Placed new instance of {place.name} at x = {x}, y = {y}");
             }
+            else
+            {
+                // Debugging output
+                Debug.Log($"Failed to place instance of {place.name} at x = {x}, y = {y}");
+            }
+        }
+        else
+        {
+            // Debugging output
+            Debug.Log("Placement conditions not met or WFC is not paused.");
         }
     }
 
