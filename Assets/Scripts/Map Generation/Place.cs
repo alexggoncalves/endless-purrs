@@ -11,8 +11,6 @@ public class Place : MonoBehaviour
     [SerializeField]
     public int[,] grid;
 
-    public bool[,] cellPlacements;
-
     [SerializeField, Range(2,40)]
     int width = 2, height = 2;
     [SerializeField, Range(2, 40)]
@@ -20,8 +18,6 @@ public class Place : MonoBehaviour
 
     [SerializeField]
     string tile;
-
-    public Vector2 position;
 
     public RectangularArea extents;
 
@@ -31,7 +27,6 @@ public class Place : MonoBehaviour
 
     public void Initialize(Vector2 position, int tile)
     {
-        this.position = position;
         transform.position = new Vector3(position.x, 0, position.y);
 
         FillWith(tile);
@@ -48,7 +43,8 @@ public class Place : MonoBehaviour
     public void FillWith(int tile)
     {
         grid = new int[width, height];
-        for (int i = 0; i < width; i++) {
+        for (int i = 0; i < width; i++)
+        {
             for (int j = 0; j < height; j++)
             {
                 grid[i, j] = tile;
@@ -58,10 +54,15 @@ public class Place : MonoBehaviour
 
     public Vector2 GetDimensions() { return new Vector2(width, height); }
 
-    public Vector2 GetPosition() { return position; }
+    public Vector2 GetPosition() { return transform.position; }
 
     public int[,] GetGrid() { return grid; }
 
     public RectangularArea GetExtents() { return extents; }
+
+    public bool CollidesWith(Place place)
+    {
+        return false;
+    }
 
 }

@@ -42,8 +42,7 @@ public class Movement : MonoBehaviour
     private AudioSource[] footStep;
 
     Vector2 gridDimensions = new(2, 2);
-    RectangularArea innerPlayerArea;
-    RectangularArea outterPlayerArea;
+
 
     private void Start()
     {
@@ -146,33 +145,6 @@ public class Movement : MonoBehaviour
 
             walkedDistance += inputMagnitude * maxSpeed * Time.deltaTime;
         }
-    }
-
-    public void SetMapDetails(int gridWidth, int gridHeight, float cellScale, Vector2 mapOffset, Vector2 edgeSize)
-    {
-        this.gridDimensions = new Vector2(gridWidth, gridHeight);
-
-        innerPlayerArea = this.AddComponent<RectangularArea>();
-        innerPlayerArea.Initialize((gridDimensions.x - edgeSize.x * cellScale) * cellScale, (gridDimensions.y - edgeSize.y * cellScale) * cellScale, mapOffset, UnityEngine.Color.green);
-        outterPlayerArea = this.AddComponent<RectangularArea>();
-        outterPlayerArea.Initialize(gridDimensions.x * cellScale, gridDimensions.y * cellScale, mapOffset, UnityEngine.Color.magenta);
-    }
-
-    public Vector2 GetPlayerWorldCoordinates(float cellScale)
-    {
-        int x = Mathf.RoundToInt((transform.position.x / cellScale + (gridDimensions.x / cellScale)) + innerPlayerArea.GetOffset().x); 
-        int y = Mathf.RoundToInt((transform.position.z / cellScale + (gridDimensions.y / cellScale)) + innerPlayerArea.GetOffset().y);
-        return new Vector2( x,y);
-    }
-
-    public RectangularArea GetInnerPlayerArea()
-    {
-        return innerPlayerArea;
-    }
-
-    public RectangularArea GetOutterPlayerArea()
-    {
-        return outterPlayerArea;
     }
 
     public float GetWalkedDistance()

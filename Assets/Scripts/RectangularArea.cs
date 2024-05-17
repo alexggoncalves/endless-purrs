@@ -35,28 +35,26 @@ public class RectangularArea : MonoBehaviour
         return (point.x >= minX && point.x <= maxX && point.y >= minZ && point.y <= maxZ);
     }
 
-    public bool CollidesWith(RectangularArea other)
-    {
-        bool overlapX = Mathf.Abs(transform.position.x - other.transform.position.x) * 2 < (size.x + other.size.x);
-        bool overlapY = Mathf.Abs(transform.position.y - other.transform.position.y) * 2 < (size.y + other.size.y);
-
-        return overlapX && overlapY;
-    }
-
-    public bool CollidesWith(float x, float y, float width, float height)
-    {
-        bool overlapX = Mathf.Abs(transform.position.x - x) * 2 < (size.x + width);
-        bool overlapY = Mathf.Abs(transform.position.y - y) * 2 < (size.y + height);
-
-        return overlapX && overlapY;
-    }
-
     public bool CollidesWith(float x, float y, float width, float height, float margin)
     {
-        bool overlapX = Mathf.Abs(transform.position.x - x) * 2 < (size.x + width + 2 * margin);
-        bool overlapY = Mathf.Abs(transform.position.y - y) * 2 < (size.y + height + 2 * margin);
+        // Define the rect for the current place, expanded by the margin
+        Rect placeRect = new Rect(
+            transform.position.x - size.x / 2 - margin,
+            transform.position.z - size.y / 2 - margin,
+            size.x + margin * 2,
+            size.y + margin * 2
+        );
 
-        return overlapX && overlapY;
+        // Define the rect for the area to check, without margin
+        Rect checkRect = new Rect(
+            x - width / 2,
+            y - height / 2,
+            width,
+            height
+        );
+
+        // Check if the two rectangles overlap
+        return placeRect.Overlaps(checkRect);
     }
 
     public Vector2 GetOffset()

@@ -46,7 +46,6 @@ public class TileInfo
 
 public class TileLoader : MonoBehaviour
 {
-    
     public TileInfo[] tileInfo;
     public List<Tile> tiles = new List<Tile>();
     public int grassID;
@@ -54,7 +53,6 @@ public class TileLoader : MonoBehaviour
 
     private void Start()
     {
-        
         // Create all the tiles with the information given on the editor
         foreach (TileInfo tile in tileInfo)
         {
@@ -146,7 +144,5 @@ public class TileLoader : MonoBehaviour
     { 
        return possibleTileIDs;
     }
-
-  
 } 
 

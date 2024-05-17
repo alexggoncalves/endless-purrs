@@ -32,7 +32,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField, Min(1)]
     int placeDensity = 6;
     [SerializeField]
-    Vector2 placesExtents = new Vector2(200, 200);
+    Vector2 placesExtents = new Vector2(400, 400);
 
     public GameObject startingPlace;
     public List<Place> orderedPlaces; // Places that are related to the story and 
@@ -53,13 +53,12 @@ public class MapGenerator : MonoBehaviour
 
     void Start()
     {
-        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+        
         loadingScreen.SetActive(true);
 
         placeInstances = new List<Place>();
 
         player = GameObject.Find("Player").GetComponent<Movement>();
-        player.SetMapDetails(gridWidth, gridHeight, cellScale, worldOffset, edgeSize);
 
         placesToDestroy = new Stack<Place>();
 
@@ -72,24 +71,23 @@ public class MapGenerator : MonoBehaviour
     public void Update()
     {
         HandleGridMove();
+        CheckPlaces();
 
         if (orderedPlaces.Count > 0 || unorderedPlaces.Count > 0)
         {
             SpawnPlaces();
         }
 
-        CheckPlaces();
-
         if (wfc.HasLoadedInitialZone() && !game.HasBegun())
         {
             game.Begin();
             
-        };
+        };        
 
         //Update Loading screen
         if (!wfc.HasLoadedInitialZone())
         {
-            float progress = map(wfc.GetIteration(), 0, player.GetInnerPlayerArea().GetCellArea(cellScale), 0, 1);
+            float progress = map(wfc.GetIteration(), 0, wfc.GetInnerArea().GetCellArea(cellScale), 0, 1);
             loadingSlider.value = progress;
         }
         else if (loadingScreen.activeSelf)
@@ -115,47 +113,43 @@ public class MapGenerator : MonoBehaviour
 
         if (playerCoordinates != lastPlayerCoordinates)
         {
-            Vector2 moveAmout = playerCoordinates - lastPlayerCoordinates;
-            wfc.AddToMoveOffset(moveAmout);
+            Vector2 moveAmount = (playerCoordinates - lastPlayerCoordinates);
+            wfc.AddToMoveOffset(moveAmount);
         }
 
-        if ((wfc.GetMoveOffset().x != 0 || wfc.GetMoveOffset().y != 0) && wfc.IsPaused())
+        if ((wfc.GetMoveOffset().x != 0 || wfc.GetMoveOffset().y != 0) && wfc.IsPaused() && !wfc.IsUpdatingCells())
         {
             wfc.ShiftGrid();
-            
+
         }
 
         lastPlayerCoordinates = playerCoordinates;
-
     }
 
     void SpawnPlaces()
     {
         bool valid = false;
+        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
 
-        if (placeInstances.Count < placeDensity && wfc.IsPaused())
+        if (placeInstances.Count < placeDensity)
         {
             Place place = unorderedPlaces[UnityEngine.Random.Range(0, unorderedPlaces.Count)];
             Vector3 center = player.transform.position;
             float x = UnityEngine.Random.Range(center.x - placesExtents.x / 2, center.x + placesExtents.x / 2);
             float y = UnityEngine.Random.Range(center.z - placesExtents.y / 2, center.z + placesExtents.y / 2);
 
-            // Debugging output
-            Debug.Log($"Generated position: x = {x}, y = {y}");
-
             // Check if chosen coordinates are inside player area
-            bool collidesWithHomeInstance = wfc.GetHomeInstance().GetComponent<Place>().GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 5);
-            bool collidesWithOutterPlayerArea = player.GetOutterPlayerArea().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 5);
+            bool collidesWithHomeInstance = wfc.GetHomeInstance().GetComponent<Place>().GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 4);
+            bool collidesWithOuterPlayerArea = wfc.GetOuterArea().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 6);
 
-            if (!collidesWithHomeInstance && !collidesWithOutterPlayerArea)
+            if (!collidesWithHomeInstance && !collidesWithOuterPlayerArea)
             {
                 valid = true;
 
                 // Check for collisions with other placed areas
                 foreach (Place placed in placeInstances)
                 {
-                    // Consider the dimensions of the places for overlap check
-                    if (placed.GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 5))
+                    if (placed.GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 2))
                     {
                         valid = false;
                         break;
@@ -163,33 +157,17 @@ public class MapGenerator : MonoBehaviour
                 }
             }
 
-            // Debugging output
-            Debug.Log($"Placement valid: {valid}");
-
             // If the placement is valid, create an instance of the place
             // and send it to the wave function collapse to affect the terrain generation
             if (valid)
             {
                 Place newPlace = Instantiate(place, new Vector3(x, 0, y), Quaternion.identity);
-                newPlace.Initialize(new Vector3(x, y), tileLoader.grassID);
+                newPlace.Initialize(new Vector2(x, y), tileLoader.grassID);
 
                 placeInstances.Add(newPlace);
                 newPlace.onWait = true;
                 wfc.AddPlaceForPlacement(newPlace);
-
-                // Debugging output
-                Debug.Log($"Placed new instance of {place.name} at x = {x}, y = {y}");
             }
-            else
-            {
-                // Debugging output
-                Debug.Log($"Failed to place instance of {place.name} at x = {x}, y = {y}");
-            }
-        }
-        else
-        {
-            // Debugging output
-            Debug.Log("Placement conditions not met or WFC is not paused.");
         }
     }
 
