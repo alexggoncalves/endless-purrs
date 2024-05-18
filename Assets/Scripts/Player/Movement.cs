@@ -110,6 +110,7 @@ public class Movement : MonoBehaviour
                 isGrounded = false;
                 footStep[0].enabled = false;
                 footStep[1].enabled = false;
+                footStep[2].enabled = false;
 
                 if ((isJumping && ySpeed < 0) || ySpeed < -3f)
                 {
@@ -140,11 +141,19 @@ public class Movement : MonoBehaviour
                         footStep[1].enabled = false;
                     }
                 }
+
+                if (controller.transform.position.y <= -0.3)
+                {
+                    footStep[0].enabled = false;
+                    footStep[2].enabled = true;
+                    footStep[2].Play();
+                }
             } else
             {
                 animator.SetBool("IsMoving", false);
                 footStep[0].enabled = false;
                 footStep[1].enabled = false;
+                footStep[2].enabled = false;
             }
 
           
