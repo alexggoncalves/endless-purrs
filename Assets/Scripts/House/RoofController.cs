@@ -57,4 +57,9 @@ public class RoofController : MonoBehaviour
     {
         return isPlayerInside;
     }
+
+    public bool IsPlayerInsideCheck
+    {
+        get { return isPlayerInside; }
+    }
 }

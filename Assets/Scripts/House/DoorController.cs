@@ -16,10 +16,13 @@ public class DoorController : MonoBehaviour
     private Quaternion closedDoorRotation;
     private Quaternion openDoorRotation;
 
+    private AudioSource[] DoorSound;
+
     private void Start()
     {
         closedDoorRotation = door.rotation;
         openDoorRotation = Quaternion.Euler(door.rotation.eulerAngles + Vector3.up * openDoorAngle);
+        DoorSound = GetComponents<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -39,6 +42,7 @@ public class DoorController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             doorOpened = true;
+            DoorSound[0].Play();
         }
     }
 
@@ -47,6 +51,7 @@ public class DoorController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             doorOpened = false;
+            DoorSound[1].Play();
         }
     }
 

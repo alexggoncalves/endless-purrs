@@ -36,8 +36,10 @@ public class Movement : MonoBehaviour
     private bool isJumping;
     
     bool locked;
-    bool isInsideHouse = false;
+    bool isInsideHouse = true;
     float walkedDistance;
+
+    private RoofController roofController;
 
     private AudioSource[] footStep;
 
@@ -49,6 +51,7 @@ public class Movement : MonoBehaviour
         locked = true;
         controller = GetComponent<CharacterController>();
         footStep = gameObject.GetComponents<AudioSource>();
+        roofController = GameObject.Find("HouseTop").GetComponent<RoofController>();
         walkedDistance = 0;
     }
 
@@ -90,9 +93,6 @@ public class Movement : MonoBehaviour
 
                 if (Time.time - jumpButtonPressedTime <= jumpDebouncePeriod)
                 {
-                    footStep[0].enabled = false;
-                    footStep[1].enabled = false;
-
                     ySpeed += Mathf.Sqrt(jumpHeight * -3.0f * Physics.gravity.y);
                     lastGroundedTime = null;
                     jumpButtonPressedTime = null;
@@ -104,6 +104,8 @@ public class Movement : MonoBehaviour
             {
                 animator.SetBool("IsGrounded", false);
                 isGrounded = false;
+                footStep[0].enabled = false;
+                footStep[1].enabled = false;
 
                 if ((isJumping && ySpeed < 0) || ySpeed < -3f)
                 {
@@ -119,15 +121,20 @@ public class Movement : MonoBehaviour
                 Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
 
-                if (IsInsideHouse())
+                if (roofController != null)
                 {
-                    footStep[1].enabled = true;
-                    footStep[0].enabled = false;
-                }
-                else
-                {
-                    footStep[0].enabled = true;
-                    footStep[1].enabled = false;
+                    bool isPlayerInside = roofController.IsPlayerInsideCheck;
+
+                    if (isPlayerInside)
+                    {
+                        footStep[1].enabled = true;
+                        footStep[0].enabled = false;
+                    }
+                    else
+                    {
+                        footStep[0].enabled = true;
+                        footStep[1].enabled = false;
+                    }
                 }
             } else
             {
