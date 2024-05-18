@@ -45,12 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038fb13ef9842204198a6f3d67b895f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placeName: Wizard House
+  placeName: Farm House
   width: 10
   height: 10
-  cellScale: 3.5
   tile: grass
-  position: {x: 0, y: 0}
   extents: {fileID: 0}
   onWait: 0
   toDelete: 0

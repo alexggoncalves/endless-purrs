@@ -643,7 +643,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 2.4e-44, z: 2.4555e-41, w: 1.076e-42}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -2164,6 +2164,18 @@ PrefabInstance:
       propertyPath: placesExtents.y
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 4393554768407910231, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
+      propertyPath: unorderedPlaces.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4393554768407910231, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
+      propertyPath: unorderedPlaces.Array.data[4]
+      value: 
+      objectReference: {fileID: -248551918939790877, guid: e2bf08fa3bf341d49bb30f25955b5354, type: 3}
+    - target: {fileID: 4393554768407910231, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
+      propertyPath: unorderedPlaces.Array.data[5]
+      value: 
+      objectReference: {fileID: -248551918939790877, guid: 23256447970c45841998f6351241ccdf, type: 3}
     - target: {fileID: 8703244237650351396, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
       propertyPath: m_TileSize
       value: 128
