@@ -18,8 +18,9 @@ public class Tile
     public List<int> rightNeighbours;
 
     public TileOption[] options;
+    public TileType tileType;
 
-    public Tile Initialize (TileOption[] options, string name, string pX, string nX, string pY, string nY, float weight,int rotation)
+    public Tile Initialize (TileOption[] options, string name, string pX, string nX, string pY, string nY, float weight,int rotation, TileType type)
     {
         this.name = name;
         this.pX = pX;
@@ -29,6 +30,7 @@ public class Tile
         this.rotation = rotation;
         this.weight = weight;
         this.options = options;
+        this.tileType = type;
 
 
         upNeighbours = new List<int>();

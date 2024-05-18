@@ -14,7 +14,7 @@ using Unity.Collections;
 
 public class WaveFunctionCollapse : MonoBehaviour
 {
-    TileLoader tileLoader;
+    public TileLoader tileLoader;
     // Dimensions
     float cellScale;
     int gridWidth, gridHeight;
@@ -47,7 +47,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     // Other
     public int iteration = 0;
-    bool initialLoading = true;
+    public bool initialLoading = true;
     private bool paused;
     private bool updatingCells = false;
     NatureElementPlacer natureElements;

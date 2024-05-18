@@ -63,7 +63,7 @@ public class TileLoader : MonoBehaviour
                     string name = tile.name.ToString();
                     /*GameObject newTile = new(name);*/
                     Tile tileComponent = new Tile(); /*newTile.AddComponent<Tile>();*/
-                    tileComponent.Initialize(tile.tileOptions, name, constraints.pX, constraints.nX, constraints.pY, constraints.nY, tile.weight, constraints.rotation);
+                    tileComponent.Initialize(tile.tileOptions, name, constraints.pX, constraints.nX, constraints.pY, constraints.nY, tile.weight, constraints.rotation, tile.type);
                     tiles.Add(tileComponent);
                     /*newTile.transform.SetParent(transform);*/
                 }

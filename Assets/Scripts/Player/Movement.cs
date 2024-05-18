@@ -45,6 +45,8 @@ public class Movement : MonoBehaviour
 
     Vector2 gridDimensions = new(2, 2);
 
+    public TileType currentTileType;
+    public MapGenerator mapGenerator;
 
     private void Start()
     {
@@ -57,6 +59,8 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
+       
+
         if (!locked)
         {
             Vector3 movementDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -151,6 +155,17 @@ public class Movement : MonoBehaviour
 
 
             walkedDistance += inputMagnitude * maxSpeed * Time.deltaTime;
+            UpdateCurrentTile();
+        }
+    }
+
+    public void UpdateCurrentTile() {
+        if (!mapGenerator.GetWFC().initialLoading)
+        {
+            Vector2 gridCoordinates = mapGenerator.GetWFC().CalculateGridCoordinates(transform.position.x, transform.position.z);
+            int tileID = mapGenerator.GetWFC().grid[(int)gridCoordinates.x, (int)gridCoordinates.y].tileOptions[0];
+            currentTileType = mapGenerator.GetWFC().tileLoader.GetTileByID(tileID).tileType;
+            Debug.Log(currentTileType);
         }
     }
 
