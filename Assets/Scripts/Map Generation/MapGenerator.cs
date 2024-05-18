@@ -109,21 +109,24 @@ public class MapGenerator : MonoBehaviour
     // Detects every time the player moves one cell size and shifts the grid in that direction
     public void HandleGridMove()
     {
-        Vector2 playerCoordinates = wfc.CalculateWorldCoordinates(player.transform.position.x, player.transform.position.z);
-
-        if (playerCoordinates != lastPlayerCoordinates)
+        if (!player.IsTeleporting())
         {
-            Vector2 moveAmount = (playerCoordinates - lastPlayerCoordinates);
-            wfc.AddToMoveOffset(moveAmount);
+            Vector2 playerCoordinates = wfc.CalculateWorldCoordinates(player.transform.position.x, player.transform.position.z);
+
+            if (playerCoordinates != lastPlayerCoordinates)
+            {
+                Vector2 moveAmount = (playerCoordinates - lastPlayerCoordinates);
+                wfc.AddToMoveOffset(moveAmount);
+            }
+
+            if ((wfc.GetMoveOffset().x != 0 || wfc.GetMoveOffset().y != 0) && wfc.IsPaused() && !wfc.IsUpdatingCells())
+            {
+                wfc.ShiftGrid();
+
+            }
+
+            lastPlayerCoordinates = playerCoordinates;
         }
-
-        if ((wfc.GetMoveOffset().x != 0 || wfc.GetMoveOffset().y != 0) && wfc.IsPaused() && !wfc.IsUpdatingCells())
-        {
-            wfc.ShiftGrid();
-
-        }
-
-        lastPlayerCoordinates = playerCoordinates;
     }
 
     void SpawnPlaces()

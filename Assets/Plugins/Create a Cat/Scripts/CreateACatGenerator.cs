@@ -14,6 +14,8 @@ namespace CAC
         // Reference to the cat SMR so it doesn't get lost, assigned through custom editor class
         [HideInInspector] public SkinnedMeshRenderer catSMR;
 
+        
+
         // A reference to the current accessory, if it exists
         private GameObject accessoryInstance;
 

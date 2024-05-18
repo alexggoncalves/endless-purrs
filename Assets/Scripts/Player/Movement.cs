@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -12,8 +13,6 @@ public class Movement : MonoBehaviour
     [SerializeField]
     private float rotationSpeed = 400;
 
-    [SerializeField]
-    private float gravityValue = -9.81f;
 
     [SerializeField]
     float maxSpeed = 6f;
@@ -21,8 +20,8 @@ public class Movement : MonoBehaviour
     [SerializeField]
     float jumpDebouncePeriod = 0.2f;
 
-    [SerializeField]
-    float jumpHorizontalSpeed = 2f;
+    /*[SerializeField]
+    float jumpHorizontalSpeed = 2f;*/
 
     [SerializeField]
     Animator animator;
@@ -34,6 +33,7 @@ public class Movement : MonoBehaviour
     private float? lastGroundedTime = 0;
     private bool isGrounded;
     private bool isJumping;
+    private bool isTeleporting = false;
     
     bool locked;
     bool isInsideHouse = true;
@@ -178,8 +178,20 @@ public class Movement : MonoBehaviour
         isInsideHouse = false;
     }
 
-    public Boolean IsInsideHouse()
+    public bool IsInsideHouse()
     {
         return isInsideHouse;
     }
+
+    public bool IsTeleporting()
+    {
+        return isTeleporting;
+    }
+
+    public void SetTeleporting(bool isTeleporting)
+    {
+        this.isTeleporting = isTeleporting;
+    }
+
+    public bool IsGrounded() { return isGrounded; } 
 }

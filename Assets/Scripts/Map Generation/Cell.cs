@@ -49,6 +49,7 @@ public class Cell : MonoBehaviour
         collapsed = false;
         tileOptions = tileLoader.GetPossibleTileIDs();
         tileInstance = null;
+        natureElement = null;
     }
 
     public int GetX()

@@ -7,7 +7,7 @@ public class Portal : MonoBehaviour
     [SerializeField] private bool triggerActive = false;
 
     public GameObject player;
-    public Vector3 target = new Vector3(0, 0, 0);
+    public Vector3 target = new Vector3(-8, 0, 0);
     public MapGenerator mapGenerator;
 
     public void OnTriggerEnter(Collider other)
@@ -20,13 +20,15 @@ public class Portal : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (triggerActive)
+        if (triggerActive && mapGenerator.GetWFC().IsPaused())
         {
-            player.transform.position = target;
-
+            player.GetComponent<Movement>().SetTeleporting(true);
             triggerActive = false;
-            /*mapGenerator.GetWFC().MoveToOrigin();*/
 
+            mapGenerator.GetWFC().MoveToOrigin();
+            
+
+            player.GetComponent<Movement>().SetTeleporting(false);
             Destroy(this.gameObject, 1);
         }
     }

@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_OverrideArea: 1
-  m_Area: 2
+  m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 1
   m_IgnoreFromBuild: 0
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_StartPoint: {x: 0, y: 0, z: 0}
   m_EndPoint: {x: -0.8768444, y: 1.4577194, z: 0}
   m_Width: 1.4919987
-  m_CostModifier: 1
+  m_CostModifier: 4
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
-  m_Area: 2
+  m_Area: 0

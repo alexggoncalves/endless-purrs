@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 using UnityEngine.AI;
 using Unity.AI.Navigation;
 using UnityEditor.Experimental.GraphView;
+using Unity.Collections;
 
 public class WaveFunctionCollapse : MonoBehaviour
 {
@@ -42,10 +43,10 @@ public class WaveFunctionCollapse : MonoBehaviour
     private Stack<Place> placesToDestroy;
     public Stack<GameObject> instancesToDelete;
     public GameObject homeInstance;
-    
+
 
     // Other
-    private int iteration = 0;
+    public int iteration = 0;
     bool initialLoading = true;
     private bool paused;
     private bool updatingCells = false;
@@ -375,7 +376,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
             iterationCounter++;
 
-            if (iterationCounter % 6 == 0)
+            if (iterationCounter % 4 == 0)
             {
                 yield return new WaitForSeconds(0.01f);
             }
@@ -401,6 +402,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             {
                 initialLoading = false;
                 meshSurface.BuildNavMesh();
+                SaveInitialArea();
             }
         }
     }
@@ -420,7 +422,6 @@ public class WaveFunctionCollapse : MonoBehaviour
         paused = false;
         StartCoroutine(UpdateGeneration());
         GetComponent<NavMeshSurface>().UpdateNavMesh(meshSurface.navMeshData);
-
     }
 
 
@@ -540,13 +541,6 @@ public class WaveFunctionCollapse : MonoBehaviour
             iteration -= (gridWidth - (int)edgeSize.x * 2 + 1); ;
             totalMoveOffset.y -= 1;
         }
-        /*ShiftLimitingAreas(direction);*/
-    }
-
-    void ShiftLimitingAreas(Vector2 direction)
-    {
-       /* innerArea.offset = Set(innerArea.transform.position.x + direction.x * cellScale, 0, innerArea.transform.position.z + direction.y * cellScale);
-        outerArea.transform.position.Set(innerArea.transform.position.x + direction.x * cellScale, 0, innerArea.transform.position.z + direction.y * cellScale);*/
     }
 
     void PlaceStartingArea(GameObject startingPlace, int x, int y)
@@ -563,7 +557,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         SetGridSection(place.GetGrid(), position.x - dimensions.x / 2 + 1, position.y - dimensions.y / 2 + cellScale + 1, dimensions.x, dimensions.y);
     }
 
-    /*void SaveStartingArea()
+    void SaveInitialArea()
     {
         for (int i = 0; i < gridWidth; i++)
         {
@@ -572,27 +566,40 @@ public class WaveFunctionCollapse : MonoBehaviour
                 initialAreaGrid[i, j] = grid[i, j].tileOptions[0];
             }
         }
-    }*/
+    }
 
-    /*public void MoveToOrigin()
+    public void MoveToOrigin()
     {
-        cellContainer.transform.position = new Vector3(0, 0, 0);
+        
+        
+
+        updatedCells.Clear();
+        instancesToDelete.Clear();
+
+        cellContainer.transform.position = new Vector3(0,0,0);
+
         for (int i = 0; i < gridWidth; i++)
         {
             for (int j = 0; j < gridHeight; j++)
             {
-                grid[i, j].collapsed = false;
-                
-                grid[i, j].RecreateCell(new List<Tile> { initialAreaGrid[i, j] });
+                instancesToDelete.Push(grid[i, j].tileInstance);
+                instancesToDelete.Push(grid[i, j].natureElement);
+          /*      grid[i, j].tileInstance = null;
+                grid[i, j].natureElement = null;
+                grid[i, j].collapsed = false;*/
+                grid[i, j].ResetCell();
+                /*grid[i, j].RecreateCell(new List<int> { initialAreaGrid[i, j] });*/
+                /*updatedCells.Push(grid[i, j]);*/
+
             }
         }
 
-        iteration = 0;
+        paused = false;
 
-        *//*RefreshInstances();*//*
-        moveOffset = new Vector2(0, 0);
-        totalMoveOffset = new Vector2(0, 0);
-    }*/
+        iteration =  -1;
+        StartCoroutine(UpdateGeneration());
+    }
+
 
     void SwapCellState(Cell copyTo, Cell copyFrom)
     {
@@ -650,7 +657,6 @@ public class WaveFunctionCollapse : MonoBehaviour
                 }
             }
         }
-
     }
 
     Boolean CellIsInsidePlace(Cell cell)
@@ -664,6 +670,18 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
         return false;
     }
+
+    public void ClearMoveOffset()
+    {
+        moveOffset = new Vector2(0, 0);
+        totalMoveOffset = new Vector2(0, 0);
+    }
+
+    public void AddToMoveOffset(Vector2 offset)
+    {
+        moveOffset += offset;
+    }
+
 
     public GameObject GetHomeInstance()
     {
@@ -685,11 +703,6 @@ public class WaveFunctionCollapse : MonoBehaviour
         return updatingCells;
     }
     public bool IsPaused() { return paused; }
-
-    public void AddToMoveOffset(Vector2 offset)
-    {
-        moveOffset += offset;
-    }
 
     public Vector2 GetMoveOffset() { return moveOffset; }
 
