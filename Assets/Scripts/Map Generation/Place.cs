@@ -13,8 +13,7 @@ public class Place : MonoBehaviour
 
     [SerializeField, Range(2,40)]
     int width = 2, height = 2;
-    [SerializeField, Range(2, 40)]
-    float cellScale = 3.5f;
+    float cellScale;
 
     [SerializeField]
     string tile;
@@ -25,17 +24,12 @@ public class Place : MonoBehaviour
     public bool toDelete = false;
     
 
-    public void Initialize(Vector2 position, int tile)
+    public void Initialize(Vector2 position, int tile, float cellScale)
     {
+        this.cellScale = cellScale;
         transform.position = new Vector3(position.x, 0, position.y);
 
         FillWith(tile);
-
-        SetExtents();
-    }
-
-    public void SetExtents()
-    {
         extents = this.AddComponent<RectangularArea>();
         extents.Initialize(width * cellScale, height * cellScale, Vector2.zero, UnityEngine.Color.yellow);
     }
@@ -59,10 +53,5 @@ public class Place : MonoBehaviour
     public int[,] GetGrid() { return grid; }
 
     public RectangularArea GetExtents() { return extents; }
-
-    public bool CollidesWith(Place place)
-    {
-        return false;
-    }
 
 }

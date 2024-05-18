@@ -548,7 +548,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         // Create initial grass area
         homeInstance = Instantiate(startingPlace, new Vector3(x, 0, y), Quaternion.identity);
         Place place = homeInstance.GetComponent<Place>();
-        place.Initialize(new Vector2(x, y), tileLoader.grassID);
+        place.Initialize(new Vector2(x, y), tileLoader.grassID, cellScale);
         placesOnWait.Add(place);
 
         Vector2 dimensions = place.GetDimensions();

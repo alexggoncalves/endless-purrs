@@ -32,7 +32,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField, Min(1)]
     int placeDensity = 6;
     [SerializeField]
-    Vector2 placesExtents = new Vector2(400, 400);
+    Vector2 placesExtents = new Vector2(200, 200);
 
     public GameObject startingPlace;
     public List<Place> orderedPlaces; // Places that are related to the story and 
@@ -138,9 +138,13 @@ public class MapGenerator : MonoBehaviour
         {
             Place place = unorderedPlaces[UnityEngine.Random.Range(0, unorderedPlaces.Count)];
             Vector3 center = player.transform.position;
-            float x = UnityEngine.Random.Range(center.x - placesExtents.x / 2, center.x + placesExtents.x / 2);
-            float y = UnityEngine.Random.Range(center.z - placesExtents.y / 2, center.z + placesExtents.y / 2);
 
+            int gridX = UnityEngine.Random.Range((int)(center.x - placesExtents.x), (int)(center.x + placesExtents.x));
+            int gridY = UnityEngine.Random.Range((int)(center.z - placesExtents.y), (int)(center.z + placesExtents.y));
+
+            float x = gridX * cellScale;
+            float y = gridY * cellScale;
+            
             // Check if chosen coordinates are inside player area
             bool collidesWithHomeInstance = wfc.GetHomeInstance().GetComponent<Place>().GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 4);
             bool collidesWithOuterPlayerArea = wfc.GetOuterArea().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 6);
@@ -165,7 +169,7 @@ public class MapGenerator : MonoBehaviour
             if (valid)
             {
                 Place newPlace = Instantiate(place, new Vector3(x, 0, y), Quaternion.identity);
-                newPlace.Initialize(new Vector2(x, y), tileLoader.grassID);
+                newPlace.Initialize(new Vector2(x, y), tileLoader.grassID, cellScale);
 
                 placeInstances.Add(newPlace);
                 newPlace.onWait = true;
@@ -179,7 +183,7 @@ public class MapGenerator : MonoBehaviour
     {
         foreach (Place place in placeInstances)
         {
-            if (Vector3.Distance(player.transform.position,place.transform.position) > placesExtents.x/2 + 20)
+            if (Vector3.Distance(player.transform.position,place.transform.position) > placesExtents.x * 2 + 20)
             {
                 placesToDestroy.Push(place);
             }
