@@ -52,6 +52,8 @@ public class CatIdentity : MonoBehaviour
 
     private bool displayEnabled = false;
     private GameObject identityDisplay = null;
+
+    public LayerMask ignoreLayerMask;
     public void SetIdentity(GameObject identityDisplay)
     {
         // Set Gender
@@ -89,6 +91,24 @@ public class CatIdentity : MonoBehaviour
         else
         {
             return BehaviourType.Friendly;
+        }
+    }
+
+    private void LateUpdate()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        // Perform the raycast, using the layer mask to ignore specific layers
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~ignoreLayerMask))
+        {
+            // The raycast hit an object that is not in the ignored layer
+            Debug.Log("Hit: " + hit.collider.name);
+        }
+        else
+        {
+            // No hit, or hit an object in the ignored layer
+            Debug.Log("No hit, or hit an ignored object.");
         }
     }
 
@@ -160,7 +180,7 @@ public class CatIdentity : MonoBehaviour
     {
         
     }
-
+/*
     private void OnMouseEnter()
     {
         displayEnabled = true;
@@ -171,5 +191,5 @@ public class CatIdentity : MonoBehaviour
     {
         displayEnabled = false;
         identityDisplay.SetActive(false);
-    }
+    }*/
 }
