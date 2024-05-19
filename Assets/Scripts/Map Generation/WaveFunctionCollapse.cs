@@ -150,7 +150,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         tempGrid.RemoveAll(a => a.GetTileOptions().Count != tempGrid[0].GetTileOptions().Count);
 
 
-        yield return new WaitForSeconds(0.02f);
+        yield return new WaitForSeconds(0.002f);
 
         CollapseCell(tempGrid);
     }
@@ -183,17 +183,17 @@ public class WaveFunctionCollapse : MonoBehaviour
                 {
                     if (tileLoader.GetNameById(selectedTile) == "grass")
                     {
-                        GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position, NatureElementPlacer.BiomeType.Forest);
+                        GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position, cellScale, NatureElementPlacer.BiomeType.Forest);
                         cellToCollapse.SetNatureElementInstance(natureElement);
                     }
                     else if (tileLoader.GetNameById(selectedTile) == "grass_L1")
                     {
-                        GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position + Vector3.up, NatureElementPlacer.BiomeType.Forest);
+                        GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position + Vector3.up * 1.6f, cellScale, NatureElementPlacer.BiomeType.Forest);
                         cellToCollapse.SetNatureElementInstance(natureElement);
                     }
                     else if (tileLoader.GetNameById(selectedTile) == "grass_L2")
                     {
-                        GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position + Vector3.up, NatureElementPlacer.BiomeType.Forest);
+                        GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position + Vector3.up * 2.8f, cellScale, NatureElementPlacer.BiomeType.Forest);
                         cellToCollapse.SetNatureElementInstance(natureElement);
                     }
                 }
@@ -338,8 +338,6 @@ public class WaveFunctionCollapse : MonoBehaviour
         while (updatedCells.Count > 0)
         {
             Cell cell = updatedCells.Pop();
-            int x = cell.GetX();
-            int y = cell.GetY();
 
             foreach (Place place in placesOnWait)
             {
@@ -349,36 +347,37 @@ public class WaveFunctionCollapse : MonoBehaviour
                 }
             }
 
-            if (y > 0)
+            if (cell.GetY() > 0)
             {
-                Cell down = grid[x, y - 1];
-                UpdateCellsEntropy(down, true);
+                // Down Cell;
+                UpdateCellsEntropy(grid[cell.GetX(), cell.GetY() - 1], true);
 
             }
-            if (x < gridWidth - 1)
+            if (cell.GetX() < gridWidth - 1)
             {
-                Cell right = grid[x + 1, y];
-                UpdateCellsEntropy(right, true);
+                // Right Cell
+                UpdateCellsEntropy(grid[cell.GetX() + 1, cell.GetY()], true);
 
             }
-            if (y < gridHeight - 1)
+            if (cell.GetY() < gridHeight - 1)
             {
-                Cell up = grid[x, y + 1];
-                UpdateCellsEntropy(up, true);
+                // Up Cell
+                UpdateCellsEntropy(grid[cell.GetX(), cell.GetY() + 1], true);
 
             }
-            if (x > 0)
+            if (cell.GetX() > 0)
             {
-                Cell left = grid[x - 1, y];
-                UpdateCellsEntropy(left, true);
+                // Left Cell
+                UpdateCellsEntropy(grid[cell.GetX() - 1, cell.GetY()], true);
 
             }
 
             iterationCounter++;
 
-            if (iterationCounter % 4 == 0)
+            if (iterationCounter % 10 == 0)
             {
-                yield return new WaitForSeconds(0.01f);
+                yield return new WaitForSeconds(0.005f);
+
             }
         }
         updatingCells = false;
@@ -570,9 +569,6 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     public void MoveToOrigin()
     {
-        
-        
-
         updatedCells.Clear();
         instancesToDelete.Clear();
 

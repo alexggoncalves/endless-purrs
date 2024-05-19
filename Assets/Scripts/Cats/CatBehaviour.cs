@@ -55,6 +55,7 @@ public class CatBehaviour : MonoBehaviour
     {
         if (triggerActive && Input.GetKeyDown(KeyCode.E))
         {
+            Debug.Log("aa");
             PlaySound(Meow[1].clip);
             CatchCat();
         }
@@ -79,25 +80,6 @@ public class CatBehaviour : MonoBehaviour
             // Save the ID of the object
             objectId = gameObject.GetInstanceID();
 
-            slotsObject = GameObject.Find("Slots");
-
-            // Send cat to a empty slot inside the house
-            foreach (Transform child in slotsObject.transform)
-            {
-                slots.Add(child.GetComponent<Slot>());
-            }
-            foreach (Slot slot in slots)
-            {
-                if (!slot.IsOccupied())
-                {
-                    gameObject.transform.position = slot.gameObject.transform.position;
-                    gameObject.transform.localRotation = slot.gameObject.transform.localRotation;
-                    slot.SetInstance(gameObject);
-
-                    slot.SetOccupied(true);
-                    break;
-                }
-            }
             /*gameObject.SetActive(false);*/
             HideUIButton();
 

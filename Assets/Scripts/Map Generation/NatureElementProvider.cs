@@ -35,7 +35,7 @@ public class NatureElementPlacer : MonoBehaviour
 
     public Biome[] biomes;
 
-    public GameObject PlaceElement(Vector3 position, BiomeType biomeType)
+    public GameObject PlaceElement(Vector3 position, float cellScale, BiomeType biomeType)
     {
         NatureElement[] elements = GetBiomeElements(biomeType);
 
@@ -46,7 +46,7 @@ public class NatureElementPlacer : MonoBehaviour
         GameObject elementPrefab = elementType.prefabs[variationIndex];
 
         Quaternion rotation = Quaternion.Euler(elementPrefab.transform.rotation.eulerAngles.x, Random.Range(0, 360), 0);
-        Vector3 offset = new(Random.Range(-0.8f, 0.8f), 0, Random.Range(-0.8f, 0.8f));
+        Vector3 offset = new(Random.Range(-0.4f * cellScale, 0.4f * cellScale), 0, Random.Range(-0.4f * cellScale, 0.4f * cellScale));
 
         GameObject instance = Instantiate(elementPrefab, position + offset, rotation);
         instance.transform.SetParent(transform, false);

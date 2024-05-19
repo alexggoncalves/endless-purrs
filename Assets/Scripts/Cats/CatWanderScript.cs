@@ -33,16 +33,16 @@ namespace CAC
             return hit.position;
         }
 
-        private void Awake()
+        public void InitializeWanderScript(Animator animator, NavMeshAgent navMeshAgent)
         {
-            if (!TryGetComponent(out animator) || !TryGetComponent(out navMeshAgent))
-                Destroy(this);
+            this.animator = animator;
+            this.navMeshAgent = navMeshAgent;
 
             // Random time until first action 
             timer = Random.Range(0, WAIT_TIME);
         }
 
-        private void Update()
+        private void UpdateWanderScript()
         {
             if (timer >= WAIT_TIME)
             {

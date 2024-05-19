@@ -1,6 +1,8 @@
 using CAC;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Principal;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.TextCore.Text;
@@ -38,22 +40,37 @@ public class CatController : MonoBehaviour
 
     public float catVisionRange = 10;
 
+    private CatWanderScript wander;
+    CatBehaviour behaviour;
+    CatIdentity identity;
+
+    public bool owned;
+    public string catName = "Nameless";
+    public string gender = "Neutral";
+    public GameObject identityDisplay;
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        identity = this.AddComponent<CatIdentity>();
 
-        /*movementState = CatState.None;*/
+        /*wander = this.AddComponent<CatWanderScript>();
+        wander.InitializeWanderScript(animator, agent);*/
 
         // Don’t update position automatically
         agent.updatePosition = false;
 
-        if (randomizeCat) 
+        if (randomizeCat && !owned) 
         {
-            this.GetComponent<CreateACatGenerator>().RandomizeCat();
-        }
+            GetComponent<CreateACatGenerator>().RandomizeCat();
+            identity.SetIdentity(identityDisplay);
+        } 
         
+        if(owned) {
+            identity.SetIdentity(catName, gender, BehaviourType.Owned, identityDisplay);
+        }
     }
 
     public void SetTarget(Transform target)

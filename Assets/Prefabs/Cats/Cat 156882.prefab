@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cat 156882
       objectReference: {fileID: 0}
+    - target: {fileID: 232382722414280135, guid: 8c291c2b1287b964e8e11aaa768385ca, type: 3}
+      propertyPath: m_TagString
+      value: Cat
+      objectReference: {fileID: 0}
     - target: {fileID: 608626373606549373, guid: 8c291c2b1287b964e8e11aaa768385ca, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

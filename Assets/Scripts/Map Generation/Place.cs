@@ -11,7 +11,7 @@ public class Place : MonoBehaviour
     [SerializeField]
     public int[,] grid;
 
-    [SerializeField, Range(2,40)]
+    [SerializeField, Range(1,40)]
     int width = 2, height = 2;
     float cellScale;
 

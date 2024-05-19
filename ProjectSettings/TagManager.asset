@@ -4,10 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - ArrowTarget
   - tile
   - SpawnPoint
   - CatSlots
+  - Cat
   layers:
   - Default
   - TransparentFX
@@ -18,8 +18,8 @@ TagManager:
   - HouseColliders
   - Speech Bubbles
   - Tiles
+  - NavMeshModifiers
   - HouseFloor
-  - 
   - 
   - 
   - 

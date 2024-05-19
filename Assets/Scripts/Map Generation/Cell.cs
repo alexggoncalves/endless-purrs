@@ -64,7 +64,7 @@ public class Cell : MonoBehaviour
 
     public List<int> GetTileOptions()
     {
-        return tileOptions;
+        return  tileOptions;
     }
 
     public void SetNatureElementInstance(GameObject natureElement)

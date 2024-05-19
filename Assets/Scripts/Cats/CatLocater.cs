@@ -33,7 +33,7 @@ public class CatLocater : MonoBehaviour
     public GameObject FindClosestCat()
     {
         GameObject[] gos;
-        gos = GameObject.FindGameObjectsWithTag("ArrowTarget");
+        gos = GameObject.FindGameObjectsWithTag("Cat");
 
         if (gos != null)
         {

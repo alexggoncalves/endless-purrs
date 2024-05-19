@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.Build;
 using UnityEngine;
@@ -172,7 +173,7 @@ public class Movement : MonoBehaviour
         if (!mapGenerator.GetWFC().initialLoading)
         {
             Vector2 gridCoordinates = mapGenerator.GetWFC().CalculateGridCoordinates(transform.position.x, transform.position.z);
-            int tileID = mapGenerator.GetWFC().grid[(int)gridCoordinates.x, (int)gridCoordinates.y].tileOptions[0];
+            int tileID = mapGenerator.GetWFC().grid[(int)gridCoordinates.x, (int)gridCoordinates.y].tileOptions.First();
             currentTileType = mapGenerator.GetWFC().tileLoader.GetTileByID(tileID).tileType;
             Debug.Log(currentTileType);
         }

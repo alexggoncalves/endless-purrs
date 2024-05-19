@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
@@ -183,7 +184,7 @@ public class MapGenerator : MonoBehaviour
     {
         foreach (Place place in placeInstances)
         {
-            if (Vector3.Distance(player.transform.position,place.transform.position) > placesExtents.x * 2 + 20)
+            if (Vector3.Distance(player.transform.position,place.transform.position) > placesExtents.x * cellScale + 20)
             {
                 placesToDestroy.Push(place);
             }
@@ -199,4 +200,6 @@ public class MapGenerator : MonoBehaviour
     {
         return b1 + (s - a1) * (b2 - b1) / (a2 - a1);
     }
+
+
 }

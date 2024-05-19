@@ -24,7 +24,7 @@ public class Game : MonoBehaviour
     {
         speech = player.transform.GetChild(1).gameObject.GetComponent<Speech>(); // Get Speech
         decision = player.transform.GetChild(2).gameObject.GetComponent<Decision>();
-        player.transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
+        /*player.transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;*/
         playerMovement = player.GetComponent<Movement>();
     }
 
