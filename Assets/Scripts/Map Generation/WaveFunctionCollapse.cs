@@ -3,14 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
-using Unity.VisualScripting.Antlr3.Runtime;
-using static UnityEditor.Rendering.FilterWindow;
-using Unity.VisualScripting;
-using UnityEngine.AI;
 using Unity.AI.Navigation;
-using UnityEditor.Experimental.GraphView;
-using Unity.Collections;
+
 
 public class WaveFunctionCollapse : MonoBehaviour
 {
