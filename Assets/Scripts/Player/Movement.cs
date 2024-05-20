@@ -49,6 +49,8 @@ public class Movement : MonoBehaviour
     public TileType currentTileType;
     public MapGenerator mapGenerator;
 
+    public GameObject PortalObj;
+
     private void Start()
     {
         locked = true;
@@ -167,6 +169,24 @@ public class Movement : MonoBehaviour
             walkedDistance += inputMagnitude * maxSpeed * Time.deltaTime;
             UpdateCurrentTile();
         }
+
+        // Detect right click
+        if (Input.GetMouseButtonDown(1))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            Debug.Log("aa");
+            // Perform the raycast, using the layer mask to ignore specific layers
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                Debug.Log(hit.collider.gameObject.layer);
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Tiles"))
+                {
+                    Debug.Log("SpawnPortalAt: " + hit.point);
+                    Instantiate(PortalObj, hit.point + Vector3.up * 1, Quaternion.identity);
+                }
+            }
+        }
     }
 
     public void UpdateCurrentTile() {
@@ -175,8 +195,13 @@ public class Movement : MonoBehaviour
             Vector2 gridCoordinates = mapGenerator.GetWFC().CalculateGridCoordinates(transform.position.x, transform.position.z);
             int tileID = mapGenerator.GetWFC().grid[(int)gridCoordinates.x, (int)gridCoordinates.y].tileOptions.First();
             currentTileType = mapGenerator.GetWFC().tileLoader.GetTileByID(tileID).tileType;
-            Debug.Log(currentTileType);
         }
+    }
+
+    void OnMouseDown()
+    {
+        
+        
     }
 
     public float GetWalkedDistance()

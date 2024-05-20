@@ -376,7 +376,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
             if (iterationCounter % 10 == 0)
             {
-                yield return new WaitForSeconds(0.005f);
+                yield return new WaitForSeconds(0.01f);
 
             }
         }

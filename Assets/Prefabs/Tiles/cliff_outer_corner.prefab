@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5963517890521862738}
   - component: {fileID: 2164151928997889475}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Corner Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 9217686858486051890}
   - component: {fileID: 2009806111809379729}
   - component: {fileID: 1982965267282664552}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: cliff_outer_corner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2120571884260974897}
   - component: {fileID: 6526675216691163467}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Mesh Link 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

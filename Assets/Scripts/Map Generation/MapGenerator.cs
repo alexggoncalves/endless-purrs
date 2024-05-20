@@ -69,7 +69,7 @@ public class MapGenerator : MonoBehaviour
         lastPlayerCoordinates = wfc.CalculateWorldCoordinates(player.transform.position.x, player.transform.position.z);
     }
 
-    public void Update()
+    public void LateUpdate()
     {
         HandleGridMove();
         CheckPlaces();

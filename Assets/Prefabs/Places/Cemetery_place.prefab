@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3171829615438259326}
   - component: {fileID: 7880839599701618560}
   - component: {fileID: 7894600557611460890}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gate-graveyard-body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 3656241727411814374}
   - component: {fileID: 8136462081256251517}
   - component: {fileID: 1580947907297031286}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 963658740755839471}
   - component: {fileID: 7932104202403223129}
   - component: {fileID: 1161307700332443190}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 936953555178161748}
   - component: {fileID: 4228706181593434609}
   - component: {fileID: 2110946429923032379}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: hand-severed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -364,7 +364,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 79957471117078232}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gate-graveyard (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 3910461915593570265}
   - component: {fileID: 1270075761880269587}
   - component: {fileID: 1387495365996937985}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-small-b (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -503,7 +503,7 @@ GameObject:
   - component: {fileID: 3902909330493405822}
   - component: {fileID: 1282712334125305524}
   - component: {fileID: 6101323945293301176}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-2m (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -607,7 +607,7 @@ GameObject:
   - component: {fileID: 4099033501664041250}
   - component: {fileID: 8842149490967037625}
   - component: {fileID: 2283187043382923954}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -691,7 +691,7 @@ GameObject:
   - component: {fileID: 3891840344269213015}
   - component: {fileID: 1289840825834125725}
   - component: {fileID: 1152443141506362854}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-2m (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -796,7 +796,7 @@ GameObject:
   - component: {fileID: 3968233568179053531}
   - component: {fileID: 1221891868418578193}
   - component: {fileID: 519213098346056598}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: book-magical-eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -902,7 +902,7 @@ GameObject:
   - component: {fileID: 3579900678126229301}
   - component: {fileID: 1606285311383708671}
   - component: {fileID: 111251176939765510}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-tower (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1007,7 +1007,7 @@ GameObject:
   - component: {fileID: 4583359006458635262}
   - component: {fileID: 9064705801786784869}
   - component: {fileID: 1789740497398179950}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1091,7 +1091,7 @@ GameObject:
   - component: {fileID: 3532386805109621272}
   - component: {fileID: 1648731277773698770}
   - component: {fileID: 7667287320920952174}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-small-c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1195,7 +1195,7 @@ GameObject:
   - component: {fileID: 1956586479706943133}
   - component: {fileID: 3209072690930164024}
   - component: {fileID: 823065635844806130}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: walkway-stone (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1278,7 +1278,7 @@ GameObject:
   - component: {fileID: 2141091347443081087}
   - component: {fileID: 9150552509894553801}
   - component: {fileID: 68959767444312230}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1362,7 +1362,7 @@ GameObject:
   - component: {fileID: 2889464972580675451}
   - component: {fileID: 1152224811712916401}
   - component: {fileID: 3184207340786891216}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-2m (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1464,7 +1464,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1297977879506410750}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1497,7 +1497,7 @@ GameObject:
   - component: {fileID: 1297297335487243104}
   - component: {fileID: 2715449130679282885}
   - component: {fileID: 165438914953795599}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: walkway-stone (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1581,7 +1581,7 @@ GameObject:
   - component: {fileID: 2767272010316367799}
   - component: {fileID: 109111628638270333}
   - component: {fileID: 1603899201408446458}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: tree-scary-dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1687,7 +1687,7 @@ GameObject:
   - component: {fileID: 2768154777174854289}
   - component: {fileID: 112169236006059611}
   - component: {fileID: 1895321384005587269}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-small-a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1792,7 +1792,7 @@ GameObject:
   - component: {fileID: 2854463055916335862}
   - component: {fileID: 34305104006772284}
   - component: {fileID: 1709245726349650623}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: shovel-gravedigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1898,7 +1898,7 @@ GameObject:
   - component: {fileID: 2435567407213854205}
   - component: {fileID: 443649570251000119}
   - component: {fileID: 1290770915976697264}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: candle-stick-b-lit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2004,7 +2004,7 @@ GameObject:
   - component: {fileID: 2481015771105998802}
   - component: {fileID: 399309616602333976}
   - component: {fileID: 1318204880818036705}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2110,7 +2110,7 @@ GameObject:
   - component: {fileID: 2020790120650043249}
   - component: {fileID: 4318880168801606587}
   - component: {fileID: 5208352456229914874}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-cross
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2215,7 +2215,7 @@ GameObject:
   - component: {fileID: 2295948387599780714}
   - component: {fileID: 4051040285089922976}
   - component: {fileID: 3456998753330160417}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-classic-broken
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2320,7 +2320,7 @@ GameObject:
   - component: {fileID: 1459784574345153025}
   - component: {fileID: 6202902595222214042}
   - component: {fileID: 3679161148838592913}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2404,7 +2404,7 @@ GameObject:
   - component: {fileID: 1987410405480127684}
   - component: {fileID: 4355056096144926734}
   - component: {fileID: 5753403659835030351}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: gravestone-old-cross (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2509,7 +2509,7 @@ GameObject:
   - component: {fileID: 1967580176783420324}
   - component: {fileID: 4371527351135526766}
   - component: {fileID: 3654792687804108833}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-2m (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2614,7 +2614,7 @@ GameObject:
   - component: {fileID: 1963238543465336039}
   - component: {fileID: 4384857063059863597}
   - component: {fileID: 4637846882416378769}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-small-c (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2719,7 +2719,7 @@ GameObject:
   - component: {fileID: 1709590501128585948}
   - component: {fileID: 3485039307657721366}
   - component: {fileID: 2854382114627168919}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: candle-skull-lit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2824,7 +2824,7 @@ GameObject:
   - component: {fileID: 2735669419348316124}
   - component: {fileID: 5097204985531523178}
   - component: {fileID: 4086274904837177349}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2908,7 +2908,7 @@ GameObject:
   - component: {fileID: 1228667507396977476}
   - component: {fileID: 3956955291792627598}
   - component: {fileID: 3254664703605094544}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-small-a (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3013,7 +3013,7 @@ GameObject:
   - component: {fileID: 5272947837808171071}
   - component: {fileID: 4680109210139034483}
   - component: {fileID: 7894600557611460892}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gate-graveyard-door-r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3116,7 +3116,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4168704795449144577}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3149,8 +3149,8 @@ GameObject:
   - component: {fileID: 7608276657007212618}
   - component: {fileID: -248551918939790877}
   - component: {fileID: 8457411204265573874}
-  m_Layer: 9
-  m_Name: Grave_place
+  m_Layer: 8
+  m_Name: Cemetery_place
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3257,6 +3257,7 @@ Transform:
   - {fileID: 8944673428573391187}
   - {fileID: 1956586479706943133}
   - {fileID: 3917232730829332176}
+  - {fileID: 5856078302332151134}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-248551918939790877
@@ -3271,7 +3272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038fb13ef9842204198a6f3d67b895f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placeName: Grave
+  placeName: Cemetery
   width: 8
   height: 8
   tile: 
@@ -3309,7 +3310,7 @@ GameObject:
   - component: {fileID: 578384808536966505}
   - component: {fileID: 3450358346555912611}
   - component: {fileID: 8729620712410863591}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: gravestone-old-classic-cross (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3414,7 +3415,7 @@ GameObject:
   - component: {fileID: 668200861679820223}
   - component: {fileID: 3359995854010837365}
   - component: {fileID: 766402392554795549}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-2m (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3516,7 +3517,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4513692146156900317}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3549,7 +3550,7 @@ GameObject:
   - component: {fileID: 4398178165912922769}
   - component: {fileID: 767490074313057588}
   - component: {fileID: 3261269556265587198}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: walkway-stone (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3633,7 +3634,7 @@ GameObject:
   - component: {fileID: 8607230402076770434}
   - component: {fileID: 8183270445812264035}
   - component: {fileID: 7894600557611460893}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gate-graveyard-door-l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3738,7 +3739,7 @@ GameObject:
   - component: {fileID: 4456386296843095833}
   - component: {fileID: 754238779959492796}
   - component: {fileID: 3284091034767701110}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: walkway-stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3822,7 +3823,7 @@ GameObject:
   - component: {fileID: 737254524978360199}
   - component: {fileID: 3305561159854365517}
   - component: {fileID: 3899202272411153491}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-small-a (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3926,7 +3927,7 @@ GameObject:
   - component: {fileID: 3856290341354105591}
   - component: {fileID: 6255411476656112961}
   - component: {fileID: 2938064487848109358}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4009,7 +4010,7 @@ GameObject:
   - component: {fileID: 3917232730829332176}
   - component: {fileID: 140480199573803381}
   - component: {fileID: 2744911771960763839}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: walkway-stone (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4093,7 +4094,7 @@ GameObject:
   - component: {fileID: 104282264748893726}
   - component: {fileID: 2780563078216667860}
   - component: {fileID: 6142625343352324501}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: gravestone-old-cross (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4198,7 +4199,7 @@ GameObject:
   - component: {fileID: 88131560689736219}
   - component: {fileID: 2800654551663341265}
   - component: {fileID: 3538837376780202576}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-classic-broken (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4303,7 +4304,7 @@ GameObject:
   - component: {fileID: 3500291345697879314}
   - component: {fileID: 6041698011780815524}
   - component: {fileID: 3301659529900210891}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4384,7 +4385,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3818206055870769433}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4417,7 +4418,7 @@ GameObject:
   - component: {fileID: 8347074883674882596}
   - component: {fileID: 3567366833627946431}
   - component: {fileID: 6096738811344554420}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4498,7 +4499,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5213968649961609254}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4532,7 +4533,7 @@ GameObject:
   - component: {fileID: 2464787199852247055}
   - component: {fileID: 3164621509427209027}
   - component: {fileID: 474753281196755244}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gate-graveyard-door-r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4637,7 +4638,7 @@ GameObject:
   - component: {fileID: 8557129208715451841}
   - component: {fileID: 3789241359487664730}
   - component: {fileID: 5876129239775565393}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4721,7 +4722,7 @@ GameObject:
   - component: {fileID: 8638223494491808417}
   - component: {fileID: 5766249960765838955}
   - component: {fileID: 5460293883706095989}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-small-a (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4826,7 +4827,7 @@ GameObject:
   - component: {fileID: 8114709500910908422}
   - component: {fileID: 6303291279582740684}
   - component: {fileID: 6167858393648349406}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-small-b (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4931,7 +4932,7 @@ GameObject:
   - component: {fileID: 8287499820993430707}
   - component: {fileID: 6118116335911022713}
   - component: {fileID: 6198785863379791979}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-small-b (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5036,7 +5037,7 @@ GameObject:
   - component: {fileID: 8047342054378776519}
   - component: {fileID: 5208713959613387533}
   - component: {fileID: 838880657813807193}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-2m (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5138,7 +5139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6391321886223924918}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5171,7 +5172,7 @@ GameObject:
   - component: {fileID: 7400048436572272874}
   - component: {fileID: 2658620787785901937}
   - component: {fileID: 4755646299499557754}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5255,7 +5256,7 @@ GameObject:
   - component: {fileID: 7603559012878900872}
   - component: {fileID: 5647993229284289090}
   - component: {fileID: 6458203970286368449}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: candle-stick-b-unlit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5361,7 +5362,7 @@ GameObject:
   - component: {fileID: 7710805587570948814}
   - component: {fileID: 5541327076337094148}
   - component: {fileID: 6279625432309915930}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-small-a (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5466,7 +5467,7 @@ GameObject:
   - component: {fileID: 7271979656998336370}
   - component: {fileID: 4832280700349596600}
   - component: {fileID: 7327812464113247360}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-2m (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5571,7 +5572,7 @@ GameObject:
   - component: {fileID: 7234333159414862884}
   - component: {fileID: 4864297595202199790}
   - component: {fileID: 4710796434689679612}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-small-b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5675,7 +5676,7 @@ GameObject:
   - component: {fileID: 6271119927923768631}
   - component: {fileID: 3768556738615693953}
   - component: {fileID: 5351736434561315566}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5759,7 +5760,7 @@ GameObject:
   - component: {fileID: 7326784027778705469}
   - component: {fileID: 4776348918253460727}
   - component: {fileID: 7347722036748316115}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-2m
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5864,7 +5865,7 @@ GameObject:
   - component: {fileID: 7281368176558071321}
   - component: {fileID: 4821220562716273363}
   - component: {fileID: 6136716544633321042}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-end 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5970,7 +5971,7 @@ GameObject:
   - component: {fileID: 6933718069782635262}
   - component: {fileID: 5178423312397178420}
   - component: {fileID: 5772736423533447861}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-classic-broken (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6076,7 +6077,7 @@ GameObject:
   - component: {fileID: 2047711264148136114}
   - component: {fileID: 1912123168851528787}
   - component: {fileID: 474753281196755245}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gate-graveyard-door-l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6182,7 +6183,7 @@ GameObject:
   - component: {fileID: 7198898959837356145}
   - component: {fileID: 4900856749769626811}
   - component: {fileID: 1352384271800120063}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-classic-cross
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6284,7 +6285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7639785143232974568}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gate-graveyard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6318,7 +6319,7 @@ GameObject:
   - component: {fileID: 6391406347236363190}
   - component: {fileID: 9175558108416819068}
   - component: {fileID: 8401500866255020723}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-2m (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6423,7 +6424,7 @@ GameObject:
   - component: {fileID: 6076264530976655938}
   - component: {fileID: 8338358824637021832}
   - component: {fileID: 9037031074312785618}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-2m (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6528,7 +6529,7 @@ GameObject:
   - component: {fileID: 5124378136584504398}
   - component: {fileID: 452529461207551920}
   - component: {fileID: 474753281196755242}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gate-graveyard-body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6631,7 +6632,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6985974243446517269}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6664,7 +6665,7 @@ GameObject:
   - component: {fileID: 6842062070204409929}
   - component: {fileID: 2064041085504894930}
   - component: {fileID: 8772678886932898777}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6748,7 +6749,7 @@ GameObject:
   - component: {fileID: 5914772447562869513}
   - component: {fileID: 8498725145585672131}
   - component: {fileID: 2537351874457172359}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-classic-cross (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6853,7 +6854,7 @@ GameObject:
   - component: {fileID: 5998230833413202921}
   - component: {fileID: 8419770188105471779}
   - component: {fileID: 7140630663644957604}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: candle-stick-c-lit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6959,7 +6960,7 @@ GameObject:
   - component: {fileID: 5494256089767785763}
   - component: {fileID: 7771932593497457129}
   - component: {fileID: 8499619425656763308}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pumpkin-carved-b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7064,7 +7065,7 @@ GameObject:
   - component: {fileID: 5657209541566190823}
   - component: {fileID: 7594904413992394797}
   - component: {fileID: 2672848157029689718}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-2m (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7168,7 +7169,7 @@ GameObject:
   - component: {fileID: 8997647473626911944}
   - component: {fileID: 2275994079599410046}
   - component: {fileID: 7033568199756421905}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7251,7 +7252,7 @@ GameObject:
   - component: {fileID: 8910368906618121748}
   - component: {fileID: 1795838344374747554}
   - component: {fileID: 7414522543742558669}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7334,7 +7335,7 @@ GameObject:
   - component: {fileID: 8944673428573391187}
   - component: {fileID: 5444296158777247478}
   - component: {fileID: 7812322357974004284}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: walkway-stone (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7418,7 +7419,7 @@ GameObject:
   - component: {fileID: 5409115715698719833}
   - component: {fileID: 7851460098129168531}
   - component: {fileID: 8877836203832251498}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: gravestone-old-tower (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7524,7 +7525,7 @@ GameObject:
   - component: {fileID: 4903703837699951721}
   - component: {fileID: 7199430482722011299}
   - component: {fileID: 8369964375517242394}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-pillar (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7630,7 +7631,7 @@ GameObject:
   - component: {fileID: 5139961770208283160}
   - component: {fileID: 6967130981002821330}
   - component: {fileID: 8606850678937625171}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7733,7 +7734,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8106600251229588286}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7766,7 +7767,7 @@ GameObject:
   - component: {fileID: 5628046580780584665}
   - component: {fileID: 886584424205308226}
   - component: {fileID: 7590787826623841609}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7847,7 +7848,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8473432774684808411}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7881,7 +7882,7 @@ GameObject:
   - component: {fileID: 4830573550085666551}
   - component: {fileID: 7272559429718901309}
   - component: {fileID: 3746193703015333783}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wall-graveyard-2m (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7985,7 +7986,7 @@ GameObject:
   - component: {fileID: 8212551919863040208}
   - component: {fileID: 1347487026402862950}
   - component: {fileID: 7834725968293758729}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: hole-graveyard-fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8057,3 +8058,65 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1001 &5235019526709232874
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7608276657007212618}
+    m_Modifications:
+    - target: {fileID: 1344797386151426830, guid: 60a072e93dfa4f246b3993b7fb00d561, type: 3}
+      propertyPath: m_Name
+      value: Cat
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865192514137203124, guid: 60a072e93dfa4f246b3993b7fb00d561, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.20631376
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865192514137203124, guid: 60a072e93dfa4f246b3993b7fb00d561, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865192514137203124, guid: 60a072e93dfa4f246b3993b7fb00d561, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.0676718
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865192514137203124, guid: 60a072e93dfa4f246b3993b7fb00d561, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865192514137203124, guid: 60a072e93dfa4f246b3993b7fb00d561, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865192514137203124, guid: 60a072e93dfa4f246b3993b7fb00d561, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865192514137203124, guid: 60a072e93dfa4f246b3993b7fb00d561, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865192514137203124, guid: 60a072e93dfa4f246b3993b7fb00d561, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865192514137203124, guid: 60a072e93dfa4f246b3993b7fb00d561, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865192514137203124, guid: 60a072e93dfa4f246b3993b7fb00d561, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 60a072e93dfa4f246b3993b7fb00d561, type: 3}
+--- !u!4 &5856078302332151134 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1865192514137203124, guid: 60a072e93dfa4f246b3993b7fb00d561, type: 3}
+  m_PrefabInstance: {fileID: 5235019526709232874}
+  m_PrefabAsset: {fileID: 0}

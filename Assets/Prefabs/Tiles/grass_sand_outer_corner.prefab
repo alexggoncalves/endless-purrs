@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5150672140427651420}
   - component: {fileID: 2299349773513334877}
   - component: {fileID: -8741990734997881999}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: grass_sand_outer_corner
   m_TagString: Untagged
   m_Icon: {fileID: 0}

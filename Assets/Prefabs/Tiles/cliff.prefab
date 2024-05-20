@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -8303890594407442114}
   - component: {fileID: 163573804100429324}
   - component: {fileID: 4414039134356317181}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: cliff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4035997731626584201}
   - component: {fileID: 2430540677052258089}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: MeshLink
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -8,7 +8,7 @@ namespace CAC
     public class CatWanderScript : MonoBehaviour
     {
         // How long the agent waits upon arriving at a new location
-        private const float WAIT_TIME = 3f;
+        private const float WAIT_TIME = 4;
         // The radius within which the agent can find a new destination
         private const float WALK_RADIUS = 4f;
 
@@ -42,8 +42,10 @@ namespace CAC
             timer = Random.Range(0, WAIT_TIME);
         }
 
-        private void UpdateWanderScript()
+        public void UpdateWanderScript()
         {
+            navMeshAgent.stoppingDistance = 0;
+            navMeshAgent.updatePosition = true;
             if (timer >= WAIT_TIME)
             {
                 // Start move to destination coroutine
@@ -70,6 +72,8 @@ namespace CAC
                 yield return null;
             }
 
+            animator.SetFloat("speedMultiplier", navMeshAgent.velocity.magnitude / navMeshAgent.speed);
+
             // Randomly choose an idle animation state, if any
             switch (Random.Range(0, 11))
             {
@@ -90,6 +94,9 @@ namespace CAC
                     timer -= 8f;
                     break;
             }
+
+
+            
 
             // Reset the moving bool and release the stored coroutine
             animator.SetBool("isMoving", false);

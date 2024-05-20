@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1444074919755156243}
   - component: {fileID: 7187725028946777304}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 3659193588091970787}
   - component: {fileID: 8007883684032582760}
   - component: {fileID: 661246381937063131}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: cliff_outer_corner_L1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3802155435084349179}
   - component: {fileID: 8200222766338208852}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Mesh Link 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

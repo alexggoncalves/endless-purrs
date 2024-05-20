@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7355774754378003037}
   - component: {fileID: 8207033977389010803}
   - component: {fileID: 5057779228276102728}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group1909491717
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 3776166499445171725}
   - component: {fileID: 705191493702170095}
   - component: {fileID: 4319924106220053807}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: windows.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -567,7 +567,7 @@ GameObject:
   - component: {fileID: 2260665384019405803}
   - component: {fileID: 3456508288668886902}
   - component: {fileID: 1893094398744522708}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group335773047
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1011,7 +1011,7 @@ GameObject:
   - component: {fileID: 820069410080264543}
   - component: {fileID: 6707558864906971041}
   - component: {fileID: 3055916350330263674}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group854476401
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1103,7 +1103,7 @@ GameObject:
   - component: {fileID: 1614171651810580949}
   - component: {fileID: 597038935971092626}
   - component: {fileID: 1833496420391673763}
-  m_Layer: 9
+  m_Layer: 2
   m_Name: walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1440,7 +1440,7 @@ GameObject:
   - component: {fileID: 7180940968995694167}
   - component: {fileID: 3820412863268798947}
   - component: {fileID: 6499312649851253686}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: HouseTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1509,7 +1509,7 @@ GameObject:
   - component: {fileID: 3006928599278149982}
   - component: {fileID: 971203363410583881}
   - component: {fileID: 4224916117266059474}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group2075708629
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1594,7 +1594,7 @@ GameObject:
   - component: {fileID: 7775089682482097183}
   - component: {fileID: 6743831819405153485}
   - component: {fileID: 6483754427004178003}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group1035783233
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1678,7 +1678,7 @@ GameObject:
   - component: {fileID: 7904662218013112730}
   - component: {fileID: 1963815392803964892}
   - component: {fileID: 5689041999633765807}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group2075708629.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1850,7 +1850,7 @@ GameObject:
   - component: {fileID: 6330049160300124529}
   - component: {fileID: 1251718211380160736}
   - component: {fileID: 2855805092100008952}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group805801240
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1934,7 +1934,7 @@ GameObject:
   - component: {fileID: 3218316798746898874}
   - component: {fileID: 2016396655784729728}
   - component: {fileID: 6733681567274380505}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group895599401
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2138,7 +2138,7 @@ GameObject:
   - component: {fileID: 5625684134614578484}
   - component: {fileID: 6075439179215251448}
   - component: {fileID: 6785057046663699034}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group2089016711
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2221,7 +2221,7 @@ GameObject:
   - component: {fileID: 7250748202575324365}
   - component: {fileID: 2809032107077506708}
   - component: {fileID: 1416652440368189655}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point Light (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2423,7 +2423,7 @@ GameObject:
   - component: {fileID: 7595810549414755623}
   - component: {fileID: 2785451076329402056}
   - component: {fileID: 7895145714808136714}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group775391072
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2679,7 +2679,7 @@ GameObject:
   - component: {fileID: 6779938610152358107}
   - component: {fileID: 2938025978459811748}
   - component: {fileID: 5005402554425492471}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2797,7 +2797,7 @@ GameObject:
   - component: {fileID: 2019383254559388940}
   - component: {fileID: 2933592899209827648}
   - component: {fileID: 8812899183977889186}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group125015847
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2885,7 +2885,7 @@ GameObject:
   - component: {fileID: 9068764797111707767}
   - component: {fileID: 2957181185892574334}
   - component: {fileID: 8473249581872014597}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group2001532617
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3141,7 +3141,7 @@ GameObject:
   - component: {fileID: 4290029208913614755}
   - component: {fileID: 8998729329663067416}
   - component: {fileID: 973138757703903420}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: windows.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3296,7 +3296,7 @@ GameObject:
   - component: {fileID: 3228489570349400000}
   - component: {fileID: 1445178732698870462}
   - component: {fileID: 3389836053710835415}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group586821253
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3383,7 +3383,7 @@ GameObject:
   - component: {fileID: 6851376547324576283}
   - component: {fileID: 7180364353738172688}
   - component: {fileID: 7430612457602736053}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3596,7 +3596,7 @@ GameObject:
   - component: {fileID: 611088283391348068}
   - component: {fileID: 4154454416459786282}
   - component: {fileID: 6352286881320170613}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group1061252987
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4053,7 +4053,7 @@ GameObject:
   - component: {fileID: 9129031455033886989}
   - component: {fileID: 8371687734554368972}
   - component: {fileID: 1499285496889624248}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group1318068683
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4139,7 +4139,7 @@ GameObject:
   - component: {fileID: 8093486058554421119}
   - component: {fileID: 1460120066663438889}
   - component: {fileID: 1205663312035002918}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group1072805274
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4225,7 +4225,7 @@ GameObject:
   - component: {fileID: 6606484606549654804}
   - component: {fileID: 5332205004921502688}
   - component: {fileID: 5760321805613695006}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point Light (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4343,7 +4343,7 @@ GameObject:
   - component: {fileID: 3201389753885214792}
   - component: {fileID: 4341813089442658138}
   - component: {fileID: 3819084888368875289}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group1377569298
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4462,7 +4462,7 @@ GameObject:
   - component: {fileID: 4812519301621907853}
   - component: {fileID: 9031858621712451950}
   - component: {fileID: 7938116696912627370}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group577226352
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4720,7 +4720,7 @@ GameObject:
   - component: {fileID: 4887795982033916463}
   - component: {fileID: 1828446458828677747}
   - component: {fileID: 212899979377028428}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group948238057
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4805,7 +4805,7 @@ GameObject:
   - component: {fileID: 4457148057208123153}
   - component: {fileID: 753547125538250932}
   - component: {fileID: 3283639076295119998}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wizard_house_floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5228,7 +5228,7 @@ GameObject:
   - component: {fileID: 8602575493416267513}
   - component: {fileID: 2501062708493762574}
   - component: {fileID: 5804797307432408605}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group1250292459
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5567,7 +5567,7 @@ GameObject:
   - component: {fileID: 6487453425096473915}
   - component: {fileID: 2667768125965059735}
   - component: {fileID: 8072037756885370381}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group1291216669
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5987,7 +5987,7 @@ GameObject:
   - component: {fileID: 5090798098914693401}
   - component: {fileID: 1426416630415478706}
   - component: {fileID: 5878164105863605561}
-  m_Layer: 9
+  m_Layer: 2
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6387,7 +6387,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4856720427479461422}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wizard_house
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6661,7 +6661,7 @@ GameObject:
   - component: {fileID: 4776889732844469021}
   - component: {fileID: 5585319206593208698}
   - component: {fileID: 6801530400808139058}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group1673085950
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6831,7 +6831,7 @@ GameObject:
   - component: {fileID: 2159590737970968047}
   - component: {fileID: 8804835704942337206}
   - component: {fileID: 1893335620644828447}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Chair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7043,7 +7043,7 @@ GameObject:
   - component: {fileID: 2314141556406211551}
   - component: {fileID: 4772954940271031672}
   - component: {fileID: 7203396226304236726}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group779593301
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7403,7 +7403,7 @@ GameObject:
   - component: {fileID: 7853831413488387345}
   - component: {fileID: 8057286848883167446}
   - component: {fileID: 4515466553900125473}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point Light (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7521,7 +7521,7 @@ GameObject:
   - component: {fileID: 3153112284004316997}
   - component: {fileID: 3147951608544073964}
   - component: {fileID: 1598898969084899391}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group1247444962
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7695,7 +7695,7 @@ GameObject:
   - component: {fileID: 3627488489643646119}
   - component: {fileID: 5735775998589586920}
   - component: {fileID: 4897493150265298573}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Floor Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7933,7 +7933,7 @@ GameObject:
   - component: {fileID: 6969667753584536952}
   - component: {fileID: 6452536682782994969}
   - component: {fileID: 7113943164679298636}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fireplace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8024,7 +8024,7 @@ GameObject:
   - component: {fileID: 3522923228703597189}
   - component: {fileID: 2430025660594844120}
   - component: {fileID: 6152014614193128538}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Door Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8340,7 +8340,7 @@ GameObject:
   - component: {fileID: 3090363845989484678}
   - component: {fileID: 4410002447575739571}
   - component: {fileID: 7021767214461139179}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group1318408733
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8425,7 +8425,7 @@ GameObject:
   - component: {fileID: 6271044557024051347}
   - component: {fileID: 6937226831880473507}
   - component: {fileID: 6031176624071626117}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group805801240.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8811,7 +8811,7 @@ GameObject:
   - component: {fileID: 7760563753019505988}
   - component: {fileID: 5471916333251635311}
   - component: {fileID: 2891972171823349790}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: cabinet2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8938,7 +8938,7 @@ GameObject:
   - component: {fileID: 4240455151634914314}
   - component: {fileID: 8663456615908149669}
   - component: {fileID: 8214219982692992260}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group329797297
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9216,7 +9216,7 @@ GameObject:
   - component: {fileID: 3951047987832829625}
   - component: {fileID: 6735350483289510772}
   - component: {fileID: 1386345274587828566}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group335318965
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9560,7 +9560,7 @@ GameObject:
   - component: {fileID: 6764675556189684446}
   - component: {fileID: 4575341694071431067}
   - component: {fileID: 7138680270588654251}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group408529172
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9670,7 +9670,7 @@ GameObject:
   - component: {fileID: 4421280354694053898}
   - component: {fileID: 6101744103833440602}
   - component: {fileID: 5661696441546514515}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group650919509
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10141,7 +10141,7 @@ GameObject:
   - component: {fileID: 2747173982484854658}
   - component: {fileID: 7213337118845484618}
   - component: {fileID: 4853482119896413859}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: rock_floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10330,7 +10330,7 @@ GameObject:
   - component: {fileID: 3449737997994749482}
   - component: {fileID: 1331287935199089628}
   - component: {fileID: 2988885595055352119}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: roof_front.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10503,7 +10503,7 @@ GameObject:
   - component: {fileID: 7105178634377179211}
   - component: {fileID: 6143568915420283486}
   - component: {fileID: 388336308762367394}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: wood_pillars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10631,7 +10631,7 @@ GameObject:
   - component: {fileID: 5604829431372966469}
   - component: {fileID: 4287503274321569707}
   - component: {fileID: 8841282042924278765}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: cabinet1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10740,7 +10740,7 @@ GameObject:
   - component: {fileID: 527560328182731742}
   - component: {fileID: 6649341496170680193}
   - component: {fileID: 676250741604809095}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: group261829321.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10910,7 +10910,7 @@ GameObject:
   - component: {fileID: 5336711108916884712}
   - component: {fileID: 8070087038519342259}
   - component: {fileID: 9123639777308211981}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group1968601204
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11114,7 +11114,7 @@ GameObject:
   - component: {fileID: 6432339517096523471}
   - component: {fileID: 889311470785512867}
   - component: {fileID: 3906941555154191407}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group754962241
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11498,7 +11498,7 @@ GameObject:
   - component: {fileID: 8708306399093303123}
   - component: {fileID: 6843255123370890512}
   - component: {fileID: 1254313922298126141}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: group645207918
   m_TagString: Untagged
   m_Icon: {fileID: 0}

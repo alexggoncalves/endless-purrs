@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5087383828340686753}
   - component: {fileID: 7908513226188382168}
   - component: {fileID: 7672436910353096892}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: cliff_inner_corner_L1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5604143564813951689}
   - component: {fileID: 4495875121622355857}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Mesh Link
   m_TagString: Untagged
   m_Icon: {fileID: 0}

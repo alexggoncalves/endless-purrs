@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -52,8 +53,8 @@ public class CatIdentity : MonoBehaviour
 
     private bool displayEnabled = false;
     private GameObject identityDisplay = null;
+    public TextMeshPro text;
 
-    public LayerMask ignoreLayerMask;
     public void SetIdentity(GameObject identityDisplay)
     {
         // Set Gender
@@ -65,7 +66,8 @@ public class CatIdentity : MonoBehaviour
         // Set Behaviour
         behaviour = GetRandomBehaviour();
         this.identityDisplay = identityDisplay;
-
+        text = identityDisplay.transform.Find("Text").gameObject.GetComponent<TextMeshPro>();
+        text.SetText(catName + '\n' + gender + '\n' + behaviour.ToString());
     }
 
     private void FixedUpdate()
@@ -79,6 +81,9 @@ public class CatIdentity : MonoBehaviour
         this.gender = gender;
         this.behaviour = behaviour;
         this.identityDisplay = identityDisplay;
+        text = identityDisplay.transform.Find("Text").gameObject.GetComponent<TextMeshPro>();
+        text.SetText(catName + '\n' + gender + '\n' + behaviour.ToString());
+        ;
     }
 
     BehaviourType GetRandomBehaviour()
@@ -100,15 +105,17 @@ public class CatIdentity : MonoBehaviour
         RaycastHit hit;
 
         // Perform the raycast, using the layer mask to ignore specific layers
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~ignoreLayerMask))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            // The raycast hit an object that is not in the ignored layer
-            Debug.Log("Hit: " + hit.collider.name);
-        }
-        else
-        {
-            // No hit, or hit an object in the ignored layer
-            Debug.Log("No hit, or hit an ignored object.");
+            if(hit.collider.gameObject.tag.Equals("Cat"))
+            {
+                displayEnabled = true;
+                identityDisplay.SetActive(true);
+            } else
+            {
+                displayEnabled = false;
+                identityDisplay.SetActive(false);
+            }
         }
     }
 
@@ -174,22 +181,4 @@ public class CatIdentity : MonoBehaviour
         return selectedName;
     }
 
-
-
-    private void Update()
-    {
-        
-    }
-/*
-    private void OnMouseEnter()
-    {
-        displayEnabled = true;
-        identityDisplay.SetActive(true);
-    }
-
-    private void OnMouseExit()
-    {
-        displayEnabled = false;
-        identityDisplay.SetActive(false);
-    }*/
 }

@@ -1,4 +1,5 @@
 using CAC;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Principal;
@@ -25,29 +26,30 @@ public class CatController : MonoBehaviour
     Vector2 smoothDeltaPosition = Vector2.zero;
     Vector2 velocity = Vector2.zero;
 
-    /*private CatState movementState;*/
-    Vector3 dest;
-
     public float speed;
     
     public bool randomizeCat = false;
-    public bool randomizeBehaviour;
 
     private Vector3 offMeshLinkStartPos;
     private Vector3 offMeshLinkEndPos;
     private bool isTraversingOffMeshLink = false;
     private float offMeshLinkProgression = -1;
 
-    public float catVisionRange = 10;
+    public float visionRange = 10;
+    public float fleeSpeed = 5;
+    public float fleeDistance = 30;
+    private float stoppingDistance;
 
     private CatWanderScript wander;
-    CatBehaviour behaviour;
+    private bool isWandering;
     CatIdentity identity;
 
     public bool owned;
     public string catName = "Nameless";
     public string gender = "Neutral";
     public GameObject identityDisplay;
+
+    
 
     void Awake()
     {
@@ -56,8 +58,11 @@ public class CatController : MonoBehaviour
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         identity = this.AddComponent<CatIdentity>();
 
-        /*wander = this.AddComponent<CatWanderScript>();
-        wander.InitializeWanderScript(animator, agent);*/
+        stoppingDistance = agent.stoppingDistance;
+
+        isWandering = true;
+        wander = this.AddComponent<CatWanderScript>();
+        wander.InitializeWanderScript(animator, agent);
 
         // Don’t update position automatically
         agent.updatePosition = false;
@@ -83,16 +88,35 @@ public class CatController : MonoBehaviour
     {
         if (agent.isOnNavMesh)
         {
-            if(Vector3.Distance(player.position,transform.position) > catVisionRange)
+            if(Vector3.Distance(player.position,transform.position) < visionRange)
             {
                 target = player;
+                isWandering = false;
+                if (wander != null)
+                {
+                    Destroy(wander);
+                    wander = null;
+                }
             }
 
             if (target != null)
             {
-                FollowTarget();
-            }          
+                SetTarget();
+                MoveToTarget();
+            } 
+            else if (!isWandering)
+            {
+                target = null;
+                isWandering = true;
+                wander = this.AddComponent<CatWanderScript>();
+                wander.InitializeWanderScript(animator,agent);
+            }
 
+            if (isWandering && wander != null)
+            {
+                wander.UpdateWanderScript();
+            }
+                  
         }
 
         HandleOffMeshLinks();
@@ -127,12 +151,37 @@ public class CatController : MonoBehaviour
         }
     }
 
-    void FollowTarget()
+    void SetTarget()
     {
-        agent.speed = speed;
-        dest = target.position;
-        agent.destination = dest;
+        agent.stoppingDistance = stoppingDistance;
+        agent.updatePosition = false;
+        if (identity.GetBehaviourType() == BehaviourType.Owned || identity.GetBehaviourType() == BehaviourType.Friendly)
+        {
+            agent.speed = speed;
+            agent.destination = target.position;
+        }
+        else if (identity.GetBehaviourType() == BehaviourType.Scaredy)
+        {
+            agent.speed = fleeSpeed;
+            Vector3 fleeDirection = (transform.position - target.position).normalized;
 
+            Vector3 fleeDest = transform.position + fleeDirection * fleeDistance;
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(fleeDest, out hit, fleeDistance, NavMesh.AllAreas))
+            {
+                // Set the NavMeshAgent's destination to the closest valid NavMesh point
+                Debug.Log(hit.position);
+                agent.destination = hit.position;
+
+            }
+
+
+        }
+    }
+
+    public void MoveToTarget()
+    {
         Vector3 worldDeltaPosition = agent.nextPosition - transform.position;
 
         // Map 'worldDeltaPosition' to local space
@@ -152,10 +201,10 @@ public class CatController : MonoBehaviour
 
         // Update animation parameters
         animator.SetBool("isMoving", shouldMove);
-        if(shouldMove)
+        if (shouldMove)
         {
             animator.SetFloat("speedMultiplier", agent.velocity.magnitude / agent.speed);
-        } 
+        }
         else
         {
             animator.SetFloat("speedMultiplier", 0);
@@ -165,12 +214,12 @@ public class CatController : MonoBehaviour
         if (worldDeltaPosition.magnitude > agent.radius)
         {
             transform.position = agent.nextPosition - 0.9f * worldDeltaPosition;
-        } 
+        }
     }
 
     void OnAnimatorMove()
     {
-        if (agent.isOnNavMesh || agent.isOnOffMeshLink)
+        if ((agent.isOnNavMesh || agent.isOnOffMeshLink))
         {
             Vector3 position = animator.rootPosition;
             position.y = agent.nextPosition.y;

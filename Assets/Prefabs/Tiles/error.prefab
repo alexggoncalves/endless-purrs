@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7753995757375635885}
   - component: {fileID: -2490142885357838855}
   - component: {fileID: 8268154379091098332}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: error
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,6 +135,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6879501916714752001}
     m_Modifications:
+    - target: {fileID: -8719246346543867899, guid: 4df0657b9aa152a4c800c310304bcd2f, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4df0657b9aa152a4c800c310304bcd2f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.0015000001
@@ -191,9 +195,29 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6302646514163866411, guid: 4df0657b9aa152a4c800c310304bcd2f, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -5011624291923688851, guid: 4df0657b9aa152a4c800c310304bcd2f, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4df0657b9aa152a4c800c310304bcd2f, type: 3}
       propertyPath: m_Name
       value: Tubbs
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4df0657b9aa152a4c800c310304bcd2f, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3053753625612976066, guid: 4df0657b9aa152a4c800c310304bcd2f, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9206404531427639750, guid: 4df0657b9aa152a4c800c310304bcd2f, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -213,6 +237,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6879501916714752001}
     m_Modifications:
+    - target: {fileID: -9048784500334463732, guid: 0e22fdb204ba503498311be376f38548, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0e22fdb204ba503498311be376f38548, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.005
@@ -273,6 +301,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chest
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e22fdb204ba503498311be376f38548, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4962088892109693030, guid: 0e22fdb204ba503498311be376f38548, type: 3}
       propertyPath: m_LocalRotation.w
       value: -0.44322845
@@ -292,6 +324,10 @@ PrefabInstance:
     - target: {fileID: 4962088892109693030, guid: 0e22fdb204ba503498311be376f38548, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -232.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 5481095547957877325, guid: 0e22fdb204ba503498311be376f38548, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
