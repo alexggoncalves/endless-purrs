@@ -42,9 +42,14 @@ public class CatLocater : MonoBehaviour
             Vector3 position = player.transform.position;
             foreach (GameObject go in gos)
             {
+                Debug.Log(go.GetComponent<CatController>().IsAtHome);
                 Vector3 diff = go.transform.position - position;
                 float curDistance = diff.sqrMagnitude;
-                if (curDistance < distance && !go.GetComponent<CatBehaviour>().HasBeenCaught())
+                if (curDistance < distance 
+                    && !go.GetComponent<CatController>().IsAtHome
+                    && !go.GetComponent<CatIdentity>().behaviour.Equals(BehaviourType.Scaredy)
+                    && !go.GetComponent<CatController>().GetCatState().Equals(CatState.Following)
+                    )
                 {
                     closest = go;
                     distance = curDistance;

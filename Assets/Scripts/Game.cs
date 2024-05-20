@@ -5,7 +5,7 @@ using System.IO;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-
+using UnityEngine.UIElements;
 
 public class Game : MonoBehaviour
 {
@@ -17,6 +17,9 @@ public class Game : MonoBehaviour
     Speech speech;
     Decision decision;
     public CatCounter catCounter;
+
+    public List<GameObject> followers = new List<GameObject>();
+    public List<GameObject> atHome = new List<GameObject>();
 
     int endSequence = 0;
 
@@ -61,11 +64,10 @@ public class Game : MonoBehaviour
             if(decision.GetDecision() == 'y')
             {
                 catCounter.SetMessage("You let the cats be free. Thanks for play-testing our game!");
-                GameObject slotsObject = GameObject.Find("Slots");
 
-                foreach (Transform child in slotsObject.transform)
+                foreach (GameObject cat in atHome)
                 {
-                    if (child.GetComponent<Slot>().GetInstance() != null) Destroy(child.GetComponent<Slot>().GetInstance());
+                    Destroy(cat);
                 }
             } 
             else if(decision.GetDecision() == 'n')
@@ -89,5 +91,37 @@ public class Game : MonoBehaviour
     public bool HasBegun()
     {
         return hasBegun;
+    }
+
+    public void AddToFollowers(GameObject cat)
+    {
+        if (!followers.Contains(cat)){
+            followers.Add(cat);
+            catCounter.AddCat();
+        }
+    }
+
+    public void RemoveFromFollowers(GameObject cat)
+    {
+        if (followers.Contains(cat)) {
+            followers.Remove(cat);
+            catCounter.RemoveCat();
+        }
+    }
+
+    public void AddToHome(GameObject cat)
+    {
+        if (!atHome.Contains(cat))
+        {
+            atHome.Add(cat);
+        }
+    }
+
+    public void RemoveFromHome(GameObject cat)
+    {
+        if (atHome.Contains(cat))
+        {
+            atHome.Remove(cat);
+        }
     }
 }

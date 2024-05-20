@@ -140,6 +140,8 @@ public class WaveFunctionCollapse : MonoBehaviour
     // Find the cell(s) with the least tile possibilies and collapse it into one of the superpositions(tiles)
     IEnumerator CheckEntropy()
     {
+
+        while(updatingCells) { yield return null; }
         List<Cell> tempGrid = new();
         foreach (Cell c in grid)
         {
@@ -374,9 +376,9 @@ public class WaveFunctionCollapse : MonoBehaviour
 
             iterationCounter++;
 
-            if (iterationCounter % 10 == 0)
+            if (iterationCounter % 5 == 0)
             {
-                yield return new WaitForSeconds(0.01f);
+                yield return new WaitForSeconds(0.02f);
 
             }
         }

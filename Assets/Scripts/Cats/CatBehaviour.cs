@@ -53,12 +53,17 @@ public class CatBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (triggerActive && Input.GetKeyDown(KeyCode.E))
+       /* if (triggerActive && Input.GetKeyDown(KeyCode.E))
         {
             Debug.Log("aa");
             PlaySound(Meow[1].clip);
             CatchCat();
-        }
+        }*/
+    }
+
+    public void PlayMeow()
+    {
+        PlaySound(Meow[1].clip);
     }
 
     private void PlaySound(AudioClip clip)
@@ -73,21 +78,21 @@ public class CatBehaviour : MonoBehaviour
 
     }
 
-    public void CatchCat()
+    /*public void CatchCat()
     {
         if (!caught)
         {
             // Save the ID of the object
             objectId = gameObject.GetInstanceID();
 
-            /*gameObject.SetActive(false);*/
+            *//*gameObject.SetActive(false);*//*
             HideUIButton();
 
             catCounter.AddCat();
             caught = true;
         }
         
-    }
+    }*/
 
     private void ShowUIButton()
     {

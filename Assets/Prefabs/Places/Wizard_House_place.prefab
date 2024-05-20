@@ -1442,7 +1442,7 @@ GameObject:
   - component: {fileID: 6499312649851253686}
   m_Layer: 2
   m_Name: HouseTop
-  m_TagString: Untagged
+  m_TagString: HouseInterior
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4569,7 +4569,7 @@ GameObject:
   - component: {fileID: -248551918939790877}
   m_Layer: 0
   m_Name: Wizard_House_place
-  m_TagString: Untagged
+  m_TagString: Home
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6091,7 +6091,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4966668142809256536}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
   m_Name: 
@@ -7697,7 +7697,7 @@ GameObject:
   - component: {fileID: 4897493150265298573}
   m_Layer: 8
   m_Name: Floor Collider
-  m_TagString: Untagged
+  m_TagString: Home
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8026,7 +8026,7 @@ GameObject:
   - component: {fileID: 6152014614193128538}
   m_Layer: 2
   m_Name: Door Frame
-  m_TagString: Untagged
+  m_TagString: Home
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

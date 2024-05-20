@@ -335,6 +335,8 @@ MonoBehaviour:
   catName: Nameless
   gender: Neutral
   identityDisplay: {fileID: 431356964385517945}
+  mapGenerator: {fileID: 0}
+  game: {fileID: 0}
 --- !u!114 &1658980738685934162
 MonoBehaviour:
   m_ObjectHideFlags: 0

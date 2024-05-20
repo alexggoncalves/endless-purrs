@@ -20,15 +20,25 @@ public class CatCounter : MonoBehaviour
         text.SetText(catCount.ToString() + "/" + totalCatAmount);
     }
 
+    private void Update()
+    {
+        if (catCount >= totalCatAmount)
+        {
+            successMessage.transform.gameObject.SetActive(true);
+        } else successMessage.transform.gameObject.SetActive(false);
+    }
+
     public void AddCat()
     {
         catCount++;
         text.SetText(catCount.ToString() + "/" + totalCatAmount);
 
-        if(catCount >= totalCatAmount)
-        {
-            successMessage.transform.gameObject.SetActive(true);
-        }
+    }
+
+    public void RemoveCat()
+    {
+        catCount--;
+        text.SetText(catCount.ToString() + "/" + totalCatAmount);
     }
 
     int GetCatCount()

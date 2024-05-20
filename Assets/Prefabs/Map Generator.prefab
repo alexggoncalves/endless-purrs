@@ -304,7 +304,7 @@ MonoBehaviour:
       nY: 1s
     weight: 1
   - name: grass_L2
-    enabled: 1
+    enabled: 0
     type: 2
     tileOptions:
     - tilePrefab: {fileID: 642601370496186001, guid: 2993f7022a7e2294b87e685b881a5167, type: 3}
@@ -401,7 +401,7 @@ MonoBehaviour:
       nY: 3f
     weight: 1
   - name: cliff_L1
-    enabled: 1
+    enabled: 0
     type: 4
     tileOptions:
     - tilePrefab: {fileID: 8658550378406287334, guid: 69f3c99e858206b4e9eee55eb61c8c20, type: 3}
@@ -429,7 +429,7 @@ MonoBehaviour:
       nY: 2s
     weight: 1
   - name: cliff_inner_corner_L1
-    enabled: 1
+    enabled: 0
     type: 4
     tileOptions:
     - tilePrefab: {fileID: 3128404890366844636, guid: 42a8346f9bd50ff428c47789edb7e54c, type: 3}
@@ -457,7 +457,7 @@ MonoBehaviour:
       nY: 2s
     weight: 2
   - name: cliff_outer_corner_L1
-    enabled: 1
+    enabled: 0
     type: 1
     tileOptions:
     - tilePrefab: {fileID: 1267932399096216250, guid: 17b9434bec0e50c4d830427371b5198c, type: 3}

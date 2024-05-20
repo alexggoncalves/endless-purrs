@@ -49,7 +49,9 @@ public class Movement : MonoBehaviour
     public TileType currentTileType;
     public MapGenerator mapGenerator;
 
-    public GameObject PortalObj;
+    private GameObject activePortalInstance;
+    public GameObject portalObj;
+    
 
     private void Start()
     {
@@ -175,15 +177,15 @@ public class Movement : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            Debug.Log("aa");
             // Perform the raycast, using the layer mask to ignore specific layers
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
                 Debug.Log(hit.collider.gameObject.layer);
                 if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Tiles"))
                 {
+                    if(activePortalInstance != null) { Destroy(activePortalInstance); }
                     Debug.Log("SpawnPortalAt: " + hit.point);
-                    Instantiate(PortalObj, hit.point + Vector3.up * 1, Quaternion.identity);
+                    activePortalInstance = Instantiate(portalObj, hit.point + Vector3.up *2, Quaternion.identity);
                 }
             }
         }

@@ -1,14 +1,9 @@
 using CAC;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Principal;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.TextCore.Text;
 
-enum CatState
+public enum CatState
 {
     None,
     Following,
@@ -39,17 +34,20 @@ public class CatController : MonoBehaviour
     public float fleeSpeed = 5;
     public float fleeDistance = 30;
     private float stoppingDistance;
+    private bool isAlertOfPlayer;
+    CatState currentState = CatState.None;
+    private bool isAtHome = false;
 
     private CatWanderScript wander;
-    private bool isWandering;
-    CatIdentity identity;
-
+    
+    private CatIdentity identity;
     public bool owned;
     public string catName = "Nameless";
     public string gender = "Neutral";
     public GameObject identityDisplay;
 
-    
+    public MapGenerator mapGenerator;
+    public Game game;
 
     void Awake()
     {
@@ -57,13 +55,13 @@ public class CatController : MonoBehaviour
         animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         identity = this.AddComponent<CatIdentity>();
+        mapGenerator = GameObject.Find("Map Generator").GetComponent<MapGenerator>();
+        game = GameObject.Find("Game").GetComponent<Game>();
 
         stoppingDistance = agent.stoppingDistance;
-
-        isWandering = true;
         wander = this.AddComponent<CatWanderScript>();
         wander.InitializeWanderScript(animator, agent);
-
+        currentState = CatState.Wandering;
         // Don’t update position automatically
         agent.updatePosition = false;
 
@@ -88,33 +86,62 @@ public class CatController : MonoBehaviour
     {
         if (agent.isOnNavMesh)
         {
-            if(Vector3.Distance(player.position,transform.position) < visionRange)
+            if (Vector3.Distance(player.position, transform.position) < visionRange)
+            {
+                isAlertOfPlayer = true;
+            }
+            else isAlertOfPlayer = false;
+            
+            if (isAlertOfPlayer && (currentState != CatState.Fleeing || currentState != CatState.Following) && !isAtHome)
             {
                 target = player;
-                isWandering = false;
+
                 if (wander != null)
                 {
                     Destroy(wander);
                     wander = null;
                 }
+                if (identity.GetBehaviourType() == BehaviourType.Owned || identity.GetBehaviourType() == BehaviourType.Friendly) {
+                    currentState = CatState.Following;
+                    game.AddToFollowers(gameObject);
+                }
+                if (identity.GetBehaviourType() == BehaviourType.Scaredy)
+                {
+                    currentState = CatState.Fleeing;
+                }
+            } else
+            {
+                game.RemoveFromFollowers(gameObject);
+                target = null;
             }
 
-            if (target != null)
+            // If the cat sees the player and is not at home, follow or flee
+            // Else start wandering
+            if (isAlertOfPlayer && !isAtHome)
             {
                 SetTarget();
                 MoveToTarget();
-            } 
-            else if (!isWandering)
+            }
+            else if (currentState == CatState.Fleeing || currentState == CatState.Following)
             {
                 target = null;
-                isWandering = true;
+                currentState = CatState.Wandering;
                 wander = this.AddComponent<CatWanderScript>();
                 wander.InitializeWanderScript(animator,agent);
             }
 
-            if (isWandering && wander != null)
+            if (currentState == CatState.Wandering && wander != null)
             {
                 wander.UpdateWanderScript();
+            }
+
+            // When the cat get's home
+            if (mapGenerator.GetWFC().homeInstance.GetComponent<Place>().GetExtents().CollidesWith(transform.position.x, transform.position.z,1,1,-5) && !isAtHome)
+            {
+                target = null;
+                isAtHome = true;
+                game.RemoveFromFollowers(gameObject);
+                game.AddToHome(gameObject);
             }
                   
         }
@@ -155,29 +182,30 @@ public class CatController : MonoBehaviour
     {
         agent.stoppingDistance = stoppingDistance;
         agent.updatePosition = false;
-        if (identity.GetBehaviourType() == BehaviourType.Owned || identity.GetBehaviourType() == BehaviourType.Friendly)
+        if (currentState == CatState.Following)
         {
             agent.speed = speed;
             agent.destination = target.position;
         }
-        else if (identity.GetBehaviourType() == BehaviourType.Scaredy)
+        else if (currentState == CatState.Fleeing)
         {
             agent.speed = fleeSpeed;
             Vector3 fleeDirection = (transform.position - target.position).normalized;
 
             Vector3 fleeDest = transform.position + fleeDirection * fleeDistance;
 
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(fleeDest, out hit, fleeDistance, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(fleeDest, out NavMeshHit hit, fleeDistance, NavMesh.AllAreas))
             {
                 // Set the NavMeshAgent's destination to the closest valid NavMesh point
-                Debug.Log(hit.position);
                 agent.destination = hit.position;
 
             }
-
-
         }
+    }
+
+    public CatState GetCatState()
+    {
+        return currentState;
     }
 
     public void MoveToTarget()
@@ -226,5 +254,11 @@ public class CatController : MonoBehaviour
            
             transform.position = position;
         }
+    }
+
+    public bool IsAtHome { get {  return isAtHome; } }
+    public void SetIsAtHome(bool value)
+    {
+        this.isAtHome = true;
     }
 }

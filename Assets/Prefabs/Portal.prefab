@@ -44,9 +44,9 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 0, b: 1, a: 1}
-  m_Intensity: 10
-  m_Range: 5.98
+  m_Color: {r: 0.30936593, g: 0, b: 0.5566038, a: 1}
+  m_Intensity: 12.15
+  m_Range: 5.3
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -175,10 +175,10 @@ VisualEffect:
       m_Array: []
     m_Vector4f:
       m_Array:
-      - m_Value: {x: 2.79544, y: 0, z: 2.5846374, w: 1}
+      - m_Value: {x: 3.6886048, y: 0, z: 3.4104493, w: 1}
         m_Name: Particles Color
         m_Overridden: 1
-      - m_Value: {x: 21.772297, y: 0, z: 51.37786, w: 1}
+      - m_Value: {x: 2.0625403, y: 0, z: 4.8671436, w: 1}
         m_Name: Portal Color
         m_Overridden: 1
     m_Uint:
