@@ -69,7 +69,7 @@ public class MapGenerator : MonoBehaviour
         lastPlayerCoordinates = wfc.CalculateWorldCoordinates(player.transform.position.x, player.transform.position.z);
     }
 
-    public void LateUpdate()
+    public void Update()
     {
         HandleGridMove();
         CheckPlaces();
@@ -140,15 +140,15 @@ public class MapGenerator : MonoBehaviour
             Place place = unorderedPlaces[UnityEngine.Random.Range(0, unorderedPlaces.Count)];
             Vector3 center = player.transform.position;
 
-            int gridX = UnityEngine.Random.Range((int)(center.x - placesExtents.x), (int)(center.x + placesExtents.x));
-            int gridY = UnityEngine.Random.Range((int)(center.z - placesExtents.y), (int)(center.z + placesExtents.y));
+            float x = UnityEngine.Random.Range((center.x - placesExtents.x), (center.x + placesExtents.x));
+            float y = UnityEngine.Random.Range((center.z - placesExtents.y), (center.z + placesExtents.y));
 
-            float x = gridX * cellScale;
-            float y = gridY * cellScale;
+            /*float x = gridX * cellScale;
+            float y = gridY * cellScale;*/
             
             // Check if chosen coordinates are inside player area
             bool collidesWithHomeInstance = wfc.GetHomeInstance().GetComponent<Place>().GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 4);
-            bool collidesWithOuterPlayerArea = wfc.GetOuterArea().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 6);
+            bool collidesWithOuterPlayerArea = wfc.GetOuterArea().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 10);
 
             if (!collidesWithHomeInstance && !collidesWithOuterPlayerArea)
             {
@@ -184,7 +184,7 @@ public class MapGenerator : MonoBehaviour
     {
         foreach (Place place in placeInstances)
         {
-            if (Vector3.Distance(player.transform.position,place.transform.position) > placesExtents.x * cellScale + 20)
+            if (Vector3.Distance(player.transform.position,place.transform.position) > placesExtents.x + 20)
             {
                 placesToDestroy.Push(place);
             }

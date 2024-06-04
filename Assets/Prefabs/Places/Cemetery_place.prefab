@@ -31,7 +31,9 @@ Transform:
   m_LocalPosition: {x: 6.609944, y: 0, z: -12.650029}
   m_LocalScale: {x: 2.6, y: 2.6, z: 2.6}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7647753925957707413}
+  - {fileID: 20885079159197804}
   m_Father: {fileID: 7608276657007212618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3171829615438259326
@@ -398,6 +400,7 @@ GameObject:
   - component: {fileID: 3910461915593570265}
   - component: {fileID: 1270075761880269587}
   - component: {fileID: 1387495365996937985}
+  - component: {fileID: 6434281178655117139}
   m_Layer: 8
   m_Name: gravestone-old-small-b (3)
   m_TagString: Untagged
@@ -491,6 +494,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.50550807, y: 0.65917253, z: 0.41284132}
   m_Center: {x: -0.007697277, y: 0.30681384, z: -0.0015048012}
+--- !u!208 &6434281178655117139
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765835537316225734}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.25300002, y: 0.33, z: 0.20600002}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.008, y: 0.307, z: -0.002}
+  m_TimeToStationary: 0.5
 --- !u!1 &778525023561494369
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +521,8 @@ GameObject:
   - component: {fileID: 109828905670735323}
   - component: {fileID: 3902909330493405822}
   - component: {fileID: 1282712334125305524}
-  - component: {fileID: 8346802396855277800}
+  - component: {fileID: 287433670876570105}
+  - component: {fileID: 962619095531418936}
   m_Layer: 8
   m_Name: wall-graveyard-2m (3)
   m_TagString: Untagged
@@ -575,8 +595,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8346802396855277800
-MeshCollider:
+--- !u!65 &287433670876570105
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -593,10 +613,25 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7737516218245646062, guid: 424ca62b13b54604f91c3130a72a23b2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.185209, y: 1.4281818, z: 0.3449818}
+  m_Center: {x: -0.9196679, y: 0.6774846, z: 0.00044576835}
+--- !u!208 &962619095531418936
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778525023561494369}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.093, y: 0.71400005, z: 0.172}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.92, y: 0.67700005, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &779939290138268549
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,7 +726,8 @@ GameObject:
   - component: {fileID: 120827227338982130}
   - component: {fileID: 3891840344269213015}
   - component: {fileID: 1289840825834125725}
-  - component: {fileID: 812601243409288798}
+  - component: {fileID: 975724000173133879}
+  - component: {fileID: 4699578334768295007}
   m_Layer: 8
   m_Name: wall-graveyard-2m (4)
   m_TagString: Untagged
@@ -764,8 +800,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &812601243409288798
-MeshCollider:
+--- !u!65 &975724000173133879
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -782,10 +818,25 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7737516218245646062, guid: 424ca62b13b54604f91c3130a72a23b2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.1852086, y: 1.4281818, z: 0.3449817}
+  m_Center: {x: -0.91966766, y: 0.6774846, z: 0.00044576824}
+--- !u!208 &4699578334768295007
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785476905675266120}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.093, y: 0.71400005, z: 0.172}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.92, y: 0.67700005, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &861863588370364100
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,6 +955,7 @@ GameObject:
   - component: {fileID: 3579900678126229301}
   - component: {fileID: 1606285311383708671}
   - component: {fileID: 111251176939765510}
+  - component: {fileID: 5286573133698365005}
   m_Layer: 8
   m_Name: gravestone-old-tower (1)
   m_TagString: Untagged
@@ -998,6 +1050,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7960821032183897707, guid: a77653da149ca8644867707b9dca9198, type: 3}
+--- !u!208 &5286573133698365005
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957674124314640938}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.37600002, y: 0.86800003, z: 0.381}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.845, z: -0.0050000004}
+  m_TimeToStationary: 0.5
 --- !u!1 &984893441598974297
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,6 +1161,7 @@ GameObject:
   - component: {fileID: 3532386805109621272}
   - component: {fileID: 1648731277773698770}
   - component: {fileID: 7667287320920952174}
+  - component: {fileID: 6316262456568125197}
   m_Layer: 8
   m_Name: gravestone-old-small-c
   m_TagString: Untagged
@@ -1186,6 +1255,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6059344, y: 0.7766409, z: 0.40395638}
   m_Center: {x: 0, y: 0.365548, z: 0}
+--- !u!208 &6316262456568125197
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000225919642195719}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.303, y: 0.388, z: 0.202}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.36600003, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1183568905003856935
 GameObject:
   m_ObjectHideFlags: 0
@@ -1363,8 +1448,9 @@ GameObject:
   - component: {fileID: 2285201328333770974}
   - component: {fileID: 2889464972580675451}
   - component: {fileID: 1152224811712916401}
-  - component: {fileID: 6969942474029960687}
-  m_Layer: 8
+  - component: {fileID: 656511287875757449}
+  - component: {fileID: 3475019368183812283}
+  m_Layer: 0
   m_Name: wall-graveyard-2m (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1436,8 +1522,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6969942474029960687
-MeshCollider:
+--- !u!65 &656511287875757449
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1454,10 +1540,25 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7737516218245646062, guid: 424ca62b13b54604f91c3130a72a23b2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.185209, y: 1.4281818, z: 0.3449818}
+  m_Center: {x: -0.9196679, y: 0.6774846, z: 0.00044576835}
+--- !u!208 &3475019368183812283
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512499382436858468}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.093, y: 0.71400005, z: 0.172}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.92, y: 0.67700005, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1821856328985544260
 GameObject:
   m_ObjectHideFlags: 0
@@ -1584,6 +1685,7 @@ GameObject:
   - component: {fileID: 2767272010316367799}
   - component: {fileID: 109111628638270333}
   - component: {fileID: 1603899201408446458}
+  - component: {fileID: 7045125444516426697}
   m_Layer: 8
   m_Name: tree-scary-dead
   m_TagString: Untagged
@@ -1678,6 +1780,25 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1226902405909131094, guid: cd37ad33a1e7a2849911b9d0bb7f9e3f, type: 3}
+--- !u!114 &7045125444516426697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910467434955313832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &1913604482507317134
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,6 +1811,7 @@ GameObject:
   - component: {fileID: 2768154777174854289}
   - component: {fileID: 112169236006059611}
   - component: {fileID: 1895321384005587269}
+  - component: {fileID: 8061387051908798170}
   m_Layer: 8
   m_Name: gravestone-old-small-a
   m_TagString: Untagged
@@ -1783,6 +1905,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.60593426, y: 0.76702344, z: 0.41284132}
   m_Center: {x: 0, y: 0.3607393, z: 0.0015048087}
+--- !u!208 &8061387051908798170
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913604482507317134}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.303, y: 0.384, z: 0.20600002}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.36100003, z: 0.002}
+  m_TimeToStationary: 0.5
 --- !u!1 &1979644569270212585
 GameObject:
   m_ObjectHideFlags: 0
@@ -2007,6 +2145,7 @@ GameObject:
   - component: {fileID: 2481015771105998802}
   - component: {fileID: 399309616602333976}
   - component: {fileID: 1318204880818036705}
+  - component: {fileID: 6433501580536184000}
   m_Layer: 8
   m_Name: gravestone-old-tower
   m_TagString: Untagged
@@ -2101,6 +2240,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7960821032183897707, guid: a77653da149ca8644867707b9dca9198, type: 3}
+--- !u!208 &6433501580536184000
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2200674220484420301}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.37600002, y: 0.86800003, z: 0.381}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.845, z: -0.0050000004}
+  m_TimeToStationary: 0.5
 --- !u!1 &2373188996852988526
 GameObject:
   m_ObjectHideFlags: 0
@@ -2113,6 +2268,7 @@ GameObject:
   - component: {fileID: 2020790120650043249}
   - component: {fileID: 4318880168801606587}
   - component: {fileID: 5208352456229914874}
+  - component: {fileID: 7663886555146752737}
   m_Layer: 8
   m_Name: gravestone-old-cross
   m_TagString: Untagged
@@ -2206,6 +2362,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.37678367, y: 0.614279, z: 0.26075745}
   m_Center: {x: -0.00089179724, y: 0.295988, z: 0.025419958}
+--- !u!208 &7663886555146752737
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2373188996852988526}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.18800001, y: 0.307, z: 0.13000001}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.001, y: 0.296, z: 0.025}
+  m_TimeToStationary: 0.5
 --- !u!1 &2538011337191808629
 GameObject:
   m_ObjectHideFlags: 0
@@ -2218,6 +2390,7 @@ GameObject:
   - component: {fileID: 2295948387599780714}
   - component: {fileID: 4051040285089922976}
   - component: {fileID: 3456998753330160417}
+  - component: {fileID: 7015487993136233229}
   m_Layer: 8
   m_Name: gravestone-old-classic-broken
   m_TagString: Untagged
@@ -2312,6 +2485,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -49510865248186554, guid: fdec8e5b6b6bb784ba3d5d435ba8611e, type: 3}
+--- !u!208 &7015487993136233229
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2538011337191808629}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.303, y: 0.246, z: 0.202}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.002, y: 0.223, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2770388529126277286
 GameObject:
   m_ObjectHideFlags: 0
@@ -2407,6 +2596,7 @@ GameObject:
   - component: {fileID: 1987410405480127684}
   - component: {fileID: 4355056096144926734}
   - component: {fileID: 5753403659835030351}
+  - component: {fileID: 904759520132552275}
   m_Layer: 8
   m_Name: gravestone-old-cross (1)
   m_TagString: Untagged
@@ -2500,6 +2690,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.37678367, y: 0.614279, z: 0.26075745}
   m_Center: {x: -0.00089179724, y: 0.295988, z: 0.025419958}
+--- !u!208 &904759520132552275
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2841973684492667355}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.18800001, y: 0.307, z: 0.13000001}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.001, y: 0.296, z: 0.025}
+  m_TimeToStationary: 0.5
 --- !u!1 &2858154667357634235
 GameObject:
   m_ObjectHideFlags: 0
@@ -2511,7 +2717,8 @@ GameObject:
   - component: {fileID: 3234116877647717377}
   - component: {fileID: 1967580176783420324}
   - component: {fileID: 4371527351135526766}
-  - component: {fileID: 1267465428202983042}
+  - component: {fileID: 5997333192815576904}
+  - component: {fileID: 5809749391738117646}
   m_Layer: 8
   m_Name: wall-graveyard-2m (2)
   m_TagString: Untagged
@@ -2584,8 +2791,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1267465428202983042
-MeshCollider:
+--- !u!65 &5997333192815576904
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2602,10 +2809,25 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7737516218245646062, guid: 424ca62b13b54604f91c3130a72a23b2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.185209, y: 1.4281818, z: 0.3449818}
+  m_Center: {x: -0.9196679, y: 0.6774846, z: 0.00044576835}
+--- !u!208 &5809749391738117646
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2858154667357634235}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.093, y: 0.71400005, z: 0.172}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.92, y: 0.67700005, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2871845431932099064
 GameObject:
   m_ObjectHideFlags: 0
@@ -2618,6 +2840,7 @@ GameObject:
   - component: {fileID: 1963238543465336039}
   - component: {fileID: 4384857063059863597}
   - component: {fileID: 4637846882416378769}
+  - component: {fileID: 5285268341370899073}
   m_Layer: 8
   m_Name: gravestone-old-small-c (1)
   m_TagString: Untagged
@@ -2711,6 +2934,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6059344, y: 0.7766409, z: 0.40395638}
   m_Center: {x: 0, y: 0.365548, z: 0}
+--- !u!208 &5285268341370899073
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2871845431932099064}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.303, y: 0.388, z: 0.202}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.36600003, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &3124834831471056835
 GameObject:
   m_ObjectHideFlags: 0
@@ -2912,6 +3151,7 @@ GameObject:
   - component: {fileID: 1228667507396977476}
   - component: {fileID: 3956955291792627598}
   - component: {fileID: 3254664703605094544}
+  - component: {fileID: 7912812623107015761}
   m_Layer: 8
   m_Name: gravestone-old-small-a (1)
   m_TagString: Untagged
@@ -3005,6 +3245,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.60593426, y: 0.76702344, z: 0.41284132}
   m_Center: {x: 0, y: 0.3607393, z: 0.0015048087}
+--- !u!208 &7912812623107015761
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3308194845835228763}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.303, y: 0.384, z: 0.20600002}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.36100003, z: 0.002}
+  m_TimeToStationary: 0.5
 --- !u!1 &3392710079277443345
 GameObject:
   m_ObjectHideFlags: 0
@@ -3017,6 +3273,7 @@ GameObject:
   - component: {fileID: 5272947837808171071}
   - component: {fileID: 4680109210139034483}
   - component: {fileID: 7894600557611460892}
+  - component: {fileID: 5086816204012873892}
   m_Layer: 8
   m_Name: gate-graveyard-door-r
   m_TagString: Untagged
@@ -3111,6 +3368,25 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 8718099643969501646, guid: eab25d0fbde50624694d6a47f3a5dbe7, type: 3}
+--- !u!114 &5086816204012873892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3392710079277443345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &3643946736617451451
 GameObject:
   m_ObjectHideFlags: 0
@@ -3230,6 +3506,8 @@ Transform:
   - {fileID: 3011310939404889796}
   - {fileID: 7639785143232974568}
   - {fileID: 8196801921522511946}
+  - {fileID: 458920029375987755}
+  - {fileID: 6299803214630525159}
   - {fileID: 8276695301876325155}
   - {fileID: 4815398728680525556}
   - {fileID: 79957471117078232}
@@ -3280,6 +3558,8 @@ GameObject:
   - component: {fileID: 578384808536966505}
   - component: {fileID: 3450358346555912611}
   - component: {fileID: 8729620712410863591}
+  - component: {fileID: 6049859097780562041}
+  - component: {fileID: 2012321324844115364}
   m_Layer: 8
   m_Name: gravestone-old-classic-cross (1)
   m_TagString: Untagged
@@ -3373,6 +3653,42 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6059435, y: 0.75011945, z: 0.40395644}
   m_Center: {x: 0.000029444695, y: 0.3522873, z: 0.0000007599592}
+--- !u!208 &6049859097780562041
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3810853230866026614}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.303, y: 0.37500003, z: 0.202}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.35200003, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!114 &2012321324844115364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3810853230866026614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_StartPoint: {x: 0, y: 0, z: -2.5}
+  m_EndPoint: {x: 0, y: 0, z: 2.5}
+  m_Width: 0
+  m_CostModifier: -1
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 0
+  m_Area: 0
 --- !u!1 &3864622969296144544
 GameObject:
   m_ObjectHideFlags: 0
@@ -3384,8 +3700,9 @@ GameObject:
   - component: {fileID: 4533496112782643738}
   - component: {fileID: 668200861679820223}
   - component: {fileID: 3359995854010837365}
-  - component: {fileID: 704657333234187995}
-  m_Layer: 8
+  - component: {fileID: 1434121175101127060}
+  - component: {fileID: 626977374020132840}
+  m_Layer: 0
   m_Name: wall-graveyard-2m (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3457,8 +3774,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &704657333234187995
-MeshCollider:
+--- !u!65 &1434121175101127060
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3475,10 +3792,25 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7737516218245646062, guid: 424ca62b13b54604f91c3130a72a23b2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.185209, y: 1.4281818, z: 0.3449818}
+  m_Center: {x: -0.9196679, y: 0.6774846, z: 0.00044576835}
+--- !u!208 &626977374020132840
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3864622969296144544}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.093, y: 0.71400005, z: 0.172}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.92, y: 0.67700005, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &3884367577460725095
 GameObject:
   m_ObjectHideFlags: 0
@@ -3605,6 +3937,7 @@ GameObject:
   - component: {fileID: 8607230402076770434}
   - component: {fileID: 8183270445812264035}
   - component: {fileID: 7894600557611460893}
+  - component: {fileID: 1025121308680096789}
   m_Layer: 8
   m_Name: gate-graveyard-door-l
   m_TagString: Untagged
@@ -3699,6 +4032,25 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 8390118871094833361, guid: eab25d0fbde50624694d6a47f3a5dbe7, type: 3}
+--- !u!114 &1025121308680096789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3919066398797431086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &3932648619235087779
 GameObject:
   m_ObjectHideFlags: 0
@@ -3794,6 +4146,7 @@ GameObject:
   - component: {fileID: 737254524978360199}
   - component: {fileID: 3305561159854365517}
   - component: {fileID: 3899202272411153491}
+  - component: {fileID: 8342419406580205701}
   m_Layer: 8
   m_Name: gravestone-old-small-a (3)
   m_TagString: Untagged
@@ -3887,6 +4240,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.60593426, y: 0.76702344, z: 0.41284132}
   m_Center: {x: 0, y: 0.3607393, z: 0.0015048087}
+--- !u!208 &8342419406580205701
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3953960551949613720}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.303, y: 0.384, z: 0.20600002}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.36100003, z: 0.002}
+  m_TimeToStationary: 0.5
 --- !u!1 &4291268460631306751
 GameObject:
   m_ObjectHideFlags: 0
@@ -4065,6 +4434,7 @@ GameObject:
   - component: {fileID: 104282264748893726}
   - component: {fileID: 2780563078216667860}
   - component: {fileID: 6142625343352324501}
+  - component: {fileID: 9170101939787558757}
   m_Layer: 8
   m_Name: gravestone-old-cross (2)
   m_TagString: Untagged
@@ -4158,6 +4528,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.37678367, y: 0.614279, z: 0.26075745}
   m_Center: {x: -0.00089179724, y: 0.295988, z: 0.025419958}
+--- !u!208 &9170101939787558757
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4437865406543459073}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.18800001, y: 0.307, z: 0.13000001}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.001, y: 0.296, z: 0.025}
+  m_TimeToStationary: 0.5
 --- !u!1 &4457736840712474372
 GameObject:
   m_ObjectHideFlags: 0
@@ -4170,6 +4556,7 @@ GameObject:
   - component: {fileID: 88131560689736219}
   - component: {fileID: 2800654551663341265}
   - component: {fileID: 3538837376780202576}
+  - component: {fileID: 5027991228512520137}
   m_Layer: 8
   m_Name: gravestone-old-classic-broken (2)
   m_TagString: Untagged
@@ -4264,6 +4651,28 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -49510865248186554, guid: fdec8e5b6b6bb784ba3d5d435ba8611e, type: 3}
+--- !u!195 &5027991228512520137
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4457736840712474372}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.3012323
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.93774366
+  m_BaseOffset: 0.46887183
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &4511030270603324954
 GameObject:
   m_ObjectHideFlags: 0
@@ -4504,6 +4913,7 @@ GameObject:
   - component: {fileID: 2464787199852247055}
   - component: {fileID: 3164621509427209027}
   - component: {fileID: 474753281196755244}
+  - component: {fileID: 6595732409104630288}
   m_Layer: 8
   m_Name: gate-graveyard-door-r
   m_TagString: Untagged
@@ -4598,6 +5008,25 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 8718099643969501646, guid: eab25d0fbde50624694d6a47f3a5dbe7, type: 3}
+--- !u!114 &6595732409104630288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4903499901828008225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &4967840147497883494
 GameObject:
   m_ObjectHideFlags: 0
@@ -4693,6 +5122,7 @@ GameObject:
   - component: {fileID: 8638223494491808417}
   - component: {fileID: 5766249960765838955}
   - component: {fileID: 5460293883706095989}
+  - component: {fileID: 3003936187613288516}
   m_Layer: 8
   m_Name: gravestone-old-small-a (2)
   m_TagString: Untagged
@@ -4786,6 +5216,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.60593426, y: 0.76702344, z: 0.41284132}
   m_Center: {x: 0, y: 0.3607393, z: 0.0015048087}
+--- !u!208 &3003936187613288516
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5405772806084458430}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.303, y: 0.384, z: 0.20600002}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.36100003, z: 0.002}
+  m_TimeToStationary: 0.5
 --- !u!1 &5510495499330216217
 GameObject:
   m_ObjectHideFlags: 0
@@ -4798,6 +5244,7 @@ GameObject:
   - component: {fileID: 8114709500910908422}
   - component: {fileID: 6303291279582740684}
   - component: {fileID: 6167858393648349406}
+  - component: {fileID: 1622157948513036120}
   m_Layer: 8
   m_Name: gravestone-old-small-b (1)
   m_TagString: Untagged
@@ -4891,6 +5338,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.50550807, y: 0.65917253, z: 0.41284132}
   m_Center: {x: -0.007697277, y: 0.30681384, z: -0.0015048012}
+--- !u!114 &1622157948513036120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5510495499330216217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_StartPoint: {x: 0, y: 0, z: -2.5}
+  m_EndPoint: {x: 0, y: 0, z: 2.5}
+  m_Width: 0
+  m_CostModifier: -1
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 0
+  m_Area: 0
 --- !u!1 &5757594924959797676
 GameObject:
   m_ObjectHideFlags: 0
@@ -4903,6 +5370,7 @@ GameObject:
   - component: {fileID: 8287499820993430707}
   - component: {fileID: 6118116335911022713}
   - component: {fileID: 6198785863379791979}
+  - component: {fileID: 8772301611717810339}
   m_Layer: 8
   m_Name: gravestone-old-small-b (2)
   m_TagString: Untagged
@@ -4996,6 +5464,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.50550807, y: 0.65917253, z: 0.41284132}
   m_Center: {x: -0.007697277, y: 0.30681384, z: -0.0015048012}
+--- !u!208 &8772301611717810339
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5757594924959797676}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.25300002, y: 0.33, z: 0.20600002}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.008, y: 0.307, z: -0.002}
+  m_TimeToStationary: 0.5
 --- !u!1 &6001589455619650264
 GameObject:
   m_ObjectHideFlags: 0
@@ -5007,7 +5491,8 @@ GameObject:
   - component: {fileID: 6341698722837047394}
   - component: {fileID: 8047342054378776519}
   - component: {fileID: 5208713959613387533}
-  - component: {fileID: 5171616338550817133}
+  - component: {fileID: 3474652592989107711}
+  - component: {fileID: 9215694009527012943}
   m_Layer: 8
   m_Name: wall-graveyard-2m (8)
   m_TagString: Untagged
@@ -5080,8 +5565,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5171616338550817133
-MeshCollider:
+--- !u!65 &3474652592989107711
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5098,10 +5583,25 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7737516218245646062, guid: 424ca62b13b54604f91c3130a72a23b2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.185209, y: 1.4281818, z: 0.3449818}
+  m_Center: {x: -0.9196679, y: 0.6774846, z: 0.00044576835}
+--- !u!208 &9215694009527012943
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6001589455619650264}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.093, y: 0.71400005, z: 0.172}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.92, y: 0.67700005, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &6050966290065925132
 GameObject:
   m_ObjectHideFlags: 0
@@ -5334,6 +5834,7 @@ GameObject:
   - component: {fileID: 7710805587570948814}
   - component: {fileID: 5541327076337094148}
   - component: {fileID: 6279625432309915930}
+  - component: {fileID: 6853986489605813736}
   m_Layer: 8
   m_Name: gravestone-old-small-a (4)
   m_TagString: Untagged
@@ -5427,6 +5928,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.60593426, y: 0.76702344, z: 0.41284132}
   m_Center: {x: 0, y: 0.3607393, z: 0.0015048087}
+--- !u!208 &6853986489605813736
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6333824614753120209}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.303, y: 0.384, z: 0.20600002}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.36100003, z: 0.002}
+  m_TimeToStationary: 0.5
 --- !u!1 &6345371497325912685
 GameObject:
   m_ObjectHideFlags: 0
@@ -5438,7 +5955,8 @@ GameObject:
   - component: {fileID: 6000089298795215063}
   - component: {fileID: 7271979656998336370}
   - component: {fileID: 4832280700349596600}
-  - component: {fileID: 8067606215232513889}
+  - component: {fileID: 1313580918227823351}
+  - component: {fileID: 2095455874418579432}
   m_Layer: 8
   m_Name: wall-graveyard-2m (9)
   m_TagString: Untagged
@@ -5511,8 +6029,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8067606215232513889
-MeshCollider:
+--- !u!65 &1313580918227823351
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5529,10 +6047,25 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7737516218245646062, guid: 424ca62b13b54604f91c3130a72a23b2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.185209, y: 1.4281818, z: 0.3449818}
+  m_Center: {x: -0.9196679, y: 0.6774846, z: 0.00044576835}
+--- !u!208 &2095455874418579432
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6345371497325912685}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.093, y: 0.71400005, z: 0.172}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.92, y: 0.67700005, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &6377528717467435323
 GameObject:
   m_ObjectHideFlags: 0
@@ -5545,6 +6078,7 @@ GameObject:
   - component: {fileID: 7234333159414862884}
   - component: {fileID: 4864297595202199790}
   - component: {fileID: 4710796434689679612}
+  - component: {fileID: 4269121388230207813}
   m_Layer: 8
   m_Name: gravestone-old-small-b
   m_TagString: Untagged
@@ -5638,6 +6172,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.50550807, y: 0.65917253, z: 0.41284132}
   m_Center: {x: -0.007697277, y: 0.30681384, z: -0.0015048012}
+--- !u!208 &4269121388230207813
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6377528717467435323}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.25300002, y: 0.33, z: 0.20600002}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.008, y: 0.307, z: -0.002}
+  m_TimeToStationary: 0.5
 --- !u!1 &6417224946219394623
 GameObject:
   m_ObjectHideFlags: 0
@@ -5732,7 +6282,8 @@ GameObject:
   - component: {fileID: 5909334951715563416}
   - component: {fileID: 7326784027778705469}
   - component: {fileID: 4776348918253460727}
-  - component: {fileID: 2826603643282647493}
+  - component: {fileID: 3314873159408775595}
+  - component: {fileID: 2518048859251243242}
   m_Layer: 8
   m_Name: wall-graveyard-2m
   m_TagString: Untagged
@@ -5805,8 +6356,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2826603643282647493
-MeshCollider:
+--- !u!65 &3314873159408775595
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5823,10 +6374,25 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7737516218245646062, guid: 424ca62b13b54604f91c3130a72a23b2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.185209, y: 1.4281818, z: 0.3449818}
+  m_Center: {x: -0.9196679, y: 0.6774846, z: 0.00044576835}
+--- !u!208 &2518048859251243242
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6433951138315124002}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.093, y: 0.71400005, z: 0.172}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.92, y: 0.67700005, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &6478594085499996934
 GameObject:
   m_ObjectHideFlags: 0
@@ -5945,6 +6511,7 @@ GameObject:
   - component: {fileID: 6933718069782635262}
   - component: {fileID: 5178423312397178420}
   - component: {fileID: 5772736423533447861}
+  - component: {fileID: 6598716092777911969}
   m_Layer: 8
   m_Name: gravestone-old-classic-broken (1)
   m_TagString: Untagged
@@ -6039,6 +6606,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -49510865248186554, guid: fdec8e5b6b6bb784ba3d5d435ba8611e, type: 3}
+--- !u!208 &6598716092777911969
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6691655120329291745}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.303, y: 0.246, z: 0.202}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.002, y: 0.223, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &6735901634240094494
 GameObject:
   m_ObjectHideFlags: 0
@@ -6051,6 +6634,7 @@ GameObject:
   - component: {fileID: 2047711264148136114}
   - component: {fileID: 1912123168851528787}
   - component: {fileID: 474753281196755245}
+  - component: {fileID: 4543695736424590086}
   m_Layer: 8
   m_Name: gate-graveyard-door-l
   m_TagString: Untagged
@@ -6145,6 +6729,73 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 8390118871094833361, guid: eab25d0fbde50624694d6a47f3a5dbe7, type: 3}
+--- !u!114 &4543695736424590086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6735901634240094494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
+--- !u!1 &6782122389691160355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7647753925957707413}
+  - component: {fileID: 5184765329954174464}
+  m_Layer: 8
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7647753925957707413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782122389691160355}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.7, y: 1.114, z: -0}
+  m_LocalScale: {x: 1.6640174, y: 1.6123, z: 0.4127}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1934589688936501370}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!208 &5184765329954174464
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782122389691160355}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &6846504217406322030
 GameObject:
   m_ObjectHideFlags: 0
@@ -6157,6 +6808,7 @@ GameObject:
   - component: {fileID: 7198898959837356145}
   - component: {fileID: 4900856749769626811}
   - component: {fileID: 1352384271800120063}
+  - component: {fileID: 1227565780747319510}
   m_Layer: 8
   m_Name: gravestone-old-classic-cross
   m_TagString: Untagged
@@ -6250,6 +6902,70 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6059435, y: 0.75011945, z: 0.40395644}
   m_Center: {x: 0.000029444695, y: 0.3522873, z: 0.0000007599592}
+--- !u!208 &1227565780747319510
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6846504217406322030}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.303, y: 0.37500003, z: 0.202}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.35200003, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!1 &6846945991048280841
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6299803214630525159}
+  - component: {fileID: 3238531566934891049}
+  m_Layer: 8
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6299803214630525159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6846945991048280841}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.0000029504295, z: -0, w: 1}
+  m_LocalPosition: {x: -4.513799, y: 2.8963997, z: 13.330054}
+  m_LocalScale: {x: 4.32645, y: 4.19198, z: 1.13646}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7608276657007212618}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!208 &3238531566934891049
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6846945991048280841}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7011586409933116498
 GameObject:
   m_ObjectHideFlags: 0
@@ -6281,6 +6997,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7608276657007212618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7028699973260906347
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 458920029375987755}
+  - component: {fileID: 7301283617523953106}
+  m_Layer: 8
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &458920029375987755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7028699973260906347}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.0000029504295, z: -0, w: 1}
+  m_LocalPosition: {x: 4.62, y: 2.8963997, z: 13.33}
+  m_LocalScale: {x: 4.32645, y: 4.19198, z: 1.13646}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7608276657007212618}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!208 &7301283617523953106
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7028699973260906347}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7230209297321041577
 GameObject:
   m_ObjectHideFlags: 0
@@ -6292,8 +7056,9 @@ GameObject:
   - component: {fileID: 8006570697276802067}
   - component: {fileID: 6391406347236363190}
   - component: {fileID: 9175558108416819068}
-  - component: {fileID: 167482135409800275}
-  m_Layer: 8
+  - component: {fileID: 8234241789926424417}
+  - component: {fileID: 3982550436074731613}
+  m_Layer: 0
   m_Name: wall-graveyard-2m (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6365,8 +7130,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &167482135409800275
-MeshCollider:
+--- !u!65 &8234241789926424417
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -6383,10 +7148,73 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7737516218245646062, guid: 424ca62b13b54604f91c3130a72a23b2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.185209, y: 1.4281818, z: 0.3449818}
+  m_Center: {x: -0.9196679, y: 0.6774846, z: 0.00044576835}
+--- !u!208 &3982550436074731613
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7230209297321041577}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.093, y: 0.71400005, z: 0.172}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.92, y: 0.67700005, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!1 &7368081089697904953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 20885079159197804}
+  - component: {fileID: 1096052874228217894}
+  m_Layer: 8
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &20885079159197804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7368081089697904953}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.213, y: 1.114, z: -0}
+  m_LocalScale: {x: 1.6640192, y: 1.6123, z: 0.4127}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1934589688936501370}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!208 &1096052874228217894
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7368081089697904953}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7545553972402331485
 GameObject:
   m_ObjectHideFlags: 0
@@ -6398,7 +7226,8 @@ GameObject:
   - component: {fileID: 7204881927011321319}
   - component: {fileID: 6076264530976655938}
   - component: {fileID: 8338358824637021832}
-  - component: {fileID: 5941965124803690392}
+  - component: {fileID: 4140314480647708028}
+  - component: {fileID: 5657093312710369465}
   m_Layer: 8
   m_Name: wall-graveyard-2m (1)
   m_TagString: Untagged
@@ -6471,8 +7300,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5941965124803690392
-MeshCollider:
+--- !u!65 &4140314480647708028
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -6489,10 +7318,25 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7737516218245646062, guid: 424ca62b13b54604f91c3130a72a23b2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.185209, y: 1.4281818, z: 0.3449818}
+  m_Center: {x: -0.9196679, y: 0.6774846, z: 0.00044576835}
+--- !u!208 &5657093312710369465
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7545553972402331485}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.093, y: 0.71400005, z: 0.172}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.92, y: 0.67700005, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7733589133785525267
 GameObject:
   m_ObjectHideFlags: 0
@@ -6725,6 +7569,7 @@ GameObject:
   - component: {fileID: 5914772447562869513}
   - component: {fileID: 8498725145585672131}
   - component: {fileID: 2537351874457172359}
+  - component: {fileID: 1663372652364544266}
   m_Layer: 8
   m_Name: gravestone-old-classic-cross (2)
   m_TagString: Untagged
@@ -6818,6 +7663,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6059435, y: 0.75011945, z: 0.40395644}
   m_Center: {x: 0.000029444695, y: 0.3522873, z: 0.0000007599592}
+--- !u!208 &1663372652364544266
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7994299515827912214}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.303, y: 0.37500003, z: 0.202}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.35200003, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &8059741359438624502
 GameObject:
   m_ObjectHideFlags: 0
@@ -7040,7 +7901,8 @@ GameObject:
   - component: {fileID: 8731821686855293762}
   - component: {fileID: 5657209541566190823}
   - component: {fileID: 7594904413992394797}
-  - component: {fileID: 5291306622914529525}
+  - component: {fileID: 5866304335215836708}
+  - component: {fileID: 3042708787566160044}
   m_Layer: 8
   m_Name: wall-graveyard-2m (5)
   m_TagString: Untagged
@@ -7113,8 +7975,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5291306622914529525
-MeshCollider:
+--- !u!65 &5866304335215836708
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -7131,10 +7993,25 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7737516218245646062, guid: 424ca62b13b54604f91c3130a72a23b2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.1852086, y: 1.4281818, z: 0.3449817}
+  m_Center: {x: -0.91966766, y: 0.6774846, z: 0.00044576824}
+--- !u!208 &3042708787566160044
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8243409359275524600}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.093, y: 0.71400005, z: 0.172}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.92, y: 0.67700005, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &8275363195033702336
 GameObject:
   m_ObjectHideFlags: 0
@@ -7396,6 +8273,7 @@ GameObject:
   - component: {fileID: 5409115715698719833}
   - component: {fileID: 7851460098129168531}
   - component: {fileID: 8877836203832251498}
+  - component: {fileID: 8565612987414236785}
   m_Layer: 8
   m_Name: gravestone-old-tower (2)
   m_TagString: Untagged
@@ -7490,6 +8368,28 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7960821032183897707, guid: a77653da149ca8644867707b9dca9198, type: 3}
+--- !u!195 &8565612987414236785
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8643816350236223814}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.3757886
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 3.4260201
+  m_BaseOffset: 1.7130101
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &8668437961863413960
 GameObject:
   m_ObjectHideFlags: 0
@@ -7924,7 +8824,8 @@ GameObject:
   - component: {fileID: 8405544952885410130}
   - component: {fileID: 4830573550085666551}
   - component: {fileID: 7272559429718901309}
-  - component: {fileID: 8358702608203145756}
+  - component: {fileID: 6399838859193254542}
+  - component: {fileID: 4178310759974681506}
   m_Layer: 8
   m_Name: wall-graveyard-2m (11)
   m_TagString: Untagged
@@ -7997,8 +8898,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8358702608203145756
-MeshCollider:
+--- !u!208 &6399838859193254542
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9218215556010714088}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.093, y: 0.71400005, z: 0.172}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.92, y: 0.67700005, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!65 &4178310759974681506
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -8015,10 +8932,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7737516218245646062, guid: 424ca62b13b54604f91c3130a72a23b2, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.1852086, y: 1.4281818, z: 0.3449817}
+  m_Center: {x: -0.91966766, y: 0.6774846, z: 0.00044576824}
 --- !u!1 &9219209535041426392
 GameObject:
   m_ObjectHideFlags: 0

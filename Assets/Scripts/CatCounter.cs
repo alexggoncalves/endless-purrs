@@ -7,7 +7,7 @@ public class CatCounter : MonoBehaviour
     public TextMeshProUGUI text;
     public TextMeshProUGUI successMessage;
     [SerializeField,Range(1,10)]
-    int totalCatAmount = 1;
+    public int totalCatAmount = 1;
     int catCount = 0;
     
 
@@ -42,11 +42,6 @@ public class CatCounter : MonoBehaviour
     int GetCatCount()
     {
         return catCount;
-    }
-
-    public Boolean Success()
-    {
-        return catCount >= totalCatAmount;
     }
 
     public void SetMessage(string text)

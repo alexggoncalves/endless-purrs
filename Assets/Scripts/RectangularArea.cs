@@ -36,8 +36,8 @@ public class RectangularArea : MonoBehaviour
     {
         // Define the rect for the current place, expanded by the margin
         Rect placeRect = new Rect(
-            transform.position.x - size.x / 2 - margin,
-            transform.position.z - size.y / 2 - margin,
+            transform.position.x - size.x / 2 - margin/2,
+            transform.position.z - size.y / 2 - margin/2,
             size.x + margin * 2,
             size.y + margin * 2
         );

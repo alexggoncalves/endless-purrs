@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using Unity.AI.Navigation;
 
-
 public class WaveFunctionCollapse : MonoBehaviour
 {
     public TileLoader tileLoader;
@@ -134,8 +133,11 @@ public class WaveFunctionCollapse : MonoBehaviour
     // Find the cell(s) with the least tile possibilies and collapse it into one of the superpositions(tiles)
     IEnumerator CheckEntropy()
     {
+        while(updatingCells) {
+            Debug.Log("waiting");
+            yield return null; 
+        }
 
-        while(updatingCells) { yield return null; }
         List<Cell> tempGrid = new();
         foreach (Cell c in grid)
         {
@@ -146,7 +148,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         tempGrid.RemoveAll(a => a.GetTileOptions().Count != tempGrid[0].GetTileOptions().Count);
 
 
-        yield return new WaitForSeconds(0.002f);
+        yield return new WaitForSeconds(0.01f);
 
         CollapseCell(tempGrid);
     }
@@ -370,12 +372,13 @@ public class WaveFunctionCollapse : MonoBehaviour
 
             iterationCounter++;
 
-            if (iterationCounter % 5 == 0)
+            if (iterationCounter % 6 == 0)
             {
-                yield return new WaitForSeconds(0.02f);
+                yield return new WaitForSeconds(0.01f);
 
             }
         }
+
         updatingCells = false;
         /*yield return new WaitForSeconds(0.02f);*/
 
@@ -396,7 +399,7 @@ public class WaveFunctionCollapse : MonoBehaviour
             if (initialLoading)
             {
                 initialLoading = false;
-                meshSurface.BuildNavMesh();
+                /*meshSurface.BuildNavMesh();*/
                 SaveInitialArea();
             }
         }
@@ -416,9 +419,21 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         paused = false;
         StartCoroutine(UpdateGeneration());
-        GetComponent<NavMeshSurface>().UpdateNavMesh(meshSurface.navMeshData);
+        /*StartCoroutine(UpdateNav());*/
+        
+
     }
 
+    IEnumerator UpdateNav()
+    {
+        AsyncOperation updateNavMesh = GetComponent<NavMeshSurface>().UpdateNavMesh(meshSurface.navMeshData);
+
+        while (!updateNavMesh.isDone)
+        {
+            Debug.Log("aa");
+            yield return null;
+        }
+    }
 
     void MoveAndOffsetGeneration(Vector2 direction)
     {

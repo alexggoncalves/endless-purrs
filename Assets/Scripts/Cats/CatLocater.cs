@@ -20,8 +20,6 @@ public class CatLocater : MonoBehaviour
     private AudioSource call;
     private AudioSource[] Miau;
 
-    public CatCounter Success;
-
     public Movement player;
     private void Start()
     {
@@ -42,7 +40,6 @@ public class CatLocater : MonoBehaviour
             Vector3 position = player.transform.position;
             foreach (GameObject go in gos)
             {
-                Debug.Log(go.GetComponent<CatController>().IsAtHome);
                 Vector3 diff = go.transform.position - position;
                 float curDistance = diff.sqrMagnitude;
                 if (curDistance < distance 
@@ -66,7 +63,7 @@ public class CatLocater : MonoBehaviour
 
     private void Update()
     {
-        Boolean success = GameObject.Find("Cat Counter").GetComponent<CatCounter>().Success();
+        Boolean success = GameObject.Find("Game").GetComponent<Game>().Success();
         if (success)
         {
             float fixXPos = 0;

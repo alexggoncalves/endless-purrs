@@ -153,8 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeName: BillBoard
-  width: 1
-  height: 1
+  width: 2
+  height: 2
   tile: grass
   extents: {fileID: 0}
   onWait: 0

@@ -554,11 +554,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeName: Wizard House
-  width: 10
-  height: 10
-  cellScale: 3.5
+  width: 4
+  height: 4
   tile: grass
-  position: {x: 0, y: 0}
   extents: {fileID: 0}
   onWait: 0
   toDelete: 0

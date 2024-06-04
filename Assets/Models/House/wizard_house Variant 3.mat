@@ -32,6 +32,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _Cull: 0
+    - _DstBlendAlpha: 10
     m_Colors:
     - _BaseColor: {r: 0.20522152, g: 0.5847192, b: 0.6382703, a: 0.6862745}
     - _Color: {r: 0.20522152, g: 0.5847192, b: 0.6382703, a: 0.6862745}

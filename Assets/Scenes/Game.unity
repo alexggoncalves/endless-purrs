@@ -210,15 +210,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8223857331675054219, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.573
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8223857331675054219, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8223857331675054219, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.82
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8223857331675054219, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -599,7 +599,7 @@ GameObject:
   - component: {fileID: 705507994}
   - component: {fileID: 705507996}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: Sun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1017,6 +1017,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 937165566}
   m_CullTransparentMesh: 1
+--- !u!1 &974290431 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3176212014407408266, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
+  m_PrefabInstance: {fileID: 2050684132}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1121156114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,7 +1035,7 @@ GameObject:
   - component: {fileID: 1121156116}
   - component: {fileID: 1121156119}
   m_Layer: 0
-  m_Name: ' WaterPlane'
+  m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1112,7 +1117,7 @@ PositionConstraint:
   serializedVersion: 2
   m_Weight: 1
   m_TranslationAtRest: {x: -12.5, y: -0.30000007, z: 0}
-  m_TranslationOffset: {x: -11.927, y: -0.13000007, z: -2.82}
+  m_TranslationOffset: {x: -12.5, y: -0.30000007, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 0
   m_AffectTranslationZ: 1
@@ -1646,19 +1651,46 @@ MonoBehaviour:
   pointer: {fileID: 1571169410}
   button: {fileID: 1192964883}
   distance: 70
-  Success: {fileID: 0}
   player: {fileID: 1635168314}
 --- !u!114 &1526314476 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4393554768407910231, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
   m_PrefabInstance: {fileID: 2050684132}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 974290431}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91355824ffe8f864284a7b6f395a5cb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1526314478 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8703244237650351396, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
+  m_PrefabInstance: {fileID: 2050684132}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974290431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1526314480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974290431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f954662d9ab1ba42801f52009fc2658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Surface: {fileID: 1526314478}
+  Player: {fileID: 1635168314}
+  UpdateRate: 0.1
+  MovementThreshold: 8
+  NavMeshSize: {x: 60, y: 6, z: 70}
 --- !u!1 &1571169409
 GameObject:
   m_ObjectHideFlags: 0
@@ -2085,11 +2117,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4393554768407910231, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
       propertyPath: placesExtents.x
-      value: 30
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 4393554768407910231, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
       propertyPath: placesExtents.y
-      value: 30
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 4393554768407910231, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
       propertyPath: orderedPlaces.Array.size
@@ -2133,11 +2165,15 @@ PrefabInstance:
       objectReference: {fileID: -248551918939790877, guid: c9207025782e7c641affe3fddb4666b6, type: 3}
     - target: {fileID: 8703244237650351396, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
       propertyPath: m_TileSize
-      value: 83
+      value: 101
       objectReference: {fileID: 0}
     - target: {fileID: 8703244237650351396, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
       propertyPath: m_VoxelSize
-      value: 0.05
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 8703244237650351396, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
+      propertyPath: m_UseGeometry
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8703244237650351396, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
       propertyPath: m_GenerateLinks
@@ -2145,11 +2181,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8703244237650351396, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
       propertyPath: m_MinRegionArea
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8703244237650351396, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
       propertyPath: m_CollectObjects
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8703244237650351396, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
       propertyPath: m_BuildHeightMesh
@@ -2206,7 +2242,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3176212014407408266, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1526314480}
   m_SourcePrefab: {fileID: 100100000, guid: dc736ef2bce9f8a42b0a807f200b1826, type: 3}
 --- !u!1001 &714114655270450850
 PrefabInstance:

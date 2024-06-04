@@ -28,7 +28,7 @@ public class Game : MonoBehaviour
 
     private void Update()
     {
-        if(catCounter.Success() && playerMovement.IsInsideHouse() && endSequence == 0)
+        if(Success() && playerMovement.IsInsideHouse() && endSequence == 0)
         {
             endSequence = 1;
             speech.SetText("I did it!\nBut maybe they want to be free...");
@@ -118,5 +118,10 @@ public class Game : MonoBehaviour
         {
             atHome.Remove(cat);
         }
+    }
+
+    public bool Success()
+    {
+        return atHome.Count >= catCounter.totalCatAmount;
     }
 }
