@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CatLocater : MonoBehaviour
@@ -11,16 +13,18 @@ public class CatLocater : MonoBehaviour
     public RectTransform button;
 
     private bool isPointerActive = false;
-    public float distance = 50f;
     private float pointerTime = 3.5f;
     private bool isCooldown = false;
     private float cooldownDuration = 2f;
     private float lastDeactivationTime = 0f;
 
+    [SerializeField]
+    public float locaterRange = 80f;
+
     private AudioSource call;
     private AudioSource[] Miau;
 
-    public Movement player;
+    public PlayerController player;
     private void Start()
     {
         pointer.gameObject.SetActive(false);
@@ -28,35 +32,33 @@ public class CatLocater : MonoBehaviour
         call = GetComponent<AudioSource>();
     }
 
-    public GameObject FindClosestCat()
+    public List<GameObject> FindCatsInRange()
     {
-        GameObject[] gos;
-        gos = GameObject.FindGameObjectsWithTag("Cat");
+        List<GameObject> catsInRange = new List<GameObject> ();
+        GameObject[] allCats;
+        allCats = GameObject.FindGameObjectsWithTag("Cat");
 
-        if (gos != null)
+        if (allCats != null)
         {
-            GameObject closest = null;
-            float distance = Mathf.Infinity;
-            Vector3 position = player.transform.position;
-            foreach (GameObject go in gos)
+            Vector3 playerPosition = player.transform.position;
+
+            foreach (GameObject cat in allCats)
             {
-                Vector3 diff = go.transform.position - position;
+                Vector3 diff = cat.transform.position - playerPosition;
                 float curDistance = diff.sqrMagnitude;
-                if (curDistance < distance 
-                    && !go.GetComponent<CatController>().IsAtHome
-                    && !go.GetComponent<CatIdentity>().behaviour.Equals(BehaviourType.Scaredy)
-                    && !go.GetComponent<CatController>().GetCatState().Equals(CatState.Following)
+
+                if (curDistance < locaterRange
+                    && !cat.GetComponent<CatController>().IsAtHome
+                    && !cat.GetComponent<CatIdentity>().behaviour.Equals(BehaviourType.Scaredy)
+                    && !cat.GetComponent<CatController>().GetCatState().Equals(CatState.Following)
                     )
                 {
-                    closest = go;
-                    distance = curDistance;
+                    catsInRange.Add(cat);
                 }
             }
-            return closest;
-        } else
-        {
-            return null;
         }
+        if (catsInRange.Count > 0) { return catsInRange; }
+        else return null;
     }
 
     
@@ -81,19 +83,29 @@ public class CatLocater : MonoBehaviour
         }
         else
         {
-
             if (Input.GetKeyDown(KeyCode.Q) && !isPointerActive && !isCooldown)
             {
                 button.gameObject.SetActive(false);
-                float maxDistance = distance;
-                float distanceToTarget = Vector3.Distance(player.transform.position, targetPosition);
 
-                if (distanceToTarget <= maxDistance && FindClosestCat() != null)
-                //if (distanceToTarget <= maxDistance)
+                // Get all cats in range
+                List<GameObject> catsInRange = FindCatsInRange();
+
+                if(catsInRange != null)
+                {
+                    foreach (GameObject cat in catsInRange)
+                    {
+                        // Create the elements at the correct position!!!
+                    }
+                }
+                
+
+                /// TEMP////////////////////////
+                if (catsInRange != null)
                 {
                     isPointerActive = true;
                     pointer.gameObject.SetActive(true);
-                    targetPosition = FindClosestCat().transform.position;
+
+                    targetPosition = catsInRange[0].transform.position;
 
                     StartCoroutine(StopPointerAfterDelay());
                 }
@@ -103,9 +115,10 @@ public class CatLocater : MonoBehaviour
                     isCooldown = true;
                     lastDeactivationTime = Time.time;
                 }
+                ////////////////////
             }
 
-            if (isPointerActive)
+            if (isPointerActive) // Change this as well
             {
                 float fixXPos = 0;
                 float fixZPos = 0;
@@ -115,41 +128,6 @@ public class CatLocater : MonoBehaviour
 
                 float angle = ((Mathf.Atan2(dir.z, dir.x) * Mathf.Rad2Deg) % 360) - 90;
                 pointer.localEulerAngles = new Vector3(0, 0, angle);
-
-                //code for dynamic pointer
-                /*float borderSize = 500f;
-                Vector3 targetScreenPos = cam.WorldToScreenPoint(targetPosition);
-                bool isOffScreen = targetScreenPos.x <= borderSize || targetScreenPos.x >= Screen.width - borderSize || targetScreenPos.y <= borderSize || targetScreenPos.y >= Screen.height - borderSize;
-
-                if (isOffScreen)
-                {
-                    Vector3 cappedTargetScreenPos = targetScreenPos;
-                    if (cappedTargetScreenPos.x <= borderSize) cappedTargetScreenPos.x = borderSize;
-                    if (cappedTargetScreenPos.x >= Screen.width - borderSize) cappedTargetScreenPos.x = Screen.width - borderSize;
-                    if (cappedTargetScreenPos.y <= borderSize) cappedTargetScreenPos.y = borderSize;
-                    if (cappedTargetScreenPos.y >= Screen.height - borderSize) cappedTargetScreenPos.y = Screen.height - borderSize;
-
-                    Vector3 pointerPos = cam.ScreenToWorldPoint(cappedTargetScreenPos);
-                    //pointer.position = new Vector3(pointerPos.x, 1.5f, pointerPos.y/2f);
-
-                    // Calculate y and z positions for pointer with a 45-degree angle
-                    float canvasDistance = Mathf.Abs(cam.transform.position.y - pointerPos.y);
-                    float pointerY = Mathf.Sin(Mathf.Deg2Rad * 45) * canvasDistance;
-                    float pointerZ = Mathf.Cos(Mathf.Deg2Rad * 45) * canvasDistance;
-
-                    Vector3 adjustedPointerPos = new Vector3(pointerPos.x, pointerY, -pointerZ);
-                    pointer.position = adjustedPointerPos;
-                } else
-                {
-                    Vector3 pointerPos = cam.ScreenToWorldPoint(targetScreenPos);
-
-                    float canvasDistance = Mathf.Abs(cam.transform.position.y - pointerPos.y);
-                    float pointerY = Mathf.Sin(Mathf.Deg2Rad * 45) * canvasDistance;
-                    float pointerZ = Mathf.Cos(Mathf.Deg2Rad * 45) * canvasDistance;
-
-                    Vector3 adjustedPointerPos = new Vector3(pointerPos.x, pointerY, -pointerZ);
-                    pointer.position = adjustedPointerPos;
-                }*/
             }
 
             if (isCooldown && Time.time - lastDeactivationTime >= cooldownDuration)
@@ -164,7 +142,7 @@ public class CatLocater : MonoBehaviour
     {
         call.Play();
         yield return new WaitForSeconds((call.clip.length)+0.2f);
-        Miau = FindClosestCat().GetComponents<AudioSource>(); //plays first audioSource of the cat
+        Miau = FindCatsInRange()[0].GetComponents<AudioSource>(); //plays first audioSource of the cat
         Miau[1].Play();
         yield return new WaitForSeconds(pointerTime);
         isPointerActive = false;

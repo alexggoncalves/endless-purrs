@@ -26,7 +26,7 @@ public class MapGenerator : MonoBehaviour
     private WaveFunctionCollapse wfc;
 
     // Player 
-    Movement player;
+    PlayerController player;
     Vector2 lastPlayerCoordinates; // (According to the grid)
 
     // Places
@@ -59,7 +59,7 @@ public class MapGenerator : MonoBehaviour
 
         placeInstances = new List<Place>();
 
-        player = GameObject.Find("Player").GetComponent<Movement>();
+        player = GameObject.Find("Player").GetComponent<PlayerController>();
 
         placesToDestroy = new Stack<Place>();
 

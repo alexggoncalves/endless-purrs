@@ -7,7 +7,7 @@ public class Game : MonoBehaviour
     private Boolean hasBegun = false;
 
     public GameObject player;
-    private Movement playerMovement;
+    private PlayerController playerMovement;
 
     Speech speech;
     Decision decision;
@@ -23,7 +23,7 @@ public class Game : MonoBehaviour
         speech = player.transform.GetChild(1).gameObject.GetComponent<Speech>(); // Get Speech
         decision = player.transform.GetChild(2).gameObject.GetComponent<Decision>();
         player.transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
-        playerMovement = player.GetComponent<Movement>();
+        playerMovement = player.GetComponent<PlayerController>();
     }
 
     private void Update()
@@ -77,7 +77,7 @@ public class Game : MonoBehaviour
     public void Begin()
     {
         hasBegun = true;
-        player.GetComponent<Movement>().LockMovement();
+        player.GetComponent<PlayerController>().LockMovement();
         speech.SetText("Where are my babies?\nI must find them!");
         speech.Show();
 

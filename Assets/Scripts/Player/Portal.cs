@@ -20,13 +20,13 @@ public class Portal : MonoBehaviour
     {
         if (triggerActive && mapGenerator.GetWFC().IsPaused())
         {
-            player.GetComponent<Movement>().SetTeleporting(true);
+            player.GetComponent<PlayerController>().SetTeleporting(true);
             triggerActive = false;
 
             mapGenerator.GetWFC().MoveToOrigin();
             
 
-            player.GetComponent<Movement>().SetTeleporting(false);
+            player.GetComponent<PlayerController>().SetTeleporting(false);
             Destroy(this.gameObject, 1);
         }
     }

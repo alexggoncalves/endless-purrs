@@ -24,7 +24,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 0
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -355,8 +355,8 @@ ModelImporter:
       name: metarig.004|Magic
       takeName: metarig.004|Magic
       internalID: 2955244330815915176
-      firstFrame: 0
-      lastFrame: 69
+      firstFrame: 6
+      lastFrame: 56
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -384,8 +384,8 @@ ModelImporter:
       name: metarig.004|Petting Cat
       takeName: metarig.004|Petting Cat
       internalID: -7078579618194721718
-      firstFrame: 0
-      lastFrame: 266
+      firstFrame: 39
+      lastFrame: 242
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

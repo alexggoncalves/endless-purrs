@@ -5,7 +5,7 @@ using UnityEngine;
 public class CatBehaviour : MonoBehaviour
 {
     
-    [SerializeField] private bool triggerActive = false;
+    private bool inPlayersRange = false;
     private int objectId;
 
     private RectTransform uiButtonPrefab;
@@ -16,15 +16,10 @@ public class CatBehaviour : MonoBehaviour
 
     private CatCounter catCounter;
 
-    private List<Slot> slots;
-    GameObject slotsObject;
-
     Boolean caught = false;
 
     private void Start()
     {
-        slots = new List<Slot>();
-        
         Meow = gameObject.GetComponents<AudioSource>();
 
         uiButtonPrefab = Resources.Load<RectTransform>("CatCatcher");
@@ -37,7 +32,7 @@ public class CatBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            triggerActive = true;
+            inPlayersRange = true;
             ShowUIButton();
         }
     }
@@ -46,24 +41,16 @@ public class CatBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            triggerActive = false;
+            inPlayersRange = false;
             HideUIButton();
         }
-    }
-
-    private void Update()
-    {
-       /* if (triggerActive && Input.GetKeyDown(KeyCode.E))
-        {
-            Debug.Log("aa");
-            PlaySound(Meow[1].clip);
-            CatchCat();
-        }*/
-    }
+    }    
 
     public void PlayMeow()
     {
         PlaySound(Meow[1].clip);
+
+        // Set a random meow for everycat!!!!!!!!!
     }
 
     private void PlaySound(AudioClip clip)
@@ -77,22 +64,6 @@ public class CatBehaviour : MonoBehaviour
         Destroy(soundObject, clip.length);
 
     }
-
-    /*public void CatchCat()
-    {
-        if (!caught)
-        {
-            // Save the ID of the object
-            objectId = gameObject.GetInstanceID();
-
-            *//*gameObject.SetActive(false);*//*
-            HideUIButton();
-
-            catCounter.AddCat();
-            caught = true;
-        }
-        
-    }*/
 
     private void ShowUIButton()
     {
@@ -114,8 +85,5 @@ public class CatBehaviour : MonoBehaviour
         }
     }
 
-    public Boolean HasBeenCaught()
-    {
-        return caught;
-    }
+    public bool InPlayersRange() { return inPlayersRange; }
 }

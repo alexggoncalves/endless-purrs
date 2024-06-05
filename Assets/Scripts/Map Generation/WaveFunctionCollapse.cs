@@ -27,7 +27,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     RectangularArea outerArea;
 
     // Player
-    Movement player;
+    PlayerController player;
     Vector2 moveOffset = new(0, 0);
     Vector2 totalMoveOffset = new(0, 0);
 
@@ -68,7 +68,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-    public void Initialize(TileLoader tileLoader, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, Movement player, GameObject startingPlace, Vector2 edgeSize)
+    public void Initialize(TileLoader tileLoader, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, PlayerController player, GameObject startingPlace, Vector2 edgeSize)
     {
 
         this.player = player;
@@ -405,6 +405,44 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
+    public void InitialUpdate()
+    {
+        while (updatedCells.Count > 0)
+        {
+            Cell cell = updatedCells.Pop();
+
+            if(homeInstance.GetComponent<Place>().extents.Contains(new Vector2(cell.transform.position.x, cell.transform.position.z)))
+                {
+                    cell.RecreateCell(new List<int> { tileLoader.grassID });
+                }
+
+            if (cell.GetY() > 0)
+            {
+                // Down Cell;
+                UpdateCellsEntropy(grid[cell.GetX(), cell.GetY() - 1], true);
+
+            }
+            if (cell.GetX() < gridWidth - 1)
+            {
+                // Right Cell
+                UpdateCellsEntropy(grid[cell.GetX() + 1, cell.GetY()], true);
+
+            }
+            if (cell.GetY() < gridHeight - 1)
+            {
+                // Up Cell
+                UpdateCellsEntropy(grid[cell.GetX(), cell.GetY() + 1], true);
+
+            }
+            if (cell.GetX() > 0)
+            {
+                // Left Cell
+                UpdateCellsEntropy(grid[cell.GetX() - 1, cell.GetY()], true);
+
+            }
+        }
+    }
+
 
     public void ShiftGrid()
     {
@@ -565,6 +603,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         Vector2 position = CalculateGridCoordinates(place.GetPosition().x, place.GetPosition().y);
 
         SetGridSection(place.GetGrid(), position.x - dimensions.x / 2 + 1, position.y - dimensions.y / 2 + cellScale + 1, dimensions.x, dimensions.y);
+        
     }
 
     void SaveInitialArea()

@@ -10,7 +10,7 @@ public class AreaFloorBaker : MonoBehaviour
     [SerializeField]
     private NavMeshSurface Surface;
     [SerializeField]
-    private Movement Player;
+    private PlayerController Player;
     [SerializeField]
     private float UpdateRate = 0.1f;
     [SerializeField]
