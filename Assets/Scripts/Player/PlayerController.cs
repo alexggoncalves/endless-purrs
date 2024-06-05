@@ -51,7 +51,6 @@ public class PlayerController : MonoBehaviour
 
     // Sound
     private AudioSource[] footStep;
-    public TileType currentTileType;
 
     //Other
     private RoofController roofController;
@@ -179,7 +178,6 @@ public class PlayerController : MonoBehaviour
 
             // Update walked distance and the tile the player is walking on
             walkedDistance += inputMagnitude * maxSpeed * Time.deltaTime;
-            UpdateCurrentTile();
         }
         else
         {
@@ -322,15 +320,6 @@ public class PlayerController : MonoBehaviour
         }
 
         
-    }
-
-    public void UpdateCurrentTile() {
-        if (!mapGenerator.GetWFC().initialLoading)
-        {
-            Vector2 gridCoordinates = mapGenerator.GetWFC().CalculateGridCoordinates(transform.position.x, transform.position.z);
-            int tileID = mapGenerator.GetWFC().grid[(int)gridCoordinates.x, (int)gridCoordinates.y].tileOptions.First();
-            currentTileType = mapGenerator.GetWFC().tileLoader.GetTileByID(tileID).tileType;
-        }
     }
 
     public float GetWalkedDistance()

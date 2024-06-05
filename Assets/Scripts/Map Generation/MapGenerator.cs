@@ -27,7 +27,8 @@ public class MapGenerator : MonoBehaviour
 
     // Player 
     PlayerController player;
-    Vector2 lastPlayerCoordinates; // (According to the grid)
+    public Vector2 lastPlayerCoordinates; // (According to the grid)
+    public Vector2 playerCoordinates; // (According to the grid)
 
     // Places
     [SerializeField, Min(1)]
@@ -110,14 +111,17 @@ public class MapGenerator : MonoBehaviour
     // Detects every time the player moves one cell size and shifts the grid in that direction
     public void HandleGridMove()
     {
-        if (!player.IsTeleporting())
-        {
             Vector2 playerCoordinates = wfc.CalculateWorldCoordinates(player.transform.position.x, player.transform.position.z);
 
             if (playerCoordinates != lastPlayerCoordinates)
             {
                 Vector2 moveAmount = (playerCoordinates - lastPlayerCoordinates);
                 wfc.AddToMoveOffset(moveAmount);
+
+                if(player.IsTeleporting())
+                {
+                moveAmount = Vector2.zero;
+                }
             }
 
             if ((wfc.GetMoveOffset().x != 0 || wfc.GetMoveOffset().y != 0) && wfc.IsPaused() && !wfc.IsUpdatingCells())
@@ -127,7 +131,6 @@ public class MapGenerator : MonoBehaviour
             }
 
             lastPlayerCoordinates = playerCoordinates;
-        }
     }
 
     void SpawnPlaces()

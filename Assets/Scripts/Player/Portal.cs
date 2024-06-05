@@ -8,6 +8,13 @@ public class Portal : MonoBehaviour
     public Vector3 target = new Vector3(-8, 0, 0);
     public MapGenerator mapGenerator;
 
+    private void Start()
+    {
+        player = GameObject.Find("Player");
+        mapGenerator = GameObject.Find("Map Generator").GetComponent<MapGenerator>();
+        target = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -23,9 +30,12 @@ public class Portal : MonoBehaviour
             player.GetComponent<PlayerController>().SetTeleporting(true);
             triggerActive = false;
 
-            mapGenerator.GetWFC().MoveToOrigin();
             
+               
+            mapGenerator.GetWFC().MoveToOrigin();
 
+            player.transform.position = target;
+            mapGenerator.lastPlayerCoordinates = mapGenerator.playerCoordinates;
             player.GetComponent<PlayerController>().SetTeleporting(false);
             Destroy(this.gameObject, 1);
         }
