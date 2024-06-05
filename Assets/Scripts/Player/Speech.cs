@@ -17,6 +17,7 @@ public class Speech : MonoBehaviour
 
     Boolean active;
    
+    int step = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +35,11 @@ public class Speech : MonoBehaviour
     {
         if (Input.GetKeyDown("e") && active)
         {
-           Hide();
+           step++;
+            if(step == 4)
+            {
+                Hide();
+            }
         }
     }
 
