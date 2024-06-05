@@ -20,8 +20,6 @@ public class Tutorial : MonoBehaviour
     {
         start = transform.Find("Start").gameObject;
         movement = transform.Find("Movement").gameObject;
-        buttonQ = transform.Find("Q").gameObject;
-        buttonE = transform.Find("E").gameObject;
         catCounterMsg = transform.Find("Counter").gameObject;
 
         loading = GameObject.Find("LoadingScreen").gameObject;
@@ -41,22 +39,18 @@ public class Tutorial : MonoBehaviour
             }
             if (step == 0) {
                 movement.SetActive(false);
-                buttonQ.SetActive(false);
-                buttonE.SetActive(false);
+
                 catCounterMsg.SetActive(false);
             }
             else if (step == 1)
             {
                 start.SetActive(false);
                 movement.SetActive(true);
-                buttonQ.SetActive(true);
-                buttonE.SetActive(true);
+
             }
             else if (step == 2)
             {
                 movement.SetActive(false);
-                buttonQ.SetActive(false);
-                buttonE.SetActive(false);
                 catCounterMsg.SetActive(true);
 
             }

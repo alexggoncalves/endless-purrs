@@ -15,15 +15,16 @@ public class Speech : MonoBehaviour
     public GameObject bubble;
     TextMeshPro textMesh;
 
-    Boolean active;
+    bool active;
    
     int step = 0;
+    Boolean startText = true;
 
     // Start is called before the first frame update
     void Start()
     {
         textMesh = textObject.GetComponent<TextMeshPro>();
-        /*Hide();*/
+        Hide();
     }
 
     private void LateUpdate()
@@ -33,13 +34,9 @@ public class Speech : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown("e") && active)
+        if (Input.GetKeyDown(KeyCode.F) && active)
         {
-           step++;
-            if(step == 4)
-            {
-                Hide();
-            }
+            Hide();
         }
     }
 
@@ -47,15 +44,14 @@ public class Speech : MonoBehaviour
     {
         textMesh.SetText(text);
         textMesh.ForceMeshUpdate();
-        /*Debug.Log(textMesh.textBounds);*/
-        // Set bubble size according to text size
     }
 
     public void Hide()
     {
-        /*if(transform.parent.CompareTag("Player")){
-            transform.parent.GetComponent<Movement>().UnlockMovement();
-        }*/
+        if (transform.parent.CompareTag("Player"))
+        {
+            transform.parent.GetComponent<PlayerController>().UnlockMovement();
+        }
         active = false;
         foreach (Transform child in transform)
         {
@@ -65,9 +61,10 @@ public class Speech : MonoBehaviour
 
     public void Show()
     {
-        /*if(transform.parent.CompareTag("Player")){
-            transform.parent.GetComponent<Movement>().LockMovement();
-        }*/
+        if (transform.parent.CompareTag("Player"))
+        {
+            transform.parent.GetComponent<PlayerController>().LockMovement();
+        }
         active = true;
         foreach (Transform child in transform)
         {

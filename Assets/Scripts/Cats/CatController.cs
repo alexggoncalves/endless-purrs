@@ -49,6 +49,8 @@ public class CatController : MonoBehaviour
     public MapGenerator mapGenerator;
     public Game game;
 
+    public LayerMask navMeshLayerMask;
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -64,6 +66,7 @@ public class CatController : MonoBehaviour
         currentState = CatState.Wandering;
         // Don’t update position automatically
         agent.updatePosition = false;
+        agent.enabled = false;
 
         if (randomizeCat && !owned) 
         {
@@ -84,14 +87,41 @@ public class CatController : MonoBehaviour
 
     void Update()
     {
-        if (agent.isOnNavMesh)
+
+        if (!agent.enabled)
         {
-            if (Vector3.Distance(player.position, transform.position) < visionRange)
+            // Perform a raycast downwards to check for NavMesh
+            RaycastHit hit;
+            float raycastDistance = 7;
+            
+
+            if (Physics.Raycast(transform.position + Vector3.up * 6, Vector3.down, out hit, raycastDistance, navMeshLayerMask))
+            {
+                // Enable the NavMeshAgent if there is NavMesh directly below
+                if(!isAtHome)
+                {
+                    agent.enabled = true;
+                    agent.ResetPath();
+                    agent.Warp(transform.position); // Adjust the agent's position to stick to the NavMesh
+                }
+                if(isAtHome && Vector3.Distance(transform.position, player.transform.position) < 15) {
+                    agent.enabled = true;
+                    agent.ResetPath();
+                    agent.Warp(transform.position);
+                    SetWandering(); 
+
+                }
+                
+            }
+        }
+        else
+        {
+            if (Vector3.Distance(player.position, transform.position) < visionRange && !isAtHome)
             {
                 isAlertOfPlayer = true;
             }
             else isAlertOfPlayer = false;
-            
+
             if (isAlertOfPlayer && (currentState != CatState.Fleeing || currentState != CatState.Following) && !isAtHome)
             {
                 target = player;
@@ -101,7 +131,8 @@ public class CatController : MonoBehaviour
                     Destroy(wander);
                     wander = null;
                 }
-                if (identity.GetBehaviourType() == BehaviourType.Owned || identity.GetBehaviourType() == BehaviourType.Friendly) {
+                if (identity.GetBehaviourType() == BehaviourType.Owned || identity.GetBehaviourType() == BehaviourType.Friendly)
+                {
                     currentState = CatState.Following;
                     game.AddToFollowers(gameObject);
                 }
@@ -109,7 +140,8 @@ public class CatController : MonoBehaviour
                 {
                     currentState = CatState.Fleeing;
                 }
-            } else
+            }
+            else
             {
                 game.RemoveFromFollowers(gameObject);
                 target = null;
@@ -124,10 +156,7 @@ public class CatController : MonoBehaviour
             }
             else if (currentState == CatState.Fleeing || currentState == CatState.Following)
             {
-                target = null;
-                currentState = CatState.Wandering;
-                wander = this.AddComponent<CatWanderScript>();
-                wander.InitializeWanderScript(animator,agent);
+                SetWandering();
             }
 
             if (currentState == CatState.Wandering && wander != null)
@@ -136,17 +165,32 @@ public class CatController : MonoBehaviour
             }
 
             // When the cat get's home
-            if (mapGenerator.GetWFC().homeInstance.GetComponent<Place>().GetExtents().CollidesWith(transform.position.x, transform.position.z,1,1,-5) && !isAtHome)
+            if (mapGenerator.GetWFC().homeInstance.GetComponent<Place>().GetExtents().CollidesWith(transform.position.x, transform.position.z, 1, 1, -5) && !isAtHome)
             {
                 target = null;
                 isAtHome = true;
                 game.RemoveFromFollowers(gameObject);
                 game.AddToHome(gameObject);
             }
-                  
+
+            HandleOffMeshLinks();
+
+            if (isAtHome && Vector3.Distance(transform.position, player.transform.position) > 15)
+            {
+                agent.ResetPath();
+                agent.enabled = false;
+                wander = null;
+            }
         }
 
-        HandleOffMeshLinks();
+        
+    }
+
+    public void SetWandering()
+    {
+        currentState = CatState.Wandering;
+        wander = this.AddComponent<CatWanderScript>();
+        wander.InitializeWanderScript(animator, agent);
     }
 
     void HandleOffMeshLinks()

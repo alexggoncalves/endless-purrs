@@ -337,6 +337,9 @@ MonoBehaviour:
   identityDisplay: {fileID: 431356964385517945}
   mapGenerator: {fileID: 0}
   game: {fileID: 0}
+  navMeshLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &1658980738685934162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,7 +352,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b88f3d18aef0494d936cd2472eaf58a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerActive: 0
 --- !u!82 &4586217105725850093
 AudioSource:
   m_ObjectHideFlags: 0

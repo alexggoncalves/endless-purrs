@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     private float? jumpButtonPressedTime = 0;
     private float? lastGroundedTime = 0;
     private bool isGrounded;
-    private bool isJumping;
+    private bool isJumping; 
 
 
     // Animations
@@ -46,11 +46,12 @@ public class PlayerController : MonoBehaviour
     public bool isOpeningPortal;
     private float openPortalDuration = 1.7f;
     public bool isPettingCat;
-    public float pettingCatDuration = 6.7f;
+    public float pettingCatDuration = 3.5f;
     public Vector3 catTarget;
 
     // Sound
     private AudioSource[] footStep;
+
 
     //Other
     private RoofController roofController;
@@ -119,7 +120,7 @@ public class PlayerController : MonoBehaviour
         else if (isPettingCat)
         {
             // Rotate towards cat
-            Vector3 targetPosition = new Vector3(catTarget.x, 0, catTarget.z);
+            Vector3 targetPosition = new Vector3(catTarget.x, transform.position.y, catTarget.z);
             Quaternion toRotation = Quaternion.LookRotation(targetPosition - transform.position, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
 

@@ -14,9 +14,6 @@ public class CatBehaviour : MonoBehaviour
 
     private RectTransform currentUIButton;
 
-    private CatCounter catCounter;
-
-    Boolean caught = false;
 
     private void Start()
     {
@@ -25,7 +22,6 @@ public class CatBehaviour : MonoBehaviour
         uiButtonPrefab = Resources.Load<RectTransform>("CatCatcher");
         HideUIButton();
 
-        catCounter = GameObject.Find("Cat Counter").GetComponent<CatCounter>();
     }
 
     public void OnTriggerEnter(Collider other)
@@ -33,7 +29,7 @@ public class CatBehaviour : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             inPlayersRange = true;
-            ShowUIButton();
+            /*ShowUIButton();*/
         }
     }
 
@@ -42,7 +38,7 @@ public class CatBehaviour : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             inPlayersRange = false;
-            HideUIButton();
+            /*HideUIButton();*/
         }
     }    
 

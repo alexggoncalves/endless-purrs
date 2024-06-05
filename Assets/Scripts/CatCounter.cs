@@ -14,16 +14,15 @@ public class CatCounter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        successMessage.transform.gameObject.SetActive(false);
         text.SetText(catCount.ToString() + "/" + totalCatAmount);
     }
 
     private void Update()
     {
-        if (catCount >= totalCatAmount)
+        /*if (catCount >= totalCatAmount)
         {
             successMessage.transform.gameObject.SetActive(true);
-        } else successMessage.transform.gameObject.SetActive(false);
+        } else successMessage.transform.gameObject.SetActive(false);*/
     }
 
     public void AddCat()

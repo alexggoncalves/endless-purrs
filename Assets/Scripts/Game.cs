@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public class Game : MonoBehaviour
 {
@@ -28,35 +30,43 @@ public class Game : MonoBehaviour
 
     private void Update()
     {
-        if(Success() && playerMovement.IsInsideHouse() && endSequence == 0)
+       if(Success())
+        {
+            PlayEndSequence();
+        }
+    }
+
+    private void PlayEndSequence()
+    {
+        if (playerMovement.IsInsideHouse() && endSequence == 0)
         {
             endSequence = 1;
             speech.SetText("I did it!\nBut maybe they want to be free...");
             speech.Show();
         }
 
-        if(endSequence == 1)
+        if (endSequence == 1)
         {
             if (!speech.IsActive())
             {
                 endSequence = 2;
-                
+
             }
         }
 
-        if(endSequence == 2)
+        if (endSequence == 2)
         {
             decision.Show();
-            if(decision.GetDecision() != '0')
+            if (decision.GetDecision() != '0')
             {
                 endSequence = 3;
             }
         }
 
-        if(endSequence == 3)
+        if (endSequence == 3)
         {
             decision.Hide();
-            if(decision.GetDecision() == 'y')
+            if (decision.GetDecision() == 'y')
             {
                 catCounter.SetMessage("You let the cats be free. Thanks for play-testing our game!");
 
@@ -64,12 +74,12 @@ public class Game : MonoBehaviour
                 {
                     Destroy(cat);
                 }
-            } 
-            else if(decision.GetDecision() == 'n')
+            }
+            else if (decision.GetDecision() == 'n')
             {
                 catCounter.SetMessage("You are keeping the cats locked in. Thanks for play-testing our game!");
             }
-           endSequence = 4;
+            endSequence = 4;
 
         }
     }
@@ -92,7 +102,6 @@ public class Game : MonoBehaviour
     {
         if (!followers.Contains(cat)){
             followers.Add(cat);
-            catCounter.AddCat();
         }
     }
 
@@ -100,7 +109,6 @@ public class Game : MonoBehaviour
     {
         if (followers.Contains(cat)) {
             followers.Remove(cat);
-            catCounter.RemoveCat();
         }
     }
 
@@ -109,6 +117,7 @@ public class Game : MonoBehaviour
         if (!atHome.Contains(cat))
         {
             atHome.Add(cat);
+            catCounter.AddCat();
         }
     }
 
@@ -118,6 +127,41 @@ public class Game : MonoBehaviour
         {
             atHome.Remove(cat);
         }
+    }
+
+    public void MoveFollowersHome()
+    {
+        foreach (GameObject cat in atHome)
+        {
+            NavMeshAgent agent = cat.GetComponent<NavMeshAgent>();
+            cat.transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
+
+            agent.Warp(cat.transform.position);
+            cat.GetComponent<CatController>().SetWandering();
+            cat.GetComponent<CatController>().target = null;
+            cat.GetComponent<CatController>().SetIsAtHome(true);
+            
+        }
+
+
+        foreach (GameObject cat in followers)
+        {
+            NavMeshAgent agent = cat.GetComponent<NavMeshAgent>();
+            cat.transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
+            
+            agent.Warp(cat.transform.position);
+            cat.GetComponent<CatController>().SetWandering();
+            cat.GetComponent<CatController>().target = null;
+            cat.GetComponent<CatController>().SetIsAtHome(true);
+            AddToHome(cat);
+            
+        }
+
+        foreach (GameObject cat in atHome)
+        {
+            RemoveFromFollowers(cat);
+        }
+        
     }
 
     public bool Success()
