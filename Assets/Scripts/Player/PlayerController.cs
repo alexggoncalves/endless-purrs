@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour
 
     // Sound
     private AudioSource[] footStep;
+    private float distanceSinceLastStep = 0f;
+    [SerializeField] float distancePerStep = 1.8f;
 
 
     //Other
@@ -69,6 +71,17 @@ public class PlayerController : MonoBehaviour
         game = GameObject.Find("Game").GetComponent<Game>();
         roofController = GameObject.Find("HouseTop").GetComponent<RoofController>();
         walkedDistance = 0;
+        distanceSinceLastStep = distancePerStep;
+
+        for (int i = 0; i < footStep.Length; i++)
+        {
+            if (footStep[i] != null)
+            {
+                footStep[i].loop = false;
+                footStep[i].playOnAwake = false;
+                footStep[i].enabled = true;
+            }
+        }
     }
 
     void Update()
@@ -137,6 +150,8 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        Vector3 velocity = Vector3.zero;
+
         if (movementDirection != Vector3.zero)
         {
             isMoving = true;
@@ -147,48 +162,71 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
 
             // Apply velocity
-            Vector3 velocity = movementDirection * inputMagnitude * maxSpeed;
-            velocity.y = ySpeed;
-            controller.Move(velocity * Time.deltaTime);
-
-
-            //Play Novement Sound
-            if (roofController != null)
-            {
-                bool isPlayerInside = roofController.IsPlayerInsideCheck;
-
-                if (isPlayerInside)
-                {
-                    footStep[1].enabled = true;
-                    footStep[0].enabled = false;
-                }
-                else
-                {
-                    footStep[0].enabled = true;
-                    footStep[1].enabled = false;
-                }
-            }
-
-            // Play water sound when under water height
-            if (controller.transform.position.y <= waterY)
-            {
-                footStep[0].enabled = false;
-                footStep[2].enabled = true;
-                footStep[2].Play();
-            }
+            velocity = movementDirection * inputMagnitude * maxSpeed;
 
             // Update walked distance and the tile the player is walking on
-            walkedDistance += inputMagnitude * maxSpeed * Time.deltaTime;
+            float deltaDist = inputMagnitude * maxSpeed * Time.deltaTime;
+            walkedDistance += deltaDist;
+
+            // Trigger timed footstep sounds when grounded
+            if (isGrounded)
+            {
+                distanceSinceLastStep += deltaDist;
+                if (distanceSinceLastStep >= distancePerStep)
+                {
+                    PlayFootstepSound();
+                    distanceSinceLastStep = 0f;
+                }
+            }
         }
         else
         {
             animator.SetBool("IsMoving", false);
             isMoving = false;
+            distanceSinceLastStep = distancePerStep; // Ready to step instantly on next move
+        }
 
-            // Stop step sounds when there's no movement
-            footStep[0].enabled = false;
-            footStep[1].enabled = false;
-            footStep[2].enabled = false;
+        // Always apply vertical movement (gravity/jump) even if there is no horizontal input
+        velocity.y = ySpeed;
+        controller.Move(velocity * Time.deltaTime);
+    }
+
+    private void PlayFootstepSound()
+    {
+        if (footStep == null) return;
+
+        // Play water sound when under water height
+        if (controller.transform.position.y <= waterY)
+        {
+            if (footStep.Length > 2 && footStep[2] != null)
+            {
+                footStep[2].Play();
+            }
+        }
+        else if (roofController != null)
+        {
+            bool isPlayerInside = roofController.IsPlayerInsideCheck;
+            if (isPlayerInside)
+            {
+                if (footStep.Length > 1 && footStep[1] != null)
+                {
+                    footStep[1].Play();
+                }
+            }
+            else
+            {
+                if (footStep.Length > 0 && footStep[0] != null)
+                {
+                    footStep[0].Play();
+                }
+            }
+        }
+        else
+        {
+            if (footStep.Length > 0 && footStep[0] != null)
+            {
+                footStep[0].Play();
+            }
         }
     }
 
@@ -226,9 +264,6 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("IsGrounded", false);
             isGrounded = false;
-            footStep[0].enabled = false;
-            footStep[1].enabled = false;
-            footStep[2].enabled = false;
 
             if ((isJumping && ySpeed < 0) || ySpeed < -3f)
             {

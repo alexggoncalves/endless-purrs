@@ -64,7 +64,7 @@ public class CatController : MonoBehaviour
         wander = this.AddComponent<CatWanderScript>();
         wander.InitializeWanderScript(animator, agent);
         currentState = CatState.Wandering;
-        // Don’t update position automatically
+        // Donï¿½t update position automatically
         agent.updatePosition = false;
         agent.enabled = false;
 
@@ -100,16 +100,21 @@ public class CatController : MonoBehaviour
                 // Enable the NavMeshAgent if there is NavMesh directly below
                 if(!isAtHome)
                 {
-                    agent.enabled = true;
-                    agent.ResetPath();
-                    agent.Warp(transform.position); // Adjust the agent's position to stick to the NavMesh
+                    if (NavMesh.SamplePosition(transform.position, out NavMeshHit navHit, 2.0f, NavMesh.AllAreas))
+                    {
+                        agent.enabled = true;
+                        agent.Warp(navHit.position);
+                        agent.ResetPath();
+                    }
                 }
                 if(isAtHome && Vector3.Distance(transform.position, player.transform.position) < 15) {
-                    agent.enabled = true;
-                    agent.ResetPath();
-                    agent.Warp(transform.position);
-                    SetWandering(); 
-
+                    if (NavMesh.SamplePosition(transform.position, out NavMeshHit navHit, 2.0f, NavMesh.AllAreas))
+                    {
+                        agent.enabled = true;
+                        agent.Warp(navHit.position);
+                        agent.ResetPath();
+                        SetWandering();
+                    }
                 }
                 
             }
@@ -177,7 +182,10 @@ public class CatController : MonoBehaviour
 
             if (isAtHome && Vector3.Distance(transform.position, player.transform.position) > 15)
             {
-                agent.ResetPath();
+                if (agent.isActiveAndEnabled && agent.isOnNavMesh)
+                {
+                    agent.ResetPath();
+                }
                 agent.enabled = false;
                 wander = null;
             }

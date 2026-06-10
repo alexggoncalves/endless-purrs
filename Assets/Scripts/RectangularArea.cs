@@ -24,12 +24,17 @@ public class RectangularArea : MonoBehaviour
 
     public bool Contains(Vector2 point)
     {
+        return Contains(point.x, point.y);
+    }
+
+    public bool Contains(float x, float z)
+    {
         float minX = transform.position.x + offset.x - size.x / 2;
         float maxX = transform.position.x + offset.x + size.x / 2;
         float minZ = transform.position.z + offset.y - size.y / 2;
         float maxZ = transform.position.z + offset.y + size.y / 2;
 
-        return (point.x >= minX && point.x <= maxX && point.y >= minZ && point.y <= maxZ);
+        return (x >= minX && x <= maxX && z >= minZ && z <= maxZ);
     }
 
     public bool CollidesWith(float x, float y, float width, float height, float margin)
