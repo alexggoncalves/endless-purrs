@@ -301,7 +301,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1344797386151426830}
   m_Enabled: 0
   m_AgentTypeID: 1479372276
-  m_Radius: 0.16
+  m_Radius: 0.06
   m_Speed: 3.5
   m_Acceleration: 6
   avoidancePriority: 50
@@ -327,6 +327,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  identity: {fileID: 0}
+  audioSources: []
   speed: 3.5
   randomizeCat: 1
   visionRange: 20
@@ -863,7 +865,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1

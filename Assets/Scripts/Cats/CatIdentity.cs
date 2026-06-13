@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum BehaviourType
 {
@@ -40,8 +41,9 @@ public class CatIdentity : MonoBehaviour
         "Sable", "Summer", "Tabitha", "Tasha", "Trudy", "Winnie", "Yuki", "Zara", "Dixie", "Gloria"
     };
 
-    private static List<string> usedMaleNames = new List<string>();
-    private static List<string> usedFemaleNames = new List<string>();
+    private static List<string> usedMaleNames = new();
+    private static List<string> usedFemaleNames = new();
+    private static List<string> usedNeutralNames = new();
 
     public string catName;
     public string gender;
@@ -68,7 +70,10 @@ public class CatIdentity : MonoBehaviour
 
     private void FixedUpdate()
     {
-        identityDisplay.transform.rotation = Quaternion.identity;
+        if (identityDisplay != null)
+        {
+            identityDisplay.transform.rotation = Quaternion.identity;
+        }
     }
 
     public void SetIdentity(string name, string gender, BehaviourType behaviour, GameObject identityDisplay)
@@ -79,7 +84,6 @@ public class CatIdentity : MonoBehaviour
         this.identityDisplay = identityDisplay;
         text = identityDisplay.transform.Find("Text").gameObject.GetComponent<TextMeshPro>();
         text.SetText(catName + '\n' + gender + '\n' + behaviour.ToString());
-        ;
     }
 
     BehaviourType GetRandomBehaviour()
@@ -95,23 +99,39 @@ public class CatIdentity : MonoBehaviour
         }
     }
 
+    private static int lastRaycastFrame = -1;
+    private static GameObject hoveredCatObject = null;
+
     private void LateUpdate()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        if (identityDisplay == null) return;
 
-        // Perform the raycast, using the layer mask to ignore specific layers
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Time.frameCount != lastRaycastFrame)
         {
-            if(hit.collider.gameObject.tag.Equals("Cat"))
+            lastRaycastFrame = Time.frameCount;
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
             {
-                displayEnabled = true;
-                identityDisplay.SetActive(true);
-            } else
-            {
-                displayEnabled = false;
-                identityDisplay.SetActive(false);
+                if (hit.collider.CompareTag("Cat"))
+                {
+                    hoveredCatObject = hit.collider.gameObject;
+                }
+                else
+                {
+                    hoveredCatObject = null;
+                }
             }
+            else
+            {
+                hoveredCatObject = null;
+            }
+        }
+
+        bool shouldBeVisible = (hoveredCatObject == gameObject);
+        if (displayEnabled != shouldBeVisible)
+        {
+            displayEnabled = shouldBeVisible;
+            identityDisplay.SetActive(shouldBeVisible);
         }
     }
 
@@ -139,42 +159,31 @@ public class CatIdentity : MonoBehaviour
 
     string GetRandomName(string gender)
     {
-        List<string> selectedList;
-        List<string> usedList;
-        string selectedName = "No name";
+        List<string> pool;
+        List<string> used;
 
         switch (gender.ToLower())
         {
             case "male":
-                usedList = usedMaleNames;
-                selectedList = maleNames.ToList();
+                pool = maleNames.ToList();
+                used = usedMaleNames;
                 break;
             case "female":
-                usedList = usedFemaleNames;
-                selectedList = femaleNames.ToList();
+                pool = femaleNames.ToList();
+                used = usedFemaleNames;
                 break;
             default:
-                usedList = usedFemaleNames.Concat(usedMaleNames).ToList();
-                selectedList = femaleNames.Concat(maleNames).ToList();
+                pool = femaleNames.Concat(maleNames).ToList();
+                used = usedNeutralNames;
                 break;
         }
 
-        if(selectedList.Count > 0)
-        {
-            bool valid = false;
-            while (!valid)
-            {
-                int randomIndex = Random.Range(0, selectedList.Count);
+        List<string> available = pool.Except(used).ToList();
+        if (available.Count == 0) return "Unnamed";
 
-                if (!usedList.Contains(selectedList[randomIndex])){
-                    selectedName = selectedList[randomIndex];
-                    usedList.Add(selectedName);
-                    break;
-                }
-            }
-        }
-
-        return selectedName;
+        string selected = available[Random.Range(0, available.Count)];
+        used.Add(selected);
+        return selected;
     }
 
 }

@@ -38,18 +38,24 @@ public class NatureElementPlacer : MonoBehaviour
     public GameObject PlaceElement(Vector3 position, float cellScale, BiomeType biomeType)
     {
         NatureElement[] elements = GetBiomeElements(biomeType);
-
         NatureElement elementType = WeightedSelectElementType(elements);
 
-        int variationIndex = (int) Mathf.Floor(Random.Range(0, elementType.prefabs.Length));
-        
+        if (elementType == null) return null;
+
+        int variationIndex = Random.Range(0, elementType.prefabs.Length);
         GameObject elementPrefab = elementType.prefabs[variationIndex];
 
-        Quaternion rotation = Quaternion.Euler(elementPrefab.transform.rotation.eulerAngles.x, Random.Range(0, 360), 0);
-        Vector3 offset = new(Random.Range(-0.4f * cellScale, 0.4f * cellScale), 0, Random.Range(-0.4f * cellScale, 0.4f * cellScale));
+        Quaternion rotation = Quaternion.Euler(
+            elementPrefab.transform.rotation.eulerAngles.x,
+            Random.Range(0, 360),
+            0);
+        Vector3 offset = new(
+            Random.Range(-0.4f * cellScale, 0.4f * cellScale),
+            0,
+            Random.Range(-0.4f * cellScale, 0.4f * cellScale));
 
         GameObject instance = Instantiate(elementPrefab, position + offset, rotation);
-        instance.transform.SetParent(transform, false);
+        instance.transform.SetParent(transform, true);
         return instance;
     }
 

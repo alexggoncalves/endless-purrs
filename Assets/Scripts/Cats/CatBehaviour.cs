@@ -19,8 +19,6 @@ public class CatBehaviour : MonoBehaviour
     {
         Meow = gameObject.GetComponents<AudioSource>();
 
-        uiButtonPrefab = Resources.Load<RectTransform>("CatCatcher");
-        HideUIButton();
 
     }
 
@@ -29,7 +27,6 @@ public class CatBehaviour : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             inPlayersRange = true;
-            /*ShowUIButton();*/
         }
     }
 
@@ -38,7 +35,6 @@ public class CatBehaviour : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             inPlayersRange = false;
-            /*HideUIButton();*/
         }
     }    
 
@@ -61,25 +57,6 @@ public class CatBehaviour : MonoBehaviour
 
     }
 
-    private void ShowUIButton()
-    {
-        if (currentUIButton == null && uiButtonPrefab != null)
-        {
-            Canvas canvas = GameObject.FindObjectOfType<Canvas>();
-
-            currentUIButton = Instantiate(uiButtonPrefab, Vector3.zero, Quaternion.identity) as RectTransform;
-            currentUIButton.SetParent(canvas.transform, false);
-        }
-    }
-
-    private void HideUIButton()
-    {
-        if (currentUIButton != null)
-        {
-            Destroy(currentUIButton.gameObject);
-            currentUIButton = null;
-        }
-    }
 
     public bool InPlayersRange() { return inPlayersRange; }
 }

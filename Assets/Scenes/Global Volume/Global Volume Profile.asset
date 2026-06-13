@@ -21,10 +21,10 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.156
+    m_Value: 0.182
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.304
+    m_Value: 0.39
   rounded:
     m_OverrideState: 1
     m_Value: 1
@@ -83,7 +83,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.026
+    m_Value: 0.043
 --- !u!114 &-252438783631199582
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -147,19 +147,19 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.61
   contrast:
     m_OverrideState: 1
-    m_Value: -4
+    m_Value: -11
   colorFilter:
-    m_OverrideState: 0
-    m_Value: {r: 0.735849, g: 0.48246706, b: 0.48246706, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
   hueShift:
     m_OverrideState: 1
-    m_Value: -4
+    m_Value: -2
   saturation:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 4
 --- !u!114 &5130402185008342085
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -172,16 +172,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fa0085f50d5e54f8144f766051a691, type: 3}
   m_Name: FilmGrain
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   type:
     m_OverrideState: 1
-    m_Value: 8
+    m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.028
+    m_Value: 0.459
   response:
-    m_OverrideState: 0
-    m_Value: 0.8
+    m_OverrideState: 1
+    m_Value: 0.849
   texture:
     m_OverrideState: 0
     m_Value: {fileID: 0}
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   skipIterations:
     m_OverrideState: 0
     m_Value: 1
@@ -206,7 +206,7 @@ MonoBehaviour:
     m_Value: 1.5
   intensity:
     m_OverrideState: 1
-    m_Value: 40
+    m_Value: 22.46
   scatter:
     m_OverrideState: 1
     m_Value: 0.075
@@ -217,6 +217,9 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: {r: 0.9811321, g: 0.1703097, b: 0.8035416, a: 1}
   highQualityFiltering:
+    m_OverrideState: 0
+    m_Value: 0
+  filter:
     m_OverrideState: 0
     m_Value: 0
   downscale:

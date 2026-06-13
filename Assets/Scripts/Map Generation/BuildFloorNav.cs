@@ -1,99 +1,104 @@
 using System.Collections;
-using NavMeshBuilder = UnityEngine.AI.NavMeshBuilder;
-using UnityEngine;
-using UnityEngine.AI;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
+using UnityEngine;
+using UnityEngine.AI;
+using NavMeshBuilder = UnityEngine.AI.NavMeshBuilder;
 
 public class AreaFloorBaker : MonoBehaviour
 {
-    [SerializeField]
-    private NavMeshSurface Surface;
-    [SerializeField]
-    private PlayerController Player;
-    [SerializeField]
-    private float UpdateRate = 0.1f;
-    [SerializeField]
-    private float MovementThreshold = 3f;
-    [SerializeField]
-    private Vector3 NavMeshSize = new Vector3(20, 20, 20);
+    [SerializeField] private NavMeshSurface surface;
+    [SerializeField] private PlayerController player;
+    [SerializeField] private float updateRate = 0.1f;
+    [SerializeField] private float movementThreshold = 3f;
+    [SerializeField] private Vector3 navMeshSize = new(50, 4, 50);
+    [SerializeField] private Vector3 navMeshOffset = new(0, 0, 5);
 
-    private Vector3 WorldAnchor;
-    private NavMeshData NavMeshData;
-    private List<NavMeshBuildSource> Sources = new List<NavMeshBuildSource>();
+    private Vector3 worldAnchor;
+    private NavMeshData navMeshData;
+    private NavMeshBuildSettings buildSettings;
+
+    private readonly List<NavMeshBuildSource> sources = new();
+    private readonly List<NavMeshBuildMarkup> markups = new();
+
+    private AsyncOperation pendingBake = null;
+    private List<NavMeshModifier> cachedModifiers = new();
+    private bool modifiersDirty = true;
 
     private void Start()
     {
-        NavMeshData = new NavMeshData();
-        NavMesh.AddNavMeshData(NavMeshData);
+        navMeshData = new NavMeshData();
+        buildSettings = surface.GetBuildSettings();
+        NavMesh.AddNavMeshData(navMeshData);
         BuildNavMesh(false);
         StartCoroutine(CheckPlayerMovement());
     }
 
     private IEnumerator CheckPlayerMovement()
     {
-        WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
+        var wait = new WaitForSeconds(updateRate);
 
         while (true)
         {
-            if (Vector3.Distance(WorldAnchor, Player.transform.position) > MovementThreshold)
-            {
-                BuildNavMesh(true);
-                WorldAnchor = Player.transform.position;
-            }
+            yield return wait;
 
-            yield return Wait;
+            if (Vector3.Distance(worldAnchor, player.transform.position) > movementThreshold)
+            {
+                worldAnchor = player.transform.position;
+                BuildNavMesh(true);
+            }
         }
     }
 
-    private void BuildNavMesh(bool Async)
+    private void BuildNavMesh(bool async)
     {
-        Bounds navMeshBounds = new Bounds(Player.transform.position, NavMeshSize);
-        List<NavMeshBuildMarkup> markups = new List<NavMeshBuildMarkup>();
+        if (async && pendingBake != null && !pendingBake.isDone) return;
 
-        List<NavMeshModifier> modifiers;
-        if (Surface.collectObjects == CollectObjects.Children)
+        var center = player.transform.position + navMeshOffset;
+        var bounds = new Bounds(center, navMeshSize);
+
+        markups.Clear();
+
+        if (modifiersDirty)
         {
-            modifiers = new List<NavMeshModifier>(GetComponentsInChildren<NavMeshModifier>());
-        }
-        else
-        {
-            modifiers = NavMeshModifier.activeModifiers;
+            cachedModifiers.Clear();
+            if (surface.collectObjects == CollectObjects.Children)
+                cachedModifiers.AddRange(GetComponentsInChildren<NavMeshModifier>());
+            else
+                cachedModifiers.AddRange(NavMeshModifier.activeModifiers);
+            modifiersDirty = false;
         }
 
-        for (int i = 0; i < modifiers.Count; i++)
+        for (int i = 0; i < cachedModifiers.Count; i++)
         {
-            if (((Surface.layerMask & (1 << modifiers[i].gameObject.layer)) != 0)
-                && modifiers[i].AffectsAgentType(Surface.agentTypeID))
+            var mod = cachedModifiers[i];
+            if ((surface.layerMask & (1 << mod.gameObject.layer)) != 0
+                && mod.AffectsAgentType(surface.agentTypeID))
             {
-                markups.Add(new NavMeshBuildMarkup()
+                markups.Add(new NavMeshBuildMarkup
                 {
-                    root = modifiers[i].transform,
-                    overrideArea = modifiers[i].overrideArea,
-                    area = modifiers[i].area,
-                    ignoreFromBuild = modifiers[i].ignoreFromBuild
+                    root = mod.transform,
+                    overrideArea = mod.overrideArea,
+                    area = mod.area,
+                    ignoreFromBuild = mod.ignoreFromBuild
                 });
             }
         }
 
-        if (Surface.collectObjects == CollectObjects.Children)
-        {
-            NavMeshBuilder.CollectSources(transform, Surface.layerMask, Surface.useGeometry, Surface.defaultArea, markups, Sources);
-        }
+        if (surface.collectObjects == CollectObjects.Children)
+            NavMeshBuilder.CollectSources(transform, surface.layerMask, surface.useGeometry, surface.defaultArea, markups, sources);
         else
-        {
-            NavMeshBuilder.CollectSources(navMeshBounds, Surface.layerMask, Surface.useGeometry, Surface.defaultArea, markups, Sources);
-        }
+            NavMeshBuilder.CollectSources(bounds, surface.layerMask, surface.useGeometry, surface.defaultArea, markups, sources);
 
-       /* Sources.RemoveAll(source => source.component != null && source.component.gameObject.GetComponent<NavMeshAgent>() != null);*/
-
-        if (Async)
-        {
-            NavMeshBuilder.UpdateNavMeshDataAsync(NavMeshData, Surface.GetBuildSettings(), Sources, new Bounds(Player.transform.position, NavMeshSize));
-        }
+        if (async)
+            pendingBake = NavMeshBuilder.UpdateNavMeshDataAsync(navMeshData, buildSettings, sources, bounds);
         else
-        {
-            NavMeshBuilder.UpdateNavMeshData(NavMeshData, Surface.GetBuildSettings(), Sources, new Bounds(Player.transform.position, NavMeshSize));
-        }
+            NavMeshBuilder.UpdateNavMeshData(navMeshData, buildSettings, sources, bounds);
     }
+
+    public void InvalidateModifiers()
+    {
+        modifiersDirty = true;
+    }
+
 }

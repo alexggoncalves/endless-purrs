@@ -1,4 +1,5 @@
 using CAC;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,10 +14,21 @@ public enum CatState
 
 public class CatController : MonoBehaviour
 {
+    public static List<CatController> AllCats = new List<CatController>();
+
     private Transform player;
     private NavMeshAgent agent;
     private Animator animator;
     public Transform target = null;
+    
+    // Cached components and references
+    public CatIdentity identity;
+    public AudioSource[] audioSources;
+    private CatWanderScript wander;
+    private Place homePlace;
+    
+    private float raycastTimer = 0f;
+    private const float RAYCAST_INTERVAL = 0.2f;
 
     Vector2 smoothDeltaPosition = Vector2.zero;
     Vector2 velocity = Vector2.zero;
@@ -38,9 +50,6 @@ public class CatController : MonoBehaviour
     CatState currentState = CatState.None;
     private bool isAtHome = false;
 
-    private CatWanderScript wander;
-    
-    private CatIdentity identity;
     public bool owned;
     public string catName = "Nameless";
     public string gender = "Neutral";
@@ -51,20 +60,53 @@ public class CatController : MonoBehaviour
 
     public LayerMask navMeshLayerMask;
 
+    void OnEnable()
+    {
+        if (!AllCats.Contains(this))
+        {
+            AllCats.Add(this);
+        }
+    }
+
+    void OnDisable()
+    {
+        AllCats.Remove(this);
+    }
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        identity = this.AddComponent<CatIdentity>();
-        mapGenerator = GameObject.Find("Map Generator").GetComponent<MapGenerator>();
-        game = GameObject.Find("Game").GetComponent<Game>();
+        
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        if (playerObj != null) player = playerObj.transform;
+
+        identity = GetComponent<CatIdentity>();
+        if (identity == null) identity = gameObject.AddComponent<CatIdentity>();
+
+        audioSources = GetComponents<AudioSource>();
+
+        GameObject mapGenObj = GameObject.Find("MapGenerator");
+        if (mapGenObj != null) mapGenerator = mapGenObj.GetComponent<MapGenerator>();
+
+        GameObject gameManagerObj = GameObject.Find("GameManager");
+        if (gameManagerObj != null) game = gameManagerObj.GetComponent<Game>();
 
         stoppingDistance = agent.stoppingDistance;
-        wander = this.AddComponent<CatWanderScript>();
+
+        if (navMeshLayerMask == 0)
+        {
+            navMeshLayerMask = LayerMask.GetMask("Tiles");
+        }
+        
+        wander = GetComponent<CatWanderScript>();
+if (wander == null) wander = gameObject.AddComponent<CatWanderScript>();
         wander.InitializeWanderScript(animator, agent);
+        // Ensure wander is enabled if starting in Wandering state
+        wander.enabled = true;
+
         currentState = CatState.Wandering;
-        // Don�t update position automatically
+// Don't update position automatically
         agent.updatePosition = false;
         agent.enabled = false;
 
@@ -79,76 +121,104 @@ public class CatController : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        if (mapGenerator != null && mapGenerator.GetWFC() != null && mapGenerator.GetWFC().homeInstance != null)
+        {
+            homePlace = mapGenerator.GetWFC().homeInstance.GetComponent<Place>();
+        }
+    }
+
     public void SetTarget(Transform target)
     {
         this.target = target;
     }
 
-
     void Update()
     {
+        // Try to find player if not already found
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.FindWithTag("Player");
+            if (playerObj != null) player = playerObj.transform;
+        }
+
+        // Try to cache homePlace if not already cached
+        if (homePlace == null && mapGenerator != null && mapGenerator.GetWFC() != null && mapGenerator.GetWFC().homeInstance != null)
+{
+            homePlace = mapGenerator.GetWFC().homeInstance.GetComponent<Place>();
+        }
 
         if (!agent.enabled)
         {
-            // Perform a raycast downwards to check for NavMesh
-            RaycastHit hit;
-            float raycastDistance = 7;
-            
-
-            if (Physics.Raycast(transform.position + Vector3.up * 6, Vector3.down, out hit, raycastDistance, navMeshLayerMask))
+            raycastTimer -= Time.deltaTime;
+            if (raycastTimer <= 0)
             {
-                // Enable the NavMeshAgent if there is NavMesh directly below
-                if(!isAtHome)
+                raycastTimer = RAYCAST_INTERVAL;
+                // Perform a raycast downwards to check for NavMesh
+                RaycastHit hit;
+                float raycastDistance = 7;
+
+                if (Physics.Raycast(transform.position + Vector3.up * 6, Vector3.down, out hit, raycastDistance, navMeshLayerMask))
                 {
-                    if (NavMesh.SamplePosition(transform.position, out NavMeshHit navHit, 2.0f, NavMesh.AllAreas))
+                    // Enable the NavMeshAgent if there is NavMesh directly below
+                    if (!isAtHome)
                     {
-                        agent.enabled = true;
-                        agent.Warp(navHit.position);
-                        agent.ResetPath();
+                        if (NavMesh.SamplePosition(transform.position, out NavMeshHit navHit, 2.0f, NavMesh.AllAreas))
+                        {
+                            agent.enabled = true;
+                            agent.Warp(navHit.position);
+                            agent.ResetPath();
+                        }
+                    }
+                    if (isAtHome && player != null && Vector3.Distance(transform.position, player.position) < 15)
+                    {
+                        if (NavMesh.SamplePosition(transform.position, out NavMeshHit navHit, 2.0f, NavMesh.AllAreas))
+{
+                            agent.enabled = true;
+                            agent.Warp(navHit.position);
+                            agent.ResetPath();
+                            SetWandering();
+                        }
                     }
                 }
-                if(isAtHome && Vector3.Distance(transform.position, player.transform.position) < 15) {
-                    if (NavMesh.SamplePosition(transform.position, out NavMeshHit navHit, 2.0f, NavMesh.AllAreas))
-                    {
-                        agent.enabled = true;
-                        agent.Warp(navHit.position);
-                        agent.ResetPath();
-                        SetWandering();
-                    }
-                }
-                
             }
         }
         else
         {
-            if (Vector3.Distance(player.position, transform.position) < visionRange && !isAtHome)
+            if (player == null) return; // Wait for player to be found
+
+            float distToPlayer = Vector3.Distance(player.position, transform.position);
+if (distToPlayer < visionRange && !isAtHome)
             {
                 isAlertOfPlayer = true;
             }
             else isAlertOfPlayer = false;
 
-            if (isAlertOfPlayer && (currentState != CatState.Fleeing || currentState != CatState.Following) && !isAtHome)
+            if (isAlertOfPlayer && (currentState != CatState.Fleeing && currentState != CatState.Following) && !isAtHome)
             {
                 target = player;
 
                 if (wander != null)
                 {
-                    Destroy(wander);
-                    wander = null;
+                    wander.enabled = false;
                 }
                 if (identity.GetBehaviourType() == BehaviourType.Owned || identity.GetBehaviourType() == BehaviourType.Friendly)
                 {
                     currentState = CatState.Following;
-                    game.AddToFollowers(gameObject);
+                    if (game != null) game.AddToFollowers(this);
                 }
-                if (identity.GetBehaviourType() == BehaviourType.Scaredy)
+if (identity.GetBehaviourType() == BehaviourType.Scaredy)
                 {
                     currentState = CatState.Fleeing;
                 }
             }
-            else
+            else if (!isAlertOfPlayer || isAtHome)
             {
-                game.RemoveFromFollowers(gameObject);
+                if (currentState == CatState.Following)
+                {
+                    if (game != null) game.RemoveFromFollowers(this);
+                }
                 target = null;
             }
 
@@ -164,41 +234,54 @@ public class CatController : MonoBehaviour
                 SetWandering();
             }
 
-            if (currentState == CatState.Wandering && wander != null)
+            if (currentState == CatState.Wandering && wander != null && wander.enabled)
             {
                 wander.UpdateWanderScript();
             }
 
-            // When the cat get's home
-            if (mapGenerator.GetWFC().homeInstance.GetComponent<Place>().GetExtents().CollidesWith(transform.position.x, transform.position.z, 1, 1, -5) && !isAtHome)
+            // When the cat gets home
+            if (!isAtHome && homePlace != null)
             {
-                target = null;
-                isAtHome = true;
-                game.RemoveFromFollowers(gameObject);
-                game.AddToHome(gameObject);
+                // Only check collision occasionally when not home
+                raycastTimer -= Time.deltaTime;
+                if (raycastTimer <= 0)
+                {
+                    raycastTimer = RAYCAST_INTERVAL;
+                    if (homePlace.GetExtents().CollidesWith(transform.position.x, transform.position.z, 1, 1, -5))
+                    {
+                        target = null;
+                        isAtHome = true;
+                        if (game != null) 
+                        {
+                            game.RemoveFromFollowers(this);
+                            game.AddToHome(this);
+                        }
+                    }
+}
             }
 
             HandleOffMeshLinks();
 
-            if (isAtHome && Vector3.Distance(transform.position, player.transform.position) > 15)
+            if (isAtHome && distToPlayer > 15)
             {
                 if (agent.isActiveAndEnabled && agent.isOnNavMesh)
                 {
                     agent.ResetPath();
                 }
                 agent.enabled = false;
-                wander = null;
+                if (wander != null) wander.enabled = false;
             }
         }
-
-        
     }
 
     public void SetWandering()
     {
         currentState = CatState.Wandering;
-        wander = this.AddComponent<CatWanderScript>();
-        wander.InitializeWanderScript(animator, agent);
+        if (wander != null)
+        {
+            wander.enabled = true;
+            wander.InitializeWanderScript(animator, agent);
+        }
     }
 
     void HandleOffMeshLinks()
@@ -250,7 +333,6 @@ public class CatController : MonoBehaviour
             {
                 // Set the NavMeshAgent's destination to the closest valid NavMesh point
                 agent.destination = hit.position;
-
             }
         }
     }

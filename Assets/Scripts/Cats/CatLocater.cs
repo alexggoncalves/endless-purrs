@@ -34,42 +34,37 @@ public class CatLocater : MonoBehaviour
 
     private void Start()
     {
-        
-        
         button.gameObject.SetActive(true);
         call = GetComponent<AudioSource>();
     }
 
     public List<GameObject> FindCatsInRange()
     {
-        GameObject[] allCats;
-        
-        allCats = GameObject.FindGameObjectsWithTag("Cat");
         List<GameObject> catsLocated = new List<GameObject>();
+        Vector3 playerPosition = player.transform.position;
 
-        if (allCats != null)
+        foreach (CatController cat in CatController.AllCats)
         {
-            Vector3 playerPosition = player.transform.position;
+            if (cat == null) continue;
 
-            foreach (GameObject cat in allCats)
+            Vector3 diff = cat.transform.position - playerPosition;
+            float curDistance = diff.magnitude;
+
+            if (curDistance < locaterRange)
             {
-                Vector3 diff = cat.transform.position - playerPosition;
-                float curDistance = diff.magnitude;
+                // Accessing properties directly from the CatController instance
+                if (cat.identity == null) continue;
 
-                Debug.Log(curDistance);
-                if (curDistance < locaterRange
-                    && !cat.GetComponent<CatController>().IsAtHome
-                    && !cat.GetComponent<CatIdentity>().behaviour.Equals(BehaviourType.Scaredy)
-                    && !cat.GetComponent<CatController>().GetCatState().Equals(CatState.Following)
-                    )
+                if (!cat.IsAtHome
+                    && cat.identity.behaviour != BehaviourType.Scaredy
+                    && cat.GetCatState() != CatState.Following)
                 {
-                    Debug.Log("added");
-                    catsLocated.Add(cat);
+                    catsLocated.Add(cat.gameObject);
                 }
             }
         }
-        if (catsLocated.Count > 0) { return catsLocated; }
-        else return null;
+
+        return catsLocated.Count > 0 ? catsLocated : null;
     }
 
     
@@ -109,7 +104,7 @@ public class CatLocater : MonoBehaviour
             }
         }
 
-         if (isPointerActive && !player.IsTeleporting()) // Change this as well
+         if (isPointerActive && !player.IsTeleporting) // Change this as well
          {
             for(int i = 0; i < activePointers.Count; i++)
             {
@@ -139,11 +134,15 @@ public class CatLocater : MonoBehaviour
         call.Play();
         yield return new WaitForSeconds((call.clip.length) + 0.2f);
 
-        foreach (GameObject cat in catsInRange)
+        foreach (GameObject catObj in catsInRange)
         {
-            Miau = cat.GetComponents<AudioSource>(); //plays first audioSource of the cat
-            Miau[1].Play(); 
-            new WaitForSeconds(UnityEngine.Random.Range(0.2f, 1.2f));
+            if (catObj == null) continue;
+            CatController cat = catObj.GetComponent<CatController>();
+            if (cat != null && cat.audioSources != null && cat.audioSources.Length > 1)
+            {
+                cat.audioSources[1].Play(); 
+            }
+            yield return new WaitForSeconds(UnityEngine.Random.Range(0.2f, 1.2f));
         }
         yield return new WaitForSeconds(pointerTime);
 

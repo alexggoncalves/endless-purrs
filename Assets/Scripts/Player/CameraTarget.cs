@@ -2,23 +2,42 @@ using UnityEngine;
 
 public class CameraTarget : MonoBehaviour
 {
-    [SerializeField] Camera cam;
     [SerializeField] Transform player;
-    [SerializeField] float threshold;
+    [SerializeField] float lookAheadDistance = 2f;
+    [SerializeField] float smoothTime = 0.2f;
 
-    // Update is called once per frame
+    private Vector3 currentVelocity;
+    private PlayerController playerController;
+
+    void Start()
+    {
+        if (player != null)
+        {
+            playerController = player.GetComponent<PlayerController>();
+        }
+    }
+
     void Update()
     {
-        Vector3 mouse = Input.mousePosition;
-        //Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-        //Vector3 mousePos = Input.mousePosition;
-        Vector3 mousePos = cam.ScreenToWorldPoint(new Vector3(mouse.x, mouse.y, 10));
-        /*Vector3 targetPos = new Vector3((player.position.x + mousePos.x) / 2f, 0f, (player.position.z + mousePos.y));*/
-        Vector3 targetPos = new Vector3((player.position.x), 0f, (player.position.z));
+        if (player == null) return;
 
-        targetPos.x = Mathf.Clamp(targetPos.x, -threshold/2 + player.position.x, threshold/2 + player.position.x);
-        targetPos.z = Mathf.Clamp(targetPos.z, -threshold/2 + player.position.z, threshold/2 + player.position.z);
+        Vector3 targetPos = player.position;
 
-        this.transform.position = targetPos;
+        // If the player is moving, shift the target position ahead
+        if (playerController != null && playerController.IsMoving())
+        {
+            // Use the movement direction from the player controller
+            // We can also use CharacterController.velocity for more accuracy
+            CharacterController cc = player.GetComponent<CharacterController>();
+            if (cc != null && cc.velocity.magnitude > 0.1f)
+            {
+                Vector3 velocity = cc.velocity;
+                velocity.y = 0; // Focus on horizontal movement
+                targetPos += velocity.normalized * lookAheadDistance;
+            }
+        }
+
+        // Smoothly move the CameraTarget (PointAhead) towards the calculated target position
+        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, smoothTime);
     }
 }

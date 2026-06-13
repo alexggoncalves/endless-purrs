@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using Unity.AI.Navigation;
+using Random = UnityEngine.Random;
 
 public class WaveFunctionCollapse : MonoBehaviour
 {
@@ -55,18 +56,31 @@ public class WaveFunctionCollapse : MonoBehaviour
     private TileBitmask defaultPossibleTilesMask;
     private TileBitmask grassSingleOptionMask;
     private int totalTileCount;
-    private List<int> scratchList = new List<int>(64);
+    private readonly List<int> singleTileScratch = new(1) { 0 };
     private List<int> grassSingleOptionList;
     private WaitForSeconds generationDelay;
     private bool[,] isCellInInnerArea;
     private Vector3[,] cachedCellPositions;
+    private readonly Queue<Cell> pendingInstantiations = new();
+    private const int InstantiationsPerFrame = 3;
+    private float natureElementRate = 0.5f;
 
     private void Update()
     {
+        int budget = InstantiationsPerFrame;
+        while (pendingInstantiations.Count > 0 && budget-- > 0)
+        {
+            Cell cell = pendingInstantiations.Dequeue();
+            if (cell == null) continue;
+            GameObject instance = cell.InstantiateTile();
+            instance.layer = LayerMask.NameToLayer("Tiles");
+            instance.transform.SetParent(tileInstanceContainer.transform);
+        }
+
         while (instancesToDelete.Count > 0)
         {
             GameObject instance = instancesToDelete.Pop();
-            if(instance != null )
+            if (instance != null)
             {
                 Destroy(instance);
             }
@@ -75,7 +89,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         while (placesToDestroy.Count > 0)
         {
             Place place = placesToDestroy.Pop();
-            if( place != null)
+            if (place != null)
             {
                 placesOnWait.Remove(place);
                 Destroy(place.gameObject);
@@ -83,7 +97,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-    public void Initialize(TileLoader tileLoader, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, PlayerController player, GameObject startingPlace, Vector2 edgeSize)
+    public void Initialize(TileLoader tileLoader, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, PlayerController player, GameObject startingPlace, Vector2 edgeSize, float natureElementRate)
     {
 
         this.player = player;
@@ -92,6 +106,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         this.gridWidth = width;
         this.gridHeight = height;
         this.worldOffset = worldOffset;
+        this.natureElementRate = natureElementRate;
 
         meshSurface = GetComponent<NavMeshSurface>();
 
@@ -104,7 +119,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         placesToDestroy = new Stack<Place>();
 
         this.placesOnWait = new List<Place>();
-        
+
         this.edgeSize = edgeSize;
         this.paused = false;
 
@@ -198,7 +213,7 @@ public class WaveFunctionCollapse : MonoBehaviour
                 newCell.transform.SetParent(cellContainer.transform);
 
                 // Every cell is given all the possible tiles and it's collapsed state is set to false 
-                newCell.CreateCell(false, x, y,tileLoader);
+                newCell.CreateCell(false, x, y, tileLoader);
                 grid[x, y] = newCell;
 
                 Vector3 pos = newCell.transform.position;
@@ -212,7 +227,7 @@ public class WaveFunctionCollapse : MonoBehaviour
     {
         paused = false;
         updatingCells = true;
-        
+
         while (true)
         {
             // Phase 1: Propagate changes
@@ -258,7 +273,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
             // Phase 3: Collapse a cell
             CollapseCell(cellToCollapse);
-            
+
             yield return generationDelay; // Pacing yield
         }
 
@@ -275,16 +290,79 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     private Cell FindNextCellToCollapse()
     {
-        // First collapse: Center
+        // -------------------------
+        // 1. First collapse: Center
+        // -------------------------
         if (iteration == 0)
         {
             int midX = gridWidth / 2;
             int midY = gridHeight / 2;
+
             Cell c = grid[midX, midY];
-            if (!c.collapsed && isCellInInnerArea[midX, midY]) return c;
+
+            if (!c.collapsed && isCellInInnerArea[midX, midY] && c.tileOptionsMask.Count > 0)
+                return c;
         }
 
-        // Reservoir sampling for minimum entropy
+
+        // -------------------------
+        // 2. PRIORITY: inside places (house, POIs)
+        // -------------------------
+        Cell placeBest = null;
+        int placeMin = int.MaxValue;
+        int placeScore = 0;
+
+        for (int x = 0; x < gridWidth; x++)
+        {
+            for (int y = 0; y < gridHeight; y++)
+            {
+                if (!isCellInInnerArea[x, y]) continue;
+
+                Cell c = grid[x, y];
+                if (c.collapsed) continue;
+
+                if (c.tileOptionsMask.Count <= 0) continue;
+
+                Vector3 pos = cachedCellPositions[x, y];
+
+                bool insidePlace = false;
+
+                for (int i = 0; i < placesOnWait.Count; i++)
+                {
+                    Place p = placesOnWait[i];
+                    if (p != null && p.extents != null && p.extents.Contains(pos.x, pos.z))
+                    {
+                        insidePlace = true;
+                        break;
+                    }
+                }
+
+                if (!insidePlace) continue;
+
+                int count = c.tileOptionsMask.Count;
+
+                if (count < placeMin)
+                {
+                    placeMin = count;
+                    placeBest = c;
+                    placeScore = 1;
+                }
+                else if (count == placeMin)
+                {
+                    placeScore++;
+                    if (UnityEngine.Random.Range(0, placeScore) == 0)
+                        placeBest = c;
+                }
+            }
+        }
+
+        if (placeBest != null)
+            return placeBest;
+
+
+        // -------------------------
+        // 3. NORMAL WFC (minimum entropy)
+        // -------------------------
         Cell best = null;
         int minCount = int.MaxValue;
         int reservoirCount = 0;
@@ -293,23 +371,31 @@ public class WaveFunctionCollapse : MonoBehaviour
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                if (isCellInInnerArea[x, y] && !grid[x, y].collapsed)
+                if (!isCellInInnerArea[x, y]) continue;
+
+                Cell c = grid[x, y];
+
+                if (c.collapsed) continue;
+
+                int count = c.tileOptionsMask.Count;
+
+                if (count <= 0) continue;
+
+                if (count < minCount)
                 {
-                    int count = grid[x, y].tileOptionsMask.Count;
-                    if (count < minCount)
-                    {
-                        minCount = count;
-                        best = grid[x, y];
-                        reservoirCount = 1;
-                    }
-                    else if (count == minCount)
-                    {
-                        reservoirCount++;
-                        if (UnityEngine.Random.Range(0, reservoirCount) == 0) best = grid[x, y];
-                    }
+                    minCount = count;
+                    best = c;
+                    reservoirCount = 1;
+                }
+                else if (count == minCount)
+                {
+                    reservoirCount++;
+                    if (UnityEngine.Random.Range(0, reservoirCount) == 0)
+                        best = c;
                 }
             }
         }
+
         return best;
     }
 
@@ -317,62 +403,65 @@ public class WaveFunctionCollapse : MonoBehaviour
     //  Collapses one of the cells with the least number of tile possibilities(superpositions)
     void CollapseCell(Cell cellToCollapse)
     {
-        if (cellToCollapse != null)
+        if (cellToCollapse == null) return;
+
+        int selectedTile = SelectRandomTile(cellToCollapse);
+
+        if (selectedTile == -1)
         {
-            // As the cell is being altered: add the cell to the updated cells stack to later update surrounding cells
+            cellToCollapse.RecreateCell(defaultPossibleTilesMask);
+
             updatedCells.Push(cellToCollapse);
-
-            // Set the cell as collapsed
-            cellToCollapse.collapsed = true;
-
-            // Choose onde of the possibilities
-            int selectedTile = SelectRandomTile(cellToCollapse);
-
-            // If there is a compatible tile, place the first element of the tiles list (generally the grass tile)
-            if (selectedTile != -1)
-            {
-                if (selectedTile == tileLoader.grassID)
-                {
-                    cellToCollapse.RecreateCell(grassSingleOptionList);
-                }
-                else
-                {
-                    cellToCollapse.RecreateCell(new List<int> { selectedTile });
-                }
-
-                if (!CellIsInsidePlace(cellToCollapse))
-                {
-                    string tileName = tileLoader.GetNameById(selectedTile);
-                    if (tileName == "grass")
-                    {
-                        GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position, cellScale, NatureElementPlacer.BiomeType.Forest);
-                        cellToCollapse.SetNatureElementInstance(natureElement);
-                    }
-                    else if (tileName == "grass_L1")
-                    {
-                        GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position + Vector3.up * 1.6f, cellScale, NatureElementPlacer.BiomeType.Forest);
-                        cellToCollapse.SetNatureElementInstance(natureElement);
-                    }
-                    else if (tileName == "grass_L2")
-                    {
-                        GameObject natureElement = natureElements.PlaceElement(cellToCollapse.transform.position + Vector3.up * 2.8f, cellScale, NatureElementPlacer.BiomeType.Forest);
-                        cellToCollapse.SetNatureElementInstance(natureElement);
-                    }
-                }
-            }
-            else
-            {
-                cellToCollapse.RecreateCell(grassSingleOptionList);
-            }
-
-            // Instantiate the chosen tile and set it as a child of the instance container
-            GameObject instance = cellToCollapse.InstantiateTile();
-            instance.layer = LayerMask.NameToLayer("Tiles");
-
-            instance.transform.SetParent(tileInstanceContainer.transform);
-
+            TriggerUpdate();
+            return;
         }
-        // Move on to propagate changes and restart temporarily pause cycle
+
+        // NOW it's safe to collapse
+        cellToCollapse.collapsed = true;
+        iteration++;
+
+        updatedCells.Push(cellToCollapse);
+
+        // Apply tile
+        if (selectedTile == tileLoader.grassID)
+            cellToCollapse.RecreateCell(grassSingleOptionList);
+        else
+        {
+            singleTileScratch[0] = selectedTile;
+            cellToCollapse.RecreateCell(singleTileScratch);
+        }
+
+        // Queue cell instantiation
+        pendingInstantiations.Enqueue(cellToCollapse);
+
+        // Place decorations
+        if (!CellIsInsidePlace(cellToCollapse))
+        {
+            string tileName = tileLoader.GetNameById(selectedTile);
+
+            bool isGrassyTile = tileName == "grass" ||
+                                tileName == "grass_L1" ||
+                                tileName == "grass_L2";
+
+            if (isGrassyTile && Random.value < natureElementRate)
+            {
+                Vector3 pos = cellToCollapse.transform.position;
+
+                Vector3 offset =
+                    tileName == "grass_L1" ? Vector3.up * 1.6f :
+                    tileName == "grass_L2" ? Vector3.up * 2.8f :
+                    Vector3.zero;
+
+                GameObject natureElement = natureElements.PlaceElement(
+                    pos + offset,
+                    cellScale,
+                    NatureElementPlacer.BiomeType.Forest
+                );
+
+                cellToCollapse.SetNatureElementInstance(natureElement);
+            }
+        }
+
         TriggerUpdate();
     }
 
@@ -380,60 +469,68 @@ public class WaveFunctionCollapse : MonoBehaviour
     int SelectRandomTile(Cell cellToCollapse)
     {
         TileBitmask mask = cellToCollapse.tileOptionsMask;
-        
+
         // Calculate total weight
         float totalWeight = 0f;
         ulong temp = mask.m0;
-        while (temp != 0) {
+        while (temp != 0)
+        {
             int id = TrailingZeroCount(temp);
             totalWeight += tileLoader.GetTileByID(id).weight;
             temp &= temp - 1;
         }
         temp = mask.m1;
-        while (temp != 0) {
+        while (temp != 0)
+        {
             int id = 64 + TrailingZeroCount(temp);
             totalWeight += tileLoader.GetTileByID(id).weight;
             temp &= temp - 1;
         }
         temp = mask.m2;
-        while (temp != 0) {
+        while (temp != 0)
+        {
             int id = 128 + TrailingZeroCount(temp);
             totalWeight += tileLoader.GetTileByID(id).weight;
             temp &= temp - 1;
         }
         temp = mask.m3;
-        while (temp != 0) {
+        while (temp != 0)
+        {
             int id = 192 + TrailingZeroCount(temp);
             totalWeight += tileLoader.GetTileByID(id).weight;
             temp &= temp - 1;
         }
 
         float diceRoll = UnityEngine.Random.Range(0, totalWeight);
-        
+
         float cumulative = 0f;
         temp = mask.m0;
-        while (temp != 0) {
+        while (temp != 0)
+        {
             int id = TrailingZeroCount(temp);
             cumulative += tileLoader.GetTileByID(id).weight;
             if (diceRoll < cumulative) return id;
             temp &= temp - 1;
         }
         temp = mask.m1;
-        while (temp != 0) {
+        while (temp != 0)
+        {
             int id = 64 + TrailingZeroCount(temp);
             cumulative += tileLoader.GetTileByID(id).weight;
             if (diceRoll < cumulative) return id;
             temp &= temp - 1;
         }
         temp = mask.m2;
-        while (temp != 0) {
+        while (temp != 0)
+        {
             int id = 128 + TrailingZeroCount(temp);
             cumulative += tileLoader.GetTileByID(id).weight;
             if (diceRoll < cumulative) return id;
             temp &= temp - 1;
         }
         temp = mask.m3;
-        while (temp != 0) {
+        while (temp != 0)
+        {
             int id = 192 + TrailingZeroCount(temp);
             cumulative += tileLoader.GetTileByID(id).weight;
             if (diceRoll < cumulative) return id;
@@ -470,27 +567,31 @@ public class WaveFunctionCollapse : MonoBehaviour
         {
             TileBitmask allowed = new TileBitmask();
             TileBitmask downMask = grid[x, y - 1].tileOptionsMask;
-            
+
             ulong temp = downMask.m0;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, upNeighborsMask[t]);
                 temp &= temp - 1;
             }
             temp = downMask.m1;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = 64 + TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, upNeighborsMask[t]);
                 temp &= temp - 1;
             }
             temp = downMask.m2;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = 128 + TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, upNeighborsMask[t]);
                 temp &= temp - 1;
             }
             temp = downMask.m3;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = 192 + TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, upNeighborsMask[t]);
                 temp &= temp - 1;
@@ -506,25 +607,29 @@ public class WaveFunctionCollapse : MonoBehaviour
             TileBitmask rightMask = grid[x + 1, y].tileOptionsMask;
 
             ulong temp = rightMask.m0;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, leftNeighborsMask[t]);
                 temp &= temp - 1;
             }
             temp = rightMask.m1;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = 64 + TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, leftNeighborsMask[t]);
                 temp &= temp - 1;
             }
             temp = rightMask.m2;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = 128 + TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, leftNeighborsMask[t]);
                 temp &= temp - 1;
             }
             temp = rightMask.m3;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = 192 + TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, leftNeighborsMask[t]);
                 temp &= temp - 1;
@@ -540,25 +645,29 @@ public class WaveFunctionCollapse : MonoBehaviour
             TileBitmask upMask = grid[x, y + 1].tileOptionsMask;
 
             ulong temp = upMask.m0;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, downNeighborsMask[t]);
                 temp &= temp - 1;
             }
             temp = upMask.m1;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = 64 + TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, downNeighborsMask[t]);
                 temp &= temp - 1;
             }
             temp = upMask.m2;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = 128 + TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, downNeighborsMask[t]);
                 temp &= temp - 1;
             }
             temp = upMask.m3;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = 192 + TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, downNeighborsMask[t]);
                 temp &= temp - 1;
@@ -574,25 +683,29 @@ public class WaveFunctionCollapse : MonoBehaviour
             TileBitmask leftMask = grid[x - 1, y].tileOptionsMask;
 
             ulong temp = leftMask.m0;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, rightNeighborsMask[t]);
                 temp &= temp - 1;
             }
             temp = leftMask.m1;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = 64 + TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, rightNeighborsMask[t]);
                 temp &= temp - 1;
             }
             temp = leftMask.m2;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = 128 + TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, rightNeighborsMask[t]);
                 temp &= temp - 1;
             }
             temp = leftMask.m3;
-            while (temp != 0) {
+            while (temp != 0)
+            {
                 int t = 192 + TrailingZeroCount(temp);
                 allowed = TileBitmask.Or(allowed, rightNeighborsMask[t]);
                 temp &= temp - 1;
@@ -805,6 +918,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
 
         Vector3 shiftVector = new Vector3(direction.x * cellScale, 0, direction.y * cellScale);
+
         for (int x = 0; x < gridWidth; x++)
         {
             for (int y = 0; y < gridHeight; y++)
@@ -826,7 +940,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         Vector2 position = CalculateGridCoordinates(place.GetPosition().x, place.GetPosition().y);
 
         SetGridSection(place.GetGrid(), position.x - dimensions.x / 2 + 1, position.y - dimensions.y / 2 + cellScale + 1, dimensions.x, dimensions.y);
-        
+
     }
 
     void SaveInitialArea()
@@ -840,25 +954,31 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-    public void MoveToOrigin()
+    public void ClearPendingShift()
     {
+        moveOffset = Vector2.zero;
+    }
+
+    public IEnumerator MoveToOriginRoutine()
+    {
+        paused = true;
+        updatingCells = false;
+
         updatedCells.Clear();
         instancesToDelete.Clear();
 
-        cellContainer.transform.position = new Vector3(0,0,0);
+        cellContainer.transform.position = new Vector3(0, 0, 0);
 
         for (int i = 0; i < gridWidth; i++)
         {
             for (int j = 0; j < gridHeight; j++)
             {
                 instancesToDelete.Push(grid[i, j].tileInstance);
-                instancesToDelete.Push(grid[i, j].natureElement);
-          /*      grid[i, j].tileInstance = null;
-                grid[i, j].natureElement = null;
-                grid[i, j].collapsed = false;*/
+
+                if (grid[i, j].natureElement != null)
+                    instancesToDelete.Push(grid[i, j].natureElement);
+
                 grid[i, j].ResetCell();
-                /*grid[i, j].RecreateCell(new List<int> { initialAreaGrid[i, j] });*/
-                /*updatedCells.Push(grid[i, j]);*/
 
                 float cellX = worldOffset.x + (i * cellScale) - (gridWidth * cellScale) / 2 + cellScale / 2;
                 float cellY = worldOffset.y + (j * cellScale) - (gridHeight * cellScale) / 2 + cellScale / 2;
@@ -866,9 +986,14 @@ public class WaveFunctionCollapse : MonoBehaviour
             }
         }
 
-        paused = false;
+        iteration = -1;
 
-        iteration =  -1;
+        yield return null;
+    }
+
+    public void Resume()
+    {
+        paused = false;
         TriggerUpdate();
     }
 
@@ -933,7 +1058,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
     }
 
-    Boolean CellIsInsidePlace(Cell cell)
+    bool CellIsInsidePlace(Cell cell)
     {
         Vector3 pos = cell.transform.position;
         for (int i = 0; i < placesOnWait.Count; i++)
@@ -947,7 +1072,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         return false;
     }
 
-    public void ClearMoveOffset()
+    public void ResetMoveOffset()
     {
         moveOffset = new Vector2(0, 0);
         totalMoveOffset = new Vector2(0, 0);
@@ -1000,10 +1125,5 @@ public class WaveFunctionCollapse : MonoBehaviour
     public RectangularArea GetOuterArea()
     {
         return outerArea;
-    }
-
-    private void OnDestroy()
-    {
-        Destroy(gameObject);
     }
 }

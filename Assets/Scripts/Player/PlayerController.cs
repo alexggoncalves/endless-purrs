@@ -1,172 +1,139 @@
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
+using UnityEngine.InputSystem;
 
+public enum PlayerState
+{
+    Free,
+    Acting,
+    Teleporting,
+    Locked
+}
+
+[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    // Movement
-    private CharacterController controller;
+    // --- Inspector -------------------------------------
+    [SerializeField] private float maxSpeed = 6f;
+    [SerializeField] private float rotationSpeed = 400;
+    [SerializeField] private float waterY = -0.3f;
+    [SerializeField] private float jumpHeight = 1.0f;
+    [SerializeField] private float jumpDebouncePeriod = 0.2f;
+    [SerializeField] private float distancePerStep = 1.8f;
+    [SerializeField] private Animator animator;
 
-    Vector3 movementDirection;
-    float inputMagnitude;
-    [SerializeField]
-    float maxSpeed = 6f;
-    [SerializeField]
-    private float rotationSpeed = 400;
-    [SerializeField]
-    float waterY = -0.3f;
-
-    bool locked;
-    public bool isMoving;
-    bool isInsideHouse = true;
-    private bool isTeleporting = false;
-    float walkedDistance;
-
-
-    // Jump
-    [SerializeField]
-    private float jumpHeight = 1.0f;
-    [SerializeField]
-    float jumpDebouncePeriod = 0.2f;
-    float ySpeed = 0;
-    private float? jumpButtonPressedTime = 0;
-    private float? lastGroundedTime = 0;
-    private bool isGrounded;
-    private bool isJumping; 
-
-
-    // Animations
-    [SerializeField]
-    Animator animator;
-    private float actionTime;
-    private bool busy = false;
-
-    public bool isOpeningPortal;
-    private float openPortalDuration = 1.7f;
-    public bool isPettingCat;
-    public float pettingCatDuration = 3.5f;
-    public Vector3 catTarget;
-
-    // Sound
-    private AudioSource[] footStep;
-    private float distanceSinceLastStep = 0f;
-    [SerializeField] float distancePerStep = 1.8f;
-
-
-    //Other
-    private RoofController roofController;
+    // --- References ------------------------------------
     public MapGenerator mapGenerator;
-    private GameObject activePortalInstance;
-    public GameObject portalObj;
     public Game game;
+    private RoofController roofController;
 
-   
+    // --- State -----------------------------------------
+    public PlayerState State { get; private set; } = PlayerState.Free;
+    public bool IsFree => State == PlayerState.Free;
+    public bool IsActing => State == PlayerState.Acting;
+    public bool IsTeleporting => State == PlayerState.Teleporting;
+    public bool IsLocked => State == PlayerState.Locked;
+
+    // --- Movement --------------------------------------
+    private CharacterController controller;
+    private Vector2 movementDirection;
+    private float inputMagnitude;
+    private bool isMoving;
+    private bool isInsideHouse;
+
+    // --- Jump -----------------------------------------
+    private float ySpeed;
+    private float? jumpButtonPressedTime = null;
+    private float? lastGroundedTime = null;
+    private bool isGrounded;
+    private bool isJumping;
+
+    // --- Sound ----------------------------------------
+    private enum FootstepSurface { Outdoor = 0, Indoor = 1, Water = 2 }
+    private AudioSource[] footstepSources;
+    private float distanceSinceLastStep = 0f;
+
+    // --- Animation Hashes -----------------------------
+    private static readonly int IsFallingHash = Animator.StringToHash("IsFalling");
+    private static readonly int IsJumpingHash = Animator.StringToHash("IsJumping");
+    private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
+    private static readonly int IsMovingHash = Animator.StringToHash("IsMoving");
+    private static readonly int VelocityHash = Animator.StringToHash("Velocity");
+
+    // --- Input ----------------------------------------
+    private InputAction moveAction;
+    private InputAction jumpAction;
+    private InputAction sprintAction;
+
+
     private void Start()
     {
-        locked = true;
         controller = GetComponent<CharacterController>();
-        footStep = gameObject.GetComponents<AudioSource>();
-        game = GameObject.Find("Game").GetComponent<Game>();
-        roofController = GameObject.Find("HouseTop").GetComponent<RoofController>();
-        walkedDistance = 0;
-        distanceSinceLastStep = distancePerStep;
+        footstepSources = gameObject.GetComponents<AudioSource>();
+        game = Object.FindAnyObjectByType<Game>();
 
-        for (int i = 0; i < footStep.Length; i++)
+        // Find input actions
+        moveAction = InputSystem.actions.FindAction("Move");
+        jumpAction = InputSystem.actions.FindAction("Jump");
+        sprintAction = InputSystem.actions.FindAction("Sprint");
+
+        // Find house top
+        GameObject houseTop = GameObject.Find("HouseTop");
+        if (houseTop != null)
+            roofController = houseTop.GetComponent<RoofController>();
+
+        // Set up sound sources and step distance
+        distanceSinceLastStep = distancePerStep;
+        foreach (AudioSource source in footstepSources)
         {
-            if (footStep[i] != null)
-            {
-                footStep[i].loop = false;
-                footStep[i].playOnAwake = false;
-                footStep[i].enabled = true;
-            }
+            if (source == null) continue;
+            source.loop = false;
+            source.playOnAwake = false;
+            source.enabled = true;
         }
     }
 
     void Update()
     {
-        if (!locked)
+        if (!IsFree) return;
+
+        movementDirection = moveAction.ReadValue<Vector2>();
+        inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
+
+        // If leftShift is not being pressed limit the player speed
+        if (!sprintAction.IsPressed())
         {
-            movementDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
-
-            // If leftShift is not being pressed limit the player speed
-            if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift))
-            {
-                inputMagnitude *= 0.66f;
-            }
-
-            // Set velocity parameter for the animator
-            animator.SetFloat("Velocity", inputMagnitude, 0.05f, Time.deltaTime);
-            movementDirection.Normalize();
-
-            // Add gravity to movement
-            ySpeed += Physics.gravity.y * Time.deltaTime;
-
-            // Jump
-            HandleJump();
-
-            // Apply movement
-            Move();
-
-            // Spawn Portal
-            HandlePortalSpawn();
-
-            // Pet Cat
-            HandlePetCat();
-        }
-        else if (isOpeningPortal)
-        {
-            // Rotate towards portal
-            Vector3 targetPosition = new Vector3(activePortalInstance.transform.position.x, 0, activePortalInstance.transform.position.z);
-            Quaternion toRotation = Quaternion.LookRotation(targetPosition - transform.position, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
-
-            if (Time.time - actionTime > openPortalDuration)
-            {
-                isOpeningPortal = false;
-                locked = false;
-                busy = false;
-            }
-        }
-        else if (isPettingCat)
-        {
-            // Rotate towards cat
-            Vector3 targetPosition = new Vector3(catTarget.x, transform.position.y, catTarget.z);
-            Quaternion toRotation = Quaternion.LookRotation(targetPosition - transform.position, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
-
-            if (Time.time - actionTime > pettingCatDuration)
-            {
-                isPettingCat = false;
-                locked = false;
-                busy = false;
-            }
+            inputMagnitude *= 0.66f;
         }
 
+        // Set velocity parameter for the animator
+        animator.SetFloat(VelocityHash, inputMagnitude, 0.05f, Time.deltaTime);
+        movementDirection.Normalize();
 
+        // Add gravity to movement
+        ySpeed += Physics.gravity.y * Time.deltaTime;
+
+        HandleJump();
+        Move();
     }
 
     private void Move()
     {
         Vector3 velocity = Vector3.zero;
 
-        if (movementDirection != Vector3.zero)
+        if (movementDirection != Vector2.zero)
         {
             isMoving = true;
-            animator.SetBool("IsMoving", isMoving);
+            animator.SetBool(IsMovingHash, true);
 
             // Apply Rotation
-            Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+            Quaternion toRotation = Quaternion.LookRotation(new Vector3(movementDirection.x, 0f, movementDirection.y), Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
 
             // Apply velocity
-            velocity = movementDirection * inputMagnitude * maxSpeed;
+            velocity = inputMagnitude * maxSpeed * new Vector3(movementDirection.x, 0f, movementDirection.y);
 
             // Update walked distance and the tile the player is walking on
             float deltaDist = inputMagnitude * maxSpeed * Time.deltaTime;
-            walkedDistance += deltaDist;
 
             // Trigger timed footstep sounds when grounded
             if (isGrounded)
@@ -181,221 +148,101 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            animator.SetBool("IsMoving", false);
             isMoving = false;
+            animator.SetBool(IsMovingHash, false);
             distanceSinceLastStep = distancePerStep; // Ready to step instantly on next move
         }
 
-        // Always apply vertical movement (gravity/jump) even if there is no horizontal input
+        // Apply gravity
         velocity.y = ySpeed;
+
+        // Move player
         controller.Move(velocity * Time.deltaTime);
     }
 
-    private void PlayFootstepSound()
+    private void HandleJump()
     {
-        if (footStep == null) return;
+        if ((controller.collisionFlags & CollisionFlags.Above) != 0 && ySpeed > 0f)
+            ySpeed = 0f;
 
-        // Play water sound when under water height
-        if (controller.transform.position.y <= waterY)
-        {
-            if (footStep.Length > 2 && footStep[2] != null)
-            {
-                footStep[2].Play();
-            }
-        }
-        else if (roofController != null)
-        {
-            bool isPlayerInside = roofController.IsPlayerInsideCheck;
-            if (isPlayerInside)
-            {
-                if (footStep.Length > 1 && footStep[1] != null)
-                {
-                    footStep[1].Play();
-                }
-            }
-            else
-            {
-                if (footStep.Length > 0 && footStep[0] != null)
-                {
-                    footStep[0].Play();
-                }
-            }
-        }
-        else
-        {
-            if (footStep.Length > 0 && footStep[0] != null)
-            {
-                footStep[0].Play();
-            }
-        }
-    }
-
-    public void HandleJump()
-    {
         if (controller.isGrounded)
-        {
             lastGroundedTime = Time.time;
-        }
 
-        if (Input.GetButtonDown("Jump"))
+        if (jumpAction.IsPressed())
         {
             jumpButtonPressedTime = Time.time;
         }
 
-        if (Time.time - lastGroundedTime <= jumpDebouncePeriod)
+        bool recentlyGrounded = lastGroundedTime.HasValue && Time.time - lastGroundedTime.Value <= jumpDebouncePeriod;
+
+        if (recentlyGrounded)
         {
             ySpeed = -0.5f;
-            animator.SetBool("IsGrounded", true);
             isGrounded = true;
-            animator.SetBool("IsJumping", false);
             isJumping = false;
-            animator.SetBool("IsFalling", false);
+            animator.SetBool(IsGroundedHash, true);
+            animator.SetBool(IsJumpingHash, false);
+            animator.SetBool(IsFallingHash, false);
 
-            if (Time.time - jumpButtonPressedTime <= jumpDebouncePeriod)
+            bool recentJumpPress = jumpButtonPressedTime.HasValue && Time.time - jumpButtonPressedTime.Value <= jumpDebouncePeriod;
+
+            if (recentJumpPress)
             {
                 ySpeed += Mathf.Sqrt(jumpHeight * -3.0f * Physics.gravity.y);
                 lastGroundedTime = null;
                 jumpButtonPressedTime = null;
-                animator.SetBool("IsJumping", true);
                 isJumping = true;
+                animator.SetBool(IsJumpingHash, true);
             }
         }
         else
         {
-            animator.SetBool("IsGrounded", false);
             isGrounded = false;
+            animator.SetBool(IsGroundedHash, false);
 
-            if ((isJumping && ySpeed < 0) || ySpeed < -3f)
+            if ((isJumping && ySpeed < 0f) || ySpeed < -3f)
             {
-                animator.SetBool("IsFalling", true);
+                animator.SetBool(IsFallingHash, true);
             }
         }
     }
 
-    private void HandlePortalSpawn()
+    private void PlayFootstepSound()
     {
-        if (isGrounded && !busy)
+        if (footstepSources == null) return;
+
+        FootstepSurface surface;
+
+        // Play water sound when under water height
+        if (controller.transform.position.y <= waterY)
         {
-            if (Input.GetMouseButtonDown(1))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                // Perform a raycast to detet hits on tiles, 
-                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
-                {
-                    if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Tiles"))
-                    {
-                        if (activePortalInstance != null) { Destroy(activePortalInstance);}
-                        /*Debug.Log("SpawnPortalAt: " + hit.point);*/
-                        activePortalInstance = Instantiate(portalObj, hit.point + Vector3.up * 2, Quaternion.identity);
-
-                        
-                        animator.SetBool("IsMoving", false);
-                        animator.SetTrigger("OpenPortal");
-
-                        actionTime = Time.time;
-
-                        isMoving = false;
-                        isOpeningPortal = true;
-                        locked = true;
-                        busy = true;
-                    }
-                }
-            }
+            surface = FootstepSurface.Water;
         }
-    }
-
-    private void HandlePetCat()
-    {
-        if (isGrounded && !busy)
+        // Play wood sound when inside the house
+        else if (roofController != null && roofController.IsPlayerInsideCheck)
         {
-            if (Input.GetKey(KeyCode.E)){
-                if(game.followers != null)
-                {
-
-                    // Find the closest cat and if he is in reach pet him
-                    CatController closest = null;
-                    float distance = Mathf.Infinity;
-                    Vector3 position = transform.position;
-                    
-                    foreach (GameObject go in game.followers)
-                    {
-                        Vector3 diff = go.transform.position - position;
-                        float curDistance = diff.sqrMagnitude;
-                        if (curDistance < distance
-                            && !go.GetComponent<CatIdentity>().behaviour.Equals(BehaviourType.Scaredy)
-                            )
-                        {
-                            if (curDistance < 3)
-                            {
-                                closest = go.GetComponent<CatController>();
-                                distance = curDistance;
-                            }
-                           
-                        }
-                    }
-
-                    if (closest != null)
-                    {
-                        catTarget = closest.transform.position;
-
-                        animator.SetBool("IsMoving", false);
-                        animator.SetTrigger("PetCat");
-
-                        actionTime = Time.time;
-
-                        isMoving = false;
-                        isPettingCat = true;
-                        locked = true;
-                        busy = true;
-
-                        //Lock cat's movement??
-                    }
-                }
-            }
+            surface = FootstepSurface.Indoor;
+        }
+        // Play grass sound when outside
+        else
+        {
+            surface = FootstepSurface.Outdoor;
         }
 
-        
+        int index = (int)surface;
+        if (index < footstepSources.Length && footstepSources[index] != null)
+            footstepSources[index].Play();
     }
 
-    public float GetWalkedDistance()
-    {
-        return walkedDistance;
-    }
+    /// <summary>Transitions the player to a new state.</summary>
+    public void SetState(PlayerState newState) => State = newState;
 
-    public void LockMovement()
-    {
-        locked = true;
-    }
-    public void UnlockMovement()
-    {
-        locked = false;
-    }
+    /// <summary>Returns true if the player is currently grounded.</summary>
+    public bool IsGrounded() => isGrounded;
 
-    public void EnterHouse()
-    {
-        isInsideHouse = true;
-    }
-    
-    public void LeaveHouse()
-    {
-        isInsideHouse = false;
-    }
+    /// <summary>Returns true if the player is currently moving.</summary>
+    public bool IsMoving() => isMoving;
 
-    public bool IsInsideHouse()
-    {
-        return isInsideHouse;
-    }
-
-    public bool IsTeleporting()
-    {
-        return isTeleporting;
-    }
-
-    public void SetTeleporting(bool isTeleporting)
-    {
-        this.isTeleporting = isTeleporting;
-    }
-
-    public bool IsGrounded() { return isGrounded; } 
+    /// <summary>Returns true if the player is inside a house.</summary>
+    public bool IsInsideHouse() => isInsideHouse;
 }

@@ -42,6 +42,20 @@ namespace CAC
             timer = Random.Range(0, WAIT_TIME);
         }
 
+        private void OnDisable()
+        {
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+                coroutine = null;
+            }
+            
+            if (animator != null)
+            {
+                animator.SetBool("isMoving", false);
+            }
+        }
+
         public void UpdateWanderScript()
         {
             navMeshAgent.stoppingDistance = 0;

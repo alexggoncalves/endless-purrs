@@ -49,31 +49,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91355824ffe8f864284a7b6f395a5cb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellScale: 3.5
-  gridWidth: 27
-  gridHeight: 21
-  worldOffset: {x: 0, y: 8}
+  cellScale: 4
+  gridWidth: 30
+  gridHeight: 26
+  worldOffset: {x: 0, y: 12}
   edgeSize: {x: 2, y: 2}
+  placesExtents: {x: 120, y: 120}
+  placeDensity: 8
   cellObj: {fileID: 3549023687805126509, guid: 0bdda6710b7f00f4bbd9a8e90bb71322, type: 3}
-  lastPlayerCoordinates: {x: 0, y: 0}
-  playerCoordinates: {x: 0, y: 0}
-  placeDensity: 6
-  placesExtents: {x: 140, y: 140}
-  startingPlace: {fileID: 3805400397684767847, guid: 5a895cf505f434e418d5bf6d795517a5, type: 3}
-  orderedPlaces:
-  - {fileID: -248551918939790877, guid: c337236bc2e8feb4f862a65e22f17851, type: 3}
-  - {fileID: -248551918939790877, guid: 7e08e9ac2387f284181e47066d8a1f19, type: 3}
-  - {fileID: -248551918939790877, guid: c9207025782e7c641affe3fddb4666b6, type: 3}
+  tileLoader: {fileID: 3436042137564190833}
+  startingPlace: {fileID: 3805400397684767847, guid: c012f85e98e15dd4f9f9307a3febe36d, type: 3}
+  orderedPlaces: []
   unorderedPlaces:
-  - {fileID: -248551918939790877, guid: c337236bc2e8feb4f862a65e22f17851, type: 3}
-  - {fileID: -248551918939790877, guid: 7e08e9ac2387f284181e47066d8a1f19, type: 3}
   - {fileID: -248551918939790877, guid: ae7f7787d9ec53344a68fa94475bf77f, type: 3}
   - {fileID: -248551918939790877, guid: d4ddc601fc85d364b9d76acd715fb82a, type: 3}
-  game: {fileID: 0}
-  loadingScreen: {fileID: 0}
-  loadingSlider: {fileID: 0}
-  tileLoader: {fileID: 3436042137564190833}
-  navMesh: {fileID: 0}
+  - {fileID: -248551918939790877, guid: e2bf08fa3bf341d49bb30f25955b5354, type: 3}
+  - {fileID: -248551918939790877, guid: 23256447970c45841998f6351241ccdf, type: 3}
+  - {fileID: -248551918939790877, guid: 7e08e9ac2387f284181e47066d8a1f19, type: 3}
+  - {fileID: -248551918939790877, guid: adfdd05005009d1499c7e49b437e8175, type: 3}
+  - {fileID: -248551918939790877, guid: 24490ff44f9c9d44aad60b95e75b09a7, type: 3}
+  - {fileID: -248551918939790877, guid: c9207025782e7c641affe3fddb4666b6, type: 3}
 --- !u!65 &4703952507537442437
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -107,23 +102,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
   m_AgentTypeID: 1479372276
-  m_CollectObjects: 3
+  m_CollectObjects: 0
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 256
-  m_UseGeometry: 1
+    m_Bits: 772
+  m_UseGeometry: 0
   m_DefaultArea: 0
-  m_GenerateLinks: 1
+  m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 1
-  m_TileSize: 30
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.05333333
-  m_MinRegionArea: 5
+  m_TileSize: 101
+  m_OverrideVoxelSize: 1
+  m_VoxelSize: 0.04
+  m_MinRegionArea: 4
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
 --- !u!114 &7935558235044219615
@@ -138,11 +134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f954662d9ab1ba42801f52009fc2658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Surface: {fileID: 8703244237650351396}
-  Player: {fileID: 0}
-  UpdateRate: 0.1
-  MovementThreshold: 8
-  NavMeshSize: {x: 60, y: 6, z: 70}
+  surface: {fileID: 0}
+  player: {fileID: 0}
+  updateRate: 0.1
+  movementThreshold: 3
+  navMeshSize: {x: 50, y: 4, z: 50}
+  navMeshOffset: {x: 0, y: 0, z: 5}
 --- !u!1 &4052863326449562439
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,11 +200,15 @@ MonoBehaviour:
       - {fileID: 8128976274049848339, guid: ee3611963b2be7d4aaad571dd1c896a2, type: 3}
       - {fileID: 9075161928397506635, guid: 2a815798d20616345861cbe1734ef7e8, type: 3}
       weight: 1
+      minBunchSize: 1
+      maxBunchSize: 1
     - type: 2
       prefabs:
       - {fileID: 548979144154327457, guid: 14826e95be2320448bdaafd7da821071, type: 3}
       - {fileID: 5296226424128585628, guid: 2d1d3672200e1a143b55832f6fe65e61, type: 3}
       weight: 10
+      minBunchSize: 3
+      maxBunchSize: 6
     - type: 4
       prefabs:
       - {fileID: 437820938655499454, guid: 858117952309eb249b8df296b1f20308, type: 3}
@@ -219,6 +220,8 @@ MonoBehaviour:
       - {fileID: 7818160473264682352, guid: 5e79a2beeeb61ee44bb63fef89142cd7, type: 3}
       - {fileID: 3467929432642678471, guid: 4fc0f4a604b08284d87c2805cac4bba6, type: 3}
       weight: 2
+      minBunchSize: 1
+      maxBunchSize: 1
     - type: 3
       prefabs:
       - {fileID: 4525933651979794435, guid: 68b7b06062c4f3c409843cc2394e651d, type: 3}
@@ -226,6 +229,8 @@ MonoBehaviour:
       - {fileID: 3097742802992902953, guid: 7225f03efd3708d44a862ad245e6cda8, type: 3}
       - {fileID: 5719194096300643990, guid: 690078c96602cf442bbc935964f2f03f, type: 3}
       weight: 2
+      minBunchSize: 1
+      maxBunchSize: 1
 --- !u!1 &5006456111403843722
 GameObject:
   m_ObjectHideFlags: 0

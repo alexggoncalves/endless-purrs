@@ -17,8 +17,8 @@ public class Speech : MonoBehaviour
 
     bool active;
    
-    int step = 0;
-    Boolean startText = true;
+    //int step = 0;
+    //Boolean startText = true;
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +50,7 @@ public class Speech : MonoBehaviour
     {
         if (transform.parent.CompareTag("Player"))
         {
-            transform.parent.GetComponent<PlayerController>().UnlockMovement();
+            transform.parent.GetComponent<PlayerController>().SetState(PlayerState.Free);
         }
         active = false;
         foreach (Transform child in transform)
@@ -63,7 +63,7 @@ public class Speech : MonoBehaviour
     {
         if (transform.parent.CompareTag("Player"))
         {
-            transform.parent.GetComponent<PlayerController>().LockMovement();
+            transform.parent.GetComponent<PlayerController>().SetState(PlayerState.Locked);
         }
         active = true;
         foreach (Transform child in transform)

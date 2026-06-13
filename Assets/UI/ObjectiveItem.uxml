@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="ObjectiveItem" class="objective-item">
+        <ui:VisualElement name="ObjectiveStrikeContainer" class="objective-item_strike-container">
+            <ui:VisualElement name="ObjectiveStrike" class="objective-item_strike"/>
+        </ui:VisualElement>
+        <ui:Label text="Objective text here" name="ObjectiveText" class="objective-item_text"/>
+        <ui:VisualElement name="ObjectiveBulletPoint" class="objective-item_bullet-point">
+            <ui:VisualElement name="ObjectiveBulletPointInner" class="objective-item_bullet-point-inner"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
