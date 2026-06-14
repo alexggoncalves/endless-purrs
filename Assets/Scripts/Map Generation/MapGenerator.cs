@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class MapGenerator : MonoBehaviour
 {
 
     [Range(0, 4)] public float cellScale = 2;
     [Range(1, 100)] public int gridWidth, gridHeight;
-    [SerializeField] Vector2 worldOffset;
+    [SerializeField] Vector2 gridOffset;
     [SerializeField] Vector2 edgeSize = new(4, 4);
     [SerializeField] Vector2 placesExtents = new(200, 200);
     [SerializeField, Min(1)] int placeDensity = 6;
@@ -43,7 +44,7 @@ public class MapGenerator : MonoBehaviour
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
 
         wfc = this.AddComponent<WaveFunctionCollapse>();
-        wfc.Initialize(tileLoader, gridWidth, gridHeight, cellScale, cellObj, worldOffset, playerController, startingPlace, edgeSize, natureElementRate);
+        wfc.Initialize(tileLoader, gridWidth, gridHeight, cellScale, cellObj, gridOffset, playerController, startingPlace, edgeSize, natureElementRate);
 
         lastPlayerCoordinates = wfc.CalculateWorldCoordinates(playerController.transform.position.x, playerController.transform.position.z);
 
@@ -56,21 +57,17 @@ public class MapGenerator : MonoBehaviour
     {
         if (!hasStarted) return;
 
-        HandleGridMove();
-
-        if (orderedPlaces.Count > 0 || unorderedPlaces.Count > 0)
-        {
-            SpawnPlaces();
-        }
-
         // Remove places assigned to be destroyed
         foreach (Place place in placesToDestroy)
         {
-            wfc.AddPlaceToDestroy(place);
-            place.toDelete = true;
+            wfc.RemovePlace(place);
             placeInstances.Remove(place);
+            Destroy(place.gameObject);
         }
         placesToDestroy.Clear();
+
+        HandleGridMove();
+        SpawnPlaces();
 
     }
 
@@ -106,53 +103,49 @@ public class MapGenerator : MonoBehaviour
         lastPlayerCoordinates = playerCoordinates;
     }
 
-    void SpawnPlaces()
+    private void SpawnPlaces()
     {
         // Cooldown timer for place check
         placesSpawnCooldown -= Time.deltaTime;
         if (placesSpawnCooldown > 0f) return;
         placesSpawnCooldown = 0.5f;
 
-        bool valid = false;
-        if (placeInstances.Count < placeDensity)
+        if (placeInstances.Count >= placeDensity) return;
+
+        Place place = unorderedPlaces[UnityEngine.Random.Range(0, unorderedPlaces.Count)];
+        Vector3 center = playerController.transform.position + new Vector3(gridOffset.x, 0, gridOffset.y);
+
+        float spawnX = Random.Range(center.x - placesExtents.x, center.x + placesExtents.x);
+        float spawnZ = Random.Range(center.z - placesExtents.y, center.z + placesExtents.y);
+
+
+        // Check if chosen coordinates overlap the active WFC grid area (world space AABB, avoids transform drift issues)
+        Vector2 outerSize = wfc.GetOuterAreaSize();
+        float outerMargin = cellScale * 3;
+
+        bool collidesWithOuterPlayerArea =
+            Mathf.Abs(spawnX - center.x) < (outerSize.x / 2 + outerMargin) &&
+            Mathf.Abs(spawnZ - center.z) < (outerSize.y / 2 + outerMargin);
+
+        // Check if chosen coordinates overlap the home/starting area
+        bool collidesWithHomeInstance = wfc.GetHomeInstance().GetComponent<Place>().GetExtents()
+            .CollidesWith(spawnX, spawnZ, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 4);
+
+        if (collidesWithHomeInstance || collidesWithOuterPlayerArea) return;
+
+        // Check for collisions with other already placed areas
+        foreach (Place placed in placeInstances)
         {
-            Place place = unorderedPlaces[UnityEngine.Random.Range(0, unorderedPlaces.Count)];
-            Vector3 center = playerController.transform.position;
-
-            float x = UnityEngine.Random.Range((center.x - placesExtents.x), (center.x + placesExtents.x));
-            float y = UnityEngine.Random.Range((center.z - placesExtents.y), (center.z + placesExtents.y));
-
-            // Check if chosen coordinates are inside player area
-            bool collidesWithHomeInstance = wfc.GetHomeInstance().GetComponent<Place>().GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 4);
-            bool collidesWithOuterPlayerArea = wfc.GetOuterArea().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 10);
-
-            if (!collidesWithHomeInstance && !collidesWithOuterPlayerArea)
-            {
-                valid = true;
-
-                // Check for collisions with other placed areas
-                foreach (Place placed in placeInstances)
-                {
-                    if (placed.GetExtents().CollidesWith(x, y, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 2))
-                    {
-                        valid = false;
-                        break;
-                    }
-                }
-            }
-
-            // If the placement is valid, create an instance of the place
-            // and send it to the wave function collapse to affect the terrain generation
-            if (valid)
-            {
-                Place newPlace = Instantiate(place, new Vector3(x, 0, y), Quaternion.identity);
-                newPlace.Initialize(new Vector2(x, y), tileLoader.grassID, cellScale);
-
-                placeInstances.Add(newPlace);
-                newPlace.onWait = true;
-                wfc.AddPlaceForPlacement(newPlace);
-            }
+            if (placed.GetExtents().CollidesWith(spawnX, spawnZ, place.GetDimensions().x * cellScale, place.GetDimensions().y * cellScale, cellScale * 2))
+                return;
         }
+
+        // Placement is valid — instantiate and register with WFC
+        Place newPlace = Instantiate(place, new Vector3(spawnX, 0, spawnZ), Quaternion.identity);
+        newPlace.Initialize(new Vector2(spawnX, spawnZ), tileLoader.grassID, cellScale);
+        placeInstances.Add(newPlace);
+        newPlace.onWait = true;
+        wfc.AddPlaceForPlacement(newPlace);
     }
 
     /// <summary>
@@ -160,13 +153,19 @@ public class MapGenerator : MonoBehaviour
     /// </summary>
     void CheckPlaces()
     {
-        List<Place> toRemove = new();
+        Vector3 center = playerController.transform.position + new Vector3(gridOffset.x, 0, gridOffset.y);
 
         foreach (Place place in placeInstances)
-            if (Vector3.Distance(playerController.transform.position, place.transform.position) > placesExtents.x + 20)
-                toRemove.Add(place);
+        {
+            Vector3 pos = place.transform.position;
+            float dx = Mathf.Abs(pos.x - center.x);
+            float dz = Mathf.Abs(pos.z - center.z);
 
-        placesToDestroy.AddRange(toRemove);
+
+            if (dx > placesExtents.x + cellScale * 5 || dz > placesExtents.y + cellScale * 5)
+                if (!placesToDestroy.Contains(place))
+                    placesToDestroy.Add(place);
+        }
     }
 
     /// <summary>

@@ -2,12 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags:
   - tile
   - SpawnPoint
   - CatSlots
   - Cat
+  - HouseInterior
+  - Home
+  - ArrowTarget
+  - Cape
   layers:
   - Default
   - TransparentFX
@@ -45,3 +49,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  m_RenderingLayers:
+  - Default
+  m_MigratedRenderPipelines: []

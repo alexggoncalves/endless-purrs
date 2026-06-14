@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 public enum BehaviourType
 {
-    Owned,
     Friendly,
     Scaredy
 }
@@ -14,7 +13,7 @@ public enum BehaviourType
 public class CatIdentity : MonoBehaviour
 {
     // Start is called before the first frame update
-    private static string[] maleNames = {
+    private static readonly string[] maleNames = {
         "Oliver", "Leo", "Milo", "Charlie", "Max", "Simba", "Jack", "Loki", "Oscar", "Toby",
         "Jasper", "George", "Sam", "Henry", "Buddy", "Gizmo", "Finn", "Apollo", "Merlin", "Oreo",
         "Felix", "Rocky", "Thor", "Zeus", "Archie", "Chester", "Smokey", "Buster", "Sammy", "Gus",
@@ -27,7 +26,7 @@ public class CatIdentity : MonoBehaviour
         "Monty", "Hobbes", "Simba", "Thor", "Zeus", "Tank", "Duke", "Lucky", "Benji", "Jax"
     };
 
-    private static string[] femaleNames = {
+    private static readonly string[] femaleNames = {
         "Luna", "Bella", "Lucy", "Kitty", "Chloe", "Lily", "Sophie", "Nala", "Daisy", "Cleo",
         "Molly", "Zoe", "Sasha", "Gracie", "Stella", "Lola", "Mia", "Abby", "Willow", "Penny",
         "Ginger", "Ruby", "Hazel", "Ellie", "Olivia", "Rosie", "Emma", "Jasmine", "Pearl", "Maddie",
@@ -41,19 +40,14 @@ public class CatIdentity : MonoBehaviour
         "Sable", "Summer", "Tabitha", "Tasha", "Trudy", "Winnie", "Yuki", "Zara", "Dixie", "Gloria"
     };
 
-    private static List<string> usedMaleNames = new();
-    private static List<string> usedFemaleNames = new();
-    private static List<string> usedNeutralNames = new();
+    private static readonly List<string> usedMaleNames = new();
+    private static readonly List<string> usedFemaleNames = new();
 
     public string catName;
     public string gender;
     public BehaviourType behaviour;
 
-    private bool displayEnabled = false;
-    private GameObject identityDisplay = null;
-    public TextMeshPro text;
-
-    public void SetIdentity(GameObject identityDisplay)
+    public void SetIdentity()
     {
         // Set Gender
         gender = GetRandomGender();
@@ -63,17 +57,6 @@ public class CatIdentity : MonoBehaviour
 
         // Set Behaviour
         behaviour = GetRandomBehaviour();
-        this.identityDisplay = identityDisplay;
-        text = identityDisplay.transform.Find("Text").gameObject.GetComponent<TextMeshPro>();
-        text.SetText(catName + '\n' + gender + '\n' + behaviour.ToString());
-    }
-
-    private void FixedUpdate()
-    {
-        if (identityDisplay != null)
-        {
-            identityDisplay.transform.rotation = Quaternion.identity;
-        }
     }
 
     public void SetIdentity(string name, string gender, BehaviourType behaviour, GameObject identityDisplay)
@@ -81,9 +64,6 @@ public class CatIdentity : MonoBehaviour
         this.catName = name;
         this.gender = gender;
         this.behaviour = behaviour;
-        this.identityDisplay = identityDisplay;
-        text = identityDisplay.transform.Find("Text").gameObject.GetComponent<TextMeshPro>();
-        text.SetText(catName + '\n' + gender + '\n' + behaviour.ToString());
     }
 
     BehaviourType GetRandomBehaviour()
@@ -99,46 +79,11 @@ public class CatIdentity : MonoBehaviour
         }
     }
 
-    private static int lastRaycastFrame = -1;
-    private static GameObject hoveredCatObject = null;
-
-    private void LateUpdate()
-    {
-        if (identityDisplay == null) return;
-
-        if (Time.frameCount != lastRaycastFrame)
-        {
-            lastRaycastFrame = Time.frameCount;
-            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
-            {
-                if (hit.collider.CompareTag("Cat"))
-                {
-                    hoveredCatObject = hit.collider.gameObject;
-                }
-                else
-                {
-                    hoveredCatObject = null;
-                }
-            }
-            else
-            {
-                hoveredCatObject = null;
-            }
-        }
-
-        bool shouldBeVisible = (hoveredCatObject == gameObject);
-        if (displayEnabled != shouldBeVisible)
-        {
-            displayEnabled = shouldBeVisible;
-            identityDisplay.SetActive(shouldBeVisible);
-        }
-    }
-
     string GetRandomGender()
     {
         // Set Gender
         float random = Random.Range(0.0f, 1.0f);
+
         if (random < 0.33f)
         {
             return "Female";
@@ -168,13 +113,9 @@ public class CatIdentity : MonoBehaviour
                 pool = maleNames.ToList();
                 used = usedMaleNames;
                 break;
-            case "female":
+            default:
                 pool = femaleNames.ToList();
                 used = usedFemaleNames;
-                break;
-            default:
-                pool = femaleNames.Concat(maleNames).ToList();
-                used = usedNeutralNames;
                 break;
         }
 
@@ -183,6 +124,7 @@ public class CatIdentity : MonoBehaviour
 
         string selected = available[Random.Range(0, available.Count)];
         used.Add(selected);
+
         return selected;
     }
 

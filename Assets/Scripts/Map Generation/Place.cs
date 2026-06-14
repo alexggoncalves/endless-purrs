@@ -21,7 +21,6 @@ public class Place : MonoBehaviour
     public RectangularArea extents;
 
     public bool onWait = false;
-    public bool toDelete = false;
     
 
     public void Initialize(Vector2 position, int tile, float cellScale)

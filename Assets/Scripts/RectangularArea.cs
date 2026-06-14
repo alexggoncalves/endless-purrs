@@ -39,24 +39,40 @@ public class RectangularArea : MonoBehaviour
 
     public bool CollidesWith(float x, float y, float width, float height, float margin)
     {
-        // Define the rect for the current place, expanded by the margin
-        Rect placeRect = new Rect(
-            transform.position.x - size.x / 2 - margin/2,
-            transform.position.z - size.y / 2 - margin/2,
+        Rect placeRect = new(
+            transform.position.x + offset.x - size.x / 2 - margin / 2,
+            transform.position.z + offset.y - size.y / 2 - margin / 2,
             size.x + margin * 2,
             size.y + margin * 2
         );
 
-        // Define the rect for the area to check, without margin
-        Rect checkRect = new Rect(
+        Rect checkRect = new(
             x - width / 2,
             y - height / 2,
             width,
             height
         );
 
-        // Check if the two rectangles overlap
         return placeRect.Overlaps(checkRect);
+    }
+
+    public bool CollidesWithOrigin(float x, float y, float width, float height, float margin)
+    {
+        Rect areaRect = new(
+            offset.x - size.x / 2 - margin / 2,
+            offset.y - size.y / 2 - margin / 2,
+            size.x + margin * 2,
+            size.y + margin * 2
+        );
+
+        Rect checkRect = new(
+            x - width / 2,
+            y - height / 2,
+            width,
+            height
+        );
+
+        return areaRect.Overlaps(checkRect);
     }
 
     public Vector2 GetOffset()

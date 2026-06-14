@@ -34,7 +34,6 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     // Places
     private List<Place> placesOnWait;
-    private Stack<Place> placesToDestroy;
     public Stack<GameObject> instancesToDelete;
     public GameObject homeInstance;
 
@@ -85,16 +84,6 @@ public class WaveFunctionCollapse : MonoBehaviour
                 Destroy(instance);
             }
         }
-
-        while (placesToDestroy.Count > 0)
-        {
-            Place place = placesToDestroy.Pop();
-            if (place != null)
-            {
-                placesOnWait.Remove(place);
-                Destroy(place.gameObject);
-            }
-        }
     }
 
     public void Initialize(TileLoader tileLoader, int width, int height, float cellScale, Cell cellObj, Vector2 worldOffset, PlayerController player, GameObject startingPlace, Vector2 edgeSize, float natureElementRate)
@@ -116,7 +105,6 @@ public class WaveFunctionCollapse : MonoBehaviour
         tileInstanceContainer = new GameObject("Tile Instance Container");
 
         instancesToDelete = new Stack<GameObject>();
-        placesToDestroy = new Stack<Place>();
 
         this.placesOnWait = new List<Place>();
 
@@ -1094,9 +1082,9 @@ public class WaveFunctionCollapse : MonoBehaviour
         placesOnWait.Add(place);
     }
 
-    public void AddPlaceToDestroy(Place place)
+    public void RemovePlace(Place place)
     {
-        placesToDestroy.Push(place);
+        placesOnWait.Remove(place);
     }
 
     public bool IsUpdatingCells()
@@ -1116,6 +1104,9 @@ public class WaveFunctionCollapse : MonoBehaviour
     {
         return iteration;
     }
+
+    public Vector2 GetOuterAreaSize() => new Vector2(gridWidth * cellScale, gridHeight * cellScale);
+
 
     public RectangularArea GetInnerArea()
     {

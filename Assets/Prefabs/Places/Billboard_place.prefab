@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8741396407214884307}
   - component: {fileID: 5879593262444543129}
   - component: {fileID: 6970790241182046221}
-  - component: {fileID: 6041267100814793973}
+  - component: {fileID: 8658892474104947972}
   m_Layer: 0
   m_Name: default
   m_TagString: Untagged
@@ -59,6 +59,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -80,12 +85,14 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6041267100814793973
-MeshCollider:
+--- !u!65 &8658892474104947972
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -102,10 +109,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2432090755550338912, guid: 89dd15bf5f760ae4eb5f9ec43f5d7a98, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.49290863, y: 0.91853625, z: 0.45573145}
+  m_Center: {x: 0.069565006, y: -0.37309572, z: 0.0040684934}
 --- !u!1 &3805400397684767847
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,7 +122,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7608276657007212618}
   - component: {fileID: -248551918939790877}
-  - component: {fileID: 8457411204265573874}
   m_Layer: 9
   m_Name: Billboard_place
   m_TagString: Untagged
@@ -138,6 +143,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8741396407214884307}
+  - {fileID: 9131265970721662797}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-248551918939790877
@@ -153,28 +159,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeName: BillBoard
-  width: 2
-  height: 2
+  width: 3
+  height: 3
   tile: grass
   extents: {fileID: 0}
   onWait: 0
-  toDelete: 0
---- !u!114 &8457411204265573874
-MonoBehaviour:
+--- !u!1 &8840208996206307925
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3805400397684767847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 0
-  m_Area: 0
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
-  m_AffectedAgents: f46d2d58
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9131265970721662797}
+  m_Layer: 8
+  m_Name: obstacle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9131265970721662797
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8840208996206307925}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.85063, y: 4.28962, z: -1.11899}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7608276657007212618}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 4586217105725850093}
   - component: {fileID: 1284177530703076663}
   - component: {fileID: -8549418143552244527}
+  - component: {fileID: 7188325530934270611}
   m_Layer: 0
   m_Name: Cat
   m_TagString: Cat
@@ -326,20 +327,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e23458ec93ed3244baddd180a50256f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  identity: {fileID: 0}
-  audioSources: []
   speed: 3.5
-  randomizeCat: 1
-  visionRange: 20
   fleeSpeed: 5
   fleeDistance: 5
-  owned: 0
-  catName: Nameless
-  gender: Neutral
-  identityDisplay: {fileID: 431356964385517945}
-  mapGenerator: {fileID: 0}
-  game: {fileID: 0}
+  visionRange: 20
   navMeshLayerMask:
     serializedVersion: 2
     m_Bits: 512
@@ -705,6 +696,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0.01, z: 0}
+--- !u!114 &7188325530934270611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344797386151426830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10d6b07a5e80c8480b155780714f07b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CAC.CatWanderScript
 --- !u!1 &1401829272946013973
 GameObject:
   m_ObjectHideFlags: 0

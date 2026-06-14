@@ -46,12 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeName: Farm House
-  width: 10
-  height: 10
+  width: 4
+  height: 4
   tile: grass
   extents: {fileID: 0}
   onWait: 0
-  toDelete: 0
 --- !u!1001 &9002240582544260591
 PrefabInstance:
   m_ObjectHideFlags: 0

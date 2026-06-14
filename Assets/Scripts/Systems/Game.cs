@@ -167,43 +167,25 @@ public class Game : MonoBehaviour
         
         Vector3 spawnPos = spawnPoint.transform.position;
 
-        foreach (CatController controller in atHome)
-        {
-            if (controller == null) continue;
-            
-            NavMeshAgent agent = controller.GetComponent<NavMeshAgent>();
-            
-            controller.transform.position = spawnPos;
-
-            if (agent != null) agent.Warp(spawnPos);
-            controller.SetWandering();
-            controller.target = null;
-            controller.SetIsAtHome(true);
-        }
-
-        foreach (CatController controller in followers)
+        // Followers being teleported home
+        foreach (var controller in followers.ToArray())
         {
             if (controller == null) continue;
 
             NavMeshAgent agent = controller.GetComponent<NavMeshAgent>();
 
+            // Ensure agent is enabled before warping
+            if (agent != null && !agent.enabled)
+                agent.enabled = true;
+
             controller.transform.position = spawnPos;
-            
-            if (agent != null) agent.Warp(spawnPos);
+            if (agent != null && agent.enabled) agent.Warp(spawnPos);
+
             controller.SetWandering();
-            controller.target = null;
-            controller.SetIsAtHome(true);
+            controller.SetState(CatState.AtHome);
             
+            RemoveFromFollowers(controller);
             AddToHome(controller);
-        }
-
-        for (int i = followers.Count - 1; i >= 0; i--)
-        {
-            CatController cat = followers[i];
-            if (atHome.Contains(cat))
-            {
-                followers.RemoveAt(i);
-            }
         }
     }
 

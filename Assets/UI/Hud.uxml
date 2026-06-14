@@ -3,8 +3,9 @@
     <Style src="project://database/Assets/UI/hud.uss?fileID=7433441132597879392&amp;guid=9249a43a0a714a746ad91c9d5c6a02a5&amp;type=3#hud"/>
     <ui:VisualElement name="BottomLeftHud" class="bottom-left-hud">
         <ui:VisualElement name="Radar" class="radar">
-            <ui:Image name="Image" style="background-image: url(&quot;project://database/Assets/UI/assets/RadarGradient.svg?fileID=7388822144124034973&amp;guid=8e33791af1924c6478e9ef590930cfbb&amp;type=3#RadarGradient&quot;); flex-grow: 1;"/>
+            <ui:Image name="RadarBackground" style="background-image: url(&quot;project://database/Assets/UI/assets/RadarGradient.svg?fileID=7388822144124034973&amp;guid=8e33791af1924c6478e9ef590930cfbb&amp;type=3#RadarGradient&quot;); flex-grow: 1;"/>
             <ui:VisualElement name="RadarCenter" class="radar-center" style="rotate: 0;"/>
+            <ui:VisualElement name="HomeLocation" class="radar-house-location" style="top: 52px; left: 97px;"/>
         </ui:VisualElement>
         <ui:VisualElement name="AbilitesContainer" class="abilities-container">
             <ui:VisualElement name="CallAbility" class="ability" style="opacity: 1;">
@@ -18,7 +19,7 @@
                 <ui:VisualElement name="KeyContainer" class="ability-key">
                     <ui:Image name="HKey" class="ability-key-image" style="background-image: url(&quot;project://database/Assets/UI/assets/H-Key.svg?fileID=7388822144124034973&amp;guid=44aa589fed6660c419ffc0227295874d&amp;type=3#H-Key&quot;);"/>
                 </ui:VisualElement>
-                <ui:Image class="ability-image" style="background-image: url(&quot;project://database/Assets/UI/assets/HouseIcon.svg?fileID=7388822144124034973&amp;guid=39fc79dd2a68a184398045bb1885a4dd&amp;type=3#HouseIcon&quot;);"/>
+                <ui:Image class="ability-image" style="background-image: url(&quot;project://database/Assets/UI/assets/TeleportHomeIcon.svg?fileID=7388822144124034973&amp;guid=ffe33b8ab3bdc2547aebac6153089182&amp;type=3#TeleportHomeIcon&quot;);"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

@@ -121,7 +121,7 @@ public class PlayerActions : MonoBehaviour
         foreach (CatController cat in game.followers)
         {
             if (cat == null) continue;
-            if (cat.identity.behaviour == BehaviourType.Scaredy) continue;
+            if (cat.GetIdentity().behaviour == BehaviourType.Scaredy) continue;
 
             float dist = (cat.transform.position - pos).sqrMagnitude;
 

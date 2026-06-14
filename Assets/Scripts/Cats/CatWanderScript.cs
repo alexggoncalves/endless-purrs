@@ -20,15 +20,15 @@ namespace CAC
         /// Static method returning the random destination a cat should move to
         /// <param name="pos">The starting position</param>
         /// <returns>Vector3 The random destination to be moved to</returns>
-        private static Vector3 GetRandomDestination(Vector3 pos)
+        private static Vector3 GetRandomDestination(Vector3 center, float radius)
         {
             // Get random point within a sphere of walk radius size
-            Vector3 randomDirection = Random.insideUnitSphere * WALK_RADIUS;
+            Vector3 randomDirection = Random.insideUnitSphere * radius;
 
             // Use vector as a direction added onto the current position
-            randomDirection += pos;
+            randomDirection += center;
             // Find the closest point the nav mesh agent can actually move to
-            NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, WALK_RADIUS, 1);
+            NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, radius, NavMesh.AllAreas);
 
             return hit.position;
         }
@@ -58,19 +58,25 @@ namespace CAC
 
         public void UpdateWanderScript()
         {
+            UpdateWanderScript(transform.position, WALK_RADIUS);
+        }
+
+        public void UpdateWanderScript(Vector3 center, float radius)
+        {
             navMeshAgent.stoppingDistance = 0;
             navMeshAgent.updatePosition = true;
-            if (timer >= WAIT_TIME)
-            {
-                // Start move to destination coroutine
-                if (coroutine == null)
-                    coroutine = StartCoroutine(MoveToDestinationCoroutine(GetRandomDestination(transform.position)));
 
-                timer = 0;
-            }
-            else
+            if (coroutine == null)
             {
-                timer += Time.deltaTime;
+                if (timer >= WAIT_TIME)
+                {
+                    coroutine = StartCoroutine(MoveToDestinationCoroutine(GetRandomDestination(center, radius)));
+                    timer = 0;
+                }
+                else
+                {
+                    timer += Time.deltaTime;
+                }
             }
         }
 
