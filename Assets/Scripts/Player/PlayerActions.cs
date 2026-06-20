@@ -1,33 +1,28 @@
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 [RequireComponent(typeof(PlayerController))]
 
 [RequireComponent(typeof(PlayerAbilities))]
 public class PlayerActions : MonoBehaviour
 {
-    [SerializeField] private Game game;
+    [SerializeField] private GameManager game;
     [SerializeField] private Animator animator;
-    [SerializeField] private MapGenerator mapGenerator;
+    [SerializeField] private WorldGenerator worldGenerator;
     [SerializeField] private CameraController cameraController;
 
     private PlayerController player;
-    private Cloth playerCape;
     private PlayerAbilities abilities;
 
     // TELEPORT
-    private Vector3 spawnPoint;
     [SerializeField] private ParticleSystem starTeleportEffect;
     [SerializeField] private TeleportTransition teleportTransition;
+    private readonly WaitForSeconds teleportDelay = new(1f);
 
     private static readonly int PetCatHash = Animator.StringToHash("PetCat");
 
     private void Start()
     {
         player = GetComponent<PlayerController>();
-        playerCape = GameObject.FindGameObjectWithTag("Cape").GetComponent<Cloth>();
         abilities = GetComponent<PlayerAbilities>();
 
         abilities.OnAbilityUsed += HandleAbility;
@@ -58,51 +53,38 @@ public class PlayerActions : MonoBehaviour
         player.SetState(PlayerState.Teleporting);
 
         // Spawn particle system
-        ParticleSystem effect = Instantiate(starTeleportEffect, player.transform.position, Quaternion.Euler(-90, 0, 0));
-        Destroy(effect.gameObject, 10f);
+        ParticleSystem starsIn = Instantiate(starTeleportEffect, player.transform.position, Quaternion.Euler(-90, 0, 0));
+        StartCoroutine(FollowPlayer(starsIn.transform, player.transform));
+        Destroy(starsIn.gameObject, 10f);
 
-        yield return new WaitForSeconds(1);
+        // Delay teleport 
+        yield return teleportDelay;
 
         // Close Iris Wipe 
         yield return StartCoroutine(teleportTransition.CloseIris());
 
-        // stop wfc movement systems
-        var wfc = mapGenerator.GetWFC();
+        // Clear wfc shift, move to origin and reset move offset
+        var wfc = worldGenerator.GetWFC();
         wfc.ClearPendingShift();
-
-        // Move wfc to origin and reset move offset
         yield return wfc.MoveToOriginRoutine();
         wfc.ResetMoveOffset();
 
-        // Find Spawn Point
-        GameObject spawnPointObject = GameObject.FindGameObjectWithTag("SpawnPoint");
-        if (spawnPointObject != null)
-            spawnPoint = spawnPointObject.transform.position;
-        else spawnPoint = Vector3.zero;
+        // Move player to the spaw point
+        StartCoroutine(player.TeleportToSpawnPoint());
 
-        // Move player and followers to spawn
-        cameraController.PauseSmoothing();
-        playerCape.enabled = false;
-        player.transform.position = spawnPoint;
-        game.MoveFollowersHome();
-
-        // Resync map generator after teleport
-        mapGenerator.ForceResyncAfterTeleport();
+        // Resync map generator after teleport and resume
+        worldGenerator.ForceResyncAfterTeleport();
+        yield return null;
+        wfc.Resume();
         yield return null;
 
-        // Resume wfc generation
-        wfc.Resume();
-
-        // Spawn particle system
-        ParticleSystem effect2 = Instantiate(starTeleportEffect, player.transform.position, Quaternion.Euler(-90, 0, 0));
-        Destroy(effect2.gameObject, 10f);
+        // Teleport followers with the player
+        CatController.TeleportFollowersTo(player.transform.position);
 
         // Open Iris Wipe 
         yield return StartCoroutine(teleportTransition.OpenIris());
 
         // Set player state to Free
-        playerCape.enabled = true;
-        cameraController.ResumeSmoothing();
         player.SetState(PlayerState.Free);
     }
 
@@ -111,17 +93,17 @@ public class PlayerActions : MonoBehaviour
         if (!player.IsFree) return;
         if (!player.IsGrounded()) return;
 
-        if (game == null || game.followers == null)
+        if (game == null || CatController.AllCats.Count != 0)
             return;
 
         CatController closest = null;
         float best = Mathf.Infinity;
         Vector3 pos = player.transform.position;
 
-        foreach (CatController cat in game.followers)
+        foreach (CatController cat in CatController.AllCats)
         {
             if (cat == null) continue;
-            if (cat.GetIdentity().behaviour == BehaviourType.Scaredy) continue;
+            if (!cat.IsFollowing()) continue; // only followers
 
             float dist = (cat.transform.position - pos).sqrMagnitude;
 
@@ -167,5 +149,17 @@ public class PlayerActions : MonoBehaviour
 
 
         player.SetState(PlayerState.Free);
+    }
+
+    /// <summary>
+    /// Makes effect follow player's position and ignores rotation
+    /// </summary>
+    IEnumerator FollowPlayer(Transform effect, Transform player)
+    {
+        while (effect != null)
+        {
+            effect.position = player.position;
+            yield return null;
+        }
     }
 }

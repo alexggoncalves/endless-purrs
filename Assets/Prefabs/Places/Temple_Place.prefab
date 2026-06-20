@@ -1665,9 +1665,7 @@ MonoBehaviour:
   placeName: Temple
   width: 6
   height: 6
-  tile: grass
-  extents: {fileID: 0}
-  onWait: 0
+  tileName: grass
 --- !u!1 &4379150087117048630
 GameObject:
   m_ObjectHideFlags: 0

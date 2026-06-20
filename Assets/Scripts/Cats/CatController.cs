@@ -1,369 +1,128 @@
 using CAC;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-
-public enum CatState { None, Following, Wandering, Fleeing, AtHome }
-
+public enum CatState { None, Following, Wandering, Fleeing }
 [RequireComponent(typeof(CreateACatGenerator))]
-[RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(CatWanderScript))]
+
+[RequireComponent(typeof(CatSenses))]
+[RequireComponent(typeof(CatMovement))]
+[RequireComponent(typeof(CatHouseSystem))]
 public class CatController : MonoBehaviour
 {
-    private static readonly int SpeedMultiplierHash = Animator.StringToHash("speedMultiplier");
-    private static readonly int IsMovingHash = Animator.StringToHash("isMoving");
-
     // --- Global cat registry -------------------------------
     public static List<CatController> AllCats = new();
     void OnEnable() { if (!AllCats.Contains(this)) AllCats.Add(this); }
     void OnDisable() { AllCats.Remove(this); }
 
-    // --- Inspector attributes ------------------------------
-    [Header("Movement")]
-    [SerializeField] private float speed = 3f;
-    [SerializeField] private float fleeSpeed = 5f;
-    [SerializeField] private float fleeDistance = 30f;
-
-    [Header("Senses")]
-    [SerializeField] private float visionRange = 10f;
-
-    [Header("Navigation")]
-    [SerializeField] private LayerMask navMeshLayerMask;
-
-    // --- References -----------------------------------------
-    private MapGenerator mapGenerator;
-    private Game game;
-    private Transform player;
-
-    // --- Components ------------------------------------------
+    // --- STATE --------------------------------------------
+    private CatState state = CatState.Wandering;
     private CatIdentity identity;
-    private CatWanderScript wander;
-    private Animator animator;
-    private NavMeshAgent agent;
 
-    // --- Runtime state ---------------------------------------
-    private CatState currentState = CatState.None;
-    private Place homePlace;
-    private bool playerSearchFailed = false;
-    private bool isAlertOfPlayer = false;
-
-    // --- Timers ------------------------------------------------
-    private float navMeshPollTimer = 0f;
-    private float homeCheckTimer = 0f;
-    private const float POLL_INTERVAL = 0.2f;
-
-    // --- Nav mesh links --------------------------------------------
-    private Vector3 offMeshLinkStartPos;
-    private Vector3 offMeshLinkEndPos;
-    private bool isTraversingOffMeshLink = false;
-    private float offMeshLinkProgression = -1f;
+    // --- REFS ---------------------------------------------
+    private CatSenses senses;
+    private CatMovement movement;
+    private Transform player;
+    private CatHouseSystem houseSystem;
 
 
-    void Awake()
+    void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-        wander = GetComponent<CatWanderScript>();
-        navMeshLayerMask = LayerMask.GetMask("Tiles");
-
         // Randomize cat and create it's identity
         GetComponent<CreateACatGenerator>().RandomizeCat();
         identity = gameObject.AddComponent<CatIdentity>();
 
-        // Find Map Generator
-        var mapGenObj = GameObject.Find("MapGenerator");
-        if (mapGenObj != null) mapGenerator = mapGenObj.GetComponent<MapGenerator>();
+        // Get senses component
+        senses = GetComponent<CatSenses>();
 
-        // Find Game Manager
-        var gameObj = GameObject.Find("GameManager");
-        if (gameObj != null) game = gameObj.GetComponent<Game>();
+        // Get movement component
+        movement = GetComponent<CatMovement>();
 
-        // Find Player
-        var playerObj = GameObject.FindWithTag("Player");
-        if (playerObj != null) player = playerObj.transform;
-
-        // Disable nav agent before finding nav surface
-        agent.updatePosition = false;
-        agent.enabled = false;
-
-        // Enable wandering
-        SetWandering();
+        // Get house system
+        houseSystem = GetComponent<CatHouseSystem>();
     }
 
-    void Start()
+    private void Update()
     {
-        TryCacheHomePlace();
-    }
-
-    void Update()
-    {
-        TryFindPlayer();
-        TryCacheHomePlace();
-
-        if (!agent.enabled)
+        if (player == null)
         {
-            LookForNavMesh();
+            TryFindPlayer();
             return;
         }
 
-        if (player == null) return;
+        senses.Tick();
+        houseSystem.Tick();
 
-        UpdateSenses();
-        UpdateStateTransitions();
-        UpdateMovement();
-        UpdateHomeCheck();
-        HandleOffMeshLinks();
-        UpdateAtHomeDeactivation();
+        bool agentReady = movement.Tick();  // validates & disables agent if off-mesh
+
+        UpdateState();
+
+        if (agentReady)
+            ExecuteState();
     }
-
-    // =========================================================================
-    // Senses
-    // =========================================================================
 
     private void TryFindPlayer()
     {
-        if (player != null || playerSearchFailed) return;
-
-        var obj = GameObject.FindWithTag("Player");
-        if (obj != null)
-            player = obj.transform;
-        else
-            playerSearchFailed = true;
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        if (playerObj != null)
+            player = playerObj.transform;
     }
 
-    private void UpdateSenses()
+    private void UpdateState()
     {
-        float dist = Vector3.Distance(player.position, transform.position);
-        isAlertOfPlayer = dist < visionRange && !IsAtHome();
-    }
+        bool alert = senses.IsPlayerVisible;
 
-    // =========================================================================
-    // State machine
-    // =========================================================================
-
-    private void UpdateStateTransitions()
-    {
-        bool isReacting = IsFollowing() || IsFleeing();
-
-        if (isAlertOfPlayer && !isReacting && !IsAtHome()) // If cat is alert of player make it react
-            EnterReactiveState();
-        else if (isReacting && (!isAlertOfPlayer || IsAtHome())) // Exit reactive state iff cat stops being alert of player or gets home
-            ExitReactiveState();
-    }
-
-    private void EnterReactiveState()
-    {
-        wander.enabled = false;
-        var behaviour = identity.GetBehaviourType();
-
-        if (behaviour == BehaviourType.Friendly) // If cat is friendly make it follow the player
+        switch (state)
         {
-            SetState(CatState.Following);
-            game.AddToFollowers(this);
-        }
-        else if (behaviour == BehaviourType.Scaredy) // If cat is scaredy makeit flee the player
-        {
-            SetState(CatState.Fleeing);
+            case CatState.Wandering:
+                if (alert && !IsAtHome())
+                    state = identity.IsFriendly() ? CatState.Following : CatState.Fleeing;
+                break;
+
+            case CatState.Following:
+                if (IsAtHome())
+                    state = CatState.Wandering;
+                break;
+            case CatState.Fleeing:
+                if (!alert)
+                    state = CatState.Wandering;
+                break;
         }
     }
 
-    private void ExitReactiveState()
+    private void ExecuteState()
     {
-        if (IsFollowing())
-            game.RemoveFromFollowers(this);
-
-        SetWandering();
-    }
-
-    // =========================================================================
-    // Movement
-    // =========================================================================
-
-    private void UpdateMovement()
-    {
-        if (isAlertOfPlayer && !IsAtHome())
+        switch (state)
         {
-            UpdateDestination();
-            DriveAnimatorAndPosition();
-        }
-        else if (IsFollowing() || IsFleeing())
-        {
-            SetWandering();
-        }
+            case CatState.Wandering:
+                movement.Wander();
+                break;
 
-        if ((IsWandering() || IsAtHome()) && wander.enabled)
-        {
-            if (IsAtHome() && homePlace != null)
-            {
-                // Wander around the house center with a radius based on house dimensions
-                Vector2 dims = homePlace.GetDimensions();
-                float radius = Mathf.Max(dims.x, dims.y) * 4f; // cellScale is roughly 2-4, so 4f is safe
-                wander.UpdateWanderScript(homePlace.transform.position, radius);
-            }
-            else
-            {
-                wander.UpdateWanderScript();
-            }
+            case CatState.Following:
+                movement.Follow(player.position);
+                break;
+
+            case CatState.Fleeing:
+                movement.Flee(player.position);
+                break;
         }
     }
 
-    private void UpdateDestination()
+    public static void TeleportFollowersTo(Vector3 point)
     {
-        agent.updatePosition = false;
-
-        if (IsFollowing())
+        foreach (CatController cat in CatController.AllCats)
         {
-            agent.speed = speed;
-            agent.destination = player.position;
-        }
-        else if (IsFleeing())
-        {
-            agent.speed = fleeSpeed;
-            Vector3 fleeDir = (transform.position - player.position).normalized;
-            Vector3 fleeDest = transform.position + fleeDir * fleeDistance;
+            if (cat == null) continue;
+            if (!cat.IsFollowing()) continue;
 
-            if (NavMesh.SamplePosition(fleeDest, out NavMeshHit hit, fleeDistance, NavMesh.AllAreas))
-                agent.destination = hit.position;
+            Vector3 offset = Random.insideUnitSphere * 3f;
+            offset.y = 0f;
+
+            cat.movement.TeleportTo(point + offset);
         }
     }
 
-    private void DriveAnimatorAndPosition()
-    {
-        bool shouldMove = agent.velocity.magnitude > 0.5f
-                       && agent.remainingDistance > agent.stoppingDistance;
-
-        animator.SetBool(IsMovingHash, shouldMove);
-        animator.SetFloat(SpeedMultiplierHash, shouldMove ? agent.velocity.magnitude / speed : 0f);
-
-        Vector3 worldDelta = agent.nextPosition - transform.position;
-        if (worldDelta.magnitude > agent.radius)
-            transform.position = agent.nextPosition - 0.9f * worldDelta;
-    }
-
-    void OnAnimatorMove()
-    {
-        // Only use root motion if we are moving to a destination (Following/Fleeing)
-        // Wandering handles its own position update via navMeshAgent.updatePosition = true
-        if (!agent.updatePosition && (agent.isOnNavMesh || agent.isOnOffMeshLink))
-        {
-            Vector3 pos = animator.rootPosition;
-            pos.y = agent.nextPosition.y;
-            transform.position = pos;
-        }
-    }
-
-    // =========================================================================
-    // NavMesh management
-    // =========================================================================
-
-    private void TryCacheHomePlace()
-    {
-        if (homePlace != null || mapGenerator == null) return;
-        var wfc = mapGenerator.GetWFC();
-        if (wfc == null || wfc.homeInstance == null) return;
-        homePlace = wfc.homeInstance.GetComponent<Place>();
-    }
-
-    private void LookForNavMesh()
-    {
-        navMeshPollTimer -= Time.deltaTime;
-        if (navMeshPollTimer > 0) return;
-        navMeshPollTimer = POLL_INTERVAL;
-
-        if (!Physics.Raycast(transform.position + Vector3.up * 6, Vector3.down, out _, 7f, navMeshLayerMask))
-            return;
-
-        if (!IsAtHome())
-        {
-            TryEnableAgent();
-        }
-        else if (player != null && Vector3.Distance(transform.position, player.position) < 40f)
-        {
-            if (TryEnableAgent())
-                SetWandering();
-        }
-    }
-
-    private bool TryEnableAgent()
-    {
-        if (!NavMesh.SamplePosition(transform.position, out NavMeshHit navHit, 2.0f, NavMesh.AllAreas))
-            return false;
-
-        agent.enabled = true;
-        agent.Warp(navHit.position);
-        agent.ResetPath();
-        return true;
-    }
-
-    private void UpdateHomeCheck()
-    {
-        if (IsAtHome() || homePlace == null) return;
-
-        homeCheckTimer -= Time.deltaTime;
-        if (homeCheckTimer > 0) return;
-        homeCheckTimer = POLL_INTERVAL;
-
-        if (homePlace.GetExtents().CollidesWith(transform.position.x, transform.position.z, 1, 1, -5))
-        {
-            SetState(CatState.AtHome);
-            game.RemoveFromFollowers(this);
-            game.AddToHome(this);
-        }
-    }
-
-    private void UpdateAtHomeDeactivation()
-    {
-        if (!IsAtHome() || Vector3.Distance(transform.position, player.position) <= 40f) return;
-
-        if (agent.isActiveAndEnabled && agent.isOnNavMesh)
-            agent.ResetPath();
-
-        agent.enabled = false;
-        wander.enabled = false;
-    }
-
-    private void HandleOffMeshLinks()
-    {
-        if (agent.isOnOffMeshLink && !isTraversingOffMeshLink)
-        {
-            OffMeshLinkData linkData = agent.currentOffMeshLinkData;
-            offMeshLinkStartPos = agent.transform.position;
-            offMeshLinkEndPos = linkData.endPos + Vector3.up * agent.baseOffset;
-            isTraversingOffMeshLink = true;
-            agent.speed = 1f;
-            agent.autoTraverseOffMeshLink = true;
-        }
-
-        if (isTraversingOffMeshLink)
-        {
-            float total = Vector3.Distance(offMeshLinkStartPos, offMeshLinkEndPos);
-            float current = Vector3.Distance(agent.transform.position, offMeshLinkEndPos);
-            offMeshLinkProgression = 1f - (current / total);
-        }
-
-        if (offMeshLinkProgression >= 1f)
-        {
-            isTraversingOffMeshLink = false;
-            agent.autoTraverseOffMeshLink = false;
-            offMeshLinkProgression = -1f;
-        }
-    }
-
-    public void SetState(CatState state) => currentState = state;
-    public void SetWandering()
-    {
-        if (currentState != CatState.AtHome)
-            SetState(CatState.Wandering);
-
-        wander.enabled = true;
-        wander.InitializeWanderScript(animator, agent);
-    }
-
-    public bool IsAtHome() => currentState == CatState.AtHome;
-    public bool IsFollowing() => currentState == CatState.Following;
-    public bool IsFleeing() => currentState == CatState.Fleeing;
-    public bool IsWandering() => currentState == CatState.Wandering;
-    public CatState GetCatState() => currentState;
     public CatIdentity GetIdentity() => identity;
+    public void SetState(CatState newState) => state = newState;
+    public bool IsFollowing() => state == CatState.Following;
+    public bool IsAtHome() => houseSystem.IsAtHome();
 }

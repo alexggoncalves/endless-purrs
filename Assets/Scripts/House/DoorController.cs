@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
+    int insideCount = 0;
     bool doorOpened = false;
 
     [SerializeField]
-    public Transform door;
+    private Transform door;
 
     [SerializeField]
     float openDoorAngle = -160f;
@@ -27,7 +28,7 @@ public class DoorController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(doorOpened)
+        if (doorOpened)
         {
             door.rotation = Quaternion.Lerp(door.rotation, openDoorRotation, Time.fixedDeltaTime * doorSpeed);
         }
@@ -39,23 +40,43 @@ public class DoorController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (IsValidEntity(other))
         {
-            doorOpened = true;
-            DoorSound[0].Play();
+            insideCount++;
+
+            if (insideCount == 1)
+                OpenDoor();
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (IsValidEntity(other))
         {
-            doorOpened = false;
-            DoorSound[1].Play();
+            insideCount = Mathf.Max(0, insideCount - 1);
+
+            if (insideCount == 0)
+                CloseDoor();
         }
     }
 
-    
+
+    private bool IsValidEntity(Collider other)
+    {
+        return other.CompareTag("Player") || other.CompareTag("Cat");
+    }
+
+    private void OpenDoor()
+    {
+        doorOpened = true;
+        DoorSound[0].Play();
+    }
+
+    private void CloseDoor()
+    {
+        doorOpened = false;
+        DoorSound[1].Play();
+    }
 
     public Boolean IsDoorOpen()
     {

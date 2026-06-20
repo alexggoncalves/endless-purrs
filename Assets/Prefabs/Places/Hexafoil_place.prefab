@@ -5681,9 +5681,7 @@ MonoBehaviour:
   placeName: Hexafoil
   width: 2
   height: 2
-  tile: grass
-  extents: {fileID: 0}
-  onWait: 0
+  tileName: grass
 --- !u!1 &3814118719614919270
 GameObject:
   m_ObjectHideFlags: 0

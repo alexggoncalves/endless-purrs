@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public enum PlayerState
@@ -20,11 +22,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpDebouncePeriod = 0.2f;
     [SerializeField] private float distancePerStep = 1.8f;
     [SerializeField] private Animator animator;
+    [SerializeField] private CameraController cameraController;
 
     // --- References ------------------------------------
-    public MapGenerator mapGenerator;
-    public Game game;
+    public WorldGenerator worldGenerator;
+    public GameManager game;
     private RoofController roofController;
+    private Cloth playerCape;
+    private Vector3 spawnPoint;
+    
 
     // --- State -----------------------------------------
     public PlayerState State { get; private set; } = PlayerState.Free;
@@ -69,7 +75,7 @@ public class PlayerController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         footstepSources = gameObject.GetComponents<AudioSource>();
-        game = Object.FindAnyObjectByType<Game>();
+        game = Object.FindAnyObjectByType<GameManager>();
 
         // Find input actions
         moveAction = InputSystem.actions.FindAction("Move");
@@ -80,6 +86,8 @@ public class PlayerController : MonoBehaviour
         GameObject houseTop = GameObject.Find("HouseTop");
         if (houseTop != null)
             roofController = houseTop.GetComponent<RoofController>();
+
+        playerCape = GameObject.FindGameObjectWithTag("Cape").GetComponent<Cloth>();
 
         // Set up sound sources and step distance
         distanceSinceLastStep = distancePerStep;
@@ -94,6 +102,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        TryFindSpawnPoint();
+
         if (!IsFree) return;
 
         movementDirection = moveAction.ReadValue<Vector2>();
@@ -114,6 +124,14 @@ public class PlayerController : MonoBehaviour
 
         HandleJump();
         Move();
+    }
+
+    private void TryFindSpawnPoint()
+    {
+        GameObject spawnPointObject = GameObject.FindGameObjectWithTag("SpawnPoint");
+        if (spawnPointObject != null)
+            spawnPoint = spawnPointObject.transform.position;
+        else spawnPoint = Vector3.zero;
     }
 
     private void Move()
@@ -232,6 +250,38 @@ public class PlayerController : MonoBehaviour
         int index = (int)surface;
         if (index < footstepSources.Length && footstepSources[index] != null)
             footstepSources[index].Play();
+    }
+
+    public IEnumerator TeleportToSpawnPoint()
+    {
+        cameraController.PauseSmoothing();
+
+        if (playerCape != null)
+            playerCape.enabled = false;
+
+        transform.SetPositionAndRotation(spawnPoint, Quaternion.Euler(0, 180, 0));
+
+        if (playerCape != null)
+            playerCape.enabled = true;
+
+        yield return null;
+
+        cameraController.ResumeSmoothing();
+    }
+
+    public void TeleportTo(Vector3 point)
+    {
+        cameraController.PauseSmoothing();
+
+        if (playerCape != null)
+            playerCape.enabled = false;
+
+        transform.position = point;
+
+        if (playerCape != null)
+            playerCape.enabled = true;
+
+        cameraController.ResumeSmoothing();
     }
 
     /// <summary>Transitions the player to a new state.</summary>

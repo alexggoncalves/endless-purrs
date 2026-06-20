@@ -943,9 +943,7 @@ MonoBehaviour:
   placeName: Well
   width: 2
   height: 2
-  tile: grass
-  extents: {fileID: 0}
-  onWait: 0
+  tileName: grass
 --- !u!1 &4120913315147011537
 GameObject:
   m_ObjectHideFlags: 0

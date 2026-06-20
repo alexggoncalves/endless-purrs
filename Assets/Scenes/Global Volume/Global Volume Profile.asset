@@ -21,10 +21,10 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.182
+    m_Value: 0.141
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.39
+    m_Value: 0.369
   rounded:
     m_OverrideState: 1
     m_Value: 1
@@ -96,10 +96,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e1dc532bcb41949b58bc4f2abfbb7e, type: 3}
   m_Name: LensDistortion
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.24
+    m_Value: 0.2
   xMultiplier:
     m_OverrideState: 0
     m_Value: 1
@@ -110,8 +110,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: {x: 0.5, y: 0.5}
   scale:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 1.06
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,10 +147,10 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.61
+    m_Value: 1
   contrast:
     m_OverrideState: 1
-    m_Value: -11
+    m_Value: 0
   colorFilter:
     m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -159,7 +159,7 @@ MonoBehaviour:
     m_Value: -2
   saturation:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: -0.2
 --- !u!114 &5130402185008342085
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -197,25 +197,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   skipIterations:
     m_OverrideState: 0
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 1.5
+    m_Value: 1.76
   intensity:
     m_OverrideState: 1
-    m_Value: 22.46
+    m_Value: 1
   scatter:
     m_OverrideState: 1
-    m_Value: 0.075
+    m_Value: 0.68
   clamp:
     m_OverrideState: 0
     m_Value: 65472
   tint:
     m_OverrideState: 0
-    m_Value: {r: 0.9811321, g: 0.1703097, b: 0.8035416, a: 1}
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
   highQualityFiltering:
     m_OverrideState: 0
     m_Value: 0

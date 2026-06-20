@@ -81,6 +81,4 @@ public class AbilitiesHUD : MonoBehaviour
         });
 
     }
-
-
 }

@@ -14,8 +14,9 @@ public class MainMenuController : MonoBehaviour
     private VisualElement loadingScreen;
     private VisualElement progressFill;
 
-    [SerializeField] private MapGenerator mapGenerator;
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] private WorldGenerator worldGenerator;
+
+    private PlayerController playerController;
 
     private bool isLoadingMap = false;
 
@@ -31,11 +32,11 @@ public class MainMenuController : MonoBehaviour
 
     private void Update()
     {
-        if (mapGenerator == null || !isLoadingMap) return;
+        if (worldGenerator == null || !isLoadingMap) return;
 
-        if (!mapGenerator.IsInitialAreaGenerated())
+        if (!worldGenerator.IsInitialAreaGenerated())
         {
-            float progress = mapGenerator.GetInitialAreaLoadingProgress();
+            float progress = worldGenerator.GetInitialAreaLoadingProgress();
             if (progressFill != null)
             {
                 progressFill.style.width = Length.Percent(progress * 100f);
@@ -93,9 +94,9 @@ public class MainMenuController : MonoBehaviour
         }
 
         // Begin generating map
-        if (mapGenerator != null)
+        if (worldGenerator != null)
         {
-            mapGenerator.BeginGeneration();
+            worldGenerator.BeginGeneration();
             isLoadingMap = true;
         }
     }
@@ -103,6 +104,5 @@ public class MainMenuController : MonoBehaviour
     private void OnQuitButtonClicked()
     {
         Application.Quit();
-        EditorApplication.isPlaying = false;
     }
 }

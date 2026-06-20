@@ -568,9 +568,7 @@ MonoBehaviour:
   placeName: Rock Formation
   width: 5
   height: 5
-  tile: grass
-  extents: {fileID: 0}
-  onWait: 0
+  tileName: grass
 --- !u!1 &4678451794298299874
 GameObject:
   m_ObjectHideFlags: 0

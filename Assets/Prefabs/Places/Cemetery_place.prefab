@@ -3961,9 +3961,7 @@ MonoBehaviour:
   placeName: Cemetery
   width: 8
   height: 8
-  tile: 
-  extents: {fileID: 0}
-  onWait: 0
+  tileName: grass
 --- !u!1 &3810853230866026614
 GameObject:
   m_ObjectHideFlags: 0

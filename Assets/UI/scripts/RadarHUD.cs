@@ -2,6 +2,8 @@ using NUnit.Framework.Internal;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using Unity.AppUI.UI;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -68,8 +70,13 @@ public class RadarHUD : MonoBehaviour
             ? Vector2.zero
             : GetRelativeOffsetToPoint(closestPoint);
 
-        home.style.left = radarRadius + offset.x * radarRadius;
-        home.style.top = radarRadius + offset.y * radarRadius;
+        float halfW = home.resolvedStyle.width * 0.5f;
+        float halfH = home.resolvedStyle.height * 0.5f;
+
+        home.style.translate = new Translate(
+            radarRadius + offset.x * radarRadius - halfW,
+            radarRadius + offset.y * radarRadius - halfH,
+            0f);
     }
 
     private void TryFindHouse()
@@ -93,8 +100,13 @@ public class RadarHUD : MonoBehaviour
             if (cat == null) continue;
             Vector2 offset = GetRelativeOffsetToPoint(cat.transform.position);
 
-            blip.style.left = radarRadius + offset.x * radarRadius;
-            blip.style.top = radarRadius + offset.y * radarRadius;
+            float halfW = blip.resolvedStyle.width * 0.5f;
+            float halfH = blip.resolvedStyle.height * 0.5f;
+
+            blip.style.translate = new Translate(
+                radarRadius + offset.x * radarRadius - halfW,
+                radarRadius + offset.y * radarRadius - halfH,
+                0f);
         }
     }
 
@@ -123,16 +135,17 @@ public class RadarHUD : MonoBehaviour
 
         foreach (CatController cat in FindCatsInRange())
         {
-            VisualElement blip = blipTemplate.Instantiate().ElementAt(0);
-            
+            VisualElement blipContainer = blipTemplate.Instantiate().ElementAt(0);
+            VisualElement blip = blipContainer.Children().ElementAt(0);
+
             // Set color of blip as cat's coat color
             Transform catMesh = cat.transform.Find("Cat");
             Material catMaterial = catMesh.GetComponent<Renderer>().material;
 
             blip.style.unityBackgroundImageTintColor = catMaterial.GetColor("_Coat_Colour");
 
-            radar.Add(blip);
-            activeBlips.Add((blip, cat));
+            radar.Add(blipContainer);
+            activeBlips.Add((blipContainer, cat));
         }
 
         if (radarCoroutine != null)

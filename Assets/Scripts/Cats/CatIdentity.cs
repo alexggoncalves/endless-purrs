@@ -47,6 +47,11 @@ public class CatIdentity : MonoBehaviour
     public string gender;
     public BehaviourType behaviour;
 
+    private void Start()
+    {
+        SetIdentity();
+    }
+
     public void SetIdentity()
     {
         // Set Gender
@@ -69,37 +74,15 @@ public class CatIdentity : MonoBehaviour
     BehaviourType GetRandomBehaviour()
     {
         float random = Random.Range(0.0f, 1.0f);
-        if (random < 0.5f)
-        {
-            return BehaviourType.Scaredy;
-        }
-        else
-        {
-            return BehaviourType.Friendly;
-        }
+        if (random < 0.5f) return BehaviourType.Scaredy;
+        else return BehaviourType.Friendly;
     }
 
     string GetRandomGender()
     {
-        // Set Gender
         float random = Random.Range(0.0f, 1.0f);
-
-        if (random < 0.33f)
-        {
-            return "Female";
-        }
-        else if (random < 0.66f)
-        {
-            return "Male";
-        }
-        else {
-            return "Neutral";
-        }
-    }
-
-    public BehaviourType GetBehaviourType()
-    {
-        return behaviour;
+        if (random < 0.5f) return "female";
+        else return "male";
     }
 
     string GetRandomName(string gender)
@@ -107,7 +90,7 @@ public class CatIdentity : MonoBehaviour
         List<string> pool;
         List<string> used;
 
-        switch (gender.ToLower())
+        switch (gender)
         {
             case "male":
                 pool = maleNames.ToList();
@@ -128,4 +111,8 @@ public class CatIdentity : MonoBehaviour
         return selected;
     }
 
+    public bool IsFriendly()
+    {
+        return behaviour == BehaviourType.Friendly;
+    }
 }

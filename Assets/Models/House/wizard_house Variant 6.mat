@@ -22,7 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: wizard_house Variant 6
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_Parent: {fileID: -3072155499180562189, guid: 4d009a7f33a48cd4690550225f5bf053, type: 3}
+  m_Parent: {fileID: 4253588671899480465, guid: d7878fc0ad282c249aaaf87348da4c0c, type: 3}
   m_ModifiedSerializedProperties: 16
   m_ValidKeywords: []
   m_InvalidKeywords: []

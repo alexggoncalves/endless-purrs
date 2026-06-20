@@ -1,34 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Place : MonoBehaviour
 {
-    [SerializeField]
-    string placeName;
+    [SerializeField] private string placeName;
+    [SerializeField] private int[,] grid;
+    [SerializeField, Range(1,40)] int width = 2, height = 2;
+    [SerializeField] string tileName;
 
-    [SerializeField]
-    public int[,] grid;
+    private float cellScale;
+    private TileBitmask placeTileBitmask;
 
-    [SerializeField, Range(1,40)]
-    int width = 2, height = 2;
-    float cellScale;
-
-    [SerializeField]
-    string tile;
-
-    public RectangularArea extents;
-
-    public bool onWait = false;
-    
-
-    public void Initialize(Vector2 position, int tile, float cellScale)
+    private RectangularArea extents;
+   
+    public void Initialize(Vector2 position, TileLoader tileLoader, float cellScale)
     {
         this.cellScale = cellScale;
         transform.position = new Vector3(position.x, 0, position.y);
 
-        FillWith(tile);
+        Tile resolved = tileLoader.GetTileByName(tileName);
+        if (resolved == null)
+        {
+            Debug.LogError($"Place '{placeName}': no tile named '{tileName}' found in TileLoader.");
+            return;
+        }
+
+        int tileID = resolved.GetID();
+        placeTileBitmask.Clear();
+        placeTileBitmask.Set(tileID);
+
+        FillWith(tileID);
         extents = this.AddComponent<RectangularArea>();
         extents.Initialize(width * cellScale, height * cellScale, Vector2.zero, UnityEngine.Color.yellow);
     }
@@ -45,7 +49,9 @@ public class Place : MonoBehaviour
         }
     }
 
-    public Vector2 GetDimensions() { return new Vector2(width, height); }
+    public Vector2 GetPlaceGridDimensions() { return new Vector2(width, height); }
+
+    public Vector2 GetPlaceWorldDimensions() { return new Vector2(width * cellScale, height * cellScale); }
 
     public Vector2 GetPosition() { return transform.position; }
 
@@ -53,4 +59,5 @@ public class Place : MonoBehaviour
 
     public RectangularArea GetExtents() { return extents; }
 
+    public TileBitmask GetTileBitmask() { return placeTileBitmask; } 
 }

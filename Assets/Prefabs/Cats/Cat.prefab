@@ -222,15 +222,17 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1865192514137203124}
-  - component: {fileID: 8780573285559139810}
   - component: {fileID: 6023354840776693870}
+  - component: {fileID: -8549418143552244527}
+  - component: {fileID: 8780573285559139810}
   - component: {fileID: 7532601501132447287}
-  - component: {fileID: 2754910309962344187}
-  - component: {fileID: 1658980738685934162}
+  - component: {fileID: 4732127772804513787}
+  - component: {fileID: 7650647729384052571}
+  - component: {fileID: 7168446790569778469}
+  - component: {fileID: 2427199531726355700}
   - component: {fileID: 4586217105725850093}
   - component: {fileID: 1284177530703076663}
-  - component: {fileID: -8549418143552244527}
-  - component: {fileID: 7188325530934270611}
+  - component: {fileID: 9088640006912215259}
   m_Layer: 0
   m_Name: Cat
   m_TagString: Cat
@@ -256,6 +258,42 @@ Transform:
   - {fileID: 8819553446238274907}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6023354840776693870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344797386151426830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05d038945b241e45b4d7b7fc9e4d3fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: ce2ee8da646c331f8823294c025f1eab, type: 2}
+  createACatMaterial: {fileID: 2100000, guid: 682315aee1dbb4f488932279d4791921, type: 2}
+  catSMR: {fileID: 5660028900756134568}
+--- !u!135 &-8549418143552244527
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344797386151426830}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.01, z: 0}
 --- !u!95 &8780573285559139810
 Animator:
   serializedVersion: 7
@@ -278,21 +316,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6023354840776693870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1344797386151426830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b05d038945b241e45b4d7b7fc9e4d3fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: ce2ee8da646c331f8823294c025f1eab, type: 2}
-  createACatMaterial: {fileID: 2100000, guid: 682315aee1dbb4f488932279d4791921, type: 2}
-  catSMR: {fileID: 5660028900756134568}
 --- !u!195 &7532601501132447287
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -315,7 +338,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 2
---- !u!114 &2754910309962344187
+--- !u!114 &4732127772804513787
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -324,17 +347,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 1344797386151426830}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e23458ec93ed3244baddd180a50256f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 53c94b7d37faa6e44aa3fcb3de332fda, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 3.5
+  m_EditorClassIdentifier: Assembly-CSharp::CatController
+--- !u!114 &7650647729384052571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344797386151426830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80918f7960f6f8f4897512c5483b8ee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  visionRange: 10
+--- !u!114 &7168446790569778469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344797386151426830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b992cf5ff17015949a9b439689ac332c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatMovement
+  speed: 3
   fleeSpeed: 5
-  fleeDistance: 5
-  visionRange: 20
-  navMeshLayerMask:
-    serializedVersion: 2
-    m_Bits: 512
---- !u!114 &1658980738685934162
+  fleeDistance: 30
+  followStopDistance: 3
+  agent: {fileID: 7532601501132447287}
+--- !u!114 &2427199531726355700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -343,9 +389,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1344797386151426830}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b88f3d18aef0494d936cd2472eaf58a, type: 3}
+  m_Script: {fileID: 11500000, guid: d98f28a8bf2a1fa468343155ecd76155, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatHouseSystem
 --- !u!82 &4586217105725850093
 AudioSource:
   m_ObjectHideFlags: 0
@@ -675,39 +721,33 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!135 &-8549418143552244527
-SphereCollider:
+--- !u!54 &9088640006912215259
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1344797386151426830}
-  m_Material: {fileID: 0}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0.01, z: 0}
---- !u!114 &7188325530934270611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1344797386151426830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10d6b07a5e80c8480b155780714f07b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CAC.CatWanderScript
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1401829272946013973
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,7 +765,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8843230197987609168
 RectTransform:
   m_ObjectHideFlags: 0
@@ -770,7 +810,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a71576c9eb3d0234cb3ffa46afa20539, type: 2}
+  - {fileID: 8391815302727232083, guid: c6de4768e02fe32428842a6d5a5804fa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -816,12 +856,10 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Name
 
-    Gender
-
-    Behaviour'
+    Gender'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1f9de01e7b80aa947bb824d365766481, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: a71576c9eb3d0234cb3ffa46afa20539, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c6de4768e02fe32428842a6d5a5804fa, type: 2}
+  m_sharedMaterial: {fileID: 8391815302727232083, guid: c6de4768e02fe32428842a6d5a5804fa, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -884,7 +922,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0.017638564, y: 0.2894596, z: -0.02985406, w: 0.59639436}
+  m_margin: {x: 0.017638564, y: 0.2894596, z: -0.02985406, w: 1.1262125}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0

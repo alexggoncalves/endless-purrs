@@ -1,18 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using System.Linq;
-using UnityEngine.UIElements;
-using Unity.AI.Navigation;
 
 [System.Serializable]
 public struct TileBitmask
 {
-    public ulong m0;
-    public ulong m1;
-    public ulong m2;
-    public ulong m3;
+    public ulong m0, m1, m2, m3;
 
     public void Clear() { m0 = m1 = m2 = m3 = 0; }
     
@@ -64,7 +56,7 @@ public struct TileBitmask
     public static TileBitmask And(TileBitmask a, TileBitmask b)
     {
         return new TileBitmask { m0 = a.m0 & b.m0, m1 = a.m1 & b.m1, m2 = a.m2 & b.m2, m3 = a.m3 & b.m3 };
-    }
+    }  
 
     public readonly int GetFirstSetBit()
     {
@@ -83,7 +75,7 @@ public struct TileBitmask
         return (int)((x * 0x0101010101010101UL) >> 56);
     }
 
-    private static int TrailingZeroCount(ulong v)
+    public static int TrailingZeroCount(ulong v)
     {
         if (v == 0) return 64;
         int n = 0;
@@ -101,14 +93,12 @@ public class Cell : MonoBehaviour
 {
     public bool collapsed;
     public int x, y;
-    public List<int> tileOptions;
     public TileBitmask tileOptionsMask;
     public GameObject tileInstance;
     public bool preset = false;
 
     TileLoader tileLoader;
-
-    public GameObject natureElement;
+    public GameObject decoration;
 
     public void CreateCell(bool collapseState, int x, int y, TileLoader tileLoader)
     {
@@ -118,37 +108,16 @@ public class Cell : MonoBehaviour
         collapsed = collapseState;
 
         this.tileLoader = tileLoader;
-        
-        List<int> possible = tileLoader.GetPossibleTileIDs();
-        tileOptions = possible;
 
-        tileOptionsMask.Clear();
-        int count = possible.Count;
-        for (int i = 0; i < count; i++)
-        {
-            tileOptionsMask.Set(possible[i]);
-        }
-        
+        tileOptionsMask = tileLoader.GetPossibleTilesMask();
+
         tileInstance = null;
-        natureElement = null;
-    }
-
-    public void RecreateCell(List<int> tileIDs)
-    {
-        tileOptions = tileIDs;
-        tileOptionsMask.Clear();
-        int count = tileIDs.Count;
-        for (int i = 0; i < count; i++)
-        {
-            tileOptionsMask.Set(tileIDs[i]);
-        }
+        decoration = null;
     }
 
     public void RecreateCell(TileBitmask mask)
     {
         tileOptionsMask = mask;
-        // Lazily keep the list updated for old/inspector compatibility if needed
-        tileOptions = GetTileOptions();
     }
 
     public GameObject InstantiateTile()
@@ -162,18 +131,11 @@ public class Cell : MonoBehaviour
     public void ResetCell()
     {
         collapsed = false;
-        List<int> possible = tileLoader.GetPossibleTileIDs();
-        tileOptions = possible;
 
-        tileOptionsMask.Clear();
-        int count = possible.Count;
-        for (int i = 0; i < count; i++)
-        {
-            tileOptionsMask.Set(possible[i]);
-        }
+        tileOptionsMask = tileLoader.GetPossibleTilesMask();
 
         tileInstance = null;
-        natureElement = null;
+        decoration = null;
     }
 
     public int GetX()
@@ -186,52 +148,9 @@ public class Cell : MonoBehaviour
         return y;
     }
 
-    public List<int> GetTileOptions()
+    public void SetDecoration(GameObject decoration)
     {
-        List<int> list = new List<int>(tileOptionsMask.Count);
-        ulong temp = tileOptionsMask.m0;
-        while (temp != 0)
-        {
-            list.Add(TrailingZeroCount(temp));
-            temp &= temp - 1;
-        }
-        temp = tileOptionsMask.m1;
-        while (temp != 0)
-        {
-            list.Add(64 + TrailingZeroCount(temp));
-            temp &= temp - 1;
-        }
-        temp = tileOptionsMask.m2;
-        while (temp != 0)
-        {
-            list.Add(128 + TrailingZeroCount(temp));
-            temp &= temp - 1;
-        }
-        temp = tileOptionsMask.m3;
-        while (temp != 0)
-        {
-            list.Add(192 + TrailingZeroCount(temp));
-            temp &= temp - 1;
-        }
-        return list;
-    }
-
-    public void SetNatureElementInstance(GameObject natureElement)
-    {
-        this.natureElement = natureElement;
-    }
-
-    private static int TrailingZeroCount(ulong v)
-    {
-        if (v == 0) return 64;
-        int n = 0;
-        if ((v & 0xFFFFFFFFUL) == 0) { n += 32; v >>= 32; }
-        if ((v & 0xFFFFUL) == 0) { n += 16; v >>= 16; }
-        if ((v & 0xFFUL) == 0) { n += 8; v >>= 8; }
-        if ((v & 0xFUL) == 0) { n += 4; v >>= 4; }
-        if ((v & 0x3UL) == 0) { n += 2; v >>= 2; }
-        if ((v & 0x1UL) == 0) { n += 1; }
-        return n;
+        this.decoration = decoration;
     }
 }
 

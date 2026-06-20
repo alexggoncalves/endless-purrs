@@ -45,8 +45,8 @@ MonoBehaviour:
   m_MainLightShadowsSupported: 1
   m_MainLightShadowmapResolution: 2048
   m_AdditionalLightsRenderingMode: 1
-  m_AdditionalLightsPerObjectLimit: 4
-  m_AdditionalLightShadowsSupported: 0
+  m_AdditionalLightsPerObjectLimit: 6
+  m_AdditionalLightShadowsSupported: 1
   m_AdditionalLightsShadowmapResolution: 2048
   m_AdditionalLightsShadowResolutionTierLow: 256
   m_AdditionalLightsShadowResolutionTierMedium: 512
@@ -57,10 +57,10 @@ MonoBehaviour:
   m_ShadowDistance: 60
   m_ShadowCascadeCount: 3
   m_Cascade2Split: 0.2809641
-  m_Cascade3Split: {x: 0.24244878, y: 0.4158045}
+  m_Cascade3Split: {x: 0.23833334, y: 0.41580462}
   m_Cascade4Split: {x: 0.067, y: 0.2, z: 0.467}
   m_CascadeBorder: 0.7154885
-  m_ShadowDepthBias: 1.07
+  m_ShadowDepthBias: 0
   m_ShadowNormalBias: 0
   m_AnyShadowsSupported: 1
   m_SoftShadowsSupported: 1
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_PrefilterDebugKeywords: 1
   m_PrefilterWriteRenderingLayers: 1
   m_PrefilterHDROutput: 1
-  m_PrefilterAlphaOutput: 0
+  m_PrefilterAlphaOutput: 1
   m_PrefilterSSAODepthNormals: 0
   m_PrefilterSSAOSourceDepthLow: 1
   m_PrefilterSSAOSourceDepthMedium: 1
@@ -128,15 +128,15 @@ MonoBehaviour:
   m_PrefilterSoftShadowsQualityHigh: 1
   m_PrefilterSoftShadows: 0
   m_PrefilterScreenCoord: 1
-  m_PrefilterScreenSpaceIrradiance: 0
-  m_PrefilterNativeRenderPass: 1
+  m_PrefilterScreenSpaceIrradiance: 1
+  m_PrefilterNativeRenderPass: 0
   m_PrefilterUseLegacyLightmaps: 0
-  m_PrefilterBicubicLightmapSampling: 0
-  m_PrefilterReflectionProbeRotation: 0
-  m_PrefilterReflectionProbeBlending: 0
-  m_PrefilterReflectionProbeBoxProjection: 0
-  m_PrefilterReflectionProbeAtlas: 0
-  m_PrefilterPointSamplingUpsampling: 0
+  m_PrefilterBicubicLightmapSampling: 1
+  m_PrefilterReflectionProbeRotation: 1
+  m_PrefilterReflectionProbeBlending: 1
+  m_PrefilterReflectionProbeBoxProjection: 1
+  m_PrefilterReflectionProbeAtlas: 1
+  m_PrefilterPointSamplingUpsampling: 1
   m_ShaderVariantLogLevel: 0
   m_ShadowCascades: 0
   m_Textures:

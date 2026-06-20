@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 8171800830259428885}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0079, y: 0.0078, z: 0}
+  m_LocalPosition: {x: 1.566, y: 1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,11 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SerializedVersion: 1
   m_AgentTypeID: 1479372276
   m_StartPoint: {x: 0, y: 0, z: 0}
   m_EndPoint: {x: -0.8768444, y: 1.6584247, z: 0}
+  m_StartTransform: {fileID: 0}
+  m_EndTransform: {fileID: 0}
+  m_Activated: 1
   m_Width: 3.4951756
   m_CostModifier: 4
+  m_IsOverridingCost: 1
   m_Bidirectional: 1
   m_AutoUpdatePosition: 1
   m_Area: 0
@@ -83,8 +88,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 200.00002, y: 200.00002, z: 200.00002}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8017919009553883852}
   m_Father: {fileID: 0}
@@ -114,10 +119,15 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: f499e903e5a5d7f4bb7a8c6d20a840f4, type: 3}
+  - {fileID: 2100000, guid: e64179ee7d11f8549a10a94b1f1cd01d, type: 2}
   - {fileID: 2100000, guid: f50c014c2db89504ea39da5ee6fde772, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -136,9 +146,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1177768846582070369
 MonoBehaviour:
@@ -152,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
   m_OverrideArea: 1
   m_Area: 0
   m_OverrideGenerateLinks: 0
@@ -178,8 +191,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.015157506, y: 0.009018447, z: 0.020005928}
-  m_Center: {x: -0.0024212678, y: 0.011476245, z: -0.000000380675}
+  m_Size: {x: 3, y: 1.8036894, z: 4}
+  m_Center: {x: -0.5, y: 2.295248, z: 0}
 --- !u!65 &2224310581706370716
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -199,5 +212,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.020000003, y: 0.0006202285, z: 0.020005928}
-  m_Center: {x: -0.0000000031789145, y: 0.007682826, z: -0.000000380675}
+  m_Size: {x: 4, y: 0.1, z: 4}
+  m_Center: {x: 0, y: 1.548588, z: 0}

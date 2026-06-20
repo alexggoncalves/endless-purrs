@@ -5,7 +5,7 @@
         <ui:VisualElement name="Radar" class="radar">
             <ui:Image name="RadarBackground" style="background-image: url(&quot;project://database/Assets/UI/assets/RadarGradient.svg?fileID=7388822144124034973&amp;guid=8e33791af1924c6478e9ef590930cfbb&amp;type=3#RadarGradient&quot;); flex-grow: 1;"/>
             <ui:VisualElement name="RadarCenter" class="radar-center" style="rotate: 0;"/>
-            <ui:VisualElement name="HomeLocation" class="radar-house-location" style="top: 52px; left: 97px;"/>
+            <ui:VisualElement name="HomeLocation" class="radar-house-location"/>
         </ui:VisualElement>
         <ui:VisualElement name="AbilitesContainer" class="abilities-container">
             <ui:VisualElement name="CallAbility" class="ability" style="opacity: 1;">
@@ -27,7 +27,7 @@
         <ui:VisualElement name="CatCounter" class="cat-counter">
             <ui:Label text="0" name="CurrentCatCount" class="cat-counter_current"/>
             <ui:Label text="/" name="CounterBar" class="cat-counter_bar"/>
-            <ui:Label text="3" name="TotalAmount" class="cat-counter_total"/>
+            <ui:Label text="3" name="TotalCatCount" class="cat-counter_total"/>
         </ui:VisualElement>
         <ui:Image name="CatIcon" class="cat-icon"/>
     </ui:VisualElement>

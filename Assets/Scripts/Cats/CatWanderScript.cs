@@ -63,7 +63,6 @@ namespace CAC
 
         public void UpdateWanderScript(Vector3 center, float radius)
         {
-            navMeshAgent.stoppingDistance = 0;
             navMeshAgent.updatePosition = true;
 
             if (coroutine == null)

@@ -21,7 +21,7 @@ public class CameraTarget : MonoBehaviour
     {
         if (player == null) return;
 
-        Vector3 targetPos = player.position;
+        Vector3 targetPos = new( player.position.x,transform.position.y,player.position.z);
 
         // If the player is moving, shift the target position ahead
         if (playerController != null && playerController.IsMoving())

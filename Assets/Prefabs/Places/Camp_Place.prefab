@@ -292,9 +292,7 @@ MonoBehaviour:
   placeName: Camp
   width: 4
   height: 4
-  tile: grass
-  extents: {fileID: 0}
-  onWait: 0
+  tileName: grass
 --- !u!1 &3924388743072026222
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -15,7 +12,8 @@ public enum TileType
     cliff,
     cliff_L1,
     sand,
-    water
+    water,
+    slope
 }
 
 [System.Serializable]
@@ -35,7 +33,7 @@ public struct TileConstraints
 
 [System.Serializable]
 public class TileInfo
-{ 
+{
     public string name;
     public bool enabled = true;
     public TileType type;
@@ -47,31 +45,30 @@ public class TileInfo
 public class TileLoader : MonoBehaviour
 {
     public TileInfo[] tileInfo;
-    public List<Tile> tiles = new List<Tile>();
-    public int grassID;
-    private List<int> possibleTileIDs = new();
+    public List<Tile> tiles = new();
+    private TileBitmask possibleTilesMask;
 
     private void Start()
     {
         // Create all the tiles with the information given on the editor
         foreach (TileInfo tile in tileInfo)
         {
-            if(tile.enabled)
+            if (tile.enabled)
             {
                 foreach (TileConstraints constraints in tile.constraints)
                 {
                     string name = tile.name.ToString();
-                    /*GameObject newTile = new(name);*/
-                    Tile tileComponent = new Tile(); /*newTile.AddComponent<Tile>();*/
+                    Tile tileComponent = new();
                     tileComponent.Initialize(tile.tileOptions, name, constraints.pX, constraints.nX, constraints.pY, constraints.nY, tile.weight, constraints.rotation, tile.type);
                     tiles.Add(tileComponent);
-                    /*newTile.transform.SetParent(transform);*/
                 }
             }
         }
 
         // Order tiles by weight
         tiles.Sort((tileA, tileB) => tileB.weight.CompareTo(tileA.weight));
+
+        possibleTilesMask.Clear();
 
         int counter = 0;
         // Compare every profile (on the X and Y [Z in unity] axis) of the pieces of the tileset to each other and set up neighbours.
@@ -80,28 +77,26 @@ public class TileLoader : MonoBehaviour
             tileA.SetID(counter);
 
             foreach (Tile tileB in tiles)
-            { 
-                if (IsSymmetrical(tileA.pX, tileB.nX) ^ IsAsymmetrical(tileA.pX, tileB.nX))
+            {
+                if (IsSymmetrical(tileA.pX, tileB.nX) || IsAsymmetrical(tileA.pX, tileB.nX))
                 {
-                    if (!tileB.leftNeighbours.Contains(tileA.GetID())) tileB.leftNeighbours.Add(tileA.GetID());
+                    tileB.leftNeighboursMask.Set(tileA.GetID());
                 }
-                if (IsSymmetrical(tileA.nX, tileB.pX) ^ IsAsymmetrical(tileA.nX, tileB.pX))
+                if (IsSymmetrical(tileA.nX, tileB.pX) || IsAsymmetrical(tileA.nX, tileB.pX))
                 {
-                    if (!tileB.rightNeighbours.Contains(tileA.GetID())) tileB.rightNeighbours.Add(tileA.GetID());
+                    tileB.rightNeighboursMask.Set(tileA.GetID());
                 }
-                if (IsSymmetrical(tileA.pY, tileB.nY) ^ IsAsymmetrical(tileA.pY, tileB.nY))
+                if (IsSymmetrical(tileA.pY, tileB.nY) || IsAsymmetrical(tileA.pY, tileB.nY))
                 {
-                    if (!tileB.downNeighbours.Contains(tileA.GetID())) tileB.downNeighbours.Add(tileA.GetID());
+                    tileB.downNeighboursMask.Set(tileA.GetID());
                 }
-                if (IsSymmetrical(tileA.nY, tileB.pY) ^ IsAsymmetrical(tileA.nY, tileB.pY))
+                if (IsSymmetrical(tileA.nY, tileB.pY) || IsAsymmetrical(tileA.nY, tileB.pY))
                 {
-                    if (!tileB.upNeighbours.Contains(tileA.GetID())) tileB.upNeighbours.Add(tileA.GetID());
+                    tileB.upNeighboursMask.Set(tileA.GetID());
                 }
-
             }
 
-            if(tileA.name == "grass") grassID = tileA.GetID();
-            possibleTileIDs.Add(tileA.GetID());
+            possibleTilesMask.Set(tileA.GetID());
             counter++;
         }
     }
@@ -140,9 +135,9 @@ public class TileLoader : MonoBehaviour
         return tiles[id].name;
     }
 
-    public List<int> GetPossibleTileIDs()
-    { 
-       return possibleTileIDs;
+    public TileBitmask GetPossibleTilesMask()
+    {
+        return possibleTilesMask;
     }
-} 
+}
 

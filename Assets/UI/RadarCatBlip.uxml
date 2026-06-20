@@ -1,3 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="RadarCatBlip" class="radar-blip" style="flex-grow: 1;"/>
+    <Style src="project://database/Assets/UI/hud.uss?fileID=7433441132597879392&amp;guid=9249a43a0a714a746ad91c9d5c6a02a5&amp;type=3#hud"/>
+    <ui:VisualElement name="RadarCatBlip" class="radar-blip" style="opacity: 1; top: 0; left: 0;">
+        <ui:VisualElement name="RadarCatBlipInner" class="radar-blip-inner" style="flex-grow: 1;"/>
+    </ui:VisualElement>
 </ui:UXML>
