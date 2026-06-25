@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Panels/loadingScreen.uss?fileID=7433441132597879392&amp;guid=6b78e1a564c05ae4a9aee7ea55ecbdf9&amp;type=3#loadingScreen"/>
+    <ui:VisualElement name="LoadingScreenPanel" class="panel" style="justify-content: flex-end;">
+        <ui:VisualElement name="LoadingScreenContainer" class="loading-container">
+            <ui:VisualElement name="PawTrail" class="paw-trail" style="width: 98%; align-items: flex-end; margin-bottom: 19px;"/>
+            <ui:Label text="LOADING" class="loading-label"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

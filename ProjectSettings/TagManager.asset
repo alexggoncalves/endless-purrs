@@ -12,6 +12,7 @@ TagManager:
   - Home
   - ArrowTarget
   - Cape
+  - SoundFXManager
   layers:
   - Default
   - TransparentFX

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40b6e327def7122429640f027fedfbc3, type: 3}
+  m_Name: FreeCatsDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::NormalDialogueData
+  lines:
+  - text: Okay... I'll let them be free.
+    voiceClip: {fileID: 0}
+  - text: If they ever miss me, I'm sure they'll find their way back.
+    voiceClip: {fileID: 0}

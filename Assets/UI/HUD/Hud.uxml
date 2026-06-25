@@ -1,0 +1,42 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="ObjectiveItem" src="project://database/Assets/UI/HUD/ObjectiveItem.uxml?fileID=9197481963319205126&amp;guid=0b8a8566b3a49de41beb70f63a4e8b53&amp;type=3#ObjectiveItem"/>
+    <Style src="project://database/Assets/UI/HUD/hud.uss?fileID=7433441132597879392&amp;guid=9249a43a0a714a746ad91c9d5c6a02a5&amp;type=3#hud"/>
+    <ui:VisualElement name="HUD" class="hud">
+        <ui:VisualElement name="BottomLeftHud" class="bottom-left-hud">
+            <ui:VisualElement name="Radar" class="radar">
+                <ui:Image name="RadarBackground" style="background-image: url(&quot;project://database/Assets/UI/Assets/RadarGradient.svg?fileID=7388822144124034973&amp;guid=8e33791af1924c6478e9ef590930cfbb&amp;type=3#RadarGradient&quot;); flex-grow: 1;"/>
+                <ui:VisualElement name="RadarCenter" class="radar-center" style="rotate: 0;"/>
+                <ui:VisualElement name="HomeLocation" class="radar-house-location"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="AbilitesContainer" class="abilities-container">
+                <ui:VisualElement name="CallAbility" class="ability">
+                    <ui:VisualElement name="CallCooldown" class="ability-cooldown"/>
+                    <ui:VisualElement name="KeyContainer" class="ability-key">
+                        <ui:Image name="QKey" class="ability-key-image" style="background-image: url(&quot;project://database/Assets/UI/Assets/Q-Key.svg?fileID=7388822144124034973&amp;guid=b1176f2df8c2e5440a4b284a18be1e69&amp;type=3#Q-Key&quot;);"/>
+                    </ui:VisualElement>
+                    <ui:Image name="Image" class="ability-image" style="background-image: url(&quot;project://database/Assets/UI/Assets/CallIcon.svg?fileID=7388822144124034973&amp;guid=ff48abffdbe767b4294f3469da4a56c1&amp;type=3#CallIcon&quot;);"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="HomeAbility" class="ability">
+                    <ui:VisualElement name="KeyContainer" class="ability-key">
+                        <ui:Image name="HKey" class="ability-key-image" style="background-image: url(&quot;project://database/Assets/UI/Assets/H-Key.svg?fileID=7388822144124034973&amp;guid=44aa589fed6660c419ffc0227295874d&amp;type=3#H-Key&quot;);"/>
+                    </ui:VisualElement>
+                    <ui:Image class="ability-image" style="background-image: url(&quot;project://database/Assets/UI/Assets/TeleportHomeIcon.svg?fileID=7388822144124034973&amp;guid=ffe33b8ab3bdc2547aebac6153089182&amp;type=3#TeleportHomeIcon&quot;);"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="CatCounterContainer" class="cat-counter-container bottom-right-hud" style="flex-grow: 0; width: auto; height: auto;">
+            <ui:VisualElement name="CatCounter" class="cat-counter">
+                <ui:Label text="0" name="CurrentCatCount" class="cat-counter_current"/>
+                <ui:Label text="/" name="CounterBar" class="cat-counter_bar"/>
+                <ui:Label text="3" name="TotalCatCount" class="cat-counter_total"/>
+            </ui:VisualElement>
+            <ui:Image name="CatIcon" class="cat-icon"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="ObjectiveListContainer" class="objective-list_container">
+            <ui:Label text="TASKS" name="OBJECTIVE" class="objective-list_title"/>
+            <ui:VisualElement name="ObjectiveList" class="objective-list">
+                <ui:Instance template="ObjectiveItem" name="ObjectiveItem"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

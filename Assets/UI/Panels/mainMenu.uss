@@ -1,0 +1,41 @@
+:root {
+}
+
+.panel {
+    background-color: rgba(0, 0, 0, 0);
+    opacity: 1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+.main-menu {
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    align-items: center;
+    justify-content: center;
+    visibility: visible;
+    align-content: auto;
+    flex-grow: 0;
+    width: 724px;
+    top: 15%;
+}
+
+.main-menu_button-container {
+    flex-grow: 1;
+}
+
+.logo {
+    margin-bottom: 55px;
+    margin-left: 52px;
+    width: 100%;
+    -unity-background-scale-mode: scale-to-fit;
+    flex-shrink: 0;
+    align-items: auto;
+    background-image: url("project://database/Assets/UI/Assets/Logo.svg?fileID=7388822144124034973&guid=7a45e23385d209646b78a826ee842921&type=3#Logo");
+    height: auto;
+    min-height: 321px;
+    margin-top: 0;
+}

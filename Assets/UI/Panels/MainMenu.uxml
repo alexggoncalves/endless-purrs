@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Panels/generalStyles.uss?fileID=7433441132597879392&amp;guid=e403ea37dd9f2b54fa23cdb99b79323d&amp;type=3#generalStyles"/>
+    <Style src="project://database/Assets/UI/Panels/mainMenu.uss?fileID=7433441132597879392&amp;guid=d9a9aaa26be0fdd44be2a34883c27e3f&amp;type=3#mainMenu"/>
+    <ui:VisualElement name="MainMenu" class="panel">
+        <ui:VisualElement name="Container" class="main-menu">
+            <ui:Image class="logo"/>
+            <ui:VisualElement name="Buttons" class="main-menu_button-container">
+                <ui:Button text="START" name="StartButton"/>
+                <ui:Button text="QUIT" name="QuitButton"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

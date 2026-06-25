@@ -1,0 +1,18 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Panels/generalStyles.uss?fileID=7433441132597879392&amp;guid=e403ea37dd9f2b54fa23cdb99b79323d&amp;type=3#generalStyles"/>
+    <Style src="project://database/Assets/UI/Panels/pauseMenu.uss?fileID=7433441132597879392&amp;guid=91c30c2f839d90944aecc2f624d45551&amp;type=3#pauseMenu"/>
+    <ui:VisualElement name="PauseMenuPanel" class="pause-menu_container">
+        <ui:VisualElement name="PauseMenu" class="pause-menu">
+            <ui:Label text="PAUSE" name="Paused" class="pause-menu_label" style="color: rgb(255, 255, 255);"/>
+            <ui:Button text="RESUME" name="ResumeButton"/>
+            <ui:Button text="MAIN MENU" name="MainMenuButton" enable-rich-text="true"/>
+            <ui:Button text="QUIT" name="QuitButton"/>
+            <ui:VisualElement name="VolumeControlsContainer" class="volume-controls_container">
+                <ui:Label text="VOLUME" name="VolumeControlsLabel" display-tooltip-when-elided="true" parse-escape-sequences="true" class="volume-controls_label"/>
+                <ui:Slider label="MASTER" value="1" high-value="1" name="Master" low-value="0.0001"/>
+                <ui:Slider label="SOUND EFFECTS" value="42" high-value="1" name="SoundFX" low-value="0.0001" fill="false"/>
+                <ui:Slider label="MUSIC" value="42" high-value="1" name="Music" low-value="0.0001" enabled="true"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

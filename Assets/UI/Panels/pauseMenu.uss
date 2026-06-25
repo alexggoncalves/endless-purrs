@@ -1,0 +1,126 @@
+:root {
+
+}
+
+.pause-menu_container {
+    background-color: rgba(0, 0, 0, 0.537);
+    transition-property: opacity;
+    transition-duration: 0.25s;
+    flex-grow: 1;
+    -unity-text-auto-size: none;
+    justify-content: center;
+    align-content: auto;
+    align-items: center;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.pause-menu {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 477px;
+    height: auto;
+    border-top-left-radius: 31px;
+    border-top-right-radius: 31px;
+    border-bottom-right-radius: 31px;
+    border-bottom-left-radius: 31px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.141);
+}
+
+.pause-menu_label {
+    align-self: center;
+    font-size: 53px;
+    margin-bottom: 28px;
+    -unity-font-definition: url("project://database/Assets/Content/Fonts/CCComicrazy%20Roman.ttf?fileID=12800000&guid=b6fa391400218be499d055a677ee0289&type=3#CCComicrazy Roman");
+    margin-top: 24px;
+}
+
+.volume-controls_container {
+    flex-grow: 1;
+    align-items: center;
+    align-content: auto;
+    justify-content: flex-start;
+    margin-top: 25px;
+    margin-bottom: 36px;
+    width: 100%;
+    margin-left: 0;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.volume-controls_label {
+    font-size: 25px;
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Assets/Content/Fonts/CCComicrazy%20Roman.ttf?fileID=12800000&guid=b6fa391400218be499d055a677ee0289&type=3#CCComicrazy Roman");
+}
+
+.unity-slider {
+    flex-direction: column;
+    width: 100%;
+}
+
+.unity-base-field__input.unity-base-slider__input.unity-base-field__input.unity-base-slider__input {
+    flex-grow: 1;
+    flex-shrink: 1;
+    margin-bottom: 20px;
+}
+
+.unity-slider__label {
+    color: rgb(255, 255, 255);
+    margin-bottom: 13px;
+    margin-top: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    font-size: 18px;
+}
+
+.unity-base-slider__dragger {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    margin-top: -10px;
+    width: 10px;
+    height: 24px;
+    translate: 0 0%;
+    background-color: rgb(92, 114, 76);
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+}
+
+.unity-base-slider--horizontal .unity-base-slider__tracker {
+    background-color: rgb(255, 255, 255);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}

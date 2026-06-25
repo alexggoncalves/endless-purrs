@@ -309,6 +309,12 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.wooshii.foldericons": {
+      "version": "file:com.wooshii.foldericons",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
       "depth": 0,

@@ -1,0 +1,35 @@
+.unity-button {
+    padding-right: 32px;
+    padding-left: 32px;
+    background-color: rgb(255, 255, 255);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    -unity-font-definition: url("project://database/Assets/Content/Fonts/Oswald-Regular.ttf?fileID=12800000&guid=19fdec3b7b7eab541bd667649216284c&type=3#Oswald-Regular");
+    color: rgb(92, 113, 75);
+    -unity-font-style: bold;
+    font-size: 28px;
+    letter-spacing: 0;
+    margin-bottom: 12px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    transition-property: background-color, scale;
+    transition-duration: 0.1s, 0.2s;
+    transition-timing-function: ease, ease-out;
+    -unity-text-align: upper-center;
+}
+
+.unity-button:hover {
+    scale: 1.2 1.2 1.2;
+}
+
+.unity-button:active {
+    scale: 1.1 1.1;
+}
+
+

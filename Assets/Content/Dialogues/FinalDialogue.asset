@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40b6e327def7122429640f027fedfbc3, type: 3}
+  m_Name: FinalDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::NormalDialogueData
+  lines:
+  - text: I did it! But I'm sure this won't be the last time...
+    voiceClip: {fileID: 0}
+  - text: Maybe they just want to be free.
+    voiceClip: {fileID: 0}
+  followingDecision: {fileID: 11400000, guid: d9a775218250f9640ab5df7a39cdb5b2, type: 2}

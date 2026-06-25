@@ -1,0 +1,56 @@
+:root {
+}
+
+.panel {
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    align-content: flex-end;
+}
+
+.loading-container {
+    width: 100%;
+    flex-grow: 0;
+    align-items: center;
+    margin-bottom: 92px;
+}
+
+.loading-label {
+    -unity-font-definition: url("project://database/Assets/Content/Fonts/CCComicrazy%20Roman.ttf?fileID=12800000&guid=b6fa391400218be499d055a677ee0289&type=3#CCComicrazy Roman");
+    margin-bottom: 0;
+    color: rgb(255, 255, 255);
+    font-size: 19px;
+    -unity-font-style: normal;
+    margin-top: 0;
+    position: absolute;
+    top: 54px;
+}
+
+.paw-trail {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-direction: row;
+    width: 100%;
+}
+
+.paw {
+    background-image: url("project://database/Assets/UI/Assets/PawPrint.svg?fileID=7388822144124034973&guid=3effe8f7317ada44b9225c5d47070b9b&type=3#PawPrint");
+    aspect-ratio: 1;
+    margin-left: 0%;
+    translate: 0 -60%;
+    transition-property: opacity;
+    transition-duration: 0.2s;
+    opacity: 0.4;
+}
+
+.paw--mirrored {
+    scale: 1 -1;
+    translate: 0 50%;
+}
+
+.paw--filled {
+    opacity: 1;
+}
