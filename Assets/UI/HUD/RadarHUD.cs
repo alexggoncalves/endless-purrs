@@ -54,6 +54,12 @@ public class RadarHUD : MonoBehaviour
         UpdateBlipPositions();
     }
 
+    private void OnAbilityUsed(AbilityType type, bool locked)
+    {
+        if (type == AbilityType.Call && !locked)
+            ActivateRadar();
+    }
+
     /// <summary>
     /// Updates the home position relative to the player on the radar
     /// </summary>
@@ -110,6 +116,10 @@ public class RadarHUD : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calculates and returns normalized 2D offset on the radar HUD for a given position 
+    /// in the world relative to the player's position
+    /// </summary>
     private Vector2 GetRelativeOffsetToPoint(Vector3 pos)
     {
         Vector3 diff = pos - player.position;
@@ -123,11 +133,7 @@ public class RadarHUD : MonoBehaviour
         return offset;
     }
 
-    private void OnAbilityUsed(AbilityType type)
-    {
-        if (type == AbilityType.Call)
-            ActivateRadar();
-    }
+   
 
     private void ActivateRadar()
     {

@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerActions : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private CameraController cameraController;
 
     private WorldGenerator worldGenerator;
     private PlayerController player;
@@ -15,6 +14,8 @@ public class PlayerActions : MonoBehaviour
     // TELEPORT
     [SerializeField] private ParticleSystem starTeleportEffect;
     [SerializeField] private IrisWipeController irisWipe;
+    [SerializeField] private AudioClip teleportDisappearAudio;
+    [SerializeField] private AudioClip teleportAppearAudio;
     private readonly WaitForSeconds teleportDelay = new(1f);
 
     private static readonly int PetCatHash = Animator.StringToHash("PetCat");
@@ -34,41 +35,38 @@ public class PlayerActions : MonoBehaviour
         abilities.OnAbilityUsed -= HandleAbility;
     }
 
-    private void HandleAbility(AbilityType ability)
+    private void HandleAbility(AbilityType ability, bool locked)
     {
         if (ability == AbilityType.Home)
         {
             if (!player.IsFree) return;
             StartCoroutine(TeleportHome());
         }
-
-        //if (ability == AbilityType.Call)
-        //{
-
-        //}
     }
 
     private IEnumerator TeleportHome()
     {
         // Set player teleporting state
         player.SetState(PlayerState.Teleporting);
+        GameManager.Instance.ChangeState(GameState.Teleporting);
 
         // Spawn particle system
         ParticleSystem starsIn = Instantiate(starTeleportEffect, player.transform.position, Quaternion.Euler(-90, 0, 0));
         StartCoroutine(FollowPlayer(starsIn.transform, player.transform));
         Destroy(starsIn.gameObject, 10f);
 
+        SoundFXManager.Instance.PlaySoundFXClip(teleportDisappearAudio, player.transform.position,0.8f);
+
         // Delay teleport 
         yield return teleportDelay;
 
-        // Close Iris Wipe 
-        yield return StartCoroutine(irisWipe.CloseIris(2f));
+        // Close Iris Wipe
+        if (irisWipe != null)
+            yield return StartCoroutine(irisWipe.CloseIris(2f));
 
         // Clear wfc shift, move to origin and reset move offset
         var wfc = worldGenerator.GetWFC();
-        wfc.ClearPendingShift();
         yield return wfc.MoveToOriginRoutine();
-        wfc.ResetMoveOffset();
 
         // Move player to the spaw point
         StartCoroutine(player.TeleportToSpawnPoint());
@@ -82,11 +80,18 @@ public class PlayerActions : MonoBehaviour
         // Teleport followers with the player
         CatController.TeleportFollowersTo(player.transform.position);
 
-        // Open Iris Wipe 
-        yield return StartCoroutine(irisWipe.OpenIris(2f));
+        // Play Sound
+        SoundFXManager.Instance.PlaySoundFXClip(teleportAppearAudio, player.transform.position, 0.8f);
+
+        yield return new WaitForSeconds(1f);
+
+        // Open Iris Wipe
+        if (irisWipe != null)
+            yield return StartCoroutine(irisWipe.OpenIris(2f));
 
         // Set player state to Free
         player.SetState(PlayerState.Free);
+        GameManager.Instance.ChangeState(GameState.Playing);
     }
 
     public void TryPetCat()

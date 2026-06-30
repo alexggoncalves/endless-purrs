@@ -1,5 +1,4 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:Template name="ObjectiveItem" src="project://database/Assets/UI/HUD/ObjectiveItem.uxml?fileID=9197481963319205126&amp;guid=0b8a8566b3a49de41beb70f63a4e8b53&amp;type=3#ObjectiveItem"/>
     <Style src="project://database/Assets/UI/HUD/hud.uss?fileID=7433441132597879392&amp;guid=9249a43a0a714a746ad91c9d5c6a02a5&amp;type=3#hud"/>
     <ui:VisualElement name="HUD" class="hud">
         <ui:VisualElement name="BottomLeftHud" class="bottom-left-hud">
@@ -32,11 +31,9 @@
             </ui:VisualElement>
             <ui:Image name="CatIcon" class="cat-icon"/>
         </ui:VisualElement>
-        <ui:VisualElement name="ObjectiveListContainer" class="objective-list_container">
+        <ui:VisualElement name="ObjectiveContainer" class="objective-list_container">
             <ui:Label text="TASKS" name="OBJECTIVE" class="objective-list_title"/>
-            <ui:VisualElement name="ObjectiveList" class="objective-list">
-                <ui:Instance template="ObjectiveItem" name="ObjectiveItem"/>
-            </ui:VisualElement>
+            <ui:VisualElement name="ObjectiveList" class="objective-list"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

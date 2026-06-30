@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/HUD/hud.uss?fileID=7433441132597879392&amp;guid=9249a43a0a714a746ad91c9d5c6a02a5&amp;type=3#hud"/>
     <ui:VisualElement name="ObjectiveItem" class="objective-item">
         <ui:VisualElement name="ObjectiveStrikeContainer" class="objective-item_strike-container">
             <ui:VisualElement name="ObjectiveStrike" class="objective-item_strike"/>

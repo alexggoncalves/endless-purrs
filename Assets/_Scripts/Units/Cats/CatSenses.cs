@@ -3,11 +3,13 @@ using UnityEngine;
 public class CatSenses : MonoBehaviour
 {
     [SerializeField] private float visionRange = 10f;
+    [SerializeField] private AudioClip[] meows;
 
     private Transform Player;
-    public bool IsPlayerVisible { get; private set; }
-    public bool IsScared => Random.value < 0.5f;
+    private bool hasSpottedPlayer = false;
+    
 
+    public bool IsPlayerVisible { get; private set; }
 
     public void Tick()
     {
@@ -19,6 +21,13 @@ public class CatSenses : MonoBehaviour
 
         float dist = Vector3.Distance(transform.position, Player.position);
         IsPlayerVisible = dist < visionRange;
+
+        if (IsPlayerVisible && !hasSpottedPlayer)
+        {
+            hasSpottedPlayer = true;
+            if (meows != null)
+                SoundFXManager.Instance.PlayRandomSoundFXClip(meows, transform.position, 0.5f);
+        }
     }
 
     void TryFindPlayer()

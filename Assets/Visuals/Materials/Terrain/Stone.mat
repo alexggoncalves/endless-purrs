@@ -52,8 +52,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _Bands: 3
-    - _DisplaceAmplitude: 0.12
-    - _DisplaceScale: 10
+    - _DisplaceAmplitude: 0
+    - _DisplaceScale: 0
     - _DisplacementAmplitude: 0
     - _EdgeNoiseScale: 0.81
     - _HeightStrength: 0.1

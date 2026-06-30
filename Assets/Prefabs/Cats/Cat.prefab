@@ -361,6 +361,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   visionRange: 10
+  meows:
+  - {fileID: 8300000, guid: 7441945e147041043a52ba324658b4a9, type: 3}
+  - {fileID: 8300000, guid: da788f4987928b84c9886596d8bc7edf, type: 3}
+  - {fileID: 8300000, guid: 3b9c548f2cb14dc4eb4e9410e60e8e83, type: 3}
+  - {fileID: 8300000, guid: e761580d0588ea64d9e5beae44a0dfd9, type: 3}
+  - {fileID: 8300000, guid: 7d85478ea7466944fab72d41019119da, type: 3}
 --- !u!114 &7168446790569778469
 MonoBehaviour:
   m_ObjectHideFlags: 0

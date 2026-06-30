@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="DialogueContent" src="project://database/Assets/UI/WorldUI/DialogueContent.uxml?fileID=9197481963319205126&amp;guid=e26009f129b8ac049a7d5ffa9491fab4&amp;type=3#DialogueContent"/>
+    <Style src="project://database/Assets/UI/WorldUI/dialogueBubble.uss?fileID=7433441132597879392&amp;guid=6478e92dd03e50547a692c743f64f4f7&amp;type=3#dialogueBubble"/>
+    <ui:Instance template="DialogueContent" name="DialogueContent">
+        <AttributeOverrides element-name="SpeakerLabel" text="SPEAKER"/>
+    </ui:Instance>
+</ui:UXML>

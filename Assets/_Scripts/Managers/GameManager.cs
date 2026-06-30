@@ -2,24 +2,57 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : Singleton<GameManager>
 {
     [Header("Ojective")]
     [SerializeField] private int totalCats = 3;
 
+    [Header("Dialogues")]
+    [SerializeField] private DialogueData initialDialogue;
+    [SerializeField] private DialogueData finalDialogue;
+
     public event Action<CatController> OnCatAddedToHome;
     public event Action OnAllCatsHome;
+
+    private VisualElement collectObjective, decisionObjective;
 
     public List<CatController> CatsAtHome { get; private set; } = new();
     public GameState State { get; private set; }
     public bool HasBegun { get; private set; } = false;
+    public bool IsOver { get; private set; } = false;
+
     public PlayerController Player { get; private set; }
     public HUDController HUD { get; private set; }
     public LoadingScreenController LoadingScreen { get; private set; }
 
-    // Start by setting loading game state and executing loading
-    private void Start() => ChangeState(GameState.InitialLoading);
+
+    private void Start()
+    {
+        // Start by setting loading game state and executing loading
+        ChangeState(GameState.InitialLoading);
+        LoadingScreen.OnLoadingComplete += HandleLoadingComplete;
+        LoadingScreen.OnLoadingScreenFadeOutComplete += HandleLoadingFadeComplete;
+    }
+
+    private void OnDisable()
+    {
+        LoadingScreen.OnLoadingComplete -= HandleLoadingComplete;
+        LoadingScreen.OnLoadingScreenFadeOutComplete -= HandleLoadingFadeComplete;
+    }
+
+    private void HandleLoadingComplete()
+    {
+        if (State == GameState.InitialLoading)
+            ChangeState(GameState.InitialSetup);
+    }
+
+    private void HandleLoadingFadeComplete()
+    {
+        if (State == GameState.InitialSetup)
+            ChangeState(GameState.InitialDialogue);
+    }
 
     public void ChangeState(GameState state)
     {
@@ -29,37 +62,32 @@ public class GameManager : Singleton<GameManager>
             case GameState.InitialLoading:
                 HandleLoading();
                 break;
-            case GameState.Starting: 
-                HandleStarting(); 
+            case GameState.InitialSetup:
+                HandleInitialSetup();
                 break;
             case GameState.InitialDialogue:
-
+                HandleInitialDialogue();
                 break;
             case GameState.Playing:
-
+                HandlePlaying();
+                break;
+            case GameState.Teleporting:
+                //Nothing
                 break;
             case GameState.FinalDecision:
-                
+                HandleFinalDecision();
                 break;
-            case GameState.GoodEnding: 
-
+            case GameState.GoodEnding:
+                HandleGoodEnding();
                 break;
             case GameState.BadEnding:
-
+                HandleBadEnding();
                 break;
             case GameState.Closing:
 
                 break;
             default:
                 break;
-        }
-    }
-
-    private void Update()
-    {
-        if (!HasBegun && LoadingScreen.HasFinishedLoading)
-        {
-            StartCoroutine(Begin());
         }
     }
 
@@ -72,7 +100,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private void HandleStarting()
+    private void HandleInitialSetup()
     {
         // Teleport player to spawnPoint and lock movement
         if (Player != null)
@@ -83,18 +111,66 @@ public class GameManager : Singleton<GameManager>
         else Debug.LogWarning("GameManager.Start: No player registered.");
     }
 
-    public IEnumerator Begin()
+    private void HandleInitialDialogue()
     {
+        void OnInitialDialogueEnd(string _) => ChangeState(GameState.Playing);
+
+        // MAKE PLAYER LOOK AT THE CAMERA
+
+        DialogueManager.Instance.StartDialogue(initialDialogue, Player.transform, OnInitialDialogueEnd);
+    }
+
+    private void HandlePlaying()
+    {
+        if (!HasBegun)
+        {
+            Player.SetState(PlayerState.Free);
+            StartCoroutine(HUD.Fade(0f, 1f, 2f));
+        }
+
         HasBegun = true;
 
-        yield return new WaitForSeconds(1f);
+        if (collectObjective != null || IsOver) return;
 
-        // Unlock player
+        ObjectiveHUD.Instance.ShowObjectivePanel();
+        collectObjective = ObjectiveHUD.Instance.AddObjective("Bring 3 cats home");
+    }
+
+    private void HandleFinalDecision()
+    {
+        void OnFinalDecisionMade(string decisionID)
+        {
+            if (decisionID == "0") ChangeState(GameState.GoodEnding);
+            else ChangeState(GameState.BadEnding);
+        }
+
+        //StartCoroutine(HUD.Fade(1f, 0f, 2f));
+
+        Player.SetState(PlayerState.Locked);
+
+        // MAKE PLAYER LOOK AT THE CAMERA
+        IsOver = true;
+        DialogueManager.Instance.StartDialogue(finalDialogue, Player.transform, OnFinalDecisionMade);
+
+    }
+
+    private void HandleGoodEnding()
+    {
+        ObjectiveHUD.Instance.CompleteObjective(decisionObjective);
+
+        StartCoroutine(EndGame());
+    }
+
+    private IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(1);
+        // CLOSE IRIS AND SHOW END SCREEN
+    }
+
+    private void HandleBadEnding()
+    {
+        ObjectiveHUD.Instance.CompleteObjective(decisionObjective);
         Player.SetState(PlayerState.Free);
-
-        // Fade in hud
-        StartCoroutine(HUD.Fade(0f, 1f, 2f));
-
     }
 
     public void AddToHome(CatController cat)
@@ -104,60 +180,27 @@ public class GameManager : Singleton<GameManager>
         CatsAtHome.Add(cat);
         OnCatAddedToHome?.Invoke(cat);
 
-        if (CatsAtHome.Count >= totalCats)
+        if (CatsAtHome.Count >= totalCats && !IsOver)
+        {
             OnAllCatsHome?.Invoke();
+
+            StartCoroutine(StartFinalDecision());
+        }
+
     }
 
+    private IEnumerator StartFinalDecision()
+    {
+        while(State == GameState.Teleporting)
+        {
+            yield return null;
+        }
 
+        ChangeState(GameState.FinalDecision);
+        ObjectiveHUD.Instance.CompleteObjective(collectObjective);
+        decisionObjective = ObjectiveHUD.Instance.AddObjective("Make a decision");
+    }
 
-    //private void PlayEndSequence()
-    //{
-    //    if (playerController == null || speech == null || decision == null) return;
-
-    //    if (playerController.IsInsideHouse() && endSequence == 0)
-    //    {
-    //        endSequence = 1;
-    //        speech.SetText("I did it!\nBut maybe they want to be free...");
-    //        speech.Show();
-    //    }
-
-    //    if (endSequence == 1)
-    //    {
-    //        if (!speech.IsActive())
-    //        {
-    //            endSequence = 2;
-    //        }
-    //    }
-
-    //    if (endSequence == 2)
-    //    {
-    //        decision.Show();
-    //        if (decision.GetDecision() != '0')
-    //        {
-    //            endSequence = 3;
-    //        }
-    //    }
-
-    //    if (endSequence == 3)
-    //    {
-    //        decision.Hide();
-    //        if (decision.GetDecision() == 'y')
-    //        {
-    //            catCounter.SetMessage("You let the cats be free. Thanks for play-testing our game!");
-
-    //            foreach (GameObject cat in atHome)
-    //            {
-    //                Destroy(cat);
-    //            }
-    //        }
-    //        else if (decision.GetDecision() == 'n')
-    //        {
-    //            catCounter.SetMessage("You are keeping the cats locked in. Thanks for play-testing our game!");
-    //        }
-    //        endSequence = 4;
-
-    //    }
-    //}
     public void RegisterPlayer(PlayerController player) => Player = player;
     public void RegisterHUD(HUDController hud) => HUD = hud;
     public void RegisterLoadingScreen(LoadingScreenController loadingScreen) => LoadingScreen = loadingScreen;
@@ -168,10 +211,10 @@ public class GameManager : Singleton<GameManager>
 public enum GameState
 {
     InitialLoading,
-    Starting,
+    InitialSetup,
     InitialDialogue,
     Playing,
-    TeleportLoading,
+    Teleporting,
     FinalDecision,
     GoodEnding,
     BadEnding,

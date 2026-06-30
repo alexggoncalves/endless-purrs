@@ -12,6 +12,8 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private float fadeOutDuration = 2.0f;
     [SerializeField] private IrisWipeController irisWipe;
     [SerializeField] private ScreenFadeController screenFade;
+    [SerializeField] private AudioClip clickClip;
+    [SerializeField] private AudioClip hoverClip;
 
     private VisualElement root;
     private VisualElement mainMenu;
@@ -24,6 +26,12 @@ public class MainMenuController : MonoBehaviour
         mainMenu = root.Q<VisualElement>("MainMenu");
         playButton = root.Q<Button>("StartButton");
         quitButton = root.Q<Button>("QuitButton");
+
+        if (clickClip != null && hoverClip != null)
+        {
+            playButton.WithClickSound(clickClip).WithHoverSound(hoverClip);
+            quitButton.WithClickSound(clickClip).WithHoverSound(hoverClip);
+        }
     }
 
     private void OnEnable()

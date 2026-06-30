@@ -62,7 +62,7 @@ public class DoorController : MonoBehaviour
 
     private bool IsValidEntity(Collider other)
     {
-        return other.CompareTag("Player") || other.CompareTag("Cat");
+        return other.CompareTag("Player");
     }
 
     private void OpenDoor()
@@ -70,7 +70,7 @@ public class DoorController : MonoBehaviour
         doorOpened = true;
 
         if(SoundFXManager != null)
-            SoundFXManager.PlaySoundFXClip(doorOpenSound, transform, 0.2f);
+            SoundFXManager.PlaySoundFXClip(doorOpenSound, transform.position, 0.5f);
     }
 
     private void CloseDoor()
@@ -78,7 +78,7 @@ public class DoorController : MonoBehaviour
         doorOpened = false;
 
         if (SoundFXManager != null)
-            SoundFXManager.PlaySoundFXClip(doorCloseSound, transform, 0.2f);
+            SoundFXManager.PlaySoundFXClip(doorCloseSound, transform.position, 0.5f);
     }
 
     public Boolean IsDoorOpen()

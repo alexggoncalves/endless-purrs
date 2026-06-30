@@ -49,7 +49,7 @@ public class WorldGenerator : Singleton<WorldGenerator>
 
     public void BeginGeneration()
     {
-        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+        UnityEngine.Random.InitState(Environment.TickCount);
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
 
         wfc.Initialize(tileLoader, (int)gridSize.x, (int)gridSize.y, cellScale, cellObj, gridOffset, playerController, startingPlace, edgeSize);

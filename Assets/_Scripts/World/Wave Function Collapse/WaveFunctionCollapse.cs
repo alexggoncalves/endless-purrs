@@ -89,11 +89,11 @@ public class WaveFunctionCollapse : MonoBehaviour
     {
         this.tileLoader = GetComponent<TileLoader>();
 
-        #pragma warning disable UNT0039
+#pragma warning disable UNT0039
         // Try get optional decoration Placer;
         decorationPlacer = GetComponent<DecorationPlacer>();
         if (decorationPlacer != null) decorationPlacer.CellScale = cellScale;
-        #pragma warning restore UNT0039
+#pragma warning restore UNT0039
 
         this.cellScale = cellScale;
         this.gridWidth = width;
@@ -283,7 +283,12 @@ public class WaveFunctionCollapse : MonoBehaviour
                 if (c.collapsed) continue;
 
                 int count = c.tileOptionsMask.Count;
-                if (count <= 0) continue;
+                if (count <= 0)
+                {
+                    c.RecreateCell(defaultPossibleTilesMask);
+                    updatedCells.Push(c);
+                    continue;
+                }
 
                 // Find cell candidate with least tile options (outside places first)
                 // If there is a tie, randomly decide either to swap it or not
@@ -726,10 +731,19 @@ public class WaveFunctionCollapse : MonoBehaviour
         place.Initialize(new Vector2(x, y), tileLoader, cellScale);
         placesOnWait.Add(place);
 
+        SeedStartingArea();
+    }
+
+    void SeedStartingArea()
+    {
+        if (homeInstance == null) return;
+        Place place = homeInstance.GetComponent<Place>();
         Vector2 dimensions = place.GetPlaceGridDimensions();
         Vector2 position = CalculateGridCoordinates(place.GetPosition().x, place.GetPosition().y);
-
-        SetGridSection(place.GetGrid(), position.x - dimensions.x / 2 + 1, position.y - dimensions.y / 2 + cellScale + 1, dimensions.x, dimensions.y);
+        SetGridSection(place.GetGrid(),
+            position.x - dimensions.x / 2 + 1,
+            position.y - dimensions.y / 2 + cellScale + 1,
+            dimensions.x, dimensions.y);
     }
 
     public void ClearPendingShift()
@@ -739,6 +753,12 @@ public class WaveFunctionCollapse : MonoBehaviour
 
     public IEnumerator MoveToOriginRoutine()
     {
+        if (generationCoroutine != null)
+        {
+            StopCoroutine(generationCoroutine);
+            generationCoroutine = null;
+        }
+
         paused = true;
         updatingCells = false;
 
@@ -746,7 +766,10 @@ public class WaveFunctionCollapse : MonoBehaviour
         instancesToDelete.Clear();
         pendingInstantiations.Clear();
 
-        cellContainer.transform.position = new Vector3(0, 0, 0);
+        moveOffset = Vector2.zero;
+        totalMoveOffset = Vector2.zero;
+
+        cellContainer.transform.position = Vector3.zero;
 
         for (int i = 0; i < gridWidth; i++)
         {
@@ -766,6 +789,8 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
 
         iteration = 0;
+
+        SeedStartingArea();
 
         yield return null;
     }

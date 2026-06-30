@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,11 +20,13 @@ public class LoadingScreenController : MonoBehaviour
     private VisualElement elementContainer;
     private VisualElement pawTrail;
 
-    private List<VisualElement> paws = new();
+    public event Action OnLoadingComplete;
+    public event Action OnLoadingScreenFadeOutComplete;
+
+    private readonly List<VisualElement> paws = new();
     private int filledPaws = 0;
 
     private bool isLoadingMap;
-    private bool trailBuilt;
     public bool HasFinishedLoading { get; set; }
 
     private void Awake()
@@ -46,15 +49,15 @@ public class LoadingScreenController : MonoBehaviour
             irisWipe.SetClosed();
     }
 
-    public IEnumerator StartLoading()
+    public IEnumerator StartLoading(bool manageIris = true)
     {
+        ResetState();
         panel.style.display = DisplayStyle.Flex;
+        panel.style.opacity = 1f;
         elementContainer.style.display = DisplayStyle.Flex;
         elementContainer.style.opacity = 0f;
 
         yield return StartCoroutine(BuildPawTrail());
-
-        // Fade in loading screen elements
         yield return StartCoroutine(Fade(elementContainer, 0f, 1f, fadeInDuration));
 
         // Start loading map
@@ -62,33 +65,34 @@ public class LoadingScreenController : MonoBehaviour
         if (worldGenerator != null)
         {
             worldGenerator.BeginGeneration();
-            isLoadingMap = true;
-        }
-    }
 
-    private void Update()
-    {
-        if (HasFinishedLoading || !isLoadingMap || worldGenerator == null || !trailBuilt) return;
-
-        // Update trail progress
-        if (!worldGenerator.IsInitialAreaGenerated())
-        {
-            UpdatePawTrail();
-            return;
+            // Drive the trail until the initial area is ready
+            while (!worldGenerator.IsInitialAreaGenerated())
+            {
+                UpdatePawTrail();
+                yield return null;
+            }
+            UpdatePawTrail();   // snap to 100%
         }
 
         HasFinishedLoading = true;
-        isLoadingMap = false;
+        OnLoadingComplete?.Invoke();
 
-
-        // Fade out loading screen
-        StartCoroutine(FadeOutLoadingScreen());
+        yield return StartCoroutine(FadeOutLoadingScreen(manageIris));
     }
 
-    private IEnumerator FadeOutLoadingScreen()
+    private void ResetState()
+    {
+        HasFinishedLoading = false;
+        filledPaws = 0;
+    }
+
+    private IEnumerator FadeOutLoadingScreen(bool manageIris)
     {
         yield return StartCoroutine(Fade(panel, 1f, 0f, fadeOutDuration));
-        StartCoroutine(irisWipe.OpenIris(1f));
+        if (manageIris && irisWipe != null)
+            yield return StartCoroutine(irisWipe.OpenIris(1f));
+        OnLoadingScreenFadeOutComplete.Invoke();
     }
 
     private IEnumerator BuildPawTrail()
@@ -117,8 +121,6 @@ public class LoadingScreenController : MonoBehaviour
             pawTrail.Add(paw);
             paws.Add(paw);
         }
-
-        trailBuilt = true;
     }
 
     private void UpdatePawTrail()

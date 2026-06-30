@@ -43,7 +43,7 @@
     translate: 0 -60%;
     transition-property: opacity;
     transition-duration: 0.2s;
-    opacity: 0.4;
+    opacity: 0.16;
 }
 
 .paw--mirrored {

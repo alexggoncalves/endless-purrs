@@ -34,17 +34,17 @@ public class AbilitiesHUD : MonoBehaviour
         playerAbilities.OnHomeLockChanged -= OnHomeLockedChange;
     }
 
-    private void OnAbilityUsed(AbilityType type)
+    private void OnAbilityUsed(AbilityType type, bool locked)
     {
         if (type == AbilityType.Call)
         {
-            Pulse(callAbility);
+            Pulse(callAbility, locked);
             callAbility.AddToClassList("ability-locked");
         }
 
         if (type == AbilityType.Home)
         {
-            Pulse(homeAbility);
+            Pulse(homeAbility, locked);
         }
     }
 
@@ -73,12 +73,16 @@ public class AbilitiesHUD : MonoBehaviour
     /// <summary>
     /// Pulse ability visual element (scale up and down)
     /// </summary>
-    private void Pulse(VisualElement element)
+    private void Pulse(VisualElement element, bool active)
     {
         element.experimental.animation.Scale(1.05f, 120).OnCompleted(() =>
         {
             element.experimental.animation.Scale(1f, 200);
         });
 
+        if (!active)
+        {
+            // Apply red filter
+        }
     }
 }

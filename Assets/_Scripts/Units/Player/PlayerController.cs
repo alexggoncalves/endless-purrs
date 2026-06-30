@@ -19,10 +19,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpHeight = 1.0f;
     [SerializeField] private float jumpDebouncePeriod = 0.2f;
     [SerializeField] private Animator animator;
-    [SerializeField] private CameraController cameraController;
-    //[SerializeField] private float waterY = -0.3f;
 
     // --- References ------------------------------------
+    private CameraController cameraController;
     private Cloth playerCape;
     private Vector3 spawnPoint;
 
@@ -63,13 +62,15 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        cameraController = Camera.main.GetComponent<CameraController>();
+
         if (GameManager.Instance != null)
         {
             GameManager.Instance.RegisterPlayer(this);
         }
         else
         {
-            Debug.LogError("PlayerController.Awake: GameManager.Instance is null. Check Script Execution Order.");
+            Debug.LogWarning("PlayerController.Awake: GameManager.Instance is null. Check Script Execution Order.");
         }
     }
 
@@ -90,7 +91,13 @@ public class PlayerController : MonoBehaviour
     {
         TryFindSpawnPoint();
 
-        if (!IsFree) return;
+        if (!IsFree)
+        {
+            animator.SetFloat(VelocityHash, 0, 0.05f, Time.deltaTime);
+            animator.SetBool(IsMovingHash, false);
+            return;
+        }
+
         if (moveAction == null) return;
 
         movementDirection = moveAction.ReadValue<Vector2>();

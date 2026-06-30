@@ -9,6 +9,9 @@ public class PauseMenuController : MonoBehaviour
 {
     [SerializeField] private string mainMenuSceneName = "MainMenu";
     [SerializeField] private float fadeDuration = 0.25f;
+    [SerializeField] private AudioClip clickClip;
+    [SerializeField] private AudioClip hoverClip;
+    [SerializeField] private AudioClip openClip;
 
     private SoundMixerManager soundMixerManager;
 
@@ -44,6 +47,14 @@ public class PauseMenuController : MonoBehaviour
         resumeButton = root.Q<Button>("ResumeButton");
         mainMenuButton = root.Q<Button>("MainMenuButton");
         quitButton = root.Q<Button>("QuitButton");
+
+        if (clickClip != null && hoverClip != null)
+        {
+            resumeButton.WithClickSound(clickClip).WithHoverSound(hoverClip);
+            mainMenuButton.WithClickSound(clickClip).WithHoverSound(hoverClip);
+            quitButton.WithClickSound(clickClip).WithHoverSound(hoverClip);
+        }
+
 
         if (resumeButton != null)
             resumeButton.clicked += Resume;
@@ -115,6 +126,9 @@ public class PauseMenuController : MonoBehaviour
 
     public void Pause()
     {
+        if (openClip != null)
+            SoundFXManager.Instance.Play2DSoundFXClip(openClip, 0.05f);
+
         IsPaused = true;
         Time.timeScale = 0f;
         FadeIn();

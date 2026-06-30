@@ -1,0 +1,21 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/WorldUI/dialogueBubble.uss?fileID=7433441132597879392&amp;guid=6478e92dd03e50547a692c743f64f4f7&amp;type=3#dialogueBubble"/>
+    <ui:VisualElement name="Content" class="dialogue-bubble_content" style="padding-left: 35px; padding-bottom: 24px; padding-right: 39px; padding-top: 25px;">
+        <ui:Label text="GARY" name="SpeakerLabel" class="dialogue-bubble_speaker" style="padding-right: 12px; padding-left: 12px; padding-top: 4px; padding-bottom: 4px;"/>
+        <ui:Label text="Dialogue here" name="TextLabel" class="dialogue-bubble_text"/>
+        <ui:VisualElement name="ContinuePrompt" class="dialogue-bubble_continue-indicator">
+            <ui:Image name="PromptKey" class="input-prompt_key" style="background-image: url(&quot;project://database/Assets/UI/Assets/E-PromptKey.svg?fileID=7388822144124034973&amp;guid=08405a904b5fa594f9e672912306558e&amp;type=3#E-PromptKey&quot;);"/>
+            <ui:Label text="Continue" name="PromptLabel" class="prompt_label"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="ChoicesContainer" class="dialogue-bubble_choices-container" style="top: 50%; padding-left: 10px;">
+            <ui:VisualElement name="OptionA" class="dialogue-bubble_choice-prompt">
+                <ui:Image name="PromptKey" class="input-prompt_key" style="background-image: url(&quot;project://database/Assets/UI/Assets/1-PromptKey.svg?fileID=7388822144124034973&amp;guid=9c6ba4e42687a3341ad8ba59f0b65a3f&amp;type=3#1-PromptKey&quot;);"/>
+                <ui:Label text="Option A" name="OptionLabel" class="prompt_label"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="OptionB" class="dialogue-bubble_choice-prompt">
+                <ui:Image name="PromptKey" class="input-prompt_key" style="background-image: url(&quot;project://database/Assets/UI/Assets/2-PromptKey.svg?fileID=7388822144124034973&amp;guid=ec4514efdd2658a409ef9a2fffe129c4&amp;type=3#2-PromptKey&quot;);"/>
+                <ui:Label text="Option B" name="OptionLabel" triple-click-selects-line="false" class="prompt_label"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -10,7 +10,10 @@ public class CameraTarget : MonoBehaviour
 
     private void Start()
     {
-        player = GameManager.Instance.Player;
+        if (GameManager.Instance != null)
+            player = GameManager.Instance.Player;
+
+        else player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
     private void Update()
