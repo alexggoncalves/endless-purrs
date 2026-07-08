@@ -5379,8 +5379,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 21.962088, y: 0.5581409, z: 22.19572}
-  m_Center: {x: 0.14404774, y: -0.22092955, z: 0.14664459}
+  m_Size: {x: 21.962088, y: 0.56, z: 22.19572}
+  m_Center: {x: 0.14404774, y: -0.22, z: 0.14664459}
 --- !u!114 &3612212401005673353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5683,6 +5683,7 @@ Transform:
   m_Children:
   - {fileID: 4856720427479461422}
   - {fileID: 6236245636720797705}
+  - {fileID: 7480167018275694571}
   - {fileID: 7180940968995694167}
   - {fileID: 2240513439283197858}
   - {fileID: 6011159913647252345}
@@ -8679,6 +8680,37 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5495031598782357911
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7480167018275694571}
+  m_Layer: 0
+  m_Name: FreeCatsTarget
+  m_TagString: FreeCatsTarget
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7480167018275694571
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5495031598782357911}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.09, y: 0.116, z: -16.04}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7608276657007212618}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5496299794306878249
 GameObject:
   m_ObjectHideFlags: 0
@@ -9602,7 +9634,7 @@ GameObject:
   - component: {fileID: 3522923228703597189}
   m_Layer: 2
   m_Name: Door Frame
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13100,7 +13132,7 @@ Transform:
   m_GameObject: {fileID: 8171559368219923841}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.28, y: 0.359, z: 0}
+  m_LocalPosition: {x: -0.28, y: 0.116, z: -3.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

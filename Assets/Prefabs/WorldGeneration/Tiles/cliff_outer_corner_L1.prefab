@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 8007883684032582760}
   - component: {fileID: 661246381937063131}
   - component: {fileID: 1080772224925070148}
+  - component: {fileID: 1406797622995120612}
   m_Layer: 9
   m_Name: cliff_outer_corner_L1
   m_TagString: Untagged
@@ -249,8 +250,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4, y: 0.1, z: 4}
-  m_Center: {x: 0, y: 1.550748, z: 0}
+  m_Size: {x: 1.5, y: 0.1, z: 4}
+  m_Center: {x: 1.25, y: 1.550748, z: 0}
 --- !u!65 &661246381937063131
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -285,6 +286,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SurfaceDefinition
   surfaceType: 0
+--- !u!65 &1406797622995120612
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267932399096216250}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4, y: 0.1, z: 1.5}
+  m_Center: {x: 0, y: 1.550748, z: -1.25}
 --- !u!1 &4711699772681430445
 GameObject:
   m_ObjectHideFlags: 0

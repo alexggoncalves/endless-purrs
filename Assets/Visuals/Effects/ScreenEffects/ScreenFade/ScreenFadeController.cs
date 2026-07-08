@@ -10,7 +10,7 @@ public class ScreenFadeController : MonoBehaviour
 
     private RawImage overlay;
 
-    private void Start()
+    private void Awake()
     {
         overlay = GetComponent<RawImage>();
         overlay.color = new Color(overlayColor.r, overlayColor.g, overlayColor.b, initialAlpha);

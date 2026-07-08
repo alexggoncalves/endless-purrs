@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -144,11 +145,8 @@ public class GameManager : Singleton<GameManager>
             else ChangeState(GameState.BadEnding);
         }
 
-        //StartCoroutine(HUD.Fade(1f, 0f, 2f));
-
         Player.SetState(PlayerState.Locked);
-
-        // MAKE PLAYER LOOK AT THE CAMERA
+        
         IsOver = true;
         DialogueManager.Instance.StartDialogue(finalDialogue, Player.transform, OnFinalDecisionMade);
 
@@ -163,8 +161,37 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator EndGame()
     {
-        yield return new WaitForSeconds(1);
-        // CLOSE IRIS AND SHOW END SCREEN
+        // Fade out HUD
+        StartCoroutine(HUD.Fade(1f, 0f, 2f));
+
+        // Open door
+        DoorController door = GameObject.FindGameObjectWithTag("Door").GetComponent<DoorController>();
+        door.Open();
+        
+        // Wait until door is fully open
+        yield return new WaitUntil(door.IsFullyOpen);
+
+        NavMeshBaker.Instance.BuildNavMesh(true);
+
+        // Cats go outside
+        Transform freeCatsTarget = GameObject.FindGameObjectWithTag("FreeCatsTarget").transform;
+        
+        List<CatController> catsToFree = CatsAtHome;
+        foreach (var cat in catsToFree)
+        {
+            cat.SetState(CatState.Freed);
+            cat.SetFollowTarget(freeCatsTarget);
+        }
+
+        yield return new WaitUntil(CatsHaveLeft);
+
+        // When cats are outside, show end panel
+        StartCoroutine(EndPanelController.Instance.ShowEndPanel());
+    }
+
+    private bool CatsHaveLeft()
+    {
+        return CatsAtHome.Count == 0;
     }
 
     private void HandleBadEnding()
@@ -187,6 +214,12 @@ public class GameManager : Singleton<GameManager>
             StartCoroutine(StartFinalDecision());
         }
 
+    }
+
+    public void RemoveFromHome(CatController cat)
+    {
+        if (cat == null || !CatsAtHome.Contains(cat)) return;
+        CatsAtHome.Remove(cat);
     }
 
     private IEnumerator StartFinalDecision()

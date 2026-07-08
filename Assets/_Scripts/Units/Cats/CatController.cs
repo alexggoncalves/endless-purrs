@@ -1,7 +1,7 @@
 using CAC;
 using System.Collections.Generic;
 using UnityEngine;
-public enum CatState { None, Following, Wandering, Fleeing }
+public enum CatState { None, Following, Wandering, Fleeing, Freed }
 [RequireComponent(typeof(CreateACatGenerator))]
 
 [RequireComponent(typeof(CatSenses))]
@@ -23,6 +23,8 @@ public class CatController : MonoBehaviour
     private CatMovement movement;
     private Transform player;
     private CatHouseSystem houseSystem;
+
+    private Transform followTarget;
 
 
     void Start()
@@ -64,7 +66,10 @@ public class CatController : MonoBehaviour
     {
         GameObject playerObj = GameObject.FindWithTag("Player");
         if (playerObj != null)
+        {
             player = playerObj.transform;
+            followTarget = player;
+        }
     }
 
     private void UpdateState()
@@ -98,13 +103,21 @@ public class CatController : MonoBehaviour
                 break;
 
             case CatState.Following:
-                movement.Follow(player.position);
+                movement.Follow(followTarget.position);
                 break;
 
             case CatState.Fleeing:
                 movement.Flee(player.position);
                 break;
-        }
+            case CatState.Freed:
+                movement.Follow(followTarget.position);
+                break;
+        }       
+    }
+
+    public void SetFollowTarget(Transform target)
+    {
+        followTarget = target;
     }
 
     public static void TeleportFollowersTo(Vector3 point)

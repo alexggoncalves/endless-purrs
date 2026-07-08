@@ -26,7 +26,7 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
         HandleAbilities();
-        HandleActions();
+        //HandleActions();
     }
 
     private void HandleAbilities()
@@ -38,11 +38,11 @@ public class PlayerInput : MonoBehaviour
             playerAbilities.UseAbility(AbilityType.Home);
     }
 
-    private void HandleActions()
-    {
-        if (interactAction.IsPressed())
-        {
-            playerActions.TryPetCat();
-        }
-    }
+    //private void HandleActions()
+    //{
+    //    if (interactAction.IsPressed())
+    //    {
+    //        playerActions.TryPetCat();
+    //    }
+    //}
 }

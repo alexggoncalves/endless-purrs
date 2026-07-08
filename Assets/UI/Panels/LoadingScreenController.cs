@@ -37,6 +37,7 @@ public class LoadingScreenController : MonoBehaviour
         pawTrail = root.Q<VisualElement>("PawTrail");
 
         GameManager.Instance.RegisterLoadingScreen(this);
+        root.pickingMode = PickingMode.Ignore;
     }
 
     private void Start()

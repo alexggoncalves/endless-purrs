@@ -44,7 +44,7 @@ public class DoorController : MonoBehaviour
             insideCount++;
 
             if (insideCount == 1)
-                OpenDoor();
+                Open();
         }
     }
 
@@ -55,7 +55,7 @@ public class DoorController : MonoBehaviour
             insideCount = Mathf.Max(0, insideCount - 1);
 
             if (insideCount == 0)
-                CloseDoor();
+                Close();
         }
     }
 
@@ -65,15 +65,15 @@ public class DoorController : MonoBehaviour
         return other.CompareTag("Player");
     }
 
-    private void OpenDoor()
+    public void Open()
     {
         doorOpened = true;
 
-        if(SoundFXManager != null)
+        if (SoundFXManager != null)
             SoundFXManager.PlaySoundFXClip(doorOpenSound, transform.position, 0.5f);
     }
 
-    private void CloseDoor()
+    public void Close()
     {
         doorOpened = false;
 
@@ -81,8 +81,14 @@ public class DoorController : MonoBehaviour
             SoundFXManager.PlaySoundFXClip(doorCloseSound, transform.position, 0.5f);
     }
 
-    public Boolean IsDoorOpen()
+    public Boolean IsOpen()
     {
         return doorOpened;
+    }
+
+    public bool IsFullyOpen()
+    {
+        return doorOpened &&
+               Quaternion.Angle(door.rotation, openDoorRotation) < 1f;
     }
 }

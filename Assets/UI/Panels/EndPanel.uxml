@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Panels/endPanel.uss?fileID=7433441132597879392&amp;guid=aa2b379f13e48c240a7bf99855dda311&amp;type=3#endPanel"/>
+    <Style src="project://database/Assets/UI/Panels/generalStyles.uss?fileID=7433441132597879392&amp;guid=e403ea37dd9f2b54fa23cdb99b79323d&amp;type=3#generalStyles"/>
+    <ui:VisualElement name="EndPanelContainer" style="flex-grow: 1; align-items: center; justify-content: center;">
+        <ui:Label text="THE END" style="-unity-font-definition: url(&quot;project://database/Assets/Content/Fonts/Jersey25-Regular.ttf?fileID=12800000&amp;guid=5f567939a26959b4ba72a38ac26972f5&amp;type=3#Jersey25-Regular&quot;); font-size: 104px; color: rgb(255, 255, 255);"/>
+        <ui:Button text="Return to main menu" name="ReturnButton" style="position: absolute; bottom: 0; margin-bottom: 53px; -unity-font-definition: url(&quot;project://database/Assets/Content/Fonts/Oswald-Regular.ttf?fileID=12800000&amp;guid=19fdec3b7b7eab541bd667649216284c&amp;type=3#Oswald-Regular&quot;); padding-top: 0;"/>
+    </ui:VisualElement>
+</ui:UXML>

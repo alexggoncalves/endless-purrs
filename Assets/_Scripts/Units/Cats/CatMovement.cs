@@ -10,15 +10,24 @@ public class CatMovement : MonoBehaviour
 {
     private static readonly int SpeedMultiplierHash = Animator.StringToHash("speedMultiplier");
     private static readonly int IsMovingHash = Animator.StringToHash("isMoving");
+
+    [Header("Speed")]
     [SerializeField] private float speed = 3f;
     [SerializeField] private float fleeSpeed = 5f;
     [SerializeField] private float fleeDistance = 30f;
     [SerializeField] private float followStopDistance = 4f;
-    [SerializeField] private float walkAnimBaseSpeed = 3f;
+    [SerializeField] private float walkAnimBaseSpeed = 1f;
+
+    [Header("Edge detection")]
+    [SerializeField] private float edgeSampleRadius = 1f;   // how far out to look for mesh under the cat
+    [SerializeField] private float maxEdgeDistance = 0.5f;  // horizontal gap beyond which the mesh is "gone from the feet"
 
     // --- Timers ------------------------------------------------
     private float navMeshPollTimer = 0f;
     private const float POLL_INTERVAL = 0.2f;
+
+    private float followRepathTimer;
+    private Vector3 lastFollowTarget;
 
     // --- Nav mesh links --------------------------------------------
 
@@ -81,7 +90,6 @@ public class CatMovement : MonoBehaviour
             ? agent.velocity.magnitude / walkAnimBaseSpeed
             : 0f;
 
-        // optional: smooth instead of snapping, see below
         animator.SetFloat(SpeedMultiplierHash, normalizedSpeed, 0.15f, Time.deltaTime);
     }
 
@@ -98,6 +106,13 @@ public class CatMovement : MonoBehaviour
         wander.enabled = false;
         agent.speed = speed;
         agent.stoppingDistance = followStopDistance;
+
+        followRepathTimer -= Time.deltaTime;
+        if (followRepathTimer > 0f && (target - lastFollowTarget).sqrMagnitude < 0.25f)
+            return;
+
+        followRepathTimer = 0.2f;
+        lastFollowTarget = target;
 
         if (Vector3.Distance(transform.position, target) > followStopDistance)
             agent.destination = target;
@@ -151,7 +166,7 @@ public class CatMovement : MonoBehaviour
         {
             if (agent.enabled)
             {
-                agent.Warp(hit.position);   // correct way to move an active agent
+                agent.Warp(hit.position);
                 agent.ResetPath();
             }
             else
@@ -175,9 +190,6 @@ public class CatMovement : MonoBehaviour
         agent.enabled = true;
         agent.Warp(navHit.position);
         agent.ResetPath();
-
-        wander.enabled = true;
-        wander.UpdateWanderScript();
 
         return true;
     }
@@ -218,19 +230,20 @@ public class CatMovement : MonoBehaviour
         }
     }
 
-    private bool IsOnValidNavMesh()
-    {
-        return agent.isOnNavMesh;
-    }
-
-    private bool IsNearNavMeshEdge(float radius = 2.5f)
-    {
-        return !NavMesh.SamplePosition(transform.position, out _, radius, NavMesh.AllAreas);
-    }
-
     private bool ShouldDisableAgent()
     {
-        return !IsOnValidNavMesh() || IsNearNavMeshEdge(3f);
+        if (!agent.isOnNavMesh) return true;
+
+        if (!NavMesh.SamplePosition(transform.position, out NavMeshHit hit, edgeSampleRadius, NavMesh.AllAreas))
+            return true;
+
+        Vector3 delta = hit.position - transform.position;
+        delta.y = 0f; 
+
+        if (delta.sqrMagnitude > maxEdgeDistance * maxEdgeDistance)
+            return true;
+
+        return false;
     }
 
     public void Stop()

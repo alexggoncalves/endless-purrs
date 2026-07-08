@@ -162,10 +162,35 @@ public class DialogueBubble : VisualElement
     {
         optionALabel.text = optionAText;
         optionBLabel.text = optionBText;
+        optionA.style.opacity = 1;
+        optionB.style.opacity = 1;
         choicesContainer.style.display = DisplayStyle.Flex;
     }
 
-    public void HideChoices() => choicesContainer.style.display = DisplayStyle.None;
+    public void FadeOutUnchosen(int chosenId, Action onComplete = null)
+    {
+        VisualElement unchosen = chosenId == 0 ? optionB : optionA;
 
+        bool done = false;
+        void Finish()
+        {
+            if (done) return;
+            done = true;
+            unchosen.UnregisterCallback<TransitionEndEvent>(OnEnd);
+            onComplete?.Invoke();
+        }
+        void OnEnd(TransitionEndEvent evt)
+        {
+            if (evt.target != unchosen) return;
+            Finish();
+        }
+
+        unchosen.RegisterCallback<TransitionEndEvent>(OnEnd);
+        unchosen.style.opacity = 0;
+
+        //schedule.Execute(Finish).StartingIn(fadeSafetyMs);
+    }
+
+    public void HideChoices() => choicesContainer.style.display = DisplayStyle.None;
 
 }

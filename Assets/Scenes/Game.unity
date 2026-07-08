@@ -255,146 +255,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: footstepVolume
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: water.jump.Array.size
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: water.land.Array.size
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.jump.Array.data[6]'
-      value: 
-      objectReference: {fileID: 8300000, guid: adf4e7fa93007bd49937217a0922f285, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.jump.Array.data[7]'
-      value: 
-      objectReference: {fileID: 8300000, guid: b9a5f4a46006d6f429a02ea0fadc4809, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.jump.Array.data[8]'
-      value: 
-      objectReference: {fileID: 8300000, guid: 6755e20b5c79018438c8aed7439dcfed, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.jump.Array.data[9]'
-      value: 
-      objectReference: {fileID: 8300000, guid: caf48be4d869fe24f85866b95cdbe017, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.land.Array.data[6]'
-      value: 
-      objectReference: {fileID: 8300000, guid: adf4e7fa93007bd49937217a0922f285, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.land.Array.data[7]'
-      value: 
-      objectReference: {fileID: 8300000, guid: b9a5f4a46006d6f429a02ea0fadc4809, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.land.Array.data[8]'
-      value: 
-      objectReference: {fileID: 8300000, guid: 6755e20b5c79018438c8aed7439dcfed, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.land.Array.data[9]'
-      value: 
-      objectReference: {fileID: 8300000, guid: caf48be4d869fe24f85866b95cdbe017, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.jump.Array.data[10]'
-      value: 
-      objectReference: {fileID: 8300000, guid: a843d0038d0930149b2a4a6002937a10, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.jump.Array.data[11]'
-      value: 
-      objectReference: {fileID: 8300000, guid: eb25cc7f1bf9dbb43aa0833fe823843e, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.jump.Array.data[12]'
-      value: 
-      objectReference: {fileID: 8300000, guid: e6f87af77d097a84ca825ab2c2ce7e87, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.jump.Array.data[13]'
-      value: 
-      objectReference: {fileID: 8300000, guid: b682207ff9ac8db4695704cd57fb59a7, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.jump.Array.data[14]'
-      value: 
-      objectReference: {fileID: 8300000, guid: 938df53f74d50544b83b2cd1b17069f9, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.jump.Array.data[15]'
-      value: 
-      objectReference: {fileID: 8300000, guid: f29d6db9c3a008d4aae34c3399830406, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.land.Array.data[10]'
-      value: 
-      objectReference: {fileID: 8300000, guid: a843d0038d0930149b2a4a6002937a10, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.land.Array.data[11]'
-      value: 
-      objectReference: {fileID: 8300000, guid: eb25cc7f1bf9dbb43aa0833fe823843e, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.land.Array.data[12]'
-      value: 
-      objectReference: {fileID: 8300000, guid: e6f87af77d097a84ca825ab2c2ce7e87, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.land.Array.data[13]'
-      value: 
-      objectReference: {fileID: 8300000, guid: b682207ff9ac8db4695704cd57fb59a7, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.land.Array.data[14]'
-      value: 
-      objectReference: {fileID: 8300000, guid: 938df53f74d50544b83b2cd1b17069f9, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.land.Array.data[15]'
-      value: 
-      objectReference: {fileID: 8300000, guid: f29d6db9c3a008d4aae34c3399830406, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: water.footsteps.Array.size
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.footsteps.Array.data[5]'
-      value: 
-      objectReference: {fileID: 8300000, guid: adf4e7fa93007bd49937217a0922f285, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.footsteps.Array.data[6]'
-      value: 
-      objectReference: {fileID: 8300000, guid: b9a5f4a46006d6f429a02ea0fadc4809, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.footsteps.Array.data[7]'
-      value: 
-      objectReference: {fileID: 8300000, guid: 6755e20b5c79018438c8aed7439dcfed, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.footsteps.Array.data[8]'
-      value: 
-      objectReference: {fileID: 8300000, guid: caf48be4d869fe24f85866b95cdbe017, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.footsteps.Array.data[9]'
-      value: 
-      objectReference: {fileID: 8300000, guid: a843d0038d0930149b2a4a6002937a10, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.footsteps.Array.data[10]'
-      value: 
-      objectReference: {fileID: 8300000, guid: eb25cc7f1bf9dbb43aa0833fe823843e, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.footsteps.Array.data[11]'
-      value: 
-      objectReference: {fileID: 8300000, guid: e6f87af77d097a84ca825ab2c2ce7e87, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.footsteps.Array.data[12]'
-      value: 
-      objectReference: {fileID: 8300000, guid: b682207ff9ac8db4695704cd57fb59a7, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.footsteps.Array.data[13]'
-      value: 
-      objectReference: {fileID: 8300000, guid: 938df53f74d50544b83b2cd1b17069f9, type: 3}
-    - target: {fileID: 9008224486949516630, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
-      propertyPath: 'water.footsteps.Array.data[14]'
-      value: 
-      objectReference: {fileID: 8300000, guid: f29d6db9c3a008d4aae34c3399830406, type: 3}
     - target: {fileID: 9010134226220868687, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
       propertyPath: irisWipe
       value: 
@@ -402,7 +262,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1996664381415714018, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1635168332}
   m_SourcePrefab: {fileID: 100100000, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
 --- !u!1 &374978291
 GameObject:
@@ -414,8 +277,9 @@ GameObject:
   m_Component:
   - component: {fileID: 374978293}
   - component: {fileID: 374978292}
+  - component: {fileID: 374978294}
   m_Layer: 0
-  m_Name: DialogueManager
+  m_Name: WorldSpaceUIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -498,12 +362,27 @@ Transform:
   m_GameObject: {fileID: 374978291}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.08689, y: -0.05, z: 0.71468}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &374978294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374978291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f13090564f3e1c04b81b58bc939a9590, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  uiDocument: {fileID: 711627654}
+  worldOffset: {x: 0, y: 0, z: 0}
+  promptTemplate: {fileID: 9197481963319205126, guid: 33297214468f1cd48b15f20d5b2e6666, type: 3}
 --- !u!1 &393765576
 GameObject:
   m_ObjectHideFlags: 0
@@ -662,11 +541,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1715865233}
   - {fileID: 2128456290}
   - {fileID: 1973691977}
   - {fileID: 2103405521}
   - {fileID: 711627653}
-  - {fileID: 1715865233}
+  - {fileID: 1143565540}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &480638511
@@ -1158,8 +1038,8 @@ Transform:
   m_GameObject: {fileID: 1121156114}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.25, z: 0}
-  m_LocalScale: {x: 17.05, y: 2.13125, z: 17.05}
+  m_LocalPosition: {x: -0.0000017881, y: -0.25, z: 0.0000047684}
+  m_LocalScale: {x: 43.05125, y: 5.3814063, z: 43.05125}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1241495663}
@@ -1174,8 +1054,8 @@ PositionConstraint:
   m_Enabled: 1
   serializedVersion: 2
   m_Weight: 1
-  m_TranslationAtRest: {x: 0, y: -0.25, z: 0}
-  m_TranslationOffset: {x: 1.30564, y: -0.3, z: 2.27547}
+  m_TranslationAtRest: {x: -0.0000017881, y: -0.25, z: 0.0000047684}
+  m_TranslationOffset: {x: 1.3056382, y: -0.3, z: 2.2754748}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 0
   m_AffectTranslationZ: 1
@@ -1189,6 +1069,80 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7405911990211649587, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
   m_PrefabInstance: {fileID: 225848950}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1143565539
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1143565540}
+  - component: {fileID: 1143565541}
+  - component: {fileID: 1143565542}
+  m_Layer: 5
+  m_Name: EndPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1143565540
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143565539}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.08689, y: 0.05, z: -0.71468}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 400314663}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1143565541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143565539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: dcae7ff8ab0b33244b2f76549999233f, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 597af1ec3361c9440b9cb15281d2d67c, type: 3}
+  m_SortingOrder: 2
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
+--- !u!114 &1143565542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143565539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9756010a3917361419d7c0f4c50034c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  mainMenuSceneName: MainMenu
+  fadeInDuration: 1
+  fadeOutDuration: 2
+  irisWipe: {fileID: 693173840550335938}
+  clickClip: {fileID: 8300000, guid: 2c27e0f020620d1439d65d3b752725de, type: 3}
+  hoverClip: {fileID: 8300000, guid: bdb08458eee8f714d87101d84fb4b99b, type: 3}
 --- !u!1 &1170006969
 GameObject:
   m_ObjectHideFlags: 0
@@ -1375,6 +1329,11 @@ Transform:
   - {fileID: 2050684133}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1352196697 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1996664381415714018, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
+  m_PrefabInstance: {fileID: 225848950}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1427473031
 GameObject:
   m_ObjectHideFlags: 0
@@ -1431,7 +1390,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2806696272757698312, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
   m_PrefabInstance: {fileID: 225848950}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1352196697}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 212c1606e504afb4cb9c93d1eaee4a02, type: 3}
@@ -1442,12 +1401,28 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 486367964113297781, guid: e1bea7d7b0e84ce488207f8e5a51b03d, type: 3}
   m_PrefabInstance: {fileID: 225848950}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1352196697}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e02671511a941d49b746a128b635211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySystem
+--- !u!208 &1635168332
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352196697}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1715865232
 GameObject:
   m_ObjectHideFlags: 0
@@ -1611,7 +1586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb9e3d59ba44964fac705e3148f1241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalCats: 1
+  totalCats: 3
   initialDialogue: {fileID: 11400000, guid: 7d0315e8ad2ddfe418d3c8aa27dd1a14, type: 2}
   finalDialogue: {fileID: 11400000, guid: 9c415c179c7c6b14cba8260109b2fdad, type: 2}
 --- !u!4 &1935726486
@@ -1900,8 +1875,9 @@ MonoBehaviour:
   playerAbilities: {fileID: 1635168325}
   player: {fileID: 1576788198}
   locaterRange: 200
-  radarRange: 30
+  radarRange: 100
   radarDuration: 5
+  fadeDuration: 0.3
   blipTemplate: {fileID: 9197481963319205126, guid: c78a63f5cd548bc42843352d4ee7eec5, type: 3}
 --- !u!114 &2103405527
 MonoBehaviour:

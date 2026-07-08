@@ -1,10 +1,6 @@
-using NUnit.Framework.Internal;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using Unity.AppUI.UI;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,6 +13,7 @@ public class RadarHUD : MonoBehaviour
     [SerializeField] private float locaterRange = 200f;
     [SerializeField] private float radarRange = 30f;
     [SerializeField] private float radarDuration = 5f;
+    [SerializeField] private float fadeDuration = 0.3f;
     [SerializeField] private VisualTreeAsset blipTemplate;
 
     private VisualElement root;
@@ -152,6 +149,7 @@ public class RadarHUD : MonoBehaviour
 
             radar.Add(blipContainer);
             activeBlips.Add((blipContainer, cat));
+            FadeIn(blipContainer);
         }
 
         if (radarCoroutine != null)
@@ -163,7 +161,7 @@ public class RadarHUD : MonoBehaviour
     private void ClearBlips()
     {
         foreach (var (blip, _) in activeBlips)
-            blip.RemoveFromHierarchy();
+            FadeOutAndRemove(blip);
 
         activeBlips.Clear();
 
@@ -179,7 +177,6 @@ public class RadarHUD : MonoBehaviour
         yield return new WaitForSeconds(radarDuration);
         ClearBlips();
     }
-
 
     /// <summary>
     /// Returns all cats within locaterRange that are not following and not scaredy.
@@ -208,5 +205,24 @@ public class RadarHUD : MonoBehaviour
         return result;
     }
 
+    private void FadeIn(VisualElement blip)
+    {
+        blip.style.transitionProperty = new List<StylePropertyName> { new StylePropertyName("opacity") };
+        blip.style.transitionDuration = new List<TimeValue> { new TimeValue(fadeDuration, TimeUnit.Second) };
+        blip.style.opacity = 0f;
 
+        void OnGeometryReady(GeometryChangedEvent _)
+        {
+            blip.UnregisterCallback<GeometryChangedEvent>(OnGeometryReady);
+            blip.schedule.Execute(() => blip.style.opacity = 1f);
+        }
+        blip.RegisterCallback<GeometryChangedEvent>(OnGeometryReady);
+    }
+
+    private void FadeOutAndRemove(VisualElement blip)
+    {
+        blip.style.opacity = 0f;
+        blip.schedule.Execute(blip.RemoveFromHierarchy)
+            .StartingIn((long)(fadeDuration * 1000f));
+    }
 }

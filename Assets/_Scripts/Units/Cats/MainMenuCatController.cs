@@ -10,6 +10,8 @@ public class MainMenuCatController : MonoBehaviour
     private static readonly int SpeedMultiplierHash = Animator.StringToHash("speedMultiplier");
     private static readonly int IsMovingHash = Animator.StringToHash("isMoving");
 
+    [SerializeField] private float walkAnimBaseSpeed = 3f;
+
     private CatWanderScript wander;
     private Animator animator;
     private NavMeshAgent agent;
@@ -21,12 +23,6 @@ public class MainMenuCatController : MonoBehaviour
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
-        if (!agent.isOnNavMesh &&
-            NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
-        {
-            agent.Warp(hit.position);
-        }
-
         agent.updatePosition = true;
 
         wander = gameObject.AddComponent<CatWanderScript>();
@@ -36,7 +32,12 @@ public class MainMenuCatController : MonoBehaviour
 
     private void Update()
     {
-        if (!agent.isOnNavMesh) return;
+        if (!agent.isOnNavMesh)
+        {
+            if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+                agent.Warp(hit.position);
+            return;
+        }
 
         UpdateAnimator();
         wander.UpdateWanderScript();
@@ -45,19 +46,15 @@ public class MainMenuCatController : MonoBehaviour
     private void UpdateAnimator()
     {
         bool shouldMove =
-            agent.velocity.magnitude > 0.1f;
+        agent.velocity.magnitude > 0.1f &&
+        !agent.pathPending &&
+        agent.remainingDistance > 0.1f;
 
         animator.SetBool(IsMovingHash, shouldMove);
 
-        float normalizedSpeed = shouldMove
-            ? agent.velocity.magnitude / agent.speed
-            : 0f;
+        float normalizedSpeed = agent.velocity.magnitude / walkAnimBaseSpeed;
+        if(normalizedSpeed < 0.0001f) normalizedSpeed = 0f;
 
-        animator.SetFloat(SpeedMultiplierHash, normalizedSpeed);
+        animator.SetFloat(SpeedMultiplierHash, normalizedSpeed, 0.15f, Time.deltaTime);
     }
-
-    // Kept so that if "Apply Root Motion" is checked, root motion is swallowed
-    // and the agent stays the sole driver of position. With updatePosition=true
-    // the body never runs — it just prevents root motion fighting the agent.
-    void OnAnimatorMove() { }
 }

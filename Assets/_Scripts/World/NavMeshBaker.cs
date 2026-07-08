@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using NavMeshBuilder = UnityEngine.AI.NavMeshBuilder;
 
 [RequireComponent(typeof(NavMeshSurface))]
-public class NavMeshBaker : MonoBehaviour
+public class NavMeshBaker : Singleton<NavMeshBaker>
 {
     [SerializeField] private float updateRate = 0.1f;
     [SerializeField] private float movementThreshold = 3f;
@@ -62,7 +62,7 @@ public class NavMeshBaker : MonoBehaviour
         }
     }
 
-    private void BuildNavMesh(bool async)
+    public void BuildNavMesh(bool async)
     {
         if (async && pendingBake != null && !pendingBake.isDone) return;
 

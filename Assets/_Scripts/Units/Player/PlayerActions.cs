@@ -11,6 +11,14 @@ public class PlayerActions : MonoBehaviour
     private PlayerController player;
     private PlayerAbilities abilities;
 
+    [Header("Pet positioning")]
+    [SerializeField] private float petStandDistance = 0.8f;  // how far from the cat the player stands
+    [SerializeField] private float approachSpeed = 4f;        // units/sec while moving into place
+    [SerializeField] private float approachTurnSpeed = 720f;  // deg/sec while aligning
+    [SerializeField] private float alignThreshold = 2f;       // degrees; close enough to start the anim
+    [SerializeField] private float catTurnSpeed = 360f;
+    [SerializeField] private float backBias = 0f;
+
     // TELEPORT
     [SerializeField] private ParticleSystem starTeleportEffect;
     [SerializeField] private IrisWipeController irisWipe;
@@ -94,65 +102,77 @@ public class PlayerActions : MonoBehaviour
         GameManager.Instance.ChangeState(GameState.Playing);
     }
 
-    public void TryPetCat()
+    public void TryPetCat(Interactable target)
     {
         if (!player.IsFree) return;
         if (!player.IsGrounded()) return;
+        if (target == null) return;
 
-        if (CatController.AllCats.Count == 0)
-            return;
+        var cat = target.TryGetComponent<CatController>(out var catController) ? catController : null;
 
-        CatController closest = null;
-        float best = Mathf.Infinity;
-        Vector3 pos = player.transform.position;
-
-        foreach (CatController cat in CatController.AllCats)
-        {
-            if (cat == null) continue;
-            if (!cat.IsFollowing()) continue; // only followers
-
-            float dist = (cat.transform.position - pos).sqrMagnitude;
-
-            if (dist < 9f && dist < best)
-            {
-                best = dist;
-                closest = cat;
-            }
-        }
-
-        if (closest == null)
-            return;
-
-        animator.SetTrigger(PetCatHash);
-
-        StartCoroutine(PetRoutine(closest));
+        if(cat != null)
+            StartCoroutine(PetRoutine(cat));
     }
 
     private IEnumerator PetRoutine(CatController cat)
     {
         player.SetState(PlayerState.Acting);
 
-        Vector3 target = cat.transform.position;
+        Vector3 catPos = cat.transform.position;
 
-        float duration = 3.5f;
-        float t = 0f;
+        Vector3 catFwd = cat.transform.forward;
+        catFwd.y = 0f;
+        catFwd.Normalize();
 
-        while (t < duration)
+        Vector3 catRight = Vector3.Cross(Vector3.up, catFwd);
+        Vector3 toPlayer = player.transform.position - catPos;
+        toPlayer.y = 0f;
+        float side = Vector3.Dot(toPlayer, catRight) >= 0f ? 1f : -1f;
+
+        Vector3 standPos = catPos
+                           + catRight * (side * petStandDistance)
+                           + catFwd * backBias;
+        standPos.y = player.transform.position.y;
+
+        // Cat squares up to present its side to the player — nearer flank, short rotation.
+        Vector3 flatToPlayer = -catRight * side; // the direction from cat out to the player's side
+        Vector3 broadside = Vector3.Cross(Vector3.up, flatToPlayer);
+        Quaternion optionA = Quaternion.LookRotation(broadside, Vector3.up);
+        Quaternion optionB = Quaternion.LookRotation(-broadside, Vector3.up);
+        Quaternion catTargetRot =
+            Quaternion.Angle(cat.transform.rotation, optionA) <=
+            Quaternion.Angle(cat.transform.rotation, optionB) ? optionA : optionB;
+
+        while (true)
         {
-            t += Time.deltaTime;
+            Vector3 toStand = standPos - player.transform.position;
+            toStand.y = 0f;
+            float dist = toStand.magnitude;
 
-            Vector3 lookPos = new(target.x, player.transform.position.y, target.z);
-            Quaternion rot = Quaternion.LookRotation(lookPos - player.transform.position, Vector3.up);
-
+            Vector3 lookDir = catPos - player.transform.position;
+            lookDir.y = 0f;
+            Quaternion playerTargetRot = Quaternion.LookRotation(lookDir, Vector3.up);
             player.transform.rotation = Quaternion.RotateTowards(
-                player.transform.rotation,
-                rot,
-                400 * Time.deltaTime
-            );
+                player.transform.rotation, playerTargetRot, approachTurnSpeed * Time.deltaTime);
+            float playerAngleLeft = Quaternion.Angle(player.transform.rotation, playerTargetRot);
+
+            if (dist > 0.05f)
+                player.transform.position = Vector3.MoveTowards(
+                    player.transform.position, standPos, approachSpeed * Time.deltaTime);
+
+            // --- cat rotation (this is what went missing) ---
+            cat.transform.rotation = Quaternion.RotateTowards(
+                cat.transform.rotation, catTargetRot, catTurnSpeed * Time.deltaTime);
+            float catAngleLeft = Quaternion.Angle(cat.transform.rotation, catTargetRot);
+
+            if (dist <= 0.05f && playerAngleLeft <= alignThreshold && catAngleLeft <= alignThreshold)
+                break;
 
             yield return null;
         }
 
+        animator.SetTrigger(PetCatHash);
+        yield return new WaitForSeconds(3.5f);
 
         player.SetState(PlayerState.Free);
     }

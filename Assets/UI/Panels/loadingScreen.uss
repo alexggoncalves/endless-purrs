@@ -19,10 +19,10 @@
 }
 
 .loading-label {
-    -unity-font-definition: url("project://database/Assets/Content/Fonts/CCComicrazy%20Roman.ttf?fileID=12800000&guid=b6fa391400218be499d055a677ee0289&type=3#CCComicrazy Roman");
+    -unity-font-definition: url("project://database/Assets/Content/Fonts/Jersey25-Regular.ttf?fileID=12800000&guid=5f567939a26959b4ba72a38ac26972f5&type=3#Jersey25-Regular");
     margin-bottom: 0;
     color: rgb(255, 255, 255);
-    font-size: 19px;
+    font-size: 25px;
     -unity-font-style: normal;
     margin-top: 0;
     position: absolute;

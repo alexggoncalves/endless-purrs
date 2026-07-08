@@ -70,14 +70,14 @@ public class DialogueManager : Singleton<DialogueManager>
     {
         if (!isActive || !waitingOnChoice) return;
         MakeChoice(0);
-        Debug.Log("Option A selected");
+        //Debug.Log("Option A selected");
     }
 
     private void OnSelectOptionB(InputAction.CallbackContext ctx)
     {
         if (!isActive || !waitingOnChoice) return;
         MakeChoice(1);
-        Debug.Log("Option B selected");
+        //Debug.Log("Option B selected");
     }
 
     // ------------------------------ public API ------------------------
@@ -141,13 +141,20 @@ public class DialogueManager : Singleton<DialogueManager>
 
     private void MakeChoice(int choiceId)
     {
+        if (!waitingOnChoice) return;
+        waitingOnChoice = false;
+
         if (currentDialogue is not DecisionDialogueData decision) return;
         var choice = choiceId == 0 ? decision.choiceA : decision.choiceB;
 
+        bubble.FadeOutUnchosen(choiceId, () => ResolveChoice(choice));
+    }
+
+    private void ResolveChoice(DialogueChoice choice)
+    {
         if (choice.nextDialogue != null)
         {
             StartDialogue(choice.nextDialogue, anchor, onResolved);
-            // Set the result after StartDialogue so it survives the reset
             if (!string.IsNullOrEmpty(choice.resultId))
                 pendingResultId = choice.resultId;
         }

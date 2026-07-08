@@ -554,6 +554,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 612078219}
   m_Mesh: {fileID: -2734554324832628998, guid: 46e7a3cc26f6c0041a5ce80ee23bcf10, type: 3}
+--- !u!1 &665778138
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 665778139}
+  m_Layer: 0
+  m_Name: 64547eab-15c7-4ef2-8916-431477ed2062
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &665778139
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665778138}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1605170680}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &692211085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1186,7 +1217,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &1090177386
 RectTransform:
@@ -1762,7 +1793,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.05333333
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: fcac2ab0a09ead74cb53323c93f5a1b8, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: cc9446881bf0f774090e7709fe917931, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1352641776
 Transform:
@@ -2260,6 +2291,38 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1605170679
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1605170680}
+  m_Layer: 0
+  m_Name: Unity-RecorderSessions
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1605170680
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605170679}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 665778139}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1679413865
@@ -2876,6 +2939,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6510565184995982335, guid: 85e86735a11382d4ba7d8fecf67baf43, type: 3}
+      propertyPath: walkAnimBaseSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7532601501132447287, guid: 85e86735a11382d4ba7d8fecf67baf43, type: 3}
       propertyPath: m_Radius
       value: 0.2
@@ -2890,7 +2957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7532601501132447287, guid: 85e86735a11382d4ba7d8fecf67baf43, type: 3}
       propertyPath: m_Acceleration
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7532601501132447287, guid: 85e86735a11382d4ba7d8fecf67baf43, type: 3}
       propertyPath: m_AngularSpeed
@@ -3927,10 +3994,6 @@ PrefabInstance:
     - target: {fileID: 8738137700764231137, guid: 6e70f8ff04ec65b4a86f425ce972d0aa, type: 3}
       propertyPath: m_Name
       value: ScreenFade
-      objectReference: {fileID: 0}
-    - target: {fileID: 8738137700764231137, guid: 6e70f8ff04ec65b4a86f425ce972d0aa, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12259,6 +12322,8 @@ MonoBehaviour:
   fleeDistance: 30
   followStopDistance: 3
   walkAnimBaseSpeed: 3
+  edgeSampleRadius: 1
+  maxEdgeDistance: 0.5
   agent: {fileID: 4448048064802331314}
 --- !u!65 &3916499675839339356
 BoxCollider:
@@ -22499,3 +22564,4 @@ SceneRoots:
   - {fileID: 2031546959}
   - {fileID: 2004401534}
   - {fileID: 1813457753}
+  - {fileID: 1605170680}

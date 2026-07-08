@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/WorldUI/interactPrompt.uss?fileID=7433441132597879392&amp;guid=532837355c193f94b9ee8777f856b941&amp;type=3#interactPrompt"/>
+    <ui:VisualElement name="InteractPrompt" picking-mode="Ignore" class="interact-prompt">
+        <ui:Image name="PromptKey" class="input-prompt_key" style="background-image: url(&quot;project://database/Assets/UI/Assets/E-PromptKey.svg?fileID=7388822144124034973&amp;guid=08405a904b5fa594f9e672912306558e&amp;type=3#E-PromptKey&quot;);"/>
+        <ui:Label text="Prompt" name="PromptLabel" class="prompt_label" style="margin-left: 6px;"/>
+    </ui:VisualElement>
+</ui:UXML>
