@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Panels/generalStyles.uss?fileID=7433441132597879392&amp;guid=e403ea37dd9f2b54fa23cdb99b79323d&amp;type=3#generalStyles"/>
+    <ui:VisualElement picking-mode="Ignore" name="Cursor" class="cursor" style="width: 38px;"/>
+</ui:UXML>

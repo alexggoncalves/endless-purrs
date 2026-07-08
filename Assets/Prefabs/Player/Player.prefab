@@ -2303,6 +2303,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerActions
   animator: {fileID: 2839211952141718682}
+  petStandDistance: 0.8
+  approachSpeed: 4
+  approachTurnSpeed: 720
+  alignThreshold: 2
+  catTurnSpeed: 360
+  backBias: 0
   starTeleportEffect: {fileID: 5830778350886943285, guid: 0e53c5818f3570c459161377f5eebc94, type: 3}
   irisWipe: {fileID: 0}
   teleportDisappearAudio: {fileID: 8300000, guid: 6b1e4396d406d2f4fab3b6ec6f3bdd48, type: 3}
@@ -3101,7 +3107,7 @@ Transform:
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2700319756458807374}
   m_Father: {fileID: 8180442303069851360}
@@ -3511,7 +3517,7 @@ Transform:
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071067}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8180442303069851360}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3705,8 +3711,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 2700319756458807374}
   m_AABB:
-    m_Center: {x: 0.000028730079, y: 0.00031276827, z: 0.00022871574}
-    m_Extent: {x: 0.001334124, y: 0.0024687103, z: 0.00090541714}
+    m_Center: {x: 0.000028730137, y: 0.0003127684, z: -0.0006767014}
+    m_Extent: {x: 0.001334124, y: 0.0024687103, z: 0}
   m_DirtyAABB: 0
 --- !u!1 &3109301257478066622
 GameObject:
@@ -4972,7 +4978,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.68294877, y: 0.011036652, z: 0.053939924, w: 0.7283884}
   m_LocalPosition: {x: -0.000026195572, y: 0.00001900901, z: 0.0019159927}
-  m_LocalScale: {x: 0.9999999, y: 1.0000002, z: 1.0000002}
+  m_LocalScale: {x: 1, y: 1.0000002, z: 1.0000002}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8921336251155483764}
@@ -7881,7 +7887,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6.3, y: 6.3, z: 6.3}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8701089404461603537}
   - {fileID: 4200702039079087361}

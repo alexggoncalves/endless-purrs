@@ -31,3 +31,13 @@
 .unity-button:active {
     scale: 1 1;
 }
+
+.cursor {
+    flex-grow: 0;
+    position: absolute;
+    background-image: url("project://database/Assets/UI/Assets/PawCursor.svg?fileID=6192944022281365145&guid=115b12a3b0629634297a6d89b1f8c3b9&type=3#PawCursor");
+    width: 40px;
+    -unity-background-scale-mode: scale-to-fit;
+    flex-shrink: 0;
+    aspect-ratio: 1;
+}
